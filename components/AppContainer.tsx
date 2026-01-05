@@ -16,11 +16,12 @@ export default function AppContainer() {
 
 const styles = StyleSheet.create({
   AppContainer: {
-    padding: 8,
-    flexGrow: 1,
     width: "100%",
-    flexDirection: "column",
-    alignItems: "center",
+    padding: 0,
+    margin: 0,
+    flex: 1,
     justifyContent: "flex-start",
+    alignItems: "center",
+    overflow: "hidden", // or 'visible', 'scroll'
   },
 });
