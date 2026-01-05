@@ -1,6 +1,14 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image,useWindowDimensions } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+
 
 export default function DesktopHeader() {
+
+const { width } = useWindowDimensions();
+  const isDesktop = width >= 768;
+  if (isDesktop) {
+    return null;
+  }
   return (
     <View style={styles.DesktopHeader}>
       <Text>MobileHeader</Text>
@@ -10,9 +18,6 @@ export default function DesktopHeader() {
 
 const styles = StyleSheet.create({
   DesktopHeader: {
-    margin: 16,
-    padding: 20,
-    backgroundColor: "#f1f2f6",
-    borderRadius: 16,
+    backgroundColor: "#1039ddff",
   },
 });
