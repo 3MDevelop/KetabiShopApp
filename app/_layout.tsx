@@ -6,8 +6,9 @@ import { useState } from "react";
 import { Colors } from "@/constants/theme";
 import labels from "@/data/labels.json";
 
-import NavBar from "../components/NavBar";
-import BottomNavigation from "../components/BottomNavigation";
+import NavBar from "../components/common/NavBar";
+import BottomNavigation from "../components/common/BottomNavigation";
+/* import CopyRight from "../components/CopyRight" */
 
 export default function RootLayout() {
   const [appTheme, setAppTheme] = useState("dark");
@@ -55,13 +56,14 @@ export default function RootLayout() {
         </Stack>
       </View>
 
-      <BottomNavigation
+       <BottomNavigation
         labels={labels}
         setActivePage={setActivePage}
         activePage={activePage}
         Colors={Colors}
         appTheme={appTheme}
       />
+     {/*  <CopyRight /> */}
     </View>
   );
 }

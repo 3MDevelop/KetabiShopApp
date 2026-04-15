@@ -2,7 +2,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 
-export default function HomePage() {
+export default function Offers() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>

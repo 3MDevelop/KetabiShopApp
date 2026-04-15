@@ -2,7 +2,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 
-export default function ContactPage() {
+export default function Contact() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>

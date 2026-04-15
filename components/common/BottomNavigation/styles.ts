@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   mobileHeader: {
     width: "100%",
+    maxWidth:500,
     height: 60,
     flexDirection: "row",
     justifyContent: "space-around",
