@@ -19,6 +19,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
+    marginHorizontal:'auto',
+    width:'100%',
+    maxWidth:1000,
   },
   content: {
     padding: 20,

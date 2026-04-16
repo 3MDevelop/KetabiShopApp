@@ -9,7 +9,7 @@ export default StyleSheet.create({
   },
   NavBar: {
     width: "100%",
-    maxWidth: 850,
+    maxWidth: 950,
     shadowColor: "#000",
     elevation: 5, // For Android
     // Flex properties
