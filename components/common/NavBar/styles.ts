@@ -45,4 +45,19 @@ export default StyleSheet.create({
     width: 100,
     aspectRatio: 1,
   },
+  // به استایل‌های موجود اضافه کن:
+  profileCircle: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#007AFF",
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: 20,
+  },
+  profileInitial: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
 });

@@ -2,22 +2,56 @@ import {
   View,
   Text,
   Image,
+  TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useAuth } from "@/hooks/useAuth";
+import { router } from "expo-router";
 import styles from './styles';
 
-export default function NavBar({Colors,appTheme}:any) {
+export default function NavBar({ Colors, appTheme }: any) {
+  const { user, isLoggedIn } = useAuth();
+
+  const handleProfilePress = () => {
+    if (isLoggedIn) {
+      // اگر لاگین است، برو به صفحه پروفایل (modal)
+      router.push("/modal");
+    } else {
+      // اگر لاگین نیست، برو به صفحه لاگین
+      router.push("/modal");
+    }
+  };
+
+  // گرفتن اولین حرف نام کاربر برای نمایش در دایره
+  const getInitial = () => {
+    if (user?.name) {
+      return user.name.charAt(0).toUpperCase();
+    }
+    return "?";
+  };
 
   return (
-    <View style={[styles.NavBarContainer, {backgroundColor: Colors[appTheme].background}]}>
+    <View style={[styles.NavBarContainer, { backgroundColor: Colors[appTheme].background }]}>
       <View style={styles.NavBar}>
-        <View>
-          <Ionicons
-            name="person-circle"
-            size={45}
-            style={[{ marginLeft: 20, color: "#dbdbdb" }]}
-          />
-        </View>
+        
+        {/* دکمه پروفایل - تغییر کرده */}
+        <TouchableOpacity onPress={handleProfilePress}>
+          {isLoggedIn ? (
+            // اگر لاگین است: دایره با حرف اول نام
+            <View style={[styles.profileCircle, { backgroundColor: Colors[appTheme].primary || "#007AFF" }]}>
+              <Text style={styles.profileInitial}>{getInitial()}</Text>
+            </View>
+          ) : (
+            // اگر لاگین نیست: آیکون person-circle
+            <Ionicons
+              name="person-circle"
+              size={45}
+              style={[{ marginLeft: 20, color: "#dbdbdb" }]}
+            />
+          )}
+        </TouchableOpacity>
+
+        {/* سبد خرید */}
         <View style={[{ marginLeft: 10 }]}>
           <Ionicons
             name="basket"
@@ -29,6 +63,7 @@ export default function NavBar({Colors,appTheme}:any) {
           </View>
         </View>
 
+        {/* جستجو */}
         <View style={[{ marginLeft: 10 }]}>
           <Ionicons
             name="search"
@@ -37,6 +72,7 @@ export default function NavBar({Colors,appTheme}:any) {
           />
         </View>
 
+        {/* لوگو */}
         <Image
           style={[styles.headerLogo, { marginStart: "auto", marginBottom: 4 }]}
           source={require("@/assets/images/icon.png")}
@@ -46,4 +82,3 @@ export default function NavBar({Colors,appTheme}:any) {
     </View>
   );
 }
-

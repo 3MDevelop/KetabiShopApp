@@ -28,6 +28,7 @@ const Header = () => {
                 {item.label}
               </Text>
             </TouchableOpacity>
+            {/* new comment */}
           </Link>
         ))}
       </View>
