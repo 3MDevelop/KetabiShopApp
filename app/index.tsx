@@ -1,11 +1,13 @@
 // app/index.tsx
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import FullWidthBanner from '@/components/common/FullWidthBanner'
 
 export default function HomePage() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
+        <FullWidthBanner urlIsInner={true} url={'about'} />
         <Text style={styles.title}>صفحه اصلی</Text>
         <Text style={styles.description}>
           این محتوای صفحه اصلی است که در mainContainer نمایش داده می‌شود.

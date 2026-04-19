@@ -5,11 +5,11 @@ import { useState } from "react";
 
 import { Colors } from "@/constants/theme";
 import labels from "@/data/labels.json";
-import { AuthProvider } from "../context/AuthContext"; // ✅ اضافه شد
+import { AuthProvider } from "@/context/AuthContext"; // ✅ اضافه شد
 
-import NavBar from "../components/common/NavBar";
-import BottomNavigation from "../components/common/BottomNavigation";
-/* import CopyRight from "../components/CopyRight" */
+import NavBar from "@/components/common/NavBar";
+import BottomNavigation from "@/components/common/BottomNavigation";
+/* import CopyRight from "@/components/CopyRight" */
 
 export default function RootLayout() {
   const [appTheme, setAppTheme] = useState("dark");

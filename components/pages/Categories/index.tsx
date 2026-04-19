@@ -1,6 +1,6 @@
 // app/index.tsx
-import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import React from "react";
+import { View, Text, ScrollView } from "react-native";
 import styles from "./styles";
 
 export default function Categories() {
