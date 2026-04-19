@@ -4,11 +4,12 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
   Alert,
 } from "react-native";
 import { useAuth } from "@/hooks/useAuth";
 import { router } from "expo-router";
+import styles from "./styles";
+
 
 export default function ModalScreen() {
   const [email, setEmail] = useState("");
@@ -89,72 +90,3 @@ export default function ModalScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    padding: 20,
-    backgroundColor: "#f5f5f5",
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 30,
-    color: "#333",
-  },
-  input: {
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    padding: 15,
-    marginBottom: 15,
-    fontSize: 16,
-    borderWidth: 1,
-    borderColor: "#ddd",
-  },
-  loginButton: {
-    backgroundColor: "#007AFF",
-    borderRadius: 10,
-    padding: 15,
-    alignItems: "center",
-    marginTop: 10,
-  },
-  logoutButton: {
-    backgroundColor: "#FF3B30",
-    borderRadius: 10,
-    padding: 15,
-    alignItems: "center",
-    marginTop: 20,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  error: {
-    color: "#FF3B30",
-    textAlign: "center",
-    marginBottom: 10,
-  },
-  infoBox: {
-    flexDirection: "row",
-    backgroundColor: "#fff",
-    padding: 15,
-    borderRadius: 10,
-    marginBottom: 10,
-    borderWidth: 1,
-    borderColor: "#ddd",
-  },
-  label: {
-    fontWeight: "bold",
-    fontSize: 16,
-    color: "#333",
-    width: 80,
-  },
-  value: {
-    fontSize: 16,
-    color: "#666",
-    flex: 1,
-  },
-});
