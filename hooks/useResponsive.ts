@@ -1,69 +1,49 @@
 import { useEffect, useState } from 'react';
-import { Dimensions, Platform, ScaledSize } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 
-type DeviceInfo = {
-  type: 'mobile' | 'tablet' | 'desktop';
-  isMobile: boolean;
-  isTablet: boolean;
-  isDesktop: boolean;
-  isWeb: boolean;
-  isNative: boolean;
-  width: number;
-  height: number;
-  orientation: 'portrait' | 'landscape';
-  isPortrait: boolean;
-  isLandscape: boolean;
-};
+export const useResponsive = () => {
+  const getWidth = () => {
+    if (Platform.OS === 'web') {
+      // در وب، از window.innerWidth استفاده کن
+      return typeof window !== 'undefined' ? window.innerWidth : 1024;
+    }
+    return Dimensions.get('window').width;
+  };
 
-export const useResponsive = (): DeviceInfo => {
-  const [dimensions, setDimensions] = useState<ScaledSize>(Dimensions.get('window'));
+  const [width, setWidth] = useState(getWidth());
 
   useEffect(() => {
-    const subscription = Dimensions.addEventListener('change', ({ window }) => {
-      setDimensions(window);
-    });
-    
-    return () => {
-      subscription?.remove();
+    const handleResize = () => {
+      if (Platform.OS === 'web') {
+        setWidth(window.innerWidth);
+      } else {
+        setWidth(Dimensions.get('window').width);
+      }
     };
+
+    if (Platform.OS === 'web') {
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    } else {
+      const subscription = Dimensions.addEventListener('change', ({ window }) => {
+        setWidth(window.width);
+      });
+      return () => subscription?.remove();
+    }
   }, []);
 
-  const { width, height } = dimensions;
   const isWeb = Platform.OS === 'web';
-  const isNative = !isWeb;
-  
-  // تشخیص نوع دستگاه
-  let type: 'mobile' | 'tablet' | 'desktop' = 'mobile';
-  
-  if (isWeb) {
-    if (width >= 1024) {
-      type = 'desktop';
-    } else if (width >= 768) {
-      type = 'tablet';
-    } else {
-      type = 'mobile';
-    }
-  } else {
-    if (width >= 768) {
-      type = 'tablet';
-    } else {
-      type = 'mobile';
-    }
-  }
+  const isDesktop = width >= 768;  
+  const isMobile = width < 768;
+  const isTablet = width >= 768 && width < 1024;
 
-  const orientation = width > height ? 'landscape' : 'portrait';
+  console.log('useResponsive:', { width, isDesktop, isMobile, isWeb }); // برای دیباگ
 
   return {
-    type,
-    isMobile: type === 'mobile',
-    isTablet: type === 'tablet',
-    isDesktop: type === 'desktop',
+    isMobile,
+    isTablet,
+    isDesktop,
     isWeb,
-    isNative,
     width,
-    height,
-    orientation,
-    isPortrait: orientation === 'portrait',
-    isLandscape: orientation === 'landscape',
   };
 };
