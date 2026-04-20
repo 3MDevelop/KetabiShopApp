@@ -7,7 +7,7 @@ export default StyleSheet.create({
     width: "100%",
     flexDirection: "column",
     justifyContent: "center",
-    alignItems:"center"
+    alignItems: "center",
   },
   NavBar: {
     width: "100%",
@@ -62,5 +62,4 @@ export default StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
-  
 });
