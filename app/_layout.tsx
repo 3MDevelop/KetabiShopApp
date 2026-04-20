@@ -14,7 +14,7 @@ import BottomNavigation from "@/components/common/BottomNavigation";
 
 export default function RootLayout() {
   const [appTheme, setAppTheme] = useState("dark");
-  const [activePage, setActivePage] = useState("home");
+  const [activePage, setActivePage] = useState<string | null>(null);
    const { isMobile } = useResponsive();
 
   return (
