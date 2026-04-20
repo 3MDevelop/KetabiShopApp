@@ -1,9 +1,7 @@
-// Bottom Navigation
-
 import { View, Text, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./styles";
-import { useRouter, Href, usePathname } from "expo-router"; // ✅ usePathname اضافه شد
+import { useRouter, Href, usePathname } from "expo-router"; 
 import { useEffect } from "react";
 
 export default function BottomNavigation({
@@ -14,7 +12,7 @@ export default function BottomNavigation({
   appTheme,
 }: any) {
   const router = useRouter();
-  const pathname = usePathname(); // ✅ مسیر فعلی را می‌گیرد
+  const pathname = usePathname(); 
   
   const menuItems = [
     { href: "/", icon: "home" as const, label: labels.home, target: "home" },
@@ -38,20 +36,21 @@ export default function BottomNavigation({
     },
   ] as const;
 
-  // ✅ بررسی می‌کند که آیا صفحه فعلی در menuItems است یا نه
-  const isMenuPage = menuItems.some(item => item.href === pathname);
-  
-  // ✅ اگر صفحه در منو نیست، activePage را null کن
+  // همگام‌سازی activePage با مسیر فعلی
   useEffect(() => {
-    if (!isMenuPage) {
+    const currentItem = menuItems.find(item => item.href === pathname);
+    if (currentItem && activePage !== currentItem.target) {
+      setActivePage(currentItem.target);
+    } else if (!currentItem && activePage !== null) {
       setActivePage(null);
     }
-  }, [pathname, isMenuPage, setActivePage]);
+  }, [pathname]);
 
   const isActive = (target: string) => {
-    // ✅ اگر صفحه در منو نیست، هیچ آیتمی فعال نباشد
-    if (!isMenuPage) return false;
-    return activePage === target;
+    // پیدا کردن آیتم متناسب با مسیر فعلی
+    const currentItem = menuItems.find(item => item.href === pathname);
+    if (!currentItem) return false;
+    return currentItem.target === target;
   };
 
   return (

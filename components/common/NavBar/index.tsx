@@ -16,7 +16,6 @@ export default function NavBar({ Colors, appTheme }: any) {
 
   const handleProfilePress = () => {
     if (isDesktop) {
-      // در دسکتاپ: منوی dropdown را باز کن
       if (profileRef.current) {
         profileRef.current.measure((fx, fy, width, height, px, py) => {
           setAnchorPosition({ x: px + width, y: py + height });
@@ -27,7 +26,6 @@ export default function NavBar({ Colors, appTheme }: any) {
         setMenuVisible(true);
       }
     } else {
-      // در موبایل: به صفحه پروفایل برو
       router.push("/login");
     }
   };
@@ -48,7 +46,6 @@ export default function NavBar({ Colors, appTheme }: any) {
         ]}
       >
         <View style={styles.NavBar}>
-          {/* دکمه پروفایل */}
           <TouchableOpacity
             ref={profileRef}
             onPress={handleProfilePress}
@@ -71,8 +68,6 @@ export default function NavBar({ Colors, appTheme }: any) {
               />
             )}
           </TouchableOpacity>
-
-          {/* سبد خرید */}
           <View style={[{ marginLeft: 10 }]}>
             <Ionicons
               name="basket"
@@ -83,9 +78,6 @@ export default function NavBar({ Colors, appTheme }: any) {
               <Text style={styles.badgeText}>99</Text>
             </View>
           </View>
-
-          {/* جستجو */}
-
           <View style={[{ marginLeft: 10 }]}>
             <Ionicons
               name="search"
@@ -96,9 +88,10 @@ export default function NavBar({ Colors, appTheme }: any) {
 
           <View style={{ marginStart: "auto" }}></View>
 
-          {/* لوگو */}
           <TouchableOpacity
-          onPress={() => router.push("/")}
+            onPress={() => {
+              router.replace("/");
+            }}
           >
             <Image
               style={[styles.headerLogo, { marginBottom: 4 }]}
