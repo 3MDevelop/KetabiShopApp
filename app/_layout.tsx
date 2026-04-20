@@ -5,7 +5,8 @@ import { useState } from "react";
 
 import { Colors } from "@/constants/theme";
 import labels from "@/data/labels.json";
-import { AuthProvider } from "@/context/AuthContext"; // ✅ اضافه شد
+import { AuthProvider } from "@/context/AuthContext";
+import { useResponsive } from "../hooks/useResponsive";
 
 import NavBar from "@/components/common/NavBar";
 import BottomNavigation from "@/components/common/BottomNavigation";
@@ -14,9 +15,10 @@ import BottomNavigation from "@/components/common/BottomNavigation";
 export default function RootLayout() {
   const [appTheme, setAppTheme] = useState("dark");
   const [activePage, setActivePage] = useState("home");
+   const { isMobile } = useResponsive();
 
   return (
-    <AuthProvider> {/* ✅ همه چیز رو پیچیدیم */}
+    <AuthProvider>
       <View style={styles.container}>
         <StatusBar style="auto" />
         <NavBar Colors={Colors} appTheme={appTheme} setAppTheme={setAppTheme} />
@@ -25,13 +27,15 @@ export default function RootLayout() {
           <Stack screenOptions={{ headerShown: false }} />
         </View>
 
-        <BottomNavigation
-          labels={labels}
-          setActivePage={setActivePage}
-          activePage={activePage}
-          Colors={Colors}
-          appTheme={appTheme}
-        />
+        {isMobile && (
+          <BottomNavigation
+            labels={labels}
+            setActivePage={setActivePage}
+            activePage={activePage}
+            Colors={Colors}
+            appTheme={appTheme}
+          />
+        )}
         {/*  <CopyRight /> */}
       </View>
     </AuthProvider>

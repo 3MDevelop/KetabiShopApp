@@ -1,0 +1,23 @@
+{
+  "Arabic": {
+    "abb": "Ar",
+    "home":{
+      "title":"عنوان",
+      "dis":"عنوان"
+    }
+  },
+  "Persian": {
+    "abb": "Fa",
+    "home":{
+      "title":"عنوان",
+      "dis":"عنوان"
+    }
+  },
+  "English": {
+    "abb": "En",
+    "home":{
+      "title":"عنوان",
+      "dis":"عنوان"
+    }
+  }
+}

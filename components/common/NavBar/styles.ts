@@ -2,10 +2,12 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   NavBarContainer: {
+    position: "relative",
     backgroundColor: "#646464",
     width: "100%",
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "center",
+    alignItems:"center"
   },
   NavBar: {
     width: "100%",
@@ -60,4 +62,5 @@ export default StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
+  
 });
