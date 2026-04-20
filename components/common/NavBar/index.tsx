@@ -1,40 +1,33 @@
-import { View, Text, Image, TouchableOpacity, Platform } from "react-native"; // ✅ Platform اضافه شد
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "@/hooks/useAuth";
 import { useResponsive } from "@/hooks/useResponsive";
 import { router } from "expo-router";
 import { useState, useRef } from "react";
-import UserMenu from "../UserMenu";
+import DropdownMenu from "../UserDropMenu";
 import styles from "./styles";
 
 export default function NavBar({ Colors, appTheme }: any) {
   const { user, isLoggedIn } = useAuth();
-  const { isDesktop, isMobile, isWeb } = useResponsive(); // ✅ isWeb اضافه شد
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
-  const userIconRef = useRef<View>(null);
+  const { isDesktop } = useResponsive();
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [anchorPosition, setAnchorPosition] = useState({ x: 0, y: 0 });
+  const profileRef = useRef<View>(null);
 
-  const handleUserIconPress = () => {
-    console.log("Device info:", {
-      isDesktop,
-      isMobile,
-      isWeb,
-      Platform: Platform.OS,
-    });
-    
+  const handleProfilePress = () => {
     if (isDesktop) {
-      // در دسکتاپ: اندازه‌گیری موقعیت آیکون و نمایش منو
-      if (userIconRef.current) {
-        userIconRef.current.measure((fx, fy, width, height, px, py) => {
-          setMenuPosition({ x: px + width, y: py });
-          setIsMenuVisible(true);
+      // در دسکتاپ: منوی dropdown را باز کن
+      if (profileRef.current) {
+        profileRef.current.measure((fx, fy, width, height, px, py) => {
+          setAnchorPosition({ x: px + width, y: py + height });
+          setMenuVisible(true);
         });
       } else {
-        setMenuPosition({ x: 100, y: 60 });
-        setIsMenuVisible(true);
+        setAnchorPosition({ x: 100, y: 60 });
+        setMenuVisible(true);
       }
     } else {
-      // در موبایل: رفتن به صفحه پروفایل
+      // در موبایل: به صفحه پروفایل برو
       router.push("/login");
     }
   };
@@ -57,8 +50,8 @@ export default function NavBar({ Colors, appTheme }: any) {
         <View style={styles.NavBar}>
           {/* دکمه پروفایل */}
           <TouchableOpacity
-            ref={userIconRef}
-            onPress={handleUserIconPress}
+            ref={profileRef}
+            onPress={handleProfilePress}
             activeOpacity={0.7}
           >
             {isLoggedIn ? (
@@ -92,6 +85,7 @@ export default function NavBar({ Colors, appTheme }: any) {
           </View>
 
           {/* جستجو */}
+
           <View style={[{ marginLeft: 10 }]}>
             <Ionicons
               name="search"
@@ -100,28 +94,28 @@ export default function NavBar({ Colors, appTheme }: any) {
             />
           </View>
 
+          <View style={{ marginStart: "auto" }}></View>
+
           {/* لوگو */}
-          <Image
-            style={[
-              styles.headerLogo,
-              { marginStart: "auto", marginBottom: 4 },
-            ]}
-            source={require("@/assets/images/icon.png")}
-            resizeMode="contain"
-          />
+          <TouchableOpacity
+          onPress={() => router.push("/")}
+          >
+            <Image
+              style={[styles.headerLogo, { marginBottom: 4 }]}
+              source={require("@/assets/images/icon.png")}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
         </View>
       </View>
 
-      {/* منوی کاربری (فقط در دسکتاپ) */}
-      {isDesktop && (
-        <UserMenu
-          isVisible={isMenuVisible}
-          onClose={() => setIsMenuVisible(false)}
-          anchorPosition={menuPosition}
-          Colors={Colors}
-          appTheme={appTheme}
-        />
-      )}
+      <DropdownMenu
+        visible={menuVisible}
+        onClose={() => setMenuVisible(false)}
+        anchorPosition={anchorPosition}
+        Colors={Colors}
+        appTheme={appTheme}
+      />
     </>
   );
 }

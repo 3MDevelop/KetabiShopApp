@@ -51,11 +51,13 @@ export default StyleSheet.create({
   profileCircle: {
     width: 40,
     height: 40,
-    borderRadius: 20,
+    borderRadius: 25,
     backgroundColor: "#007AFF",
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: 20,
+    marginLeft: 22,
+    marginRight: 3,
+    marginBottom:5,
   },
   profileInitial: {
     color: "white",
