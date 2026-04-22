@@ -6,6 +6,7 @@ import { router } from "expo-router";
 import { useState, useRef } from "react";
 import DropdownMenu from "../UserDropMenu";
 import styles from "./styles";
+import { Route } from "expo-router/build/Route";
 
 export default function NavBar({ Colors, appTheme }: any) {
   const { user, isLoggedIn } = useAuth();
@@ -68,16 +69,27 @@ export default function NavBar({ Colors, appTheme }: any) {
               />
             )}
           </TouchableOpacity>
-          <View style={[{ marginLeft: 10 }]}>
-            <Ionicons
-              name="basket"
-              size={24}
-              style={[{ color: "#dbdbdb", marginBottom: 3 }]}
-            />
-            <View style={styles.basketBadge}>
-              <Text style={styles.badgeText}>99</Text>
+          <TouchableOpacity
+            onPress={() => {
+              router.push("/basket");
+            }}
+          >
+            <View style={[{ marginLeft: 10 }]}>
+              <Ionicons
+                name="basket"
+                size={24}
+                style={[{ color: "#dbdbdb", marginBottom: 3 }]}
+              />
+              <View style={styles.basketBadge}>
+                <Text style={styles.badgeText}>99</Text>
+              </View>
             </View>
-          </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+          onPress={()=>{router.push("/search")}}
+          
+          >
+
           <View style={[{ marginLeft: 10 }]}>
             <Ionicons
               name="search"
@@ -85,6 +97,7 @@ export default function NavBar({ Colors, appTheme }: any) {
               style={[{ color: "#dbdbdb", marginBottom: 3 }]}
             />
           </View>
+          </TouchableOpacity>
 
           <View style={{ marginStart: "auto" }}></View>
 
