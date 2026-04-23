@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Colors } from "@/constants/theme";
 import labels from "@/data/labels.json";
 import { AuthProvider } from "@/context/AuthContext";
-import { useResponsive } from "../hooks/useResponsive";
+import { useResponsive } from "@/hooks/useResponsive";
 
 import NavBar from "@/components/common/NavBar";
 import BottomNavigation from "@/components/common/BottomNavigation";

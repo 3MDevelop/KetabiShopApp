@@ -2,11 +2,11 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "@/hooks/useAuth";
 import { useResponsive } from "@/hooks/useResponsive";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import { useState, useRef } from "react";
+
 import DropdownMenu from "../UserDropMenu";
 import styles from "./styles";
-import { Route } from "expo-router/build/Route";
 
 export default function NavBar({ Colors, appTheme }: any) {
   const { user, isLoggedIn } = useAuth();
@@ -14,6 +14,8 @@ export default function NavBar({ Colors, appTheme }: any) {
   const [menuVisible, setMenuVisible] = useState(false);
   const [anchorPosition, setAnchorPosition] = useState({ x: 0, y: 0 });
   const profileRef = useRef<View>(null);
+
+  const router = useRouter();
 
   const handleProfilePress = () => {
     if (isDesktop) {
@@ -86,20 +88,67 @@ export default function NavBar({ Colors, appTheme }: any) {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-          onPress={()=>{router.push("/search")}}
-          
+            onPress={() => {
+              router.push("/search");
+            }}
           >
-
-          <View style={[{ marginLeft: 10 }]}>
-            <Ionicons
-              name="search"
-              size={24}
-              style={[{ color: "#dbdbdb", marginBottom: 3 }]}
-            />
-          </View>
+            <View style={[{ marginLeft: 10 }]}>
+              <Ionicons
+                name="search"
+                size={24}
+                style={[{ color: "#dbdbdb", marginBottom: 3 }]}
+              />
+            </View>
           </TouchableOpacity>
 
           <View style={{ marginStart: "auto" }}></View>
+
+          {isDesktop ? (
+            <View style={[styles.dIcoContainer]}>
+              <TouchableOpacity
+                onPress={() => router.push("/categories")}
+                style={styles.dIcon}
+              >
+                <Ionicons
+                  name="search"
+                  size={24}
+                  style={[{ color: "#dbdbdb" }]}
+                />
+                <Text
+                  style={{
+                    fontSize: 16,
+                    marginEnd: 4,
+                    paddingBottom: 3,
+                    color: "#dbdbdb",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Categuries
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => router.push("/offers")}
+                style={[styles.dIcon, { marginEnd: 16 }]}
+              >
+                <Ionicons
+                  name="search"
+                  size={24}
+                  style={[{ color: "#dbdbdb" }]}
+                />
+                <Text
+                  style={{
+                    fontSize: 16,
+                    marginEnd: 4,
+                    paddingBottom: 3,
+                    color: "#dbdbdb",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Offers
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ) : null}
 
           <TouchableOpacity
             onPress={() => {

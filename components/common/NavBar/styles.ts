@@ -64,4 +64,16 @@ export default StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
+
+  dIcoContainer:{
+    flexDirection: "row-reverse",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  
+  dIcon:{
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  }
 });
