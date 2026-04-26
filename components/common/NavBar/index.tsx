@@ -3,35 +3,18 @@ import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "@/hooks/useAuth";
 import { useResponsive } from "@/hooks/useResponsive";
 import { useRouter } from "expo-router";
-import { useState, useRef } from "react";
+import { useRef } from "react";
 
-import DropdownMenu from "../UserDropMenu";
 import styles from "./styles";
 
 export default function NavBar({ Colors, appTheme }: any) {
   const { user, isLoggedIn } = useAuth();
   const { isDesktop } = useResponsive();
-  const [menuVisible, setMenuVisible] = useState(false);
-  const [anchorPosition, setAnchorPosition] = useState({ x: 0, y: 0 });
   const profileRef = useRef<View>(null);
 
   const router = useRouter();
 
-  const handleProfilePress = () => {
-    if (isDesktop) {
-      if (profileRef.current) {
-        profileRef.current.measure((fx, fy, width, height, px, py) => {
-          setAnchorPosition({ x: px + width, y: py + height });
-          setMenuVisible(true);
-        });
-      } else {
-        setAnchorPosition({ x: 100, y: 60 });
-        setMenuVisible(true);
-      }
-    } else {
-      router.push("/login");
-    }
-  };
+
 
   const getInitial = () => {
     if (user?.name) {
@@ -51,7 +34,7 @@ export default function NavBar({ Colors, appTheme }: any) {
         <View style={styles.NavBar}>
           <TouchableOpacity
             ref={profileRef}
-            onPress={handleProfilePress}
+            onPress={()=>{router.push("/profile")}}
             activeOpacity={0.7}
           >
             {isLoggedIn ? (
@@ -163,14 +146,6 @@ export default function NavBar({ Colors, appTheme }: any) {
           </TouchableOpacity>
         </View>
       </View>
-
-      <DropdownMenu
-        visible={menuVisible}
-        onClose={() => setMenuVisible(false)}
-        anchorPosition={anchorPosition}
-        Colors={Colors}
-        appTheme={appTheme}
-      />
     </>
   );
 }

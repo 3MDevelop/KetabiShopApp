@@ -37,8 +37,6 @@ export const useResponsive = () => {
   const isMobile = width < 768;
   const isTablet = width >= 768 && width < 1024;
 
-  console.log('useResponsive:', { width, isDesktop, isMobile, isWeb }); // برای دیباگ
-
   return {
     isMobile,
     isTablet,

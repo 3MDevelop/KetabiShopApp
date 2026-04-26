@@ -1,15 +1,17 @@
 {
-  "splashScr": {
-    "disText": "Book Purchase Reference",
-    "copyWrite": "all Write Reserved by 3M on ParsNovin (ver. 1.0.12)",
-    "errBox":"Network Connection Error",
-    "offLineMode":"Offline",
-    "refresh":"Refresh"
+  "botNav": {
+    "title": "BtnNadvigation",
+    "title2": "BtnNadvigation",
+    "title3": "BtnNadvigation",
+    "title4": "BtnNadvigation",
+    "title5": "BtnNadvigation"
   },
-  "BottomNavLbl": {
-    "home": "Home",
-    "cat": "Category",
-    "offer": "Offers",
-    "lib": "My Library"
+  "copyWrite": {
+    "text": "CopyWrite",
+    "year": 2015,
+    "by": "3M Develop"
+  },
+  "navbar": {
+    "dis": "navDis"
   }
 }
