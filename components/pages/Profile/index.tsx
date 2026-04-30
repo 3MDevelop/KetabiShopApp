@@ -1,3 +1,4 @@
+// components/Profile/Profile.tsx
 import { useRouter } from "expo-router";
 import React, { useRef } from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -6,7 +7,6 @@ import {
   Text,
   Animated,
   TouchableOpacity,
-  Dimensions,
   ScrollView as NativeScrollView,
 } from "react-native";
 import { useAuth } from "@/hooks/useAuth";
@@ -14,10 +14,16 @@ import SocialBtn from "@/components/UI/SocialBtn";
 import Cycles from "@/components/UI/Cycles";
 import BackToTop from "@/components/UI/BackToTop";
 import LogoutBtn from "@/components/UI/LogoutBtn";
+import ParallexCycles from "@/components/UI/ParallexCycles";
+import { styles } from "./styles";
+import {
+  createHeaderBackgroundAnimation,
+  createHeaderTranslateAnimation,
+  createHeaderOpacityAnimation,
+  createProgressBarAnimation,
+} from "./animation";
 
-const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get("window");
-
-export default function CombinedParallax() {
+export default function Profile() {
   const scrollY = useRef(new Animated.Value(0)).current;
   const scrollViewRef = useRef<NativeScrollView>(null);
   const router = useRouter();
@@ -27,356 +33,99 @@ export default function CombinedParallax() {
     scrollViewRef.current?.scrollTo({ y: 0, animated: true });
   };
 
-  const headerTranslate = scrollY.interpolate({
-    inputRange: [0, 100, 200, 300],
-    outputRange: [0, -30, -60, -100],
-    extrapolate: "clamp",
-  });
-
-  const headerOpacity = scrollY.interpolate({
-    inputRange: [0, 150, 250, 350],
-    outputRange: [1, 0.8, 0.4, 0],
-    extrapolate: "clamp",
-  });
-
-  const headerBackground = scrollY.interpolate({
-    inputRange: [0, 300],
-    outputRange: ["#6a96ee", "#4a76ce"],
-    extrapolate: "clamp",
-  });
-
-  const circle1Translate = scrollY.interpolate({
-    inputRange: [0, SCREEN_HEIGHT * 0.5, SCREEN_HEIGHT],
-    outputRange: [0, SCREEN_HEIGHT * 0.15, SCREEN_HEIGHT * 0.3],
-    extrapolate: "clamp",
-  });
-
-  const circle1Scale = scrollY.interpolate({
-    inputRange: [0, SCREEN_HEIGHT * 0.3, SCREEN_HEIGHT * 0.6],
-    outputRange: [1, 1.2, 1.5],
-    extrapolate: "clamp",
-  });
-
-  const circle2Translate = scrollY.interpolate({
-    inputRange: [0, SCREEN_HEIGHT * 0.5, SCREEN_HEIGHT],
-    outputRange: [0, -SCREEN_HEIGHT * 0.1, -SCREEN_HEIGHT * 0.2],
-    extrapolate: "clamp",
-  });
-
-  const circle2Scale = scrollY.interpolate({
-    inputRange: [0, SCREEN_HEIGHT * 0.3, SCREEN_HEIGHT * 0.6],
-    outputRange: [1, 1.1, 1.3],
-    extrapolate: "clamp",
-  });
-
-  const circle2Opacity = scrollY.interpolate({
-    inputRange: [0, 200, 400],
-    outputRange: [0.8, 0.5, 0.2],
-    extrapolate: "clamp",
-  });
-
-  const circle3Translate = scrollY.interpolate({
-    inputRange: [0, SCREEN_HEIGHT * 0.5, SCREEN_HEIGHT],
-    outputRange: [0, SCREEN_HEIGHT * 0.2, SCREEN_HEIGHT * 0.4],
-    extrapolate: "clamp",
-  });
-
-  const circle3Scale = scrollY.interpolate({
-    inputRange: [0, SCREEN_HEIGHT * 0.3, SCREEN_HEIGHT * 0.6],
-    outputRange: [1, 0.9, 0.8],
-    extrapolate: "clamp",
-  });
-
-  const circle4Translate = scrollY.interpolate({
-    inputRange: [0, SCREEN_HEIGHT * 0.5, SCREEN_HEIGHT],
-    outputRange: [0, -SCREEN_HEIGHT * 0.15, -SCREEN_HEIGHT * 0.35],
-    extrapolate: "clamp",
-  });
+  /* Animations */
+  const headerBackground = createHeaderBackgroundAnimation(scrollY);
+  const headerTranslate = createHeaderTranslateAnimation(scrollY);
+  const headerOpacity = createHeaderOpacityAnimation(scrollY);
+  const progressBarWidth = createProgressBarAnimation(scrollY);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       <Animated.ScrollView
         ref={scrollViewRef}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-          { useNativeDriver: false },
+          { useNativeDriver: false }
         )}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={true}
         indicatorStyle="black"
         persistentScrollbar={true}
+        style={styles.scrollView}
       >
-        <Animated.View
-          style={{
-            height: 250,
-            overflow: "hidden",
-            backgroundColor: headerBackground,
-            width: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-            position: "relative",
-          }}
-        >
-          <Animated.View
-            style={{
-              position: "absolute",
-              width: SCREEN_WIDTH * 0.8,
-              height: SCREEN_WIDTH * 0.8,
-              borderRadius: SCREEN_WIDTH * 0.4,
-              backgroundColor: "rgba(255,255,255,0.08)",
-              top: -SCREEN_WIDTH * 0.2,
-              right: -SCREEN_WIDTH * 0.3,
-              transform: [
-                { translateY: circle1Translate },
-                { scale: circle1Scale },
-              ],
-            }}
-          />
+        {/* header with parallex */}
+        <Animated.View style={[styles.header, { backgroundColor: headerBackground }]}>
+          <ParallexCycles scrollY={scrollY} />
 
           <Animated.View
-            style={{
-              position: "absolute",
-              width: SCREEN_WIDTH * 0.6,
-              height: SCREEN_WIDTH * 0.6,
-              borderRadius: SCREEN_WIDTH * 0.3,
-              backgroundColor: "rgba(255,255,255,0.12)",
-              bottom: -SCREEN_WIDTH * 0.2,
-              left: -SCREEN_WIDTH * 0.2,
-              transform: [
-                { translateY: circle2Translate },
-                { scale: circle2Scale },
-              ],
-              opacity: circle2Opacity,
-            }}
-          />
-
-          <Animated.View
-            style={{
-              position: "absolute",
-              width: SCREEN_WIDTH * 0.4,
-              height: SCREEN_WIDTH * 0.4,
-              borderRadius: SCREEN_WIDTH * 0.2,
-              backgroundColor: "rgba(255,255,255,0.15)",
-              top: SCREEN_WIDTH * 0.13,
-              left: -SCREEN_WIDTH * 0.25,
-              transform: [
-                { translateY: circle3Translate },
-                { scale: circle3Scale },
-              ],
-            }}
-          />
-
-          <Animated.View
-            style={{
-              position: "absolute",
-              width: SCREEN_WIDTH * 0.5,
-              height: SCREEN_WIDTH * 0.5,
-              borderRadius: SCREEN_WIDTH * 0.25,
-              backgroundColor: "rgba(255,255,255,0.05)",
-              bottom: SCREEN_WIDTH * 0.1,
-              right: -SCREEN_WIDTH * 0.15,
-              transform: [{ translateY: circle4Translate }],
-              borderWidth: 2,
-              borderColor: "rgba(255,255,255,0.07)",
-            }}
-
-            
-          />
-
-          <Animated.View
-            style={{
-              position: "absolute",
-              width: 150,
-              height: 150,
-              borderRadius: "50%",
-              backgroundColor: "rgba(255,255,255,0.1)",
-              top: "-20%",
-              right: "-5%",
-              transform: [
-                {
-                  translateY: scrollY.interpolate({
-                    inputRange: [0, SCREEN_HEIGHT * 0.5],
-                    outputRange: [0, SCREEN_HEIGHT * 0.25],
-                    extrapolate: "clamp",
-                  }),
-                },
-                {
-                  scale: scrollY.interpolate({
-                    inputRange: [0, SCREEN_HEIGHT * 0.3],
-                    outputRange: [1, 1.4],
-                    extrapolate: "clamp",
-                  }),
-                },
-              ],
-            }}
-          />
-
-          <Animated.View
-            style={{
-              alignItems: "center",
-              transform: [
-                { translateY: headerTranslate },
-              ],
-              opacity: headerOpacity,
-              zIndex: 10,
-            }}
+            style={[
+              styles.headerContent,
+              {
+                transform: [{ translateY: headerTranslate }],
+                opacity: headerOpacity,
+              },
+            ]}
           >
-            <View
-              style={{
-                width: 120,
-                aspectRatio: 1,
-                position: "relative",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
+            {/* user avatar */}
+            <View style={styles.avatarContainer}>
               <Cycles />
 
-
-              <View
-                style={{
-                  width: "70%",
-                  aspectRatio: 1,
-                  borderRadius: 999,
-                  backgroundColor: "white",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-
-
+              <View style={styles.avatarInner}>
                 {isLoggedIn ? (
-                  <View
-                    style={{
-                      backgroundColor: "#007AFF",
-                      width: 70,
-                      height: 70,
-                      borderRadius: 200,
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: "white",
-                        fontSize: 40,
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {user?.name.charAt(0).toUpperCase()}
+                  <View style={styles.userIconContainer}>
+                    <Text style={styles.userIconText}>
+                      {user?.name?.charAt(0).toUpperCase() || "?"}
                     </Text>
                   </View>
                 ) : (
                   <Ionicons
                     name="person-circle"
                     size={80}
-                    style={[{ marginTop: 2, color: "#dbdbdb" }]}
+                    style={styles.guestIcon}
                   />
                 )}
-
-
               </View>
-
-              
             </View>
 
-            <View
-              style={{
-                flexDirection: "row",
-                gap: 20,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
+            {/* username or login btn */}
+            <View style={styles.userInfoContainer}>
               {isLoggedIn ? (
-                <View style={{ alignItems: "center" }}>
-                  <Text
-                    style={{
-                      color: "white",
-                      fontSize: 16,
-                      fontWeight: "bold",
-                      marginTop: 10,
-                    }}
-                  >
-                    {user?.name}
-                  </Text>
+                <View style={styles.userInfo}>
+                  <Text style={styles.userName}>{user?.name || "کاربر"}</Text>
                 </View>
               ) : (
                 <TouchableOpacity
-                  style={{
-                    padding: 10,
-                  }}
+                  style={styles.loginButton}
                   onPress={() => {
                     router.push("/login");
                   }}
                 >
-                  <Text
-                    style={{
-                      color: "white",
-                      fontWeight: "bold",
-                      textAlign: "center",
-                    }}
-                  >
-                    ورود / ثبت نام
-                  </Text>
+                  <Text style={styles.loginButtonText}>ورود / ثبت نام</Text>
                 </TouchableOpacity>
               )}
             </View>
+
+
           </Animated.View>
 
-          <Animated.View
-            style={{
-              position: "absolute",
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: 3,
-              backgroundColor: "rgba(255,255,255,0.3)",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+          {/* Progressive bar */}
+          <View style={styles.progressBarContainer}>
             <Animated.View
-              style={{
-                height: "100%",
-                width: scrollY.interpolate({
-                  inputRange: [0, 150],
-                  outputRange: ["0%", "100%"],
-                  extrapolate: "clamp",
-                }),
-                backgroundColor: "#ff6b35",
-              }}
+              style={[
+                styles.progressBar,
+                { width: progressBarWidth },
+              ]}
             />
-          </Animated.View>
+          </View>
         </Animated.View>
 
-        <Text
-          style={{
-            fontSize: 24,
-            fontWeight: "bold",
-            marginBottom: 20,
-            color: "#333",
-          }}
-        >
-          📱 محتوای اصلی
-        </Text>
+        {/* محتوای اصلی */}
+        <Text style={styles.mainTitle}>📱 محتوای اصلی</Text>
+
         {[...Array(7)].map((_, i) => (
-          <View
-            key={i}
-            style={{
-              padding: 18,
-              backgroundColor: "#f8f9fa",
-              marginBottom: 12,
-              borderRadius: 12,
-              borderWidth: 1,
-              borderColor: "#e9ecef",
-            }}
-          >
-            <Text style={{ fontSize: 16, fontWeight: "600", color: "#333" }}>
-              کارت شماره {i + 1}
-            </Text>
-            <Text style={{ fontSize: 13, color: "#6c757d", marginTop: 6 }}>
+          <View key={i} style={styles.card}>
+            <Text style={styles.cardTitle}>کارت شماره {i + 1}</Text>
+            <Text style={styles.cardDescription}>
               توضیحات مربوط به این کارت با افکت پارالاکس زیبا
             </Text>
           </View>
@@ -385,6 +134,7 @@ export default function CombinedParallax() {
         {isLoggedIn ? <LogoutBtn targetURL="/" /> : null}
 
         <SocialBtn />
+        
       </Animated.ScrollView>
 
       <BackToTop scrollY={scrollY} onPress={scrollToTop} />
