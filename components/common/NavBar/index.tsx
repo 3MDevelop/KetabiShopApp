@@ -14,8 +14,6 @@ export default function NavBar({ Colors, appTheme }: any) {
 
   const router = useRouter();
 
-
-
   const getInitial = () => {
     if (user?.name) {
       return user.name.charAt(0).toUpperCase();
@@ -34,15 +32,24 @@ export default function NavBar({ Colors, appTheme }: any) {
         <View style={styles.NavBar}>
           <TouchableOpacity
             ref={profileRef}
-            onPress={()=>{router.push("/profile")}}
+            onPress={() => {
+              router.push("/profile");
+            }}
             activeOpacity={0.7}
           >
             {isLoggedIn ? (
               <View
-                style={[
-                  styles.profileCircle,
-                  { backgroundColor: Colors[appTheme].primary || "#007AFF" },
-                ]}
+                style={{
+                  backgroundColor: Colors[appTheme].primary || "#007AFF",
+                  width: 40,
+                  height: 40,
+                  borderRadius: 25,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginLeft: 22,
+                  marginRight: 3,
+                  marginBottom: 5,
+                }}
               >
                 <Text style={styles.profileInitial}>{getInitial()}</Text>
               </View>
