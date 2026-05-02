@@ -11,7 +11,7 @@ export default function BackToTop({ scrollY, onPress }: BackToTopProps) {
     <Animated.View
       style={{
         position: "absolute",
-        bottom: 30,
+        bottom: 20,
         left: 20,
         opacity: scrollY.interpolate({
           inputRange: [200, 350],

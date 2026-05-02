@@ -1,0 +1,17 @@
+// app/about.tsx
+import React from 'react';
+import { View, Text, ScrollView } from 'react-native';
+import styles from "./styles";
+
+export default function About() {
+  return (
+    <ScrollView style={styles.container}>
+      <View style={styles.content}>
+        <Text style={styles.title}>پشتیبانی</Text>
+        <Text style={styles.description}>
+          این صفحه پشتیبانی است. اطلاعات مربوط به شرکت یا برنامه اینجا قرار می‌گیرد.
+        </Text>
+      </View>
+    </ScrollView>
+  );
+}

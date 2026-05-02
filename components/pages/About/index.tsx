@@ -1,6 +1,6 @@
 // app/about.tsx
-import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import React from "react";
+import { View, Text, ScrollView } from "react-native";
 import styles from "./styles";
 
 export default function About() {
@@ -8,9 +8,9 @@ export default function About() {
     <ScrollView style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.title}>درباره ما</Text>
-        <Text style={styles.description}>
-          این صفحه درباره ما است. اطلاعات مربوط به شرکت یا برنامه اینجا قرار می‌گیرد.
-        </Text>
+        <Text style={styles.description}>ما خوبیم</Text>
+        <Text style={styles.description}>ما خیلی خفنیم</Text>
+        <Text style={styles.description}>بقیه ....</Text>
       </View>
     </ScrollView>
   );

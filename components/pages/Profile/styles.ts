@@ -93,30 +93,12 @@ export const styles = StyleSheet.create({
     backgroundColor: "#ff6b35",
   },
   mainTitle: {
-    fontSize: 24,
+    fontSize: 16,
     fontWeight: "bold",
     marginBottom: 20,
     color: "#333",
     paddingHorizontal: 20,
     paddingTop: 20,
   },
-  card: {
-    padding: 18,
-    backgroundColor: "#f8f9fa",
-    marginBottom: 12,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "#e9ecef",
-    marginHorizontal: 20,
-  },
-  cardTitle: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#333",
-  },
-  cardDescription: {
-    fontSize: 13,
-    color: "#6c757d",
-    marginTop: 6,
-  },
+  
 });

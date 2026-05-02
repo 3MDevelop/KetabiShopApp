@@ -15,6 +15,8 @@ import Cycles from "@/components/UI/Cycles";
 import BackToTop from "@/components/UI/BackToTop";
 import LogoutBtn from "@/components/UI/LogoutBtn";
 import ParallexCycles from "@/components/UI/ParallexCycles";
+import ProfileItems from "@/components/UI/ProfileItem";
+
 import { styles } from "./styles";
 import {
   createHeaderBackgroundAnimation,
@@ -45,7 +47,7 @@ export default function Profile() {
         ref={scrollViewRef}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-          { useNativeDriver: false }
+          { useNativeDriver: false },
         )}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={true}
@@ -54,7 +56,9 @@ export default function Profile() {
         style={styles.scrollView}
       >
         {/* header with parallex */}
-        <Animated.View style={[styles.header, { backgroundColor: headerBackground }]}>
+        <Animated.View
+          style={[styles.header, { backgroundColor: headerBackground }]}
+        >
           <ParallexCycles scrollY={scrollY} />
 
           <Animated.View
@@ -104,37 +108,97 @@ export default function Profile() {
                 </TouchableOpacity>
               )}
             </View>
-
-
           </Animated.View>
 
           {/* Progressive bar */}
           <View style={styles.progressBarContainer}>
             <Animated.View
-              style={[
-                styles.progressBar,
-                { width: progressBarWidth },
-              ]}
+              style={[styles.progressBar, { width: progressBarWidth }]}
             />
           </View>
         </Animated.View>
 
-        {/* محتوای اصلی */}
-        <Text style={styles.mainTitle}>📱 محتوای اصلی</Text>
-
-        {[...Array(7)].map((_, i) => (
-          <View key={i} style={styles.card}>
-            <Text style={styles.cardTitle}>کارت شماره {i + 1}</Text>
-            <Text style={styles.cardDescription}>
-              توضیحات مربوط به این کارت با افکت پارالاکس زیبا
+        {isLoggedIn ? (
+          <>
+            <Text style={[styles.mainTitle, { marginTop: 40 }]}>
+              فعالیتهای من
             </Text>
-          </View>
-        ))}
+
+            <ProfileItems
+              itemLable={"رویش"}
+              itemAddress={"./"}
+              itemLogo={"ribbon-sharp"}
+            />
+            <ProfileItems
+              itemLable={"کارنامه مطالعاتی"}
+              itemAddress={"./"}
+              itemLogo={"reader-sharp"}
+            />
+            <ProfileItems
+              itemLable={"دعوت از دوستان"}
+              itemAddress={"./"}
+              itemLogo={"person-add-sharp"}
+            />
+            <ProfileItems
+              itemLable={"تاریخچه پرداخت"}
+              itemAddress={"./"}
+              itemLogo={"wallet-sharp"}
+            />
+            <ProfileItems
+              itemLable={"نظرات من"}
+              itemAddress={"./"}
+              itemLogo={"chatbubble-sharp"}
+            />
+            <ProfileItems
+              itemLable={"بریده های من"}
+              itemAddress={"./"}
+              itemLogo={"receipt-sharp"}
+            />
+            <ProfileItems
+              itemLable={"پسندیده های من"}
+              itemAddress={"./"}
+              itemLogo={"thumbs-up-sharp"}
+            />
+            <ProfileItems
+              itemLable={"علاقه مندی ها"}
+              itemAddress={"./"}
+              itemLogo={"star-sharp"}
+            />
+          </>
+        ) : null}
+
+        <Text style={styles.mainTitle}>تنظیمات</Text>
+
+        <ProfileItems
+          itemLable={"ظاهر برنامه"}
+          itemAddress={""}
+          itemLogo={"color-palette-sharp"}
+        />
+        <ProfileItems
+          itemLable={"پشتیبانی"}
+          itemAddress={"support"}
+          itemLogo={"headset-sharp"}
+          />
+        <ProfileItems
+          itemLable={"بروزرسانی"}
+          itemAddress={"update"}
+          itemLogo={"arrow-down-circle"}
+        />
+        <ProfileItems
+          itemLable={"وبلاگ"}
+          itemAddress={"weblog"}
+          itemLogo={"newspaper-sharp"}
+        />
+        <ProfileItems
+          itemLable={"درباره ما"}
+          itemAddress={"about"}
+          itemLogo={"id-card-sharp"}
+        />
+        <View style={{ marginTop: 25 }}></View>
 
         {isLoggedIn ? <LogoutBtn targetURL="/" /> : null}
 
         <SocialBtn />
-        
       </Animated.ScrollView>
 
       <BackToTop scrollY={scrollY} onPress={scrollToTop} />
