@@ -125,43 +125,34 @@ export default function Profile() {
             </Text>
 
             <ProfileItems
-              itemLable={"رویش"}
-              itemAddress={"./"}
-              itemLogo={"ribbon-sharp"}
-            />
-            <ProfileItems
               itemLable={"کارنامه مطالعاتی"}
-              itemAddress={"./"}
+              itemAddress={"./studyRecords"}
               itemLogo={"reader-sharp"}
             />
             <ProfileItems
               itemLable={"دعوت از دوستان"}
-              itemAddress={"./"}
+              itemAddress={"./invitation"}
               itemLogo={"person-add-sharp"}
             />
             <ProfileItems
               itemLable={"تاریخچه پرداخت"}
-              itemAddress={"./"}
+              itemAddress={"./paymentRecords"}
               itemLogo={"wallet-sharp"}
             />
             <ProfileItems
               itemLable={"نظرات من"}
-              itemAddress={"./"}
+              itemAddress={"./myComments"}
               itemLogo={"chatbubble-sharp"}
             />
-            <ProfileItems
-              itemLable={"بریده های من"}
-              itemAddress={"./"}
-              itemLogo={"receipt-sharp"}
-            />
+            
             <ProfileItems
               itemLable={"پسندیده های من"}
-              itemAddress={"./"}
+              itemAddress={"./myLikes"}
               itemLogo={"thumbs-up-sharp"}
             />
             <ProfileItems
               itemLable={"علاقه مندی ها"}
-              itemAddress={"./"}
+              itemAddress={"./myFavorites"}
               itemLogo={"star-sharp"}
             />
           </>
