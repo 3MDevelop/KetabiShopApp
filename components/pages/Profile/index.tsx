@@ -125,9 +125,9 @@ export default function Profile() {
             </Text>
 
             <ProfileItems
-              itemLable={"کارنامه مطالعاتی"}
-              itemAddress={"./studyRecords"}
-              itemLogo={"reader-sharp"}
+              itemLable={"کتابخانه شخصی"}
+              itemAddress={"./myLibrary"}
+              itemLogo={"library"}
             />
             <ProfileItems
               itemLable={"دعوت از دوستان"}

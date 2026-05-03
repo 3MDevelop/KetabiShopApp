@@ -1,8 +1,10 @@
 import { View, Text, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./styles";
-import { useRouter, Href, usePathname } from "expo-router"; 
-import { useEffect } from "react";
+import { useRouter, Href, usePathname } from "expo-router";
+import { useEffect, useCallback, useMemo } from "react";
+import Toast from "react-native-toast-message";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function BottomNavigation({
   labels,
@@ -12,46 +14,62 @@ export default function BottomNavigation({
   appTheme,
 }: any) {
   const router = useRouter();
-  const pathname = usePathname(); 
-  
-  const menuItems = [
-    { href: "/", icon: "home" as const, label: labels.home, target: "home" },
-    {
-      href: "/categories",
-      icon: "list" as const,
-      label: labels.cat,
-      target: "category",
-    },
-    {
-      href: "/offers",
-      icon: "star" as const,
-      label: labels.offer,
-      target: "offers",
-    },
-    {
-      href: "/myLibrary",
-      icon: "bookmark" as const,
-      label: labels.lib,
-      target: "library",
-    },
-  ] as const;
+  const pathname = usePathname();
 
-  // همگام‌سازی activePage با مسیر فعلی
-  useEffect(() => {
-    const currentItem = menuItems.find(item => item.href === pathname);
+  const showToast = () => {
+    Toast.show({
+      type: "error",
+      text1: "برای مشاهده این بخش ابتدا به حساب کاربری وارد شوید",
+      position: "top",
+      topOffset: 20,
+      visibilityTime: 3000,
+    });
+  };
+
+  const { isLoggedIn } = useAuth();
+
+  const menuItems = useMemo(
+    () => [
+      { href: "/", icon: "home" as const, label: labels.home, target: "home" },
+      {
+        href: "/categories",
+        icon: "list" as const,
+        label: labels.cat,
+        target: "category",
+      },
+      {
+        href: "/offers",
+        icon: "star" as const,
+        label: labels.offer,
+        target: "offers",
+      },
+    ],
+    [labels.home, labels.cat, labels.offer],
+  );
+
+  // تابع همگام‌سازی با useCallback
+  const syncActivePage = useCallback(() => {
+    const currentItem = menuItems.find((item) => item.href === pathname);
     if (currentItem && activePage !== currentItem.target) {
       setActivePage(currentItem.target);
     } else if (!currentItem && activePage !== null) {
       setActivePage(null);
     }
-  }, [pathname]);
+  }, [pathname, activePage, setActivePage, menuItems]);
 
-  const isActive = (target: string) => {
-    // پیدا کردن آیتم متناسب با مسیر فعلی
-    const currentItem = menuItems.find(item => item.href === pathname);
-    if (!currentItem) return false;
-    return currentItem.target === target;
-  };
+  // همگام‌سازی activePage با مسیر فعلی
+  useEffect(() => {
+    syncActivePage();
+  }, [syncActivePage]);
+
+  const isActive = useCallback(
+    (target: string) => {
+      const currentItem = menuItems.find((item) => item.href === pathname);
+      if (!currentItem) return false;
+      return currentItem.target === target;
+    },
+    [pathname, menuItems],
+  );
 
   return (
     <View
@@ -89,6 +107,33 @@ export default function BottomNavigation({
             </Text>
           </Pressable>
         ))}
+        <Pressable
+          style={({ pressed }) => [
+            styles.mBarItem,
+            isActive("myLibrary") && styles.mBarItemActive,
+            pressed && styles.mBarItemPressed,
+          ]}
+          onPress={() => {
+            if (isLoggedIn) {
+              setActivePage("myLibrary");
+              router.push("/myLibrary");
+            } else {
+              showToast();
+            }
+          }}
+        >
+          <Ionicons
+            name={"library"}
+            size={24}
+            color={isActive("myLibrary") ? "#ffffff" : "#dbdbdb"}
+          />
+          <Text
+            style={[
+              styles.mBarItemLabel,
+              isActive("myLibrary") && styles.mBarItemLabelActive,
+            ]}
+          ></Text>
+        </Pressable>
       </View>
     </View>
   );

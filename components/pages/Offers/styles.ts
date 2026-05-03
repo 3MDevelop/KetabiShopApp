@@ -21,4 +21,13 @@ export default StyleSheet.create({
     color: "#666",
     lineHeight: 24,
   },
+
+  toast:{
+    padding: 12,
+              borderRadius: 8,
+              marginTop: 20,
+              marginHorizontal: "auto",
+              maxWidth: 400,
+              minWidth:250,
+  }
 });
