@@ -16,8 +16,9 @@ export default StyleSheet.create({
     marginHorizontal: "auto",
     width: "100%",
     maxWidth: 1000,
-
+    
     justifyContent: "center",
+    alignItems:"center",
     padding: 20,
   },
   title: {
@@ -80,4 +81,9 @@ export default StyleSheet.create({
     color: "#666",
     flex: 1,
   },
+  buttonDisabled: {
+    backgroundColor: "#cccccc",
+    opacity: 0.7,
+  },
+  
 });

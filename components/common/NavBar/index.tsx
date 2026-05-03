@@ -99,43 +99,31 @@ export default function NavBar({ Colors, appTheme }: any) {
                 onPress={() => router.push("/categories")}
                 style={styles.dIcon}
               >
+                <Text
+                  style={{ marginEnd: 10, color: "white", fontWeight: 500 }}
+                >
+                  دسته بندی
+                </Text>
                 <Ionicons
-                  name="search"
+                  name="list"
                   size={24}
                   style={[{ color: "#dbdbdb" }]}
                 />
-                <Text
-                  style={{
-                    fontSize: 16,
-                    marginEnd: 4,
-                    paddingBottom: 3,
-                    color: "#dbdbdb",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Categuries
-                </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => router.push("/offers")}
                 style={[styles.dIcon, { marginEnd: 16 }]}
               >
+                <Text
+                  style={{ marginEnd: 10, color: "white", fontWeight: 500 }}
+                >
+                  پیشنهادات
+                </Text>
                 <Ionicons
-                  name="search"
+                  name="ribbon"
                   size={24}
                   style={[{ color: "#dbdbdb" }]}
                 />
-                <Text
-                  style={{
-                    fontSize: 16,
-                    marginEnd: 4,
-                    paddingBottom: 3,
-                    color: "#dbdbdb",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Offers
-                </Text>
               </TouchableOpacity>
             </View>
           ) : null}

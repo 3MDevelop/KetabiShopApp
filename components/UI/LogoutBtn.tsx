@@ -13,7 +13,6 @@ export default function LogoutBtn({ targetURL }: LogoutBtnProps) {
 
   const handleLogout = async () => {
     await logout();
-    // راه حل 1: استفاده از as any
     router.push(targetURL as any);
   };
 
@@ -30,7 +29,7 @@ export default function LogoutBtn({ targetURL }: LogoutBtnProps) {
       <TouchableOpacity
         style={{
           backgroundColor: "#f44336",
-          paddingHorizontal: 24,
+          minWidth:250,
           paddingVertical: 12,
           borderRadius: 8,
         }}
