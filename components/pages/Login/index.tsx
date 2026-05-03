@@ -16,6 +16,7 @@ type ToastType = "success" | "error" | "info" | "warning";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isAccepted, setIsAccepted] = useState(false);
   const { isLoggedIn, isLoading, login } = useAuth();
 
   const showToast = (
@@ -40,6 +41,10 @@ export default function Login() {
   const handleLogin = async () => {
     if (!email || !password) {
       showToast("error", "خطا", "لطفاً ایمیل و رمز عبور را وارد کنید");
+      return;
+    }
+    if (!isAccepted) {
+      showToast("error", "خطا", "لطفاً قوانین و مقررات را بپذیرید");
       return;
     }
     await login(email, password);
@@ -90,40 +95,124 @@ export default function Login() {
         </View>
       ) : (
         <View style={styles.container}>
-          <Text style={styles.title}>ورود به حساب کاربری</Text>
-
-          <TextInput
-            style={styles.input}
-            placeholder="ایمیل"
-            placeholderTextColor="#999"
-            value={email}
-            onChangeText={setEmail}
-            autoCapitalize="none"
-            keyboardType="email-address"
-            editable={!isLoading}
-          />
-
-          <TextInput
-            style={styles.input}
-            placeholder="رمز عبور"
-            placeholderTextColor="#999"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            editable={!isLoading}
-          />
-
-          <TouchableOpacity
-            style={[styles.loginButton, isLoading && { opacity: 0.6 }]}
-            onPress={handleLogin}
-            disabled={isLoading}
+          <View
+            style={{
+              backgroundColor: "#ececec22",
+              width: 300,
+              height: 500,
+              borderRadius: 8,
+              padding: 16,
+              justifyContent: "space-around",
+              alignContent: "center",
+              shadowColor: "#000000",
+              shadowOffset: { width: 0, height: 0 },
+              shadowOpacity: 0.3,
+              shadowRadius: 4,
+            }}
           >
-            {isLoading ? (
-              <ActivityIndicator color="white" />
-            ) : (
-              <Text style={styles.buttonText}>ورود</Text>
-            )}
-          </TouchableOpacity>
+            <Text style={[styles.title, { paddingTop: 30 }]}>
+              ورود به حساب کاربری
+            </Text>
+
+            <TextInput
+              style={styles.input}
+              placeholder="شماره موبایل"
+              placeholderTextColor="#999"
+              value={email}
+              onChangeText={setEmail}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              editable={!isLoading}
+            />
+
+            <TextInput
+              style={styles.input}
+              placeholder="رمز عبور"
+              placeholderTextColor="#999"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+              editable={!isLoading}
+            />
+
+            {/* Checkbox با متن قابل کلیک جداگانه */}
+            <View
+              style={{
+                flexDirection: "row-reverse",
+                alignItems: "center",
+                marginVertical: 10,
+                gap: 10,
+              }}
+            >
+              {/* فقط باکس checkbox قابل کلیک */}
+              <TouchableOpacity
+                onPress={() => setIsAccepted(!isAccepted)}
+                activeOpacity={0.7}
+              >
+                <View
+                  style={{
+                    width: 18,
+                    height: 18,
+                    borderRadius: 4,
+                    borderWidth: 2,
+                    borderColor: "#2196f3",
+                    backgroundColor: isAccepted ? "#2196f3" : "transparent",
+
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  {isAccepted && (
+                    <Text style={{ color: "white", fontSize: 14 }}>✓</Text>
+                  )}
+                </View>
+              </TouchableOpacity>
+
+              {/* متن با لینک قابل کلیک */}
+              <View
+                style={{
+                  flexDirection: "row-reverse",
+                  flexWrap: "wrap",
+                  paddingBottom: 5,
+                }}
+              >
+                <Text style={{ color: "#333", fontSize: 14 }}>من </Text>
+                <TouchableOpacity onPress={() => router.push("/rules")}>
+                  <Text
+                    style={{
+                      color: "#2196f3",
+                      fontSize: 14,
+                      fontWeight: "500",
+                    }}
+                  >
+                    قوانین و مقررات
+                  </Text>
+                </TouchableOpacity>
+                <Text style={{ color: "#333", fontSize: 14 }}>
+                  {" "}
+                  را می‌پذیرم
+                </Text>
+              </View>
+            </View>
+
+            <TouchableOpacity
+              style={[
+                styles.loginButton,
+                (isLoading || !isAccepted) && {
+                  backgroundColor: "#6b6b6b",
+                },
+                { marginTop: "auto", marginBottom: 8 },
+              ]}
+              onPress={handleLogin}
+              disabled={isLoading || !isAccepted}
+            >
+              {isLoading ? (
+                <ActivityIndicator color="white" />
+              ) : (
+                <Text style={styles.buttonText}>ورود</Text>
+              )}
+            </TouchableOpacity>
+          </View>
         </View>
       )}
     </View>

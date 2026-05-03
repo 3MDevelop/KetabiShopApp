@@ -16,31 +16,34 @@ export default StyleSheet.create({
     marginHorizontal: "auto",
     width: "100%",
     maxWidth: 1000,
-    
+
     justifyContent: "center",
-    alignItems:"center",
+    alignItems: "center",
     padding: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 30,
     color: "#333",
   },
   input: {
+    textAlign: "right",
     backgroundColor: "#fff",
     borderRadius: 10,
-    padding: 15,
+    padding: 12,
+    paddingHorizontal: 18,
     marginBottom: 15,
-    fontSize: 16,
+    fontSize: 12,
     borderWidth: 1,
     borderColor: "#ddd",
   },
   loginButton: {
     backgroundColor: "#007AFF",
     borderRadius: 10,
-    padding: 15,
+    padding: 8,
+    paddingBottom:12,
     alignItems: "center",
     marginTop: 10,
   },
@@ -85,5 +88,4 @@ export default StyleSheet.create({
     backgroundColor: "#cccccc",
     opacity: 0.7,
   },
-  
 });
