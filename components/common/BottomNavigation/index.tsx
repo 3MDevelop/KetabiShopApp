@@ -49,6 +49,14 @@ export default function BottomNavigation({
 
   // تابع همگام‌سازی با useCallback
   const syncActivePage = useCallback(() => {
+    // بررسی برای myLibrary
+    if (pathname === "/myLibrary") {
+      if (activePage !== "myLibrary") {
+        setActivePage("myLibrary");
+      }
+      return;
+    }
+    
     const currentItem = menuItems.find((item) => item.href === pathname);
     if (currentItem && activePage !== currentItem.target) {
       setActivePage(currentItem.target);
@@ -64,6 +72,10 @@ export default function BottomNavigation({
 
   const isActive = useCallback(
     (target: string) => {
+      // بررسی برای myLibrary
+      if (target === "myLibrary") {
+        return pathname === "/myLibrary";
+      }
       const currentItem = menuItems.find((item) => item.href === pathname);
       if (!currentItem) return false;
       return currentItem.target === target;

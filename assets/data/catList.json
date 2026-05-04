@@ -1,0 +1,144 @@
+{
+  "book_genres": [
+    {
+      "id": 1,
+      "name": "romance",
+      "label": "رمانتیک"
+    },
+    {
+      "id": 2,
+      "name": "thriller_mystery_suspense",
+      "label": "هیجان‌انگیز و معمایی"
+    },
+    {
+      "id": 3,
+      "name": "sci_fi",
+      "label": "علمی-تخیلی"
+    },
+    {
+      "id": 4,
+      "name": "fantasy",
+      "label": "فانتزی"
+    },
+    {
+      "id": 5,
+      "name": "horror",
+      "label": "وحشت"
+    },
+    {
+      "id": 6,
+      "name": "literary_fiction",
+      "label": "ادبیات داستانی معاصر"
+    },
+    {
+      "id": 7,
+      "name": "historical_fiction",
+      "label": "تاریخی"
+    },
+    {
+      "id": 8,
+      "name": "realistic_fiction",
+      "label": "واقع‌گرا"
+    },
+    {
+      "id": 9,
+      "name": "graphic_novels_comics",
+      "label": "داستان مصور و گرافیک ناول"
+    },
+    {
+      "id": 10,
+      "name": "biography_memoir",
+      "label": "بیوگرافی، زندگینامه و خاطرات"
+    },
+    {
+      "id": 11,
+      "name": "self_help",
+      "label": "توسعه فردی و خودیاری"
+    },
+    {
+      "id": 12,
+      "name": "history",
+      "label": "تاریخ"
+    },
+    {
+      "id": 13,
+      "name": "science_technology",
+      "label": "علم و فناوری"
+    },
+    {
+      "id": 14,
+      "name": "philosophy",
+      "label": "فلسفه و اندیشه"
+    },
+    {
+      "id": 15,
+      "name": "business_economics",
+      "label": "کسب‌وکار و اقتصاد"
+    },
+    {
+      "id": 16,
+      "name": "health_fitness",
+      "label": "سلامت، ورزش و تندرستی"
+    },
+    {
+      "id": 17,
+      "name": "arts_photography",
+      "label": "هنر، عکاسی و معماری"
+    },
+    {
+      "id": 18,
+      "name": "food_cooking",
+      "label": "غذا و آشپزی"
+    },
+    {
+      "id": 19,
+      "name": "travel_geography",
+      "label": "سفرنامه و جغرافیا"
+    },
+    {
+      "id": 20,
+      "name": "religion_spirituality",
+      "label": "مذهب و معنویت"
+    },
+    {
+      "id": 21,
+      "name": "psychology",
+      "label": "روانشناسی"
+    },
+    {
+      "id": 22,
+      "name": "young_adult",
+      "label": "ادبیات داستانی نوجوانان"
+    },
+    {
+      "id": 23,
+      "name": "children_literature",
+      "label": "ادبیات کودکان"
+    },
+    {
+      "id": 24,
+      "name": "new_adult",
+      "label": "ادبیات داستانی نوظهور"
+    },
+    {
+      "id": 25,
+      "name": "humor_satire",
+      "label": "کمیک، طنز و هجو"
+    },
+    {
+      "id": 26,
+      "name": "short_stories",
+      "label": "داستان کوتاه مجموعه"
+    },
+    {
+      "id": 27,
+      "name": "classics",
+      "label": "ادبیات کلاسیک"
+    },
+    {
+      "id": 28,
+      "name": "dark_romance",
+      "label": "ادبیات داستانی ترسناک-عاشقانه"
+    }
+  ]
+}
