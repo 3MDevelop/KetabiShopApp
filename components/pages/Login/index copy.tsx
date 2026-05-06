@@ -19,10 +19,8 @@ export default function Login() {
   const [authCode, setAuthCode] = useState("");
   const [isAccepted, setIsAccepted] = useState(false);
   const [showCodeInput, setShowCodeInput] = useState(false);
-  const [isLoadingCode, setIsLoadingCode] = useState(false);
-  const { isLoggedIn, isLoading, login } = useAuth();
-
-  
+  const [isLoadingCode, /* setIsLoadingCode */] = useState(false);
+  const { isLoggedIn, isLoading, /* login */ } = useAuth();
 
   const showToast = (
     type: ToastType,
@@ -32,7 +30,11 @@ export default function Login() {
     Toast.show({
       type: type,
       text1: message,
-      text2: description || (type === "success" ? "عملیات با موفقیت انجام شد" : "لطفاً مجدداً تلاش کنید"),
+      text2:
+        description ||
+        (type === "success"
+          ? "عملیات با موفقیت انجام شد"
+          : "لطفاً مجدداً تلاش کنید"),
       position: "top",
       topOffset: 20,
       visibilityTime: 1500,
@@ -47,6 +49,15 @@ export default function Login() {
       </View>
     );
   }
+
+  const verifyCode = () => {
+    console.info("verify");
+    showToast("success","موفق")
+  };
+
+  const getAuthCode = () => {
+    console.info("getAuthCode");
+  };
 
   return (
     <View style={styles.mainContainer}>
@@ -77,7 +88,13 @@ export default function Login() {
         </View>
       ) : (
         <View style={styles.container}>
-          <View style={showCodeInput ? styles.cardContainerWithCode : styles.cardContainer}>
+          <View
+            style={
+              showCodeInput
+                ? styles.cardContainerWithCode
+                : styles.cardContainer
+            }
+          >
             <View style={styles.avatarContainer}>
               <Ionicons name="person" size={45} color={"#6b6b6b"} />
             </View>
@@ -120,10 +137,13 @@ export default function Login() {
                   onPress={() => setIsAccepted(!isAccepted)}
                   activeOpacity={0.7}
                 >
-                  <View style={[styles.checkbox, isAccepted && styles.checkboxChecked]}>
-                    {isAccepted && (
-                      <Text style={styles.checkboxText}>✓</Text>
-                    )}
+                  <View
+                    style={[
+                      styles.checkbox,
+                      isAccepted && styles.checkboxChecked,
+                    ]}
+                  >
+                    {isAccepted && <Text style={styles.checkboxText}>✓</Text>}
                   </View>
                 </TouchableOpacity>
 
@@ -140,15 +160,17 @@ export default function Login() {
             <TouchableOpacity
               style={[
                 styles.loginButton,
-                (!showCodeInput 
-                  ? (isLoadingCode || !isAccepted || !mobile) 
-                  : (!authCode)) && styles.disabledButton,
-                styles.buttonWithMargin
+                (!showCodeInput
+                  ? isLoadingCode || !isAccepted || !mobile
+                  : !authCode) && styles.disabledButton,
+                styles.buttonWithMargin,
               ]}
               onPress={!showCodeInput ? getAuthCode : verifyCode}
-              disabled={!showCodeInput 
-                ? (isLoadingCode || !isAccepted || !mobile) 
-                : (!authCode)}
+              disabled={
+                !showCodeInput
+                  ? isLoadingCode || !isAccepted || !mobile
+                  : !authCode
+              }
             >
               {isLoadingCode || isLoading ? (
                 <ActivityIndicator color="white" />
