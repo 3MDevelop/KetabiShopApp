@@ -15,104 +15,14 @@ import { Ionicons } from "@expo/vector-icons";
 type ToastType = "success" | "error" | "info" | "warning";
 
 export default function Login() {
-  const [phone, setPhone] = useState("");
+  const [mobile, setMobile] = useState("");
   const [authCode, setAuthCode] = useState("");
   const [isAccepted, setIsAccepted] = useState(false);
   const [showCodeInput, setShowCodeInput] = useState(false);
   const [isLoadingCode, setIsLoadingCode] = useState(false);
-  const { isLoggedIn, isLoading /* login */ } = useAuth();
+  const { isLoggedIn, isLoading, login } = useAuth();
 
-  const forceLoggedIn = false;
-
-  const getAuthCode = async () => {
-    const phoneRegex = /^09[0-9]{9}$/;
-    if (!phoneRegex.test(phone)) {
-      showToast("error", "خطا", "شماره موبایل نامعتبر است");
-      return;
-    }
-
-    if (!isAccepted) {
-      showToast("error", "خطا", "لطفاً قوانین و مقررات را بپذیرید");
-      return;
-    }
-
-    setIsLoadingCode(true);
-
-    try {
-      const response = await fetch("https://ketabika.com/v1/otp/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: `phone=${encodeURIComponent(phone)}`,
-      });
-
-      const result = await response.json();
-      console.log("نتیجه دریافت کد:", result);
-      /* console.info(result.meta_data.content); */
-      if (response.ok) {
-        showToast("success", "کد تایید ارسال شد", result.meta_data.content);
-        setShowCodeInput(true);
-      } else {
-        showToast(
-          "error",
-          "خطا",
-          result.message || "مشکلی در ارسال کد رخ داده است",
-        );
-      }
-    } catch /* (error) */ {
-      /* console.error("خطا در دریافت کد:", error); */
-      showToast("error", "خطا", "مشکل در ارتباط با سرور");
-    } finally {
-      setIsLoadingCode(false);
-    }
-  };
-  /*  */
-  const verifyCode = async () => {
-    // اعتبارسنجی کد ۵ رقمی
-    if (!authCode || authCode.length !== 5) {
-      showToast("error", "خطا", "کد تایید باید ۵ رقم باشد");
-      return;
-    }
-
-    setIsLoadingCode(true);
-
-    try {
-      const response = await fetch("https://ketabika.com/v1/verify/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: `phone=${encodeURIComponent(phone)}&code=${encodeURIComponent(authCode)}`,
-      });
-
-      const result = await response.json();
-      console.log("نتیجه تایید کد:", result);
-
-      if (response.ok) {
-        showToast("success", "موفق", "ورود با موفقیت انجام شد");
-        // در صورت نیاز به ذخیره توکن یا اطلاعات کاربر
-        // if (result.token) {
-        //   await login(result.token);
-        // }
-        setTimeout(() => {
-          router.replace("/");
-        }, 1000);
-      } else {
-        showToast(
-          "error",
-          "خطا",
-          result.message || result.meta_data?.message || "کد تایید نامعتبر است",
-        );
-        setAuthCode(""); // پاک کردن کد نامعتبر
-      }
-    } catch (error) {
-      console.error("خطا در تایید کد:", error);
-      showToast("error", "خطا", "مشکل در ارتباط با سرور");
-    } finally {
-      setIsLoadingCode(false);
-    }
-  };
+  
 
   const showToast = (
     type: ToastType,
@@ -122,14 +32,10 @@ export default function Login() {
     Toast.show({
       type: type,
       text1: message,
-      text2:
-        description ||
-        (type === "success"
-          ? "عملیات با موفقیت انجام شد"
-          : "لطفاً مجدداً تلاش کنید"),
+      text2: description || (type === "success" ? "عملیات با موفقیت انجام شد" : "لطفاً مجدداً تلاش کنید"),
       position: "top",
       topOffset: 20,
-      visibilityTime: 3000,
+      visibilityTime: 1500,
     });
   };
 
@@ -144,7 +50,7 @@ export default function Login() {
 
   return (
     <View style={styles.mainContainer}>
-      {isLoggedIn || forceLoggedIn ? (
+      {isLoggedIn ? (
         <View style={styles.container}>
           <View style={styles.cardContainerLoggedIn}>
             <View style={styles.avatarContainerLoggedIn}>
@@ -171,13 +77,7 @@ export default function Login() {
         </View>
       ) : (
         <View style={styles.container}>
-          <View
-            style={
-              showCodeInput
-                ? styles.cardContainerWithCode
-                : styles.cardContainer
-            }
-          >
+          <View style={showCodeInput ? styles.cardContainerWithCode : styles.cardContainer}>
             <View style={styles.avatarContainer}>
               <Ionicons name="person" size={45} color={"#6b6b6b"} />
             </View>
@@ -190,8 +90,8 @@ export default function Login() {
                 style={styles.input}
                 placeholder="شماره موبایل ( 09xxxxxxxxx )"
                 placeholderTextColor="#999"
-                value={phone}
-                onChangeText={setPhone}
+                value={mobile}
+                onChangeText={setMobile}
                 autoCapitalize="none"
                 keyboardType="phone-pad"
                 editable={!isLoadingCode}
@@ -220,13 +120,10 @@ export default function Login() {
                   onPress={() => setIsAccepted(!isAccepted)}
                   activeOpacity={0.7}
                 >
-                  <View
-                    style={[
-                      styles.checkbox,
-                      isAccepted && styles.checkboxChecked,
-                    ]}
-                  >
-                    {isAccepted && <Text style={styles.checkboxText}>✓</Text>}
+                  <View style={[styles.checkbox, isAccepted && styles.checkboxChecked]}>
+                    {isAccepted && (
+                      <Text style={styles.checkboxText}>✓</Text>
+                    )}
                   </View>
                 </TouchableOpacity>
 
@@ -243,17 +140,15 @@ export default function Login() {
             <TouchableOpacity
               style={[
                 styles.loginButton,
-                (!showCodeInput
-                  ? isLoadingCode || !isAccepted || !phone
-                  : !authCode) && styles.disabledButton,
-                styles.buttonWithMargin,
+                (!showCodeInput 
+                  ? (isLoadingCode || !isAccepted || !mobile) 
+                  : (!authCode)) && styles.disabledButton,
+                styles.buttonWithMargin
               ]}
               onPress={!showCodeInput ? getAuthCode : verifyCode}
-              disabled={
-                !showCodeInput
-                  ? isLoadingCode || !isAccepted || !phone
-                  : !authCode
-              }
+              disabled={!showCodeInput 
+                ? (isLoadingCode || !isAccepted || !mobile) 
+                : (!authCode)}
             >
               {isLoadingCode || isLoading ? (
                 <ActivityIndicator color="white" />
