@@ -1,15 +1,66 @@
+// context/AuthContext.tsx
+
 import React, { createContext, useReducer, useEffect, ReactNode } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-type User = {
-  id: string;
+// تعریف نوع Device
+type Device = {
+  deviceId: string;
+  deviceName: string;
+  lastLogin: string;
+  [key: string]: any;
+};
+
+// تعریف نوع Interest
+type Interest = {
+  id: number;
   name: string;
+  [key: string]: any;
+};
+
+// تعریف نوع Book
+type Book = {
+  id: number;
+  title: string;
+  addedAt: string;
+  [key: string]: any;
+};
+
+// تعریف نوع Comment
+type Comment = {
+  id: number;
+  bookId: number;
+  comment: string;
+  createdAt: string;
+  [key: string]: any;
+};
+
+// تعریف نوع User
+export type User = {
+  ID: number;
+  token: string;
+  refresh_token: string;
+  expire_refresh_token: string;
+  expire_token: string;
+  key: string;
+  phone: string;
+  name: string;
+  nName: string;
+  lName: string;
+  avatar: number;
   email: string;
-  avatar?: string;
-} | null;
+  bankCard: number;
+  bankShaba: number;
+  device_List: Device[];
+  interests: Interest[];
+  readList: Book[];
+  likedList: Book[];
+  commentList: Comment[];
+  paymentList: string[];
+};
 
 type AuthState = {
-  user: User;
+  user: User | null;
   isLoading: boolean;
   error: string | null;
 };
@@ -19,7 +70,8 @@ type AuthAction =
   | { type: "LOGIN_SUCCESS"; payload: User }
   | { type: "LOGIN_FAILURE"; payload: string }
   | { type: "LOGOUT" }
-  | { type: "CLEAR_ERROR" };
+  | { type: "CLEAR_ERROR" }
+  | { type: "UPDATE_USER"; payload: Partial<User> };
 
 const initialState: AuthState = {
   user: null,
@@ -44,6 +96,12 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
     case "CLEAR_ERROR":
       return { ...state, error: null };
 
+    case "UPDATE_USER":
+      if (state.user) {
+        return { ...state, user: { ...state.user, ...action.payload } };
+      }
+      return state;
+
     default:
       return state;
   }
@@ -52,9 +110,11 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
 const AuthContext = createContext<
   | {
       state: AuthState;
-      login: (email: string, password: string) => Promise<void>;
+      login: (userData: User) => Promise<void>;
       logout: () => Promise<void>;
       clearError: () => void;
+      updateUser: (userData: Partial<User>) => Promise<void>;
+      isAuthenticated: boolean;
     }
   | undefined
 >(undefined);
@@ -62,37 +122,51 @@ const AuthContext = createContext<
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
+  // بارگذاری کاربر از AsyncStorage هنگام شروع برنامه
   useEffect(() => {
     const loadUser = async () => {
       try {
+        console.log("🔄 شروع بارگذاری کاربر از AsyncStorage...");
         const userJson = await AsyncStorage.getItem("@user");
+        console.log("📦 داده خام:", userJson);
+        
         if (userJson) {
           const user = JSON.parse(userJson);
+          console.log("✅ کاربر پیدا شد:", user);
           dispatch({ type: "LOGIN_SUCCESS", payload: user });
+        } else {
+          console.log("❌ هیچ کاربری یافت نشد");
         }
       } catch (error) {
-        console.log("خطا در بارگذاری کاربر:", error);
+        console.log("❌ خطا در بارگذاری کاربر:", error);
       }
     };
     loadUser();
   }, []);
 
-  const login = async (email: string, password: string) => {
+  const login = async (userData: User) => {
+    console.log("🔵 شروع فرآیند login");
     dispatch({ type: "LOGIN_START" });
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      const fakeUser: User = {
-        id: Date.now().toString(),
-        name: email.split("@")[0],
-        email: email,
-      };
-
-      await AsyncStorage.setItem("@user", JSON.stringify(fakeUser));
-      dispatch({ type: "LOGIN_SUCCESS", payload: fakeUser });
+      // ذخیره اطلاعات کاربر در AsyncStorage
+      await AsyncStorage.setItem("@user", JSON.stringify(userData));
+      console.log("✅ اطلاعات کاربر در AsyncStorage ذخیره شد");
+      
+      // ذخیره توکن به صورت جداگانه
+      if (userData.token) {
+        await AsyncStorage.setItem("@auth_token", userData.token);
+        console.log("✅ توکن ذخیره شد");
+      }
+      if (userData.refresh_token) {
+        await AsyncStorage.setItem("@refresh_token", userData.refresh_token);
+        console.log("✅ refresh_token ذخیره شد");
+      }
+      
+      dispatch({ type: "LOGIN_SUCCESS", payload: userData });
+      console.log("✅ LOGIN_SUCCESS انجام شد");
     } catch (error) {
-      console.log("Login error:", error); // ✅ استفاده از متغیر error
+      console.log("❌ خطا در Login:", error);
       dispatch({
         type: "LOGIN_FAILURE",
         payload: "خطا در ورود. دوباره تلاش کن.",
@@ -101,16 +175,47 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = async () => {
+    console.log("🔵 شروع فرآیند خروج");
     await AsyncStorage.removeItem("@user");
+    await AsyncStorage.removeItem("@auth_token");
+    await AsyncStorage.removeItem("@refresh_token");
     dispatch({ type: "LOGOUT" });
+    console.log("✅ کاربر خارج شد");
   };
 
   const clearError = () => {
     dispatch({ type: "CLEAR_ERROR" });
   };
 
+  const updateUser = async (userData: Partial<User>) => {
+    if (state.user) {
+      const updatedUser = { ...state.user, ...userData };
+      await AsyncStorage.setItem("@user", JSON.stringify(updatedUser));
+      
+      if (userData.token) {
+        await AsyncStorage.setItem("@auth_token", userData.token);
+      }
+      if (userData.refresh_token) {
+        await AsyncStorage.setItem("@refresh_token", userData.refresh_token);
+      }
+      
+      dispatch({ type: "UPDATE_USER", payload: userData });
+    }
+  };
+
+  const isAuthenticated = state.user !== null && !!state.user?.token;
+
   return (
-    <AuthContext.Provider value={{ state, login, logout, clearError }}>
+    <AuthContext.Provider
+      value={{
+        state,
+        login,
+        logout,
+        clearError,
+        updateUser,
+        isAuthenticated,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -36,13 +36,14 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
     },
-     "extra": {
+    "extra": {
       "proxy": "http://ketabika.com"
     }
   }

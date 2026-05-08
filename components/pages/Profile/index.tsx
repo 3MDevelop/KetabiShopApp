@@ -117,74 +117,66 @@ export default function Profile() {
             />
           </View>
         </Animated.View>
+        <View style={{ marginHorizontal:"auto",  width:"100%",   maxWidth: 1000 }}>
+          {isLoggedIn ? (
+            <>
+              <Text style={[styles.mainTitle, { marginTop: 40 }]}>
+                فعالیتهای من
+              </Text>
 
-        {isLoggedIn ? (
-          <>
-            <Text style={[styles.mainTitle, { marginTop: 40 }]}>
-              فعالیتهای من
-            </Text>
+              <ProfileItems
+                itemLable={"کتابخانه شخصی"}
+                itemAddress={"./myLibrary"}
+                itemLogo={"library"}
+              />
+              <ProfileItems
+                itemLable={"دعوت از دوستان"}
+                itemAddress={"./invitation"}
+                itemLogo={"person-add-sharp"}
+              />
+              <ProfileItems
+                itemLable={"تاریخچه پرداخت"}
+                itemAddress={"./paymentRecords"}
+                itemLogo={"wallet-sharp"}
+              />
+              <ProfileItems
+                itemLable={"نظرات من"}
+                itemAddress={"./myComments"}
+                itemLogo={"chatbubble-sharp"}
+              />
 
-            <ProfileItems
-              itemLable={"کتابخانه شخصی"}
-              itemAddress={"./myLibrary"}
-              itemLogo={"library"}
-            />
-            <ProfileItems
-              itemLable={"دعوت از دوستان"}
-              itemAddress={"./invitation"}
-              itemLogo={"person-add-sharp"}
-            />
-            <ProfileItems
-              itemLable={"تاریخچه پرداخت"}
-              itemAddress={"./paymentRecords"}
-              itemLogo={"wallet-sharp"}
-            />
-            <ProfileItems
-              itemLable={"نظرات من"}
-              itemAddress={"./myComments"}
-              itemLogo={"chatbubble-sharp"}
-            />
-            
-            <ProfileItems
-              itemLable={"پسندیده های من"}
-              itemAddress={"./myLikes"}
-              itemLogo={"thumbs-up-sharp"}
-            />
-            <ProfileItems
-              itemLable={"علاقه مندی ها"}
-              itemAddress={"./myFavorites"}
-              itemLogo={"star-sharp"}
-            />
-          </>
-        ) : null}
+              <ProfileItems
+                itemLable={"پسندیده های من"}
+                itemAddress={"./myLikes"}
+                itemLogo={"thumbs-up-sharp"}
+              />
+              <ProfileItems
+                itemLable={"علاقه مندی ها"}
+                itemAddress={"./myFavorites"}
+                itemLogo={"star-sharp"}
+              />
+            </>
+          ) : null}
 
-        <Text style={styles.mainTitle}>تنظیمات</Text>
+          <Text style={styles.mainTitle}>تنظیمات</Text>
 
-        <ProfileItems
-          itemLable={"ظاهر برنامه"}
-          itemAddress={""}
-          itemLogo={"color-palette-sharp"}
-        />
-        <ProfileItems
-          itemLable={"پشتیبانی"}
-          itemAddress={"support"}
-          itemLogo={"headset-sharp"}
+          <ProfileItems
+            itemLable={"ظاهر برنامه"}
+            itemAddress={""}
+            itemLogo={"color-palette-sharp"}
           />
-        <ProfileItems
-          itemLable={"بروزرسانی"}
-          itemAddress={"update"}
-          itemLogo={"arrow-down-circle"}
-        />
-        <ProfileItems
-          itemLable={"وبلاگ"}
-          itemAddress={"weblog"}
-          itemLogo={"newspaper-sharp"}
-        />
-        <ProfileItems
-          itemLable={"درباره ما"}
-          itemAddress={"about"}
-          itemLogo={"id-card-sharp"}
-        />
+          <ProfileItems
+            itemLable={"پشتیبانی"}
+            itemAddress={"support"}
+            itemLogo={"headset-sharp"}
+          />
+          <ProfileItems
+            itemLable={"درباره ما"}
+            itemAddress={"about"}
+            itemLogo={"id-card-sharp"}
+          />
+        </View>
+
         <View style={{ marginTop: 25 }}></View>
 
         {isLoggedIn ? <LogoutBtn targetURL="/" /> : null}
