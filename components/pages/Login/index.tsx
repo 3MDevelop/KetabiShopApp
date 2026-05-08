@@ -68,8 +68,7 @@ export default function Login() {
       });
 
       const result = await response.json();
-      console.log("نتیجه دریافت کد:", result);
-      /* console.info(result.meta_data.content); */
+      /* console.log("نتیجه دریافت کد:", result); */
       if (response.ok) {
         showToast("success", "کد تایید ارسال شد", result.meta_data.content);
         setShowCodeInput(true);
@@ -109,7 +108,7 @@ const verifyCode = async () => {
     });
 
     const result = await response.json();
-    console.log("نتیجه تایید کد:", result);
+    /* console.log("نتیجه تایید کد:", result); */
 
     if (response.ok && result.data) {
       const userDataFromServer = result.data;
@@ -121,7 +120,7 @@ const verifyCode = async () => {
         if (tokenParts.length === 3) {
           const payload = JSON.parse(atob(tokenParts[1]));
           userId = payload.user_id || payload.id;
-          console.log("✅ ID از توکن استخراج شد:", userId);
+          /* console.log("✅ ID از توکن استخراج شد:", userId); */
         }
       } catch (e) {
         console.error("خطا در استخراج ID:", e);
@@ -154,7 +153,7 @@ const verifyCode = async () => {
         paymentList: [],
       };
       
-      console.log("👤 اطلاعات کاربر برای ذخیره:", userData);
+     /*  console.log("👤 اطلاعات کاربر برای ذخیره:", userData); */
       
       // ذخیره اطلاعات کاربر
       await login(userData);
@@ -173,8 +172,8 @@ const verifyCode = async () => {
       setAuthCode("");
     }
   } catch (error) {
-    console.error("❌ خطا:", error);
-    showToast("error", "خطا", "مشکل در ارتباط با سرور");
+    /* console.error("❌ خطا:", error); */
+    showToast("error", "خطا", "مشکل در ارتباط با سرور" + error);
   } finally {
     setIsLoadingCode(false);
   }

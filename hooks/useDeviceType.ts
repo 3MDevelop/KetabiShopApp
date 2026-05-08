@@ -10,9 +10,7 @@ export const useDeviceType = (): DeviceType => {
     const checkDeviceType = () => {
       const { width } = Dimensions.get('window');
       
-      // تشخیص بر اساس عرض صفحه
       if (Platform.OS === 'web') {
-        // در وب (دسکتاپ یا تبلت)
         if (width >= 1024) {
           setDeviceType('desktop');
         } else if (width >= 768) {
@@ -21,7 +19,6 @@ export const useDeviceType = (): DeviceType => {
           setDeviceType('mobile');
         }
       } else {
-        // در موبایل (React Native واقعی)
         if (width >= 768) {
           setDeviceType('tablet');
         } else {
@@ -30,10 +27,8 @@ export const useDeviceType = (): DeviceType => {
       }
     };
 
-    // چک کردن اولیه
     checkDeviceType();
 
-    // گوش دادن به تغییرات اندازه صفحه (مخصوص وب)
     const subscription = Dimensions.addEventListener('change', checkDeviceType);
     
     return () => {

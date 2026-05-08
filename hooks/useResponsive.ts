@@ -4,7 +4,6 @@ import { Dimensions, Platform } from 'react-native';
 export const useResponsive = () => {
   const getWidth = () => {
     if (Platform.OS === 'web') {
-      // در وب، از window.innerWidth استفاده کن
       return typeof window !== 'undefined' ? window.innerWidth : 1024;
     }
     return Dimensions.get('window').width;

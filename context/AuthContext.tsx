@@ -3,7 +3,6 @@
 import React, { createContext, useReducer, useEffect, ReactNode } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// تعریف نوع Device
 type Device = {
   deviceId: string;
   deviceName: string;
@@ -11,14 +10,12 @@ type Device = {
   [key: string]: any;
 };
 
-// تعریف نوع Interest
 type Interest = {
   id: number;
   name: string;
   [key: string]: any;
 };
 
-// تعریف نوع Book
 type Book = {
   id: number;
   title: string;
@@ -26,7 +23,6 @@ type Book = {
   [key: string]: any;
 };
 
-// تعریف نوع Comment
 type Comment = {
   id: number;
   bookId: number;
@@ -35,7 +31,6 @@ type Comment = {
   [key: string]: any;
 };
 
-// تعریف نوع User
 export type User = {
   ID: number;
   token: string;
@@ -122,20 +117,14 @@ const AuthContext = createContext<
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  // بارگذاری کاربر از AsyncStorage هنگام شروع برنامه
   useEffect(() => {
     const loadUser = async () => {
       try {
-        console.log("🔄 شروع بارگذاری کاربر از AsyncStorage...");
         const userJson = await AsyncStorage.getItem("@user");
-        console.log("📦 داده خام:", userJson);
         
         if (userJson) {
           const user = JSON.parse(userJson);
-          console.log("✅ کاربر پیدا شد:", user);
           dispatch({ type: "LOGIN_SUCCESS", payload: user });
-        } else {
-          console.log("❌ هیچ کاربری یافت نشد");
         }
       } catch (error) {
         console.log("❌ خطا در بارگذاری کاربر:", error);
@@ -145,26 +134,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const login = async (userData: User) => {
-    console.log("🔵 شروع فرآیند login");
+    
     dispatch({ type: "LOGIN_START" });
 
     try {
-      // ذخیره اطلاعات کاربر در AsyncStorage
       await AsyncStorage.setItem("@user", JSON.stringify(userData));
-      console.log("✅ اطلاعات کاربر در AsyncStorage ذخیره شد");
-      
-      // ذخیره توکن به صورت جداگانه
       if (userData.token) {
         await AsyncStorage.setItem("@auth_token", userData.token);
-        console.log("✅ توکن ذخیره شد");
       }
       if (userData.refresh_token) {
         await AsyncStorage.setItem("@refresh_token", userData.refresh_token);
-        console.log("✅ refresh_token ذخیره شد");
       }
       
       dispatch({ type: "LOGIN_SUCCESS", payload: userData });
-      console.log("✅ LOGIN_SUCCESS انجام شد");
     } catch (error) {
       console.log("❌ خطا در Login:", error);
       dispatch({
@@ -175,12 +157,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = async () => {
-    console.log("🔵 شروع فرآیند خروج");
     await AsyncStorage.removeItem("@user");
     await AsyncStorage.removeItem("@auth_token");
     await AsyncStorage.removeItem("@refresh_token");
     dispatch({ type: "LOGOUT" });
-    console.log("✅ کاربر خارج شد");
+    
   };
 
   const clearError = () => {
