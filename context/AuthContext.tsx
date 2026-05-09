@@ -38,7 +38,7 @@ export type User = {
   expire_refresh_token: string;
   expire_token: string;
   key: string;
-  phone: string;
+  phone: string; 
   name: string;
   nName: string;
   lName: string;

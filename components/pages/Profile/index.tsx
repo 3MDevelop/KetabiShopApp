@@ -41,6 +41,9 @@ export default function Profile() {
   const headerOpacity = createHeaderOpacityAnimation(scrollY);
   const progressBarWidth = createProgressBarAnimation(scrollY);
 
+
+  console.info(user)
+
   return (
     <View style={styles.container}>
       <Animated.ScrollView
@@ -95,7 +98,7 @@ export default function Profile() {
             <View style={styles.userInfoContainer}>
               {isLoggedIn ? (
                 <View style={styles.userInfo}>
-                  <Text style={styles.userName}>{user?.name || "کاربر"}</Text>
+                  <Text style={styles.userName}>{`کاربر ${user?.nName || user?.ID || ""}`}</Text>
                 </View>
               ) : (
                 <TouchableOpacity
