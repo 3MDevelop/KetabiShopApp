@@ -52,6 +52,7 @@ export type User = {
   likedList: Book[];
   commentList: Comment[];
   paymentList: string[];
+  basket: string[];
 };
 
 type AuthState = {

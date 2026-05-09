@@ -23,8 +23,6 @@ export default function Login() {
   const [isLoadingCode, setIsLoadingCode] = useState(false);
   const { isLoggedIn, isLoading, login } = useAuth();
 
-  const forceLoggedIn = false;
-
   const showToast = (
     type: ToastType,
     message: string,
@@ -68,7 +66,6 @@ export default function Login() {
       });
 
       const result = await response.json();
-      /* console.log("نتیجه دریافت کد:", result); */
       if (response.ok) {
         showToast("success", "کد تایید ارسال شد", result.meta_data.content);
         setShowCodeInput(true);
@@ -79,105 +76,95 @@ export default function Login() {
           result.message || "مشکلی در ارسال کد رخ داده است",
         );
       }
-    } catch /* (error) */ {
-      /* console.error("خطا در دریافت کد:", error); */
+    } catch {
       showToast("error", "خطا", "مشکل در ارتباط با سرور");
     } finally {
       setIsLoadingCode(false);
     }
   };
 
-  // components/pages/Login/index.tsx - قسمت verifyCode
-
-const verifyCode = async () => {
-  // اعتبارسنجی کد ۵ رقمی
-  if (!authCode || authCode.length !== 5) {
-    showToast("error", "خطا", "کد تایید باید ۵ رقم باشد");
-    return;
-  }
-
-  setIsLoadingCode(true);
-
-  try {
-    const response = await fetch("https://ketabika.com/v1/verify/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `phone=${encodeURIComponent(phone)}&code=${encodeURIComponent(authCode)}`,
-    });
-
-    const result = await response.json();
-    /* console.log("نتیجه تایید کد:", result); */
-
-    if (response.ok && result.data) {
-      const userDataFromServer = result.data;
-      
-      // استخراج user_id از توکن
-      let userId = null;
-      try {
-        const tokenParts = userDataFromServer.token.split('.');
-        if (tokenParts.length === 3) {
-          const payload = JSON.parse(atob(tokenParts[1]));
-          userId = payload.user_id || payload.id;
-          /* console.log("✅ ID از توکن استخراج شد:", userId); */
-        }
-      } catch (e) {
-        console.error("خطا در استخراج ID:", e);
-      }
-      
-      if (!userId) {
-        userId = Date.now();
-      }
-      
-      const userData: User = {
-        ID: userId,
-        token: userDataFromServer.token,
-        refresh_token: userDataFromServer.refresh_token,
-        expire_refresh_token: userDataFromServer.expire_refresh_token,
-        expire_token: userDataFromServer.expire_token,
-        key: userDataFromServer.key || "Bearer",
-        phone: phone,
-        name: "",
-        nName: "",
-        lName: "",
-        avatar: 0,
-        email: "",
-        bankCard: 0,
-        bankShaba: 0,
-        device_List: [],
-        interests: [],
-        readList: [],
-        likedList: [],
-        commentList: [],
-        paymentList: [],
-      };
-      
-     /*  console.log("👤 اطلاعات کاربر برای ذخیره:", userData); */
-      
-      // ذخیره اطلاعات کاربر
-      await login(userData);
-      
-      showToast("success", "موفق", "ورود با موفقیت انجام شد");
-      
-      setTimeout(() => {
-        router.replace("/");
-      }, 1000);
-    } else {
-      showToast(
-        "error",
-        "خطا",
-        result.message || result.meta_data?.message || "کد تایید نامعتبر است",
-      );
-      setAuthCode("");
+  const verifyCode = async () => {
+    if (!authCode || authCode.length !== 5) {
+      showToast("error", "خطا", "کد تایید باید ۵ رقم باشد");
+      return;
     }
-  } catch (error) {
-    /* console.error("❌ خطا:", error); */
-    showToast("error", "خطا", "مشکل در ارتباط با سرور" + error);
-  } finally {
-    setIsLoadingCode(false);
-  }
-};
+
+    setIsLoadingCode(true);
+
+    try {
+      const response = await fetch("https://ketabika.com/v1/verify/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `phone=${encodeURIComponent(phone)}&code=${encodeURIComponent(authCode)}`,
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.data) {
+        const userDataFromServer = result.data;
+
+        let userId = null;
+        try {
+          const tokenParts = userDataFromServer.token.split(".");
+          if (tokenParts.length === 3) {
+            const payload = JSON.parse(atob(tokenParts[1]));
+            userId = payload.user_id || payload.id;
+            /* console.log("✅ ID از توکن استخراج شد:", userId); */
+          }
+        } catch {}
+
+        if (!userId) {
+          userId = Date.now();
+        }
+
+        const userData: User = {
+          ID: userId,
+          token: userDataFromServer.token,
+          refresh_token: userDataFromServer.refresh_token,
+          expire_refresh_token: userDataFromServer.expire_refresh_token,
+          expire_token: userDataFromServer.expire_token,
+          key: userDataFromServer.key || "Bearer",
+          phone: phone,
+          name: "",
+          nName: "",
+          lName: "",
+          avatar: 0,
+          email: "",
+          bankCard: 0,
+          bankShaba: 0,
+          device_List: [],
+          interests: [],
+          readList: [],
+          likedList: [],
+          commentList: [],
+          paymentList: [],
+          basket: [],
+        };
+
+        console.info("اطلاعات کاربر: " + userData);
+        await login(userData);
+
+        showToast("success", "موفق", "ورود با موفقیت انجام شد");
+
+        setTimeout(() => {
+          router.replace("/");
+        }, 500);
+      } else {
+        showToast(
+          "error",
+          "خطا",
+          result.message || result.meta_data?.message || "کد تایید نامعتبر است",
+        );
+        setAuthCode("");
+      }
+    } catch {
+      showToast("error", "خطا", "مشکل در ارتباط با سرور");
+    } finally {
+      setIsLoadingCode(false);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -190,7 +177,7 @@ const verifyCode = async () => {
 
   return (
     <View style={styles.mainContainer}>
-      {isLoggedIn || forceLoggedIn ? (
+      {isLoggedIn ? (
         <View style={styles.container}>
           <View style={styles.cardContainerLoggedIn}>
             <View style={styles.avatarContainerLoggedIn}>
@@ -224,6 +211,12 @@ const verifyCode = async () => {
                 : styles.cardContainer
             }
           >
+            <TouchableOpacity
+              onPress={() => router.replace("/")}
+              style={{ display: "flex", flexDirection: "row" }}
+            >
+              <Ionicons name={"arrow-back"} size={18} color={"#6b6b6b"} />
+            </TouchableOpacity>
             <View style={styles.avatarContainer}>
               <Ionicons name="person" size={45} color={"#6b6b6b"} />
             </View>
