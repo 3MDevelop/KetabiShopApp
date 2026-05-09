@@ -120,7 +120,7 @@ export default function Profile() {
             />
           </View>
         </Animated.View>
-        <View style={{ marginHorizontal:"auto",  width:"100%",   maxWidth: 1000 }}>
+        <View style={{ marginHorizontal:"auto",  width:"100%",   maxWidth: 700 }}>
           {isLoggedIn ? (
             <>
               <Text style={[styles.mainTitle, { marginTop: 40 }]}>
@@ -131,11 +131,6 @@ export default function Profile() {
                 itemLable={"کتابخانه شخصی"}
                 itemAddress={"./myLibrary"}
                 itemLogo={"library"}
-              />
-              <ProfileItems
-                itemLable={"دعوت از دوستان"}
-                itemAddress={"./invitation"}
-                itemLogo={"person-add-sharp"}
               />
               <ProfileItems
                 itemLable={"تاریخچه پرداخت"}

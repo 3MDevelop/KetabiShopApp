@@ -1,6 +1,5 @@
-// app/about.tsx
 import React from "react";
-import { View, Text, ScrollView } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import styles from "./styles";
 
 export default function MyFavorites() {
