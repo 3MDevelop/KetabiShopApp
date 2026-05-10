@@ -6,11 +6,14 @@ export default StyleSheet.create({
     backgroundColor: '#f5f5f5',
     marginHorizontal:'auto',
     width:'100%',
-    maxWidth:1000,
+   
     
   },
   content: {
     padding: 20,
+    width:"100%",
+    maxWidth:1000,
+    alignSelf:"center"
   },
   title: {
     fontSize: 24,

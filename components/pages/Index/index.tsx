@@ -9,11 +9,12 @@ export default function HomePage() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
-        <FullWidthBanner urlIsInner={true} url={"about"} />
         <Text style={styles.title}>صفحه اصلی</Text>
-        <Text style={styles.description}>
+        <Text style={[styles.description, { marginBottom: 20 }]}>
           این محتوای صفحه اصلی است که در mainContainer نمایش داده می‌شود.
         </Text>
+        <FullWidthBanner urlIsInner={true} url={"about"} />
+        <FullWidthBanner urlIsInner={false} url={"www.google.com"} />
       </View>
 
       <TouchableOpacity

@@ -3,16 +3,13 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
-    marginHorizontal: "auto",
-    width: "100%",
-    maxWidth: 1000,
+    backgroundColor: "#f5f5f5",    
   },
 
-
-  
-content: {
+  content: {
     padding: 16,
+    maxWidth:950,
+    alignSelf:"center"
   },
 
   title: {
@@ -21,7 +18,6 @@ content: {
     color: "#333",
     marginBottom: 8,
     textAlign: "right",
-
   },
   description: {
     lineHeight: 24,
@@ -31,14 +27,13 @@ content: {
     textAlign: "right",
   },
 
-  
   centerContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#f5f5f5",
   },
-  
+
   header: {
     padding: 16,
     backgroundColor: "#fff",
