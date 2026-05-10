@@ -127,8 +127,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           const user = JSON.parse(userJson);
           dispatch({ type: "LOGIN_SUCCESS", payload: user });
         }
-      } catch (error) {
-        console.log("❌ خطا در بارگذاری کاربر:", error);
+      } catch {
+        // "❌ خطا در بارگذاری کاربر:", error);
       }
     };
     loadUser();
@@ -148,8 +148,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
       
       dispatch({ type: "LOGIN_SUCCESS", payload: userData });
-    } catch (error) {
-      console.log("❌ خطا در Login:", error);
+    } catch {
+      // ("❌ خطا در Login:", error);
       dispatch({
         type: "LOGIN_FAILURE",
         payload: "خطا در ورود. دوباره تلاش کن.",

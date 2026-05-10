@@ -35,14 +35,10 @@ export default function Profile() {
     scrollViewRef.current?.scrollTo({ y: 0, animated: true });
   };
 
-  /* Animations */
   const headerBackground = createHeaderBackgroundAnimation(scrollY);
   const headerTranslate = createHeaderTranslateAnimation(scrollY);
   const headerOpacity = createHeaderOpacityAnimation(scrollY);
   const progressBarWidth = createProgressBarAnimation(scrollY);
-
-
-  console.info(user)
 
   return (
     <View style={styles.container}>

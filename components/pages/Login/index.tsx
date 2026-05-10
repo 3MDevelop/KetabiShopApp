@@ -111,7 +111,6 @@ export default function Login() {
           if (tokenParts.length === 3) {
             const payload = JSON.parse(atob(tokenParts[1]));
             userId = payload.user_id || payload.id;
-            /* console.log("✅ ID از توکن استخراج شد:", userId); */
           }
         } catch {}
 
@@ -143,7 +142,6 @@ export default function Login() {
           basket: [],
         };
 
-        console.info("اطلاعات کاربر: " + userData);
         await login(userData);
 
         showToast("success", "موفق", "ورود با موفقیت انجام شد");

@@ -45,7 +45,6 @@ export const CatProvider: React.FC<CatProviderProps> = ({ children }) => {
         setCatList(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Error loading cat list');
-        console.error('Error loading catList.json:', err);
       } finally {
         setIsLoading(false);
       }

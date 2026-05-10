@@ -1,6 +1,6 @@
 import React from "react";
 
-import {View ,TouchableOpacity ,Linking,Alert} from "react-native"
+import {View ,TouchableOpacity ,Linking} from "react-native"
 import { AntDesign,FontAwesome5 } from "@expo/vector-icons";
 
 
@@ -17,7 +17,7 @@ export default function SocialBtn(){
       if (supported) {
         await Linking.openURL(url);
       } else {
-        Alert.alert("خطا", "نمی‌توان این لینک را باز کرد");
+        // "خطا", "نمی‌توان این لینک را باز کرد")
       }
     };
     return(

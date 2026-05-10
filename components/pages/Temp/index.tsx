@@ -1,7 +1,6 @@
 import { useRouter } from "expo-router";
 import React, { useRef } from "react";
-import { Ionicons } from "@expo/vector-icons";
-import { FontAwesome5, AntDesign } from "@expo/vector-icons";
+import { FontAwesome5, AntDesign, Ionicons,  } from "@expo/vector-icons";
 
 import {
   View,
@@ -10,7 +9,6 @@ import {
   TouchableOpacity,
   Dimensions,
   Linking,
-  Alert,
   ScrollView as NativeScrollView,
 } from "react-native";
 import { useAuth } from "@/hooks/useAuth";
@@ -34,7 +32,7 @@ export default function CombinedParallax() {
     if (supported) {
       await Linking.openURL(url);
     } else {
-      Alert.alert("خطا", "نمی‌توان این لینک را باز کرد");
+      // "خطا", "نمی‌توان این لینک را باز کرد"
     }
   };
 
@@ -47,7 +45,6 @@ export default function CombinedParallax() {
 
   const handleLogout = async () => {
     await logout();
-    Alert.alert("خروج", "با موفقیت خارج شدید");
   };
 
   const headerTranslate = scrollY.interpolate({

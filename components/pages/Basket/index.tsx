@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ScrollView, Text, View, TouchableOpacity, Alert } from "react-native";
+import { ScrollView, Text, View, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./styles";
 import { useAuth } from "@/hooks/useAuth";
@@ -145,20 +145,14 @@ export default function Basket() {
     const item = cartItems.find((i) => i.id === id);
     if (!item) return;
 
-    if (item.type !== "physical_book") {
-      Alert.alert("توجه", "این محصول فقط یک عدد قابل خرید است");
-      return;
-    }
+    
 
     if (newQuantity < 1) {
       removeFromCart(id);
       return;
     }
 
-    if (item.maxQuantity && newQuantity > item.maxQuantity) {
-      Alert.alert("توجه", `حداکثر تعداد قابل خرید ${item.maxQuantity} عدد است`);
-      return;
-    }
+   
 
     setCartItems((prev) =>
       prev.map((i) => (i.id === id ? { ...i, quantity: newQuantity } : i)),
