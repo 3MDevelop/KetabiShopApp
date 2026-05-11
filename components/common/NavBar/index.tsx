@@ -1,26 +1,16 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useAuth } from "@/hooks/useAuth";
 import { useResponsive } from "@/hooks/useResponsive";
 import { useRouter } from "expo-router";
 import { useRef } from "react";
+import UserAvatar from "@/components/UI/userAvatar";
 
 import styles from "./styles";
 
 export default function NavBar({ Colors, appTheme }: any) {
-  const { user, isLoggedIn } = useAuth();
   const { isDesktop } = useResponsive();
   const profileRef = useRef<View>(null);
-
   const router = useRouter();
-
-  const getInitial = () => {
-    if (user?.name) {
-      return user.name.charAt(0).toUpperCase();
-    }
-    return "?";
-  };
-
   return (
     <>
       <View
@@ -31,36 +21,16 @@ export default function NavBar({ Colors, appTheme }: any) {
       >
         <View style={styles.NavBar}>
           <TouchableOpacity
+            style={{ marginBottom: 5 }}
             ref={profileRef}
             onPress={() => {
               router.push("/profile");
             }}
             activeOpacity={0.7}
           >
-            {isLoggedIn ? (
-              <View
-                style={{
-                  backgroundColor: Colors[appTheme].primary || "#007AFF",
-                  width: 40,
-                  height: 40,
-                  borderRadius: 25,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  marginLeft: 22,
-                  marginRight: 3,
-                  marginBottom: 5,
-                }}
-              >
-                <Text style={styles.profileInitial}>{getInitial()}</Text>
-              </View>
-            ) : (
-              <Ionicons
-                name="person-circle"
-                size={45}
-                style={[{ marginLeft: 20, color: "#dbdbdb" }]}
-              />
-            )}
+            <UserAvatar iconWidth={50} />
           </TouchableOpacity>
+
           <TouchableOpacity
             onPress={() => {
               router.push("/basket");
@@ -77,6 +47,7 @@ export default function NavBar({ Colors, appTheme }: any) {
               </View>
             </View>
           </TouchableOpacity>
+
           <TouchableOpacity
             onPress={() => {
               router.push("/search");

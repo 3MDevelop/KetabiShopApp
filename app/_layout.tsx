@@ -25,7 +25,7 @@ export default function RootLayout() {
   return (
     <AuthProvider>
       <CatProvider>
-        <View style={styles.container}>
+        <View style={[styles.container,{direction:"rtl"}]}>
           <StatusBar style="auto" />
           
           {!hideNavigation && (

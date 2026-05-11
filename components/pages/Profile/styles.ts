@@ -23,37 +23,10 @@ export const styles = StyleSheet.create({
     zIndex: 10,
   },
   avatarContainer: {
-    width: 120,
-    aspectRatio: 1,
-    position: "relative",
     justifyContent: "center",
     alignItems: "center",
   },
-  avatarInner: {
-    width: "70%",
-    aspectRatio: 1,
-    borderRadius: 999,
-    backgroundColor: "white",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  userIconContainer: {
-    backgroundColor: "#007AFF",
-    width: 70,
-    height: 70,
-    borderRadius: 200,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  userIconText: {
-    color: "white",
-    fontSize: 40,
-    fontWeight: "bold",
-  },
-  guestIcon: {
-    marginTop: 2,
-    color: "#dbdbdb",
-  },
+
   userInfoContainer: {
     flexDirection: "row",
     gap: 20,
@@ -63,12 +36,7 @@ export const styles = StyleSheet.create({
   userInfo: {
     alignItems: "center",
   },
-  userName: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "bold",
-    marginTop: 10,
-  },
+
   loginButton: {
     padding: 10,
   },
@@ -100,5 +68,5 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
   },
-  
+
 });

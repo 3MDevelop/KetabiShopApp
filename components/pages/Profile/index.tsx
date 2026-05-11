@@ -1,7 +1,7 @@
 // components/Profile/Profile.tsx
 import { useRouter } from "expo-router";
 import React, { useRef } from "react";
-import { Ionicons } from "@expo/vector-icons";
+import { useAuth } from "@/hooks/useAuth";
 import {
   View,
   Text,
@@ -9,13 +9,16 @@ import {
   TouchableOpacity,
   ScrollView as NativeScrollView,
 } from "react-native";
-import { useAuth } from "@/hooks/useAuth";
+
 import SocialBtn from "@/components/UI/SocialBtn";
 import Cycles from "@/components/UI/Cycles";
 import BackToTop from "@/components/UI/BackToTop";
 import LogoutBtn from "@/components/UI/LogoutBtn";
 import ParallexCycles from "@/components/UI/ParallexCycles";
 import ProfileItems from "@/components/UI/ProfileItem";
+import UserAvatar from "@/components/UI/userAvatar";
+import UserInfoLable from "@/components/UI/UserInfoLable";
+import UserAvatarEditBtn from "@/components/UI/UserAvatarEditBtn";
 
 import { styles } from "./styles";
 import {
@@ -29,7 +32,7 @@ export default function Profile() {
   const scrollY = useRef(new Animated.Value(0)).current;
   const scrollViewRef = useRef<NativeScrollView>(null);
   const router = useRouter();
-  const { isLoggedIn, user } = useAuth();
+  const { isLoggedIn } = useAuth();
 
   const scrollToTop = () => {
     scrollViewRef.current?.scrollTo({ y: 0, animated: true });
@@ -69,54 +72,33 @@ export default function Profile() {
               },
             ]}
           >
-            {/* user avatar */}
-            <View style={styles.avatarContainer}>
-              <Cycles />
-
-              <View style={styles.avatarInner}>
-                {isLoggedIn ? (
-                  <View style={styles.userIconContainer}>
-                    <Text style={styles.userIconText}>
-                      {user?.name?.charAt(0).toUpperCase() || "?"}
-                    </Text>
-                  </View>
-                ) : (
-                  <Ionicons
-                    name="person-circle"
-                    size={80}
-                    style={styles.guestIcon}
-                  />
-                )}
+            <TouchableOpacity
+              onPress={() => {
+                if (isLoggedIn) {
+                  router.push("/user");
+                } else {
+                  router.push("/login");
+                }
+              }}
+            >
+              <View style={styles.avatarContainer}>
+                <Cycles innerWidth={85} style={{ marginTop: -42 }} />
+                <UserAvatar iconWidth={75} />
+                <UserAvatarEditBtn />
+                <UserInfoLable style={{ marginTop: 0 }} />
               </View>
-            </View>
-
-            {/* username or login btn */}
-            <View style={styles.userInfoContainer}>
-              {isLoggedIn ? (
-                <View style={styles.userInfo}>
-                  <Text style={styles.userName}>{`کاربر ${user?.nName || user?.ID || ""}`}</Text>
-                </View>
-              ) : (
-                <TouchableOpacity
-                  style={styles.loginButton}
-                  onPress={() => {
-                    router.push("/login");
-                  }}
-                >
-                  <Text style={styles.loginButtonText}>ورود / ثبت نام</Text>
-                </TouchableOpacity>
-              )}
-            </View>
+            </TouchableOpacity>
           </Animated.View>
 
-          {/* Progressive bar */}
           <View style={styles.progressBarContainer}>
             <Animated.View
               style={[styles.progressBar, { width: progressBarWidth }]}
             />
           </View>
         </Animated.View>
-        <View style={{ marginHorizontal:"auto",  width:"100%",   maxWidth: 700 }}>
+        <View
+          style={{ marginHorizontal: "auto", width: "100%", maxWidth: 700 }}
+        >
           {isLoggedIn ? (
             <>
               <Text style={[styles.mainTitle, { marginTop: 40 }]}>

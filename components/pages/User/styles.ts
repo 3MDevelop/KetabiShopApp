@@ -3,52 +3,17 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  description: {
-    fontSize: 16,
-    color: "#666",
-    lineHeight: 24,
-  },
-  userInfoCard: {
-    backgroundColor: "#f5f5f5",
-    padding: 15,
-    borderRadius: 10,
-    marginVertical: 10,
-  },
-  label: {
-    fontSize: 14,
-    fontWeight: "bold",
-    color: "#333",
-    marginTop: 10,
-  },
-  value: {
-    fontSize: 16,
-    color: "#666",
-    marginTop: 4,
-    marginBottom: 8,
-  },
-  tokenValue: {
-    fontSize: 12,
-    color: "#999",
-    marginTop: 4,
-    fontFamily: "monospace",
-  },
-
   container: {
     flex: 1,
     backgroundColor: "#f5f5f5",
   },
   content: {
-    flex: 1,
     padding: 20,
     marginHorizontal: "auto",
     width: "100%",
-    maxWidth: 600,
+    maxWidth: 800,
   },
+
   // حالت خالی (عدم ورود)
   emptyStateContainer: {
     flex: 1,
@@ -68,91 +33,6 @@ export default StyleSheet.create({
     marginTop: 10,
     marginBottom: 30,
   },
-  // هدر پروفایل
-  profileHeader: {
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  avatarWrapper: {
-    position: "relative",
-  },
-  avatarImage: {
-    width: 75,
-    height: 75,
-    borderRadius: 45,
-    backgroundColor: "#007AFF",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  avatarText: {
-    fontSize: 40,
-    color: "#fff",
-    fontWeight: "bold",
-  },
-  profileName: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#333",
-  },
-  profilePhone: {
-    marginTop:15,
-    fontSize: 16,
-    color: "#999",
-    
-  },
-  // کارت اطلاعات
-  infoCard: {
-    backgroundColor: "#fff",
-    borderRadius: 15,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    marginBottom: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 3,
-  },
-  infoRow: {
-    flexDirection: "row-reverse",
-    alignItems: "flex-start",
-    paddingVertical: 8,
-  },
-  infoIcon: {
-    width: 40,
-    marginTop: 20,
-  },
-  infoContent: {
-    flex: 1,
-  },
-  rowContainer: {
-    flex: 1,
-    flexDirection: "row",
-    gap: 10,
-  },
-  halfField: {
-    flex: 1,
-  },
-  infoLabel: {
-    fontSize: 12,
-    color: "#999",
-    marginBottom: 6,
-  },
-  infoValue: {
-    fontSize: 16,
-    color: "#333",
-    fontWeight: "500",
-  },
-  input: {
-    fontSize: 16,
-    color: "#333",
-    paddingVertical: 8,
-    paddingHorizontal: 0,
-    borderBottomWidth: 1,
-    borderBottomColor: "#e0e0e0",
-  },
-
-  // دکمه ورود
   loginButton: {
     backgroundColor: "#007AFF",
     paddingVertical: 14,
@@ -165,53 +45,138 @@ export default StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+
+  // بخش بالایی (آواتار + فیلدهای کناری)
+  desktopTopSection: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 24,
+    marginBottom: 24,
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    padding: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 3,
+  },
+  mobileTopSection: {
+    flexDirection: "column",
+    alignItems: "center",
+    marginBottom: 24,
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    padding: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 3,
+  },
+  desktopAvatarWrapper: {
+    width: 120,
+    alignItems: "center",
+  },
+  mobileAvatarWrapper: {
+    width: "100%",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  topFieldsContainer: {
+    flex: 1,
+    gap: 16,
+    marginHorizontal:30
+  },
+  topFieldRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+  },
+  topFieldIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: "#f0f7ff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  topFieldContent: {
+    flex: 1,
+  },
+  topFieldLabel: {
+    fontSize: 11,
+    color: "#999",
+    marginBottom: 4,
+  },
+  topInput: {
+    fontSize: 15,
+    color: "#333",
+    paddingVertical: 6,
+    paddingHorizontal: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: "#e8e8e8",
+    textAlign:"center"
+  },
+  nameRow: {
+    flexDirection: "row",
+    gap: 16,
+  },
+  nameField: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+  },
+
+  // کارت اطلاعات (فیلدهای پایینی)
+  infoCard: {
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    marginBottom: 24,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 3,
+  },
+  infoRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 14,
+    borderBottomWidth: 1,
+    borderBottomColor: "#f0f0f0",
+  },
+  infoIcon: {
+    width: 40,
+  },
+  infoContent: {
+    flex: 1,
+  },
+  infoLabel: {
+    fontSize: 12,
+    color: "#999",
+    marginBottom: 4,
+  },
+  input: {
+    fontSize: 15,
+    color: "#333",
+    paddingVertical: 6,
+    paddingHorizontal: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: "#e8e8e8",
+  },
+  readonlyText: {
+    fontSize: 15,
+    color: "#333",
+    paddingVertical: 6,
+  },
+
   // کانتینر دکمه‌ها
   buttonContainer: {
     gap: 12,
     marginTop: 10,
-    flexDirection: "row",
-    alignContent: "center",
-    justifyContent: "center",
-  },
-  // دکمه بروزرسانی
-  updateButton: {
-    flexDirection: "row",
-    backgroundColor: "#fff",
-    paddingVertical: 14,
-    borderRadius: 12,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: "#007AFF",
-    gap: 10,
-  },
-  updateButtonDisabled: {
-    borderColor: "#ccc",
-    opacity: 0.6,
-  },
-  updateButtonText: {
-    color: "#007AFF",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  updateButtonTextDisabled: {
-    color: "#999",
-  },
-  // دکمه خروج
-  logoutButton: {
-    flexDirection: "row",
-    backgroundColor: "#fff",
-    paddingVertical: 14,
-    borderRadius: 12,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: "#FF3B30",
-    gap: 10,
-  },
-  logoutButtonText: {
-    color: "#FF3B30",
-    fontSize: 16,
-    fontWeight: "600",
   },
 });

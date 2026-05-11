@@ -1,14 +1,17 @@
 // components/common/UpdateUserDataBtn.tsx
 
-import { View, TouchableOpacity, Text } from "react-native";
+import { View, TouchableOpacity, Text, ActivityIndicator } from "react-native";
 
 interface UpdateUserDataBtnProps {
   hasChanges: boolean;
- 
+  onPress?: () => void | Promise<void>;
+  isLoading?: boolean;
 }
 
 export default function UpdateUserDataBtn({
   hasChanges,
+  onPress,
+  isLoading = false,
 }: UpdateUserDataBtnProps) {
   return (
     <View
@@ -26,19 +29,24 @@ export default function UpdateUserDataBtn({
           minWidth: 250,
           paddingVertical: 12,
           borderRadius: 8,
-          opacity: hasChanges ? 1 : 0.6,
+          opacity: hasChanges && !isLoading ? 1 : 0.6,
         }}
-        disabled={!hasChanges}
+        onPress={onPress}
+        disabled={!hasChanges || isLoading}
       >
-        <Text
-          style={{
-            color: "white",
-            fontWeight: "bold",
-            textAlign: "center",
-          }}
-        >
-          بروزرسانی اطلاعات حساب کاربری
-        </Text>
+        {isLoading ? (
+          <ActivityIndicator size="small" color="#fff" />
+        ) : (
+          <Text
+            style={{
+              color: "white",
+              fontWeight: "bold",
+              textAlign: "center",
+            }}
+          >
+            بروزرسانی اطلاعات حساب کاربری
+          </Text>
+        )}
       </TouchableOpacity>
     </View>
   );
