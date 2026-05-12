@@ -21,14 +21,67 @@ export default function NavBar({ Colors, appTheme }: any) {
       >
         <View style={styles.NavBar}>
           <TouchableOpacity
-            style={{ marginBottom: 5 }}
-            ref={profileRef}
             onPress={() => {
-              router.push("/profile");
+              router.replace("/");
             }}
-            activeOpacity={0.7}
           >
-            <UserAvatar iconWidth={50} />
+            <Image
+              style={[styles.headerLogo, { marginBottom: 4 }]}
+              source={require("@/assets/images/icon.png")}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+
+          {isDesktop ? (
+            <View style={[styles.dIcoContainer]}>
+              <TouchableOpacity
+                onPress={() => router.push("/categories")}
+                style={styles.dIcon}
+              >
+                <Text
+                  style={{ marginEnd: 10, color: "white", fontWeight: 500 }}
+                >
+                  دسته بندی
+                </Text>
+                <Ionicons
+                  name="list"
+                  size={24}
+                  style={[{ color: "#dbdbdb" }]}
+                />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => router.push("/offers")}
+                style={[styles.dIcon, { marginEnd: 16 }]}
+              >
+                <Text
+                  style={{ marginEnd: 10, color: "white", fontWeight: 500 }}
+                >
+                  پیشنهادات
+                </Text>
+                <Ionicons
+                  name="ribbon"
+                  size={24}
+                  style={[{ color: "#dbdbdb" }]}
+                />
+              </TouchableOpacity>
+            </View>
+          ) : null}
+
+          <View style={{ marginStart: "auto" }}></View>
+
+          <TouchableOpacity
+            onPress={() => {
+              router.push("/search");
+            }}
+          >
+            <View style={[{ marginLeft: 10 }]}>
+              <Ionicons
+                name="search"
+                size={24}
+                style={[{ color: "#dbdbdb", marginBottom: 3 }]}
+              />
+            </View>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -49,66 +102,14 @@ export default function NavBar({ Colors, appTheme }: any) {
           </TouchableOpacity>
 
           <TouchableOpacity
+            style={{ marginBottom: 5, marginStart: 10 }}
+            ref={profileRef}
             onPress={() => {
-              router.push("/search");
+              router.push("/profile");
             }}
+            activeOpacity={0.7}
           >
-            <View style={[{ marginLeft: 10 }]}>
-              <Ionicons
-                name="search"
-                size={24}
-                style={[{ color: "#dbdbdb", marginBottom: 3 }]}
-              />
-            </View>
-          </TouchableOpacity>
-
-          <View style={{ marginStart: "auto" }}></View>
-
-          {isDesktop ? (
-            <View style={[styles.dIcoContainer]}>
-              <TouchableOpacity
-                onPress={() => router.push("/categories")}
-                style={styles.dIcon}
-              >
-                <Text
-                  style={{ marginEnd: 10, color: "white", fontWeight: 500 }}
-                >
-                  دسته بندی
-                </Text>
-                <Ionicons
-                  name="list"
-                  size={24}
-                  style={[{ color: "#dbdbdb" }]}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => router.push("/offers")}
-                style={[styles.dIcon, { marginEnd: 16 }]}
-              >
-                <Text
-                  style={{ marginEnd: 10, color: "white", fontWeight: 500 }}
-                >
-                  پیشنهادات
-                </Text>
-                <Ionicons
-                  name="ribbon"
-                  size={24}
-                  style={[{ color: "#dbdbdb" }]}
-                />
-              </TouchableOpacity>
-            </View>
-          ) : null}
-
-          <TouchableOpacity
-            onPress={() => {
-              router.replace("/");
-            }}
-          >
-            <Image
-              style={[styles.headerLogo, { marginBottom: 4 }]}
-              source={require("@/assets/images/icon.png")}
-              resizeMode="contain"
-            />
+            <UserAvatar iconWidth={50} />
           </TouchableOpacity>
         </View>
       </View>

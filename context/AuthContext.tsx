@@ -38,7 +38,7 @@ export type User = {
   expire_refresh_token: string;
   expire_token: string;
   key: string;
-  phone: string; 
+  phone: string;
   name: string;
   nName: string;
   lName: string;
@@ -53,6 +53,7 @@ export type User = {
   commentList: Comment[];
   paymentList: string[];
   basket: string[];
+  addresses: string[];
 };
 
 type AuthState = {
@@ -122,7 +123,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const loadUser = async () => {
       try {
         const userJson = await AsyncStorage.getItem("@user");
-        
+
         if (userJson) {
           const user = JSON.parse(userJson);
           dispatch({ type: "LOGIN_SUCCESS", payload: user });
@@ -135,7 +136,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const login = async (userData: User) => {
-    
     dispatch({ type: "LOGIN_START" });
 
     try {
@@ -146,7 +146,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (userData.refresh_token) {
         await AsyncStorage.setItem("@refresh_token", userData.refresh_token);
       }
-      
+
       dispatch({ type: "LOGIN_SUCCESS", payload: userData });
     } catch {
       // ("❌ خطا در Login:", error);
@@ -162,7 +162,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     await AsyncStorage.removeItem("@auth_token");
     await AsyncStorage.removeItem("@refresh_token");
     dispatch({ type: "LOGOUT" });
-    
   };
 
   const clearError = () => {
@@ -173,14 +172,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (state.user) {
       const updatedUser = { ...state.user, ...userData };
       await AsyncStorage.setItem("@user", JSON.stringify(updatedUser));
-      
+
       if (userData.token) {
         await AsyncStorage.setItem("@auth_token", userData.token);
       }
       if (userData.refresh_token) {
         await AsyncStorage.setItem("@refresh_token", userData.refresh_token);
       }
-      
+
       dispatch({ type: "UPDATE_USER", payload: userData });
     }
   };

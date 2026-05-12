@@ -6,6 +6,7 @@ import styles from "./styles";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import LoginBtn from "@/components/UI/LoginBtn";
 
 export default function MyLibrary() {
   const router = useRouter();
@@ -18,12 +19,7 @@ export default function MyLibrary() {
         <Text style={styles.notLoggedInText}>
           برای نمایش کتابخانه شخصی، ابتدا باید وارد حساب کاربری خود شوید
         </Text>
-        <TouchableOpacity
-          style={styles.loginButton}
-          onPress={() => router.push("/login")}
-        >
-          <Text style={styles.loginButtonText}>ورود به حساب کاربری</Text>
-        </TouchableOpacity>
+        <LoginBtn />
       </View>
     );
   }
@@ -76,7 +72,6 @@ export default function MyLibrary() {
               <Text style={styles.suggestionButtonText}>
                 پیشنهادهای ویژه برای شما
               </Text>
-              <Ionicons name="arrow-forward" size={18} color="#fff" />
             </TouchableOpacity>
           </View>
         )}

@@ -140,6 +140,7 @@ export default function Login() {
           commentList: [],
           paymentList: [],
           basket: [],
+          addresses: ["Tehran, Tehran, Shahran 2nd SQ, Koohsar"],
         };
 
         await login(userData);

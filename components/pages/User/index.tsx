@@ -22,8 +22,6 @@ const isMobile = width < 768;
 
 export default function User() {
   const { user, isLoggedIn } = useAuth();
-
-  // وضعیت ویرایش فیلدها
   const [nickname, setNickname] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -31,15 +29,12 @@ export default function User() {
   const [avatar, setAvatar] = useState("");
   const [hasChanges, setHasChanges] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-
-  // مقادیر اولیه
   const [initialNickname, setInitialNickname] = useState("");
   const [initialFirstName, setInitialFirstName] = useState("");
   const [initialLastName, setInitialLastName] = useState("");
   const [initialEmail, setInitialEmail] = useState("");
   const [initialAvatar, setInitialAvatar] = useState("");
 
-  // بارگذاری اطلاعات کاربر
   useEffect(() => {
     if (user) {
       setNickname(user?.nName || "");
@@ -115,7 +110,6 @@ export default function User() {
             <Ionicons name="person-circle-outline" size={80} color="#ccc" />
             <Text style={styles.emptyStateTitle}>پروفایل کاربری</Text>
             <Text style={styles.emptyStateText}>
-              شما وارد حساب خود نشده‌اید.
             </Text>
             <TouchableOpacity
               style={styles.loginButton}
@@ -132,11 +126,9 @@ export default function User() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
-        {/* بخش اول: آواتار + نام مستعار + نام و نام خانوادگی */}
         <View
           style={isMobile ? styles.mobileTopSection : styles.desktopTopSection}
         >
-          {/* آواتار */}
           <View
             style={
               isMobile
@@ -147,7 +139,6 @@ export default function User() {
             <UserAvatar iconWidth={isMobile ? 100 : 150} />
           </View>
 
-          {/* فیلدهای کنار آواتار */}
           <View style={styles.topFieldsContainer}>
             <View style={styles.topFieldRow}>
               <View style={styles.topFieldIcon}>

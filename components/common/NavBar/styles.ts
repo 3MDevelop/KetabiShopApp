@@ -13,14 +13,11 @@ export default StyleSheet.create({
     width: "100%",
     maxWidth: 950,
     shadowColor: "#000",
-    elevation: 5, // For Android
-    // Flex properties
+    elevation: 5, 
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end",
-    // Font size (for Text components only)
     fontSize: 24,
-    // Padding
     paddingTop: 18,
     paddingBottom: 5,
   },
@@ -41,13 +38,10 @@ export default StyleSheet.create({
     fontSize: 8,
   },
   headerLogo: {
-    marginLeft: 4,
-    marginRight: 4,
     height: 64,
-    width: 100,
-    aspectRatio: 1,
+    width: 64,
+    marginHorizontal:10
   },
-  // به استایل‌های موجود اضافه کن:
   profileCircle: {
     width: 40,
     height: 40,
@@ -66,7 +60,7 @@ export default StyleSheet.create({
   },
 
   dIcoContainer:{
-    flexDirection: "row-reverse",
+    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
   },

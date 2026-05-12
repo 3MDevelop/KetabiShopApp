@@ -1,5 +1,6 @@
 import { Text, View, ViewStyle, StyleSheet } from "react-native";
 import { useAuth } from "@/hooks/useAuth";
+import LoginBtn from "./LoginBtn";
 
 interface CycleProps {
   style?: ViewStyle;
@@ -12,7 +13,8 @@ export default function UserInfoLable({ style }: CycleProps) {
     <View style={style}>
       <Text
         style={Styles.userName}
-      >{`کاربر ${isLoggedIn ? user?.nName || user?.ID : " مهمان"}`}</Text>
+      >{`کاربر ${isLoggedIn ? user?.nName || user?.ID : " مهمان / ورود"}`}</Text>
+     
     </View>
   );
 }
@@ -23,5 +25,5 @@ const Styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     marginTop: 20,
-  },
+  }
 });
