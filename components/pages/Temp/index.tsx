@@ -63,7 +63,28 @@ export default function CombinedParallax() {
   const handleUpdateProfile = async () => {
     if (!hasChanges) return;
     setIsUpdating(true);
-    // Update logic here
+        /*try {
+      await updateUser({
+        nName: nickname,
+        name: firstName,
+        lName: lastName,
+        email: email,
+        avatar: avatar ? parseInt(avatar) : 0,
+      });
+      
+      setInitialNickname(nickname);
+      setInitialFirstName(firstName);
+      setInitialLastName(lastName);
+      setInitialEmail(email);
+      setInitialAvatar(avatar);
+      
+      Alert.alert("موفق", "اطلاعات شما با موفقیت بروزرسانی شد");
+    } catch (error) {
+      Alert.alert("خطا", "مشکلی در بروزرسانی اطلاعات رخ داد");
+    } finally {
+      setIsUpdating(false);
+    } */
+
     setIsUpdating(false);
   };
 
@@ -84,13 +105,11 @@ export default function CombinedParallax() {
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={[styles.content, !isDesktop && styles.columnContainer]}>
-        {/* ردیف اول: اطلاعات اصلی + اطلاعات تماس */}
         <View style={isDesktop ? styles.rowContainer : styles.columnContainer}>
           <View style={[styles.cards, isDesktop ? styles.doubleSize : styles.fullWidth]}>
             <View style={isDesktop ? styles.rowContainer : styles.columnContainer}>
-              <View style={[styles.avatar, isDesktop && { paddingEnd: 10 }]}>
+              <View style={[styles.avatar]}>
                 <UserAvatar iconWidth={isDesktop ? 150 : 100} />
-                <Text style={styles.phoneText}>{user?.phone}</Text>
               </View>
               <View style={styles.infoCardForm}>
                 <View style={styles.formFieldContainer}>
@@ -157,19 +176,16 @@ export default function CombinedParallax() {
           </View>
         </View>
 
-        {/* ردیف دوم: آواتار لیست */}
         <View style={styles.cards}>
           <Text style={styles.sectionTitle}>آواتارها</Text>
           <Text>Avatar List</Text>
         </View>
 
-        {/* ردیف سوم: آدرس لیست */}
         <View style={styles.cards}>
           <Text style={styles.sectionTitle}>آدرس‌ها</Text>
           <Text>Address List</Text>
         </View>
 
-        {/* دکمه‌ها */}
         <View style={[styles.buttonContainer, isDesktop && styles.buttonRow]}>
           <UpdateUserDataBtn
             hasChanges={hasChanges}
@@ -199,6 +215,7 @@ const styles = StyleSheet.create({
   rowContainer: {
     flexDirection: "row",
     gap: 16,
+    minHeight:230
   },
   columnContainer: {
     flexDirection: "column",
@@ -213,27 +230,26 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     shadowOffset: { width: 0, height: 2 },
     elevation: 3,
+    
   },
   doubleSize: {
     flex: 2,
   },
   normalSize: {
     flex: 1,
+    justifyContent:"flex-end",
   },
   fullWidth: {
     width: "100%",
   },
   avatar: {
     alignItems: "center",
-  },
-  phoneText: {
-    fontSize: 16,
-    fontWeight: "500",
-    marginTop: 25,
+    marginHorizontal:25
   },
   infoCardForm: {
     flex: 1,
     gap: 16,
+    justifyContent:"flex-end",
   },
   formFieldContainer: {
     flexDirection: "row",
@@ -289,6 +305,7 @@ const styles = StyleSheet.create({
   buttonRow: {
     flexDirection: "row",
     gap: 16,
+    justifyContent:"flex-end"
   },
   emptyStateContainer: {
     alignItems: "center",

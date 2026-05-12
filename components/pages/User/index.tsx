@@ -1,26 +1,16 @@
-// components/pages/User/index.tsx
-
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  TextInput,
-  Dimensions,
-} from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import styles from "./styles";
-import { useAuth } from "@/hooks/useAuth";
-import { router } from "expo-router";
-import LogoutBtn from "@/components/UI/LogoutBtn";
-import UpdateUserDataBtn from "@/components/UI/UpdateUserDataBtn";
+import { View, Text, TextInput, ScrollView } from "react-native";
 import UserAvatar from "@/components/UI/userAvatar";
+import { useResponsive } from "@/hooks/useResponsive";
+import { Ionicons } from "@expo/vector-icons";
+import { useState, useEffect } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import UpdateUserDataBtn from "@/components/UI/UpdateUserDataBtn";
+import LogoutBtn from "@/components/UI/LogoutBtn";
+import LoginBtn from "@/components/UI/LoginBtn";
+import styles from "./styles";
 
-const { width } = Dimensions.get("window");
-const isMobile = width < 768;
-
-export default function User() {
+export default function CombinedParallax() {
+  const { isDesktop } = useResponsive();
   const { user, isLoggedIn } = useAuth();
   const [nickname, setNickname] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -29,6 +19,7 @@ export default function User() {
   const [avatar, setAvatar] = useState("");
   const [hasChanges, setHasChanges] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+
   const [initialNickname, setInitialNickname] = useState("");
   const [initialFirstName, setInitialFirstName] = useState("");
   const [initialLastName, setInitialLastName] = useState("");
@@ -37,21 +28,28 @@ export default function User() {
 
   useEffect(() => {
     if (user) {
-      setNickname(user?.nName || "");
-      setFirstName(user?.name || "");
-      setLastName(user?.lName || "");
-      setEmail(user?.email || "");
-      setAvatar(user?.avatar?.toString() || "");
+      const userData = {
+        nName: user?.nName || "",
+        name: user?.name || "",
+        lName: user?.lName || "",
+        email: user?.email || "",
+        avatar: user?.avatar?.toString() || "",
+      };
 
-      setInitialNickname(user?.nName || "");
-      setInitialFirstName(user?.name || "");
-      setInitialLastName(user?.lName || "");
-      setInitialEmail(user?.email || "");
-      setInitialAvatar(user?.avatar?.toString() || "");
+      setNickname(userData.nName);
+      setFirstName(userData.name);
+      setLastName(userData.lName);
+      setEmail(userData.email);
+      setAvatar(userData.avatar);
+
+      setInitialNickname(userData.nName);
+      setInitialFirstName(userData.name);
+      setInitialLastName(userData.lName);
+      setInitialEmail(userData.email);
+      setInitialAvatar(userData.avatar);
     }
   }, [user]);
 
-  // بررسی تغییرات
   useEffect(() => {
     const hasAnyChange =
       nickname !== initialNickname ||
@@ -75,9 +73,7 @@ export default function User() {
   ]);
 
   const handleUpdateProfile = async () => {
-    console.info("user updated");
     if (!hasChanges) return;
-
     setIsUpdating(true);
     /*try {
       await updateUser({
@@ -100,153 +96,137 @@ export default function User() {
     } finally {
       setIsUpdating(false);
     } */
+
+    setIsUpdating(false);
   };
 
   if (!isLoggedIn) {
     return (
-      <ScrollView style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.content}>
           <View style={styles.emptyStateContainer}>
             <Ionicons name="person-circle-outline" size={80} color="#ccc" />
             <Text style={styles.emptyStateTitle}>پروفایل کاربری</Text>
-            <Text style={styles.emptyStateText}>
-            </Text>
-            <TouchableOpacity
-              style={styles.loginButton}
-              onPress={() => router.push("/login")}
-            >
-              <Text style={styles.loginButtonText}>ورود به حساب</Text>
-            </TouchableOpacity>
+            <LoginBtn />
           </View>
         </View>
-      </ScrollView>
+      </View>
     );
   }
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.content}>
-        <View
-          style={isMobile ? styles.mobileTopSection : styles.desktopTopSection}
-        >
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <View style={[styles.content, !isDesktop && styles.columnContainer]}>
+        <View style={isDesktop ? styles.rowContainer : styles.columnContainer}>
           <View
-            style={
-              isMobile
-                ? [styles.mobileAvatarWrapper,{marginRight:30}]
-                : [styles.desktopAvatarWrapper,{marginRight:30}]
-            }
+            style={[
+              styles.cards,
+              isDesktop ? styles.doubleSize : styles.fullWidth,
+            ]}
           >
-            <UserAvatar iconWidth={isMobile ? 100 : 150} />
+            <View
+              style={isDesktop ? styles.rowContainer : styles.columnContainer}
+            >
+              <View style={[styles.avatar]}>
+                <UserAvatar iconWidth={isDesktop ? 150 : 100} />
+              </View>
+              <View style={styles.infoCardForm}>
+                <Text style={styles.sectionTitle}>مشخصات فردی</Text>
+                <View style={styles.formFieldContainer}>
+                  <View style={styles.fieldIcon}>
+                    <Ionicons name="star-outline" size={20} color="#007AFF" />
+                  </View>
+                  <View style={styles.fieldContent}>
+                    <Text style={styles.fieldLabel}>نام مستعار</Text>
+                    <TextInput
+                      style={styles.fieldInput}
+                      value={nickname}
+                      onChangeText={setNickname}
+                      placeholder="نام مستعار"
+                      placeholderTextColor="#ccc"
+                    />
+                  </View>
+                </View>
+
+                <View style={styles.formFieldContainer}>
+                  <View style={styles.fieldIcon}>
+                    <Ionicons name="person-outline" size={20} color="#007AFF" />
+                  </View>
+                  <View style={styles.fieldContent}>
+                    <Text style={styles.fieldLabel}>نام</Text>
+                    <TextInput
+                      style={styles.fieldInput}
+                      value={firstName}
+                      onChangeText={setFirstName}
+                      placeholder="نام"
+                      placeholderTextColor="#ccc"
+                    />
+                  </View>
+                </View>
+
+                <View style={styles.formFieldContainer}>
+                  <View style={styles.fieldIcon}>
+                    <Ionicons name="people-outline" size={20} color="#007AFF" />
+                  </View>
+                  <View style={styles.fieldContent}>
+                    <Text style={styles.fieldLabel}>نام خانوادگی</Text>
+                    <TextInput
+                      style={styles.fieldInput}
+                      value={lastName}
+                      onChangeText={setLastName}
+                      placeholder="نام خانوادگی"
+                      placeholderTextColor="#ccc"
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
           </View>
 
-          <View style={styles.topFieldsContainer}>
-            <View style={styles.topFieldRow}>
-              <View style={styles.topFieldIcon}>
-                <Ionicons name="star-outline" size={20} color="#007AFF" />
+          <View
+            style={[
+              styles.cards,
+              isDesktop ? styles.normalSize : styles.fullWidth,
+            ]}
+          >
+            <Text style={styles.sectionTitle}>اطلاعات تماس</Text>
+
+            <View style={styles.formFieldContainer}>
+              <View style={styles.fieldIcon}>
+                <Ionicons name="mail-outline" size={20} color="#007AFF" />
               </View>
-              <View style={styles.topFieldContent}>
-                <Text style={styles.topFieldLabel}>نام مستعار</Text>
+              <View style={styles.fieldContent}>
+                <Text style={styles.fieldLabel}>ایمبل</Text>
                 <TextInput
-                  style={styles.topInput}
-                  value={nickname}
-                  onChangeText={setNickname}
-                  placeholder="نام مستعار"
+                  style={styles.fieldInput}
+                  value={email}
+                  onChangeText={setEmail}
+                  placeholder="ایمبل"
                   placeholderTextColor="#ccc"
                 />
               </View>
             </View>
 
-            <View style={styles.nameRow}>
-              <View style={styles.nameField}>
-                <View style={styles.topFieldIcon}>
-                  <Ionicons name="person-outline" size={20} color="#007AFF" />
-                </View>
-                <View style={styles.topFieldContent}>
-                  <Text style={styles.topFieldLabel}>نام</Text>
-                  <TextInput
-                    style={styles.topInput}
-                    value={firstName}
-                    onChangeText={setFirstName}
-                    placeholder="نام"
-                    placeholderTextColor="#ccc"
-                  />
-                </View>
-              </View>
-            </View>
-
-            <View style={styles.nameRow}>
-              <View style={styles.nameField}>
-                <View style={styles.topFieldIcon}>
-                  <Ionicons name="people-outline" size={20} color="#007AFF" />
-                </View>
-                <View style={styles.topFieldContent}>
-                  <Text style={styles.topFieldLabel}>نام خانوادگی</Text>
-                  <TextInput
-                    style={styles.topInput}
-                    value={lastName}
-                    onChangeText={setLastName}
-                    placeholder="نام خانوادگی"
-                    placeholderTextColor="#ccc"
-                  />
-                </View>
-              </View>
+            <View style={styles.contactField}>
+              <Ionicons name="call-outline" size={20} color="#007AFF" />
+              <Text style={styles.contactText}>
+                {user?.phone || "شماره ثبت نشده"}
+              </Text>
             </View>
           </View>
         </View>
 
-        {/* بخش دوم: سایر فیلدها */}
-        <View style={styles.infoCard}>
-          {/* ایمیل */}
-          <View style={styles.infoRow}>
-            <View style={styles.infoIcon}>
-              <Ionicons name="mail-outline" size={22} color="#007AFF" />
-            </View>
-            <View style={styles.infoContent}>
-              <Text style={styles.infoLabel}>ایمیل</Text>
-              <TextInput
-                style={styles.input}
-                value={email}
-                onChangeText={setEmail}
-                placeholder="ایمیل خود را وارد کنید"
-                placeholderTextColor="#ccc"
-                keyboardType="email-address"
-                autoCapitalize="none"
-              />
-            </View>
-          </View>
-
-          {/* شماره موبایل (فقط نمایشی) */}
-          <View style={styles.infoRow}>
-            <View style={styles.infoIcon}>
-              <Ionicons name="call-outline" size={22} color="#007AFF" />
-            </View>
-            <View style={styles.infoContent}>
-              <Text style={styles.infoLabel}>شماره موبایل</Text>
-              <Text style={styles.readonlyText}>{user?.phone}</Text>
-            </View>
-          </View>
-
-          {/* کد آواتار (مخفی - می‌توانید نمایش دهید یا خیر) */}
-          {/* <View style={styles.infoRow}>
-            <View style={styles.infoIcon}>
-              <Ionicons name="image-outline" size={22} color="#007AFF" />
-            </View>
-            <View style={styles.infoContent}>
-              <Text style={styles.infoLabel}>کد آواتار</Text>
-              <TextInput
-                style={styles.input}
-                value={avatar}
-                onChangeText={setAvatar}
-                placeholder="کد آواتار"
-                placeholderTextColor="#ccc"
-                keyboardType="numeric"
-              />
-            </View>
-          </View> */}
+        <View style={styles.cards}>
+          <Text style={styles.sectionTitle}>آواتارها</Text>
+          <Text>Avatar List</Text>
         </View>
 
-        {/* دکمه‌ها */}
-        <View style={styles.buttonContainer}>
+        <View style={styles.cards}>
+          <Text style={styles.sectionTitle}>آدرس‌ها</Text>
+          <Text>Address List</Text>
+        </View>
+
+        <View style={[styles.buttonContainer, isDesktop && styles.buttonRow]}>
           <UpdateUserDataBtn
             hasChanges={hasChanges}
             onPress={handleUpdateProfile}
