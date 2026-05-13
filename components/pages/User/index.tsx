@@ -1,4 +1,4 @@
-import { View, Text, TextInput, ScrollView } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import UserAvatar from "@/components/UI/userAvatar";
 import { useResponsive } from "@/hooks/useResponsive";
 import { Ionicons } from "@expo/vector-icons";
@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import UpdateUserDataBtn from "@/components/UI/UpdateUserDataBtn";
 import LogoutBtn from "@/components/UI/LogoutBtn";
 import LoginBtn from "@/components/UI/LoginBtn";
+import UserPageFormField from "@/components/UI/UserPageFormField";
 import styles from "./styles";
 
 export default function CombinedParallax() {
@@ -125,60 +126,63 @@ export default function CombinedParallax() {
             ]}
           >
             <View
+              style={[
+                styles.infoCardLogo,
+                isDesktop
+                  ? {
+                      left: "-2%",
+                      top: "-8%",
+                    }
+                  : {
+                      alignSelf: "center",
+                      top: "29%",
+                    },
+              ]}
+            >
+              <Ionicons
+                name="finger-print-outline"
+                size={isDesktop ? 160 : 90}
+              />
+            </View>
+            <View
               style={isDesktop ? styles.rowContainer : styles.columnContainer}
             >
               <View style={[styles.avatar]}>
-                <UserAvatar iconWidth={isDesktop ? 150 : 100} />
+                <UserAvatar iconWidth={isDesktop ? 150 : 120} />
+                <View
+                  style={[
+                    styles.userIDContainer,
+                    isDesktop ? { marginTop: 40 } : { marginTop: 30 },
+                  ]}
+                >
+                  <View style={styles.userIDCotent}>
+                    <Text style={styles.userIDLogo}>ID</Text>
+                  </View>
+                  <Text style={styles.userIDText}>{user?.ID}</Text>
+                </View>
               </View>
               <View style={styles.infoCardForm}>
                 <Text style={styles.sectionTitle}>مشخصات فردی</Text>
-                <View style={styles.formFieldContainer}>
-                  <View style={styles.fieldIcon}>
-                    <Ionicons name="star-outline" size={20} color="#007AFF" />
-                  </View>
-                  <View style={styles.fieldContent}>
-                    <Text style={styles.fieldLabel}>نام مستعار</Text>
-                    <TextInput
-                      style={styles.fieldInput}
-                      value={nickname}
-                      onChangeText={setNickname}
-                      placeholder="نام مستعار"
-                      placeholderTextColor="#ccc"
-                    />
-                  </View>
-                </View>
+                <UserPageFormField
+                  label="نام مستعار"
+                  value={nickname}
+                  onChangeText={setNickname}
+                  iconName="star-outline"
+                />
 
-                <View style={styles.formFieldContainer}>
-                  <View style={styles.fieldIcon}>
-                    <Ionicons name="person-outline" size={20} color="#007AFF" />
-                  </View>
-                  <View style={styles.fieldContent}>
-                    <Text style={styles.fieldLabel}>نام</Text>
-                    <TextInput
-                      style={styles.fieldInput}
-                      value={firstName}
-                      onChangeText={setFirstName}
-                      placeholder="نام"
-                      placeholderTextColor="#ccc"
-                    />
-                  </View>
-                </View>
+                <UserPageFormField
+                  label="نام"
+                  value={firstName}
+                  onChangeText={setFirstName}
+                  iconName="person-outline"
+                />
 
-                <View style={styles.formFieldContainer}>
-                  <View style={styles.fieldIcon}>
-                    <Ionicons name="people-outline" size={20} color="#007AFF" />
-                  </View>
-                  <View style={styles.fieldContent}>
-                    <Text style={styles.fieldLabel}>نام خانوادگی</Text>
-                    <TextInput
-                      style={styles.fieldInput}
-                      value={lastName}
-                      onChangeText={setLastName}
-                      placeholder="نام خانوادگی"
-                      placeholderTextColor="#ccc"
-                    />
-                  </View>
-                </View>
+                <UserPageFormField
+                  label="نام خانوادگی"
+                  value={lastName}
+                  onChangeText={setLastName}
+                  iconName="people-outline"
+                />
               </View>
             </View>
           </View>
@@ -189,23 +193,27 @@ export default function CombinedParallax() {
               isDesktop ? styles.normalSize : styles.fullWidth,
             ]}
           >
+            {isDesktop ? <View style={styles.infoCardHeader} /> : null}
+            {isDesktop ? (
+              <View
+                style={[
+                  styles.infoCardHeader,
+                  { top: "-89%", right: "-14%", borderWidth: 3 },
+                ]}
+              />
+            ) : null}
+
+            <View style={styles.infoCardLogoContent}>
+              <Ionicons name="at-sharp" size={isDesktop ? 160 : 90} />
+            </View>
             <Text style={styles.sectionTitle}>اطلاعات تماس</Text>
 
-            <View style={styles.formFieldContainer}>
-              <View style={styles.fieldIcon}>
-                <Ionicons name="mail-outline" size={20} color="#007AFF" />
-              </View>
-              <View style={styles.fieldContent}>
-                <Text style={styles.fieldLabel}>ایمبل</Text>
-                <TextInput
-                  style={styles.fieldInput}
-                  value={email}
-                  onChangeText={setEmail}
-                  placeholder="ایمبل"
-                  placeholderTextColor="#ccc"
-                />
-              </View>
-            </View>
+            <UserPageFormField
+              label="ایمبل"
+              value={email}
+              onChangeText={setEmail}
+              iconName="mail-outline"
+            />
 
             <View style={styles.contactField}>
               <Ionicons name="call-outline" size={20} color="#007AFF" />

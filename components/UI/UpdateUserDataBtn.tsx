@@ -16,7 +16,6 @@ export default function UpdateUserDataBtn({
   return (
     <View
       style={{
-        marginBottom: 20,
         flexDirection: "row",
         gap: 20,
         justifyContent: "center",
@@ -26,7 +25,7 @@ export default function UpdateUserDataBtn({
       <TouchableOpacity
         style={{
           backgroundColor: hasChanges ? "#007AFF" : "#ccc",
-          minWidth: 250,
+          minWidth: 170,
           paddingVertical: 12,
           borderRadius: 8,
           opacity: hasChanges && !isLoading ? 1 : 0.6,
@@ -44,7 +43,7 @@ export default function UpdateUserDataBtn({
               textAlign: "center",
             }}
           >
-            بروزرسانی اطلاعات حساب کاربری
+            بروزرسانی حساب کاربری
           </Text>
         )}
       </TouchableOpacity>

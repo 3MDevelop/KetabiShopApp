@@ -19,7 +19,6 @@ export default function LogoutBtn({ targetURL }: LogoutBtnProps) {
   return (
     <View
       style={{
-        marginBottom: 20,
         flexDirection: "row",
         gap: 20,
         justifyContent: "center",
@@ -29,7 +28,7 @@ export default function LogoutBtn({ targetURL }: LogoutBtnProps) {
       <TouchableOpacity
         style={{
           backgroundColor: "#f44336",
-          minWidth:250,
+          minWidth:170,
           paddingVertical: 12,
           borderRadius: 8,
         }}
