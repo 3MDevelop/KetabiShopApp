@@ -29,10 +29,7 @@ const {user} = useAuth()
 
 const styles = StyleSheet.create({
   container: {
-    padding: 24,
-    backgroundColor: "#f9f9f9",
-    shadowRadius: 2,
-    borderRadius: 12,
+    padding: 18,    
   },
   listContainer: {
     flexDirection: "row-reverse",
@@ -42,7 +39,7 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   childBorder: {
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: "#bdbdbd",
     borderRadius: 8, 
     overflow: "hidden",

@@ -9,7 +9,8 @@ import LogoutBtn from "@/components/UI/LogoutBtn";
 import LoginBtn from "@/components/UI/LoginBtn";
 import UserPageFormField from "@/components/UI/UserPageFormField";
 import styles from "./styles";
-import UserAvatarList from "@/components/UI/UserAvatarList"
+import UserAvatarList from "@/components/UI/UserAvatarList";
+import UserAddressList from "@/components/UI/UserAddressList";
 
 export default function CombinedParallax() {
   const { isDesktop } = useResponsive();
@@ -226,13 +227,13 @@ export default function CombinedParallax() {
         </View>
 
         <View style={styles.cards}>
-          <Text style={styles.sectionTitle}>آواتارها</Text>
+          <Text style={[styles.sectionTitle, { marginTop: 16 }]}>آواتارها</Text>
           <UserAvatarList />
         </View>
 
         <View style={styles.cards}>
-          <Text style={styles.sectionTitle}>آدرس‌ها</Text>
-          <Text>Address List</Text>
+          <Text style={[styles.sectionTitle, { marginTop: 16 }]}>آدرس‌ها</Text>
+          <UserAddressList />
         </View>
 
         <View style={[styles.buttonContainer, isDesktop && styles.buttonRow]}>
