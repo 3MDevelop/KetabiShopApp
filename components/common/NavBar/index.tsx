@@ -65,6 +65,21 @@ export default function NavBar({ Colors, appTheme }: any) {
                   پیشنهادات
                 </Text>
               </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => router.push("/bookFinder")}
+                style={[styles.dIcon, { marginEnd: 16 }]}
+              >
+                <Ionicons
+                  name="book"
+                  size={24}
+                  style={[{ color: "#dbdbdb" }]}
+                />
+                <Text
+                  style={{ marginEnd: 10, color: "white", fontWeight: 500 }}
+                >
+                  کتاب یاب
+                </Text>
+              </TouchableOpacity>
             </View>
           ) : null}
 

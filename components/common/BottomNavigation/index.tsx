@@ -38,6 +38,12 @@ export default function BottomNavigation({
         target: "category",
       },
       {
+        href: "/bookFinder",
+        icon: "book" as const,
+        label: labels.offer,
+        target: "bookFinder",
+      },
+      {
         href: "/offers",
         icon: "star" as const,
         label: labels.offer,
