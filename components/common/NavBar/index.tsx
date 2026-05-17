@@ -38,32 +38,32 @@ export default function NavBar({ Colors, appTheme }: any) {
                 onPress={() => router.push("/categories")}
                 style={styles.dIcon}
               >
-                <Text
-                  style={{ marginEnd: 10, color: "white", fontWeight: 500 }}
-                >
-                  دسته بندی
-                </Text>
                 <Ionicons
                   name="list"
                   size={24}
                   style={[{ color: "#dbdbdb" }]}
                 />
+                <Text
+                  style={{ marginEnd: 10, color: "white", fontWeight: 500 }}
+                >
+                  دسته بندی
+                </Text>
               </TouchableOpacity>
 
               <TouchableOpacity
                 onPress={() => router.push("/offers")}
                 style={[styles.dIcon, { marginEnd: 16 }]}
               >
-                <Text
-                  style={{ marginEnd: 10, color: "white", fontWeight: 500 }}
-                >
-                  پیشنهادات
-                </Text>
                 <Ionicons
                   name="ribbon"
                   size={24}
                   style={[{ color: "#dbdbdb" }]}
                 />
+                <Text
+                  style={{ marginEnd: 10, color: "white", fontWeight: 500 }}
+                >
+                  پیشنهادات
+                </Text>
               </TouchableOpacity>
             </View>
           ) : null}
