@@ -30,7 +30,6 @@ export default function QRScanner({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#4CAF50",
-    aspectRatio: 1,
     borderRadius: 12,
     flex: 1,
     justifyContent: "center",
@@ -41,6 +40,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    aspectRatio: 1,
     width: "100%",
   },
   scannerText: {
