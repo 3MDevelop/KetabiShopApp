@@ -13,7 +13,7 @@ export default function Book() {
       <View style={styles.content}>
         <Text style={styles.title}>صفحه کتاب</Text>
         <Text style={styles.description}>
-          شما در حال مشاهده صفحه {p} کتاب {id} میباشید
+          شما در حال مشاهده {p ? "صفحه" + p : null}کتاب {id} میباشید
         </Text>
       </View>
     </ScrollView>
