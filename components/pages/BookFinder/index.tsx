@@ -1,4 +1,4 @@
-// book finder - نسخه نهایی
+// book finder - نسخه نهایی با API
 import React, { useState } from "react";
 import {
   ScrollView,
@@ -6,6 +6,8 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  Image,
+  ActivityIndicator,
 } from "react-native";
 import styles from "./styles";
 import { Ionicons } from "@expo/vector-icons";
@@ -17,19 +19,81 @@ interface BookInfo {
   title: string;
   code: string;
   author: string;
+  image: string;
+  price?: string;
+  publisher?: string;
 }
 
 export default function BookFinder() {
   const [bookCode, setBookCode] = useState<string>("");
   const [bookInfo, setBookInfo] = useState<BookInfo | null>(null);
   const [qrInType, setQrInType] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
+
+  const fetchBookFromAPI = async (code: string) => {
+    setLoading(true);
+    try {
+      const response = await fetch("https://ketabishop.com/api/getproduct/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `productid=${encodeURIComponent(code)}`,
+      });
+
+      const result = await response.json();
+
+      if (result.status === true && result.data) {
+        const bookData = result.data;
+        setBookInfo({
+          title: bookData.title || "بدون عنوان",
+          code: code,
+          author: bookData.author || "نویسنده نامشخص",
+          image: bookData.pic || "",
+          price: bookData.price,
+          publisher: bookData.pub,
+        });
+        Toast.show({
+          type: "success",
+          text1: "کتاب یافت شد",
+          text2: bookData.title,
+          position: "top",
+          topOffset: 20,
+          visibilityTime: 1500,
+        });
+      } else {
+        setBookInfo(null);
+        Toast.show({
+          type: "error",
+          text1: "خطا",
+          text2: "کتابی با این کد یافت نشد",
+          position: "top",
+          topOffset: 20,
+          visibilityTime: 2000,
+        });
+      }
+    } catch (error) {
+      console.error("API Error:", error);
+      setBookInfo(null);
+      Toast.show({
+        type: "error",
+        text1: "خطا در ارتباط با سرور",
+        text2: "لطفاً مجدداً تلاش کنید",
+        position: "top",
+        topOffset: 20,
+        visibilityTime: 2000,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const QRListerner = (QRPass: string) => {
     setQrInType(false);
     setBookCode(QRPass);
-    findBookWithCode(QRPass);
+    fetchBookFromAPI(QRPass);
   };
 
   const handleToggleMode = () => {
@@ -38,11 +102,12 @@ export default function BookFinder() {
     setBookCode("");
   };
 
-  const findBookWithCode = (code: string) => {
-    if (!code.trim()) {
+  const handleFindBook = () => {
+    if (!bookCode.trim()) {
       Toast.show({
         type: "error",
-        text1: "لطفاً کد کتاب را وارد کنید",
+        text1: "خطا",
+        text2: "لطفاً کد کتاب را وارد کنید",
         position: "top",
         topOffset: 20,
         visibilityTime: 1500,
@@ -50,17 +115,9 @@ export default function BookFinder() {
       setBookInfo(null);
       return;
     }
-
-    setBookInfo({
-      title: "نمونه کتاب",
-      code: code,
-      author: "نویسنده نمونه",
-    });
+    fetchBookFromAPI(bookCode);
   };
 
-  const handleFindBook = () => {
-    findBookWithCode(bookCode);
-  };
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
@@ -96,8 +153,13 @@ export default function BookFinder() {
             <TouchableOpacity
               style={styles.findButton}
               onPress={handleFindBook}
+              disabled={loading}
             >
-              <Text style={styles.buttonText}>یافتن کتاب</Text>
+              {loading ? (
+                <ActivityIndicator color="white" />
+              ) : (
+                <Text style={styles.buttonText}>یافتن کتاب</Text>
+              )}
             </TouchableOpacity>
           ) : null}
 
@@ -113,22 +175,58 @@ export default function BookFinder() {
           </TouchableOpacity>
         </View>
 
-        {bookInfo && (
+        {loading && (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color="#4CAF50" />
+            <Text style={styles.loadingText}>در حال جستجو...</Text>
+          </View>
+        )}
+
+        {bookInfo && !loading && (
           <View style={styles.bookInfoContainer}>
-            <Text style={styles.bookInfoTitle}>اطلاعات کتاب:</Text>
-            <Text style={styles.bookInfoText}>عنوان: {bookInfo.title}</Text>
-            <Text style={styles.bookInfoText}>کد: {bookInfo.code}</Text>
-            <Text style={styles.bookInfoText}>نویسنده: {bookInfo.author}</Text>
+            <View style={styles.bookHeader}>
+              {bookInfo.image ? (
+                <Image
+                  source={{ uri: bookInfo.image }}
+                  style={styles.bookImage}
+                  resizeMode="cover"
+                />
+              ) : (
+                <View style={[styles.bookImage, styles.noImage]}>
+                  <Ionicons name="book-outline" size={50} color="#ccc" />
+                </View>
+              )}
+              <View style={styles.bookDetails}>
+                <Text style={styles.bookInfoTitle}>{bookInfo.title}</Text>
+                <Text style={styles.bookInfoText}>
+                  <Text style={styles.boldText}>نویسنده:</Text>{" "}
+                  {bookInfo.author}
+                </Text>
+                {bookInfo.publisher && (
+                  <Text style={styles.bookInfoText}>
+                    <Text style={styles.boldText}>ناشر:</Text>{" "}
+                    {bookInfo.publisher}
+                  </Text>
+                )}
+                {bookInfo.price && (
+                  <Text style={styles.bookInfoText}>
+                    <Text style={styles.boldText}>قیمت:</Text> {bookInfo.price}{" "}
+                    تومان
+                  </Text>
+                )}
+              </View>
+            </View>
+
             <TouchableOpacity
               style={styles.bookPageBtn}
               onPress={() =>
                 router.push({
                   pathname: "/book",
-                  params: { id: bookCode },
+                  params: { id: bookInfo.code, title: bookInfo.title },
                 })
               }
             >
-              <Text style={styles.buttonText}>مشاهده کتاب</Text>
+              <Text style={styles.buttonText}>مشاهده جزئیات کتاب</Text>
             </TouchableOpacity>
           </View>
         )}

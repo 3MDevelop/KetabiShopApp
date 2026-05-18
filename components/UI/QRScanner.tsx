@@ -8,7 +8,7 @@ interface QRScannerProps {
 
 export default function QRScanner({
   valListener,
-  scannedCode = "225566",
+  scannedCode = "533622",
 }: QRScannerProps) {
   return (
     <View style={styles.container}>

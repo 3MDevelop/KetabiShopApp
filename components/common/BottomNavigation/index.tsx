@@ -39,7 +39,7 @@ export default function BottomNavigation({
       },
       {
         href: "/bookFinder",
-        icon: "book" as const,
+        icon: "search" as const,
         label: labels.offer,
         target: "bookFinder",
       },

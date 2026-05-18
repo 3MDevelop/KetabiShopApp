@@ -94,8 +94,43 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginHorizontal:"auto",
-    paddingHorizontal:40,
-    marginTop:15
+    marginHorizontal: "auto",
+    paddingHorizontal: 40,
+    marginTop: 15,
+  },
+
+  bookHeader: {
+    flexDirection: "row",
+    gap: 15,
+    marginBottom: 20,
+  },
+  bookImage: {
+    width: 150,
+    height: 150 * 1.4,
+    borderRadius: 8,
+    backgroundColor: "#f0f0f0",
+  },
+  noImage: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f5f5f5",
+  },
+  bookDetails: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  boldText: {
+    fontWeight: "bold",
+    color: "#333",
+  },
+  loadingContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 40,
+  },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: "#666",
   },
 });
