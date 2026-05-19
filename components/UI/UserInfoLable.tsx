@@ -13,7 +13,7 @@ export default function UserInfoLable({ style }: CycleProps) {
     <View style={style}>
       <Text
         style={Styles.userName}
-      >{`کاربر ${isLoggedIn ? user?.nName || user?.ID : " مهمان / ورود"}`}</Text>
+      >{`${isLoggedIn ? user?.nName || user?.ID : " مهمان / ورود"}`}</Text>
      
     </View>
   );

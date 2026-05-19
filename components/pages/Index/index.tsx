@@ -3,6 +3,8 @@ import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import FullWidthBanner from "@/components/common/FullWidthBanner";
 import { useRouter } from "expo-router";
+import Seperator from "@/components/UI/Seperator";
+
 
 export default function HomePage() {
   const router = useRouter();
@@ -14,6 +16,7 @@ export default function HomePage() {
           این محتوای صفحه اصلی است که در mainContainer نمایش داده می‌شود.
         </Text>
         <FullWidthBanner urlIsInner={true} url={"about"} />
+        <Seperator />
         <FullWidthBanner urlIsInner={false} url={"www.google.com"} />
       </View>
 

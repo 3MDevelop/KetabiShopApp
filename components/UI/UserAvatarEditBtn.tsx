@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     aspectRatio: "1/1",
     padding: 5,
     position: "absolute",
-    right: 15,
+    right: 5,
     top: 55,
   },
 });

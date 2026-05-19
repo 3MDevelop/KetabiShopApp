@@ -66,7 +66,7 @@ export default function UserAvatar({
           ]}
         >
           <Text style={[Styles.userIconText, { paddingBottom: iconPadding }]}>
-            <Ionicons name="people" size={iconSize} color="white" />
+            <Ionicons name="people" size={iconSize*0.8} color="white" />
           </Text>
         </View>
       )}

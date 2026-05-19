@@ -126,30 +126,30 @@ export default function Login() {
           expire_token: userDataFromServer.expire_token,
           key: userDataFromServer.key || "Bearer",
           phone: phone,
-          name: "Reza",
-          nName: "Agha Fazel",
-          lName: "Fazel",
+          name: "Mohammad",
+          nName: "3M Develop",
+          lName: "Moghaddam Maheri",
           avatar: 3,
-          email: "mr.rezafazel@gmail.com",
-          bankCard: 0,
-          bankShaba: 0,
+          email: "3mdevelop@gmail.com",
+          bankCard: 6219861900741512,
+          bankShaba: "0099956564458966533256",
           device_List: [],
-          interests: [],
+          interests: [1, 4, 6, 2, 8],
           readList: [],
           likedList: [],
           commentList: [],
-          paymentList: [],
-          basket: [],
-          addresses: ["Tehran, Tehran, Shahran 2nd SQ, Koohsar"],
+          paymentList: ["12341234", "23452345", "34563456", "45675467"],
+          basket: ["321654", "987987", "654654", "321321", "9876574"],
+          addresses: [
+            "Tehran, Tehran, Shahran, Address 1",
+            "Tehran, Tehran, Shahran, Address 2",
+            "Tehran, Tehran, Shahran, Address 3",
+          ],
         };
 
-        await login(userData);
-
         showToast("success", "موفق", "ورود با موفقیت انجام شد");
-
-        setTimeout(() => {
-          router.replace("/");
-        }, 500);
+        await login(userData);
+        router.replace("/");
       } else {
         showToast(
           "error",

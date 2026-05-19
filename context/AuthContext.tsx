@@ -45,9 +45,9 @@ export type User = {
   avatar: number;
   email: string;
   bankCard: number;
-  bankShaba: number;
-  device_List: Device[];
-  interests: Interest[];
+  bankShaba: string;
+  device_List: string[];
+  interests: number[];
   readList: Book[];
   likedList: Book[];
   commentList: Comment[];

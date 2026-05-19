@@ -32,9 +32,9 @@ export default function CombinedParallax() {
         name: user?.name || "",
         lName: user?.lName || "",
         email: user?.email || "",
-        avatar: user?.avatar?.toString() || ""
+        avatar: user?.avatar?.toString() || "",
       };
-      
+
       setNickname(userData.nName);
       setFirstName(userData.name);
       setLastName(userData.lName);
@@ -58,12 +58,23 @@ export default function CombinedParallax() {
       avatar !== initialAvatar;
 
     setHasChanges(hasAnyChange);
-  }, [nickname, firstName, lastName, email, avatar, initialNickname, initialFirstName, initialLastName, initialEmail, initialAvatar]);
+  }, [
+    nickname,
+    firstName,
+    lastName,
+    email,
+    avatar,
+    initialNickname,
+    initialFirstName,
+    initialLastName,
+    initialEmail,
+    initialAvatar,
+  ]);
 
   const handleUpdateProfile = async () => {
     if (!hasChanges) return;
     setIsUpdating(true);
-        /*try {
+    /*try {
       await updateUser({
         nName: nickname,
         name: firstName,
@@ -95,7 +106,10 @@ export default function CombinedParallax() {
           <View style={styles.emptyStateContainer}>
             <Ionicons name="person-circle-outline" size={80} color="#ccc" />
             <Text style={styles.emptyStateTitle}>پروفایل کاربری</Text>
-            <LoginBtn />
+            <View style={{ flexDirection: "row", gap: 20 }}>
+              <LoginBtn />
+              <LoginBtn isIconic={true} />
+            </View>
           </View>
         </View>
       </View>
@@ -106,8 +120,15 @@ export default function CombinedParallax() {
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={[styles.content, !isDesktop && styles.columnContainer]}>
         <View style={isDesktop ? styles.rowContainer : styles.columnContainer}>
-          <View style={[styles.cards, isDesktop ? styles.doubleSize : styles.fullWidth]}>
-            <View style={isDesktop ? styles.rowContainer : styles.columnContainer}>
+          <View
+            style={[
+              styles.cards,
+              isDesktop ? styles.doubleSize : styles.fullWidth,
+            ]}
+          >
+            <View
+              style={isDesktop ? styles.rowContainer : styles.columnContainer}
+            >
               <View style={[styles.avatar]}>
                 <UserAvatar iconWidth={isDesktop ? 150 : 100} />
               </View>
@@ -163,15 +184,24 @@ export default function CombinedParallax() {
             </View>
           </View>
 
-          <View style={[styles.cards, isDesktop ? styles.normalSize : styles.fullWidth]}>
+          <View
+            style={[
+              styles.cards,
+              isDesktop ? styles.normalSize : styles.fullWidth,
+            ]}
+          >
             <Text style={styles.sectionTitle}>اطلاعات تماس</Text>
             <View style={styles.contactField}>
               <Ionicons name="mail-outline" size={20} color="#007AFF" />
-              <Text style={styles.contactText}>{email || "ایمیل ثبت نشده"}</Text>
+              <Text style={styles.contactText}>
+                {email || "ایمیل ثبت نشده"}
+              </Text>
             </View>
             <View style={styles.contactField}>
               <Ionicons name="call-outline" size={20} color="#007AFF" />
-              <Text style={styles.contactText}>{user?.phone || "شماره ثبت نشده"}</Text>
+              <Text style={styles.contactText}>
+                {user?.phone || "شماره ثبت نشده"}
+              </Text>
             </View>
           </View>
         </View>
@@ -215,7 +245,7 @@ const styles = StyleSheet.create({
   rowContainer: {
     flexDirection: "row",
     gap: 16,
-    minHeight:230
+    minHeight: 230,
   },
   columnContainer: {
     flexDirection: "column",
@@ -230,26 +260,25 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     shadowOffset: { width: 0, height: 2 },
     elevation: 3,
-    
   },
   doubleSize: {
     flex: 2,
   },
   normalSize: {
     flex: 1,
-    justifyContent:"flex-end",
+    justifyContent: "flex-end",
   },
   fullWidth: {
     width: "100%",
   },
   avatar: {
     alignItems: "center",
-    marginHorizontal:25
+    marginHorizontal: 25,
   },
   infoCardForm: {
     flex: 1,
     gap: 16,
-    justifyContent:"flex-end",
+    justifyContent: "flex-end",
   },
   formFieldContainer: {
     flexDirection: "row",
@@ -305,7 +334,7 @@ const styles = StyleSheet.create({
   buttonRow: {
     flexDirection: "row",
     gap: 16,
-    justifyContent:"flex-end"
+    justifyContent: "flex-end",
   },
   emptyStateContainer: {
     alignItems: "center",
