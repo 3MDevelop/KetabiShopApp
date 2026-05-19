@@ -149,7 +149,7 @@ export default function Login() {
 
         showToast("success", "موفق", "ورود با موفقیت انجام شد");
         await login(userData);
-        router.replace("/");
+        router.back()
       } else {
         showToast(
           "error",
@@ -195,7 +195,7 @@ export default function Login() {
             />
             {(() => {
               setTimeout(() => {
-                router.replace("/");
+                router.back()
               }, 2000);
               return null;
             })()}
