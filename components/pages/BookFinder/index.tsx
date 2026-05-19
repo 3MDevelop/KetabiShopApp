@@ -13,6 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import QRScanner from "@/components/UI/QRScanner";
 import Toast from "react-native-toast-message";
 import { useRouter, useLocalSearchParams } from "expo-router";
+import { useAuth } from "@/hooks/useAuth";
 
 interface BookInfo {
   title: string;
@@ -26,12 +27,53 @@ interface BookInfo {
 export default function BookFinder() {
   const { code } = useLocalSearchParams<{ code: string }>(); // دریافت پارامتر code از URL
   const [bookCode, setBookCode] = useState<string>("");
+  const [bookQRCode, setBookQRCode] = useState<string>("");
   const [bookInfo, setBookInfo] = useState<BookInfo | null>(null);
   const [qrInType, setQrInType] = useState(false);
   const [loading, setLoading] = useState(false);
   const [initialLoadDone, setInitialLoadDone] = useState(false);
   const router = useRouter();
+  const { isLoggedIn } = useAuth();
 
+  const addBookToLibrary = () => {
+    const isCodeCorrect = parseInt(bookQRCode) === 555;
+
+    if (!isLoggedIn) {
+      Toast.show({
+        type: "error",
+        text1: "نیاز به ورود",
+        text2: "لطفاً ابتدا وارد حساب خود شوید",
+        position: "top",
+        visibilityTime: 2000,
+      });
+      setTimeout(() => {
+        router.push("/login");
+      }, 1000);
+      return;
+    }
+
+    if (isCodeCorrect) {
+      Toast.show({
+        type: "success",
+        text1: "افزوده شد",
+        text2: "کتاب به کتابخانه شما اضافه شد",
+        position: "top",
+        visibilityTime: 2000,
+      });
+      // Add to Library Function
+      setTimeout(() => {
+        router.push("/myLibrary");
+      }, 1000);
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "کد وارد شده صحیح نمی باشد",
+        text2: "لطفاً مجدداً تلاش کنید",
+        position: "top",
+        visibilityTime: 2000,
+      });
+    }
+  };
   const fetchBookFromAPI = async (codeToFetch: string) => {
     if (!codeToFetch || codeToFetch.trim() === "") {
       setLoading(false);
@@ -170,27 +212,44 @@ export default function BookFinder() {
                       {bookInfo.price} تومان
                     </Text>
                   )}
+                  <TouchableOpacity
+                    style={styles.bookPageBtn}
+                    onPress={() =>
+                      router.push({
+                        pathname: "/book",
+                        params: { id: bookInfo.code },
+                      })
+                    }
+                  >
+                    <Text style={styles.buttonText}>مشاهده جزئیات کتاب</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
 
-              <TouchableOpacity
-                style={styles.bookPageBtn}
-                onPress={() =>
-                  router.push({
-                    pathname: "/book",
-                    params: { id: bookInfo.code },
-                  })
-                }
-              >
-                <Text style={styles.buttonText}>مشاهده جزئیات کتاب</Text>
-              </TouchableOpacity>
+              <View style={styles.addCodeInputWrapper}>
+                <TextInput
+                  style={styles.addCodeInput}
+                  placeholder="را وارد کنید QR کد درج شده در قسمت"
+                  placeholderTextColor="#999"
+                  keyboardType="numeric"
+                  value={bookQRCode}
+                  onChangeText={setBookQRCode}
+                  maxLength={13}
+                />
+                <TouchableOpacity
+                  onPress={addBookToLibrary}
+                  style={styles.addCodeButton}
+                >
+                  <Text style={styles.addCodeButtonText}>تایید</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         )}
 
         <View style={{ marginBottom: 16 }}>
           {!qrInType ? (
-            <>
+            <View>
               <Text style={styles.label}>کد کتاب:</Text>
               <TextInput
                 style={styles.input}
@@ -200,7 +259,7 @@ export default function BookFinder() {
                 onChangeText={setBookCode}
                 keyboardType="default"
               />
-            </>
+            </View>
           ) : (
             <QRScanner valListener={QRListerner} />
           )}

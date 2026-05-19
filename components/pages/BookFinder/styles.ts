@@ -6,7 +6,7 @@ export default StyleSheet.create({
     backgroundColor: "#f5f5f5",
   },
   content: {
-    padding: 20,
+    padding: 16,
     width: "100%",
     alignSelf: "center",
     maxWidth: 500,
@@ -16,8 +16,8 @@ export default StyleSheet.create({
     fontWeight: "bold",
     color: "#333",
     textAlign: "center",
-    marginBottom: 30,
-    marginTop: 20,
+    marginBottom: 20,
+    marginTop: 10,
   },
   label: {
     fontSize: 16,
@@ -62,14 +62,14 @@ export default StyleSheet.create({
   },
   buttonText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "600",
   },
   bookInfoContainer: {
     backgroundColor: "#fff",
     borderRadius: 10,
     padding: 20,
-    marginTop: 20,
+    
     borderWidth: 1,
     borderColor: "#e0e0e0",
   },
@@ -90,13 +90,13 @@ export default StyleSheet.create({
     backgroundColor: "#2196F3",
     borderRadius: 10,
     padding: 10,
+    paddingHorizontal: 20,
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginHorizontal: "auto",
-    paddingHorizontal: 40,
-    marginTop: 15,
+    marginTop:15,
+    alignSelf:"flex-end"
   },
 
   bookHeader: {
@@ -133,4 +133,102 @@ export default StyleSheet.create({
     fontSize: 16,
     color: "#666",
   },
+
+  bookAddBtn: {
+    backgroundColor: "orange",
+    padding: 8,
+    borderRadius: 8,
+  },
+  btnContainer: {
+    flexDirection: "row",
+    gap: 15,
+    marginHorizontal: "auto",
+  },
+
+addCodeContainer: {
+  backgroundColor: "#fff",
+  borderRadius: 16,
+  padding: 16,
+  marginVertical: 12,
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.05,
+  shadowRadius: 8,
+  elevation: 3,
+},
+addCodeHeader: {
+  flexDirection: "row",
+  alignItems: "center",
+  gap: 10,
+  marginBottom: 12,
+},
+addCodeTitle: {
+  fontSize: 16,
+  fontWeight: "bold",
+  color: "#333",
+},
+addCodeDescription: {
+  fontSize: 13,
+  color: "#999",
+  marginBottom: 16,
+  lineHeight: 18,
+},
+addCodeLabel: {
+  fontSize: 14,
+  color: "#666",
+  marginBottom: 8,
+},
+addCodeInputWrapper: {
+  marginTop:15,
+  flexDirection: "row",
+  gap: 10,
+},
+addCodeInput: {
+  flex: 1,
+  borderWidth: 1,
+  borderColor: "#e0e0e0",
+  borderRadius: 10,
+  paddingHorizontal: 12,
+  paddingVertical: 12,
+  fontSize: 14,
+  color: "#333",
+  textAlign: "center",
+},
+addCodeButton: {
+  backgroundColor: "#4CAF50",
+  paddingHorizontal: 20,
+  paddingVertical: 12,
+  borderRadius: 10,
+  justifyContent: "center",
+},
+addCodeButtonText: {
+  color: "#fff",
+  fontWeight: "bold",
+},
+scanButton: {
+  backgroundColor: "#2196F3",
+  flexDirection: "row",
+  alignItems: "center",
+  gap: 6,
+  paddingHorizontal: 16,
+  paddingVertical: 12,
+  borderRadius: 10,
+},
+scanButtonText: {
+  color: "#fff",
+  fontWeight: "bold",
+},
+verifyButton: {
+  backgroundColor: "#4CAF50",
+  paddingVertical: 14,
+  borderRadius: 12,
+  alignItems: "center",
+  marginTop: 16,
+},
+verifyButtonText: {
+  color: "#fff",
+  fontSize: 16,
+  fontWeight: "bold",
+},
+
 });

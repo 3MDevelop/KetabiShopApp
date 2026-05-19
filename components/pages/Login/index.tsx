@@ -211,7 +211,7 @@ export default function Login() {
             }
           >
             <TouchableOpacity
-              onPress={() => router.replace("/")}
+              onPress={() => router.back()}
               style={{ display: "flex", flexDirection: "row" }}
             >
               <Ionicons name={"arrow-back"} size={18} color={"#6b6b6b"} />
