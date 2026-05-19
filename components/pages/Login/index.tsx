@@ -5,13 +5,13 @@ import {
   TextInput,
   ActivityIndicator,
 } from "react-native";
-import { useAuth } from "@/hooks/useAuth";
-import styles from "./styles";
 import { useState } from "react";
-import Toast from "react-native-toast-message";
 import { router } from "expo-router";
+import { useAuth } from "@/hooks/useAuth";
 import { Ionicons } from "@expo/vector-icons";
 import { User } from "@/context/AuthContext";
+import Toast from "react-native-toast-message";
+import styles from "./styles";
 
 type ToastType = "success" | "error" | "info" | "warning";
 
