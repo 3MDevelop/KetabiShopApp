@@ -1,0 +1,89 @@
+{
+  "common": {
+    "appName": "Ketabi Shop",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "back": "Back",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "submit": "Submit"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "signup": "Sign Up",
+    "phone": "Phone Number",
+    "password": "Password",
+    "forgotPassword": "Forgot Password?",
+    "welcomeBack": "Welcome Back",
+    "pleaseLogin": "Please login to your account",
+    "invalidPhone": "Invalid phone number",
+    "acceptRules": "I accept the terms and conditions"
+  },
+  "profile": {
+    "title": "User Profile",
+    "nickname": "Nickname",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "avatar": "Avatar",
+    "phoneNumber": "Phone Number",
+    "editProfile": "Edit Profile",
+    "updateProfile": "Update Profile"
+  },
+  "book": {
+    "title": "Book",
+    "author": "Author",
+    "publisher": "Publisher",
+    "price": "Price",
+    "discount": "Discount",
+    "pages": "Pages",
+    "year": "Year",
+    "isbn": "ISBN",
+    "category": "Category",
+    "inStock": "In Stock",
+    "outOfStock": "Out of Stock",
+    "addToCart": "Add to Cart",
+    "addToLibrary": "Add to Library",
+    "bookDetails": "Book Details",
+    "bookNotFound": "Book not found",
+    "findBook": "Find Book",
+    "enterBookCode": "Enter book code"
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "empty": "Cart is empty",
+    "total": "Total",
+    "checkout": "Checkout",
+    "continueShopping": "Continue Shopping",
+    "remove": "Remove",
+    "quantity": "Quantity"
+  },
+  "library": {
+    "title": "My Library",
+    "empty": "Your library is empty",
+    "readList": "Reading List",
+    "likedList": "Liked Books",
+    "comments": "My Comments",
+    "paymentHistory": "Payment History"
+  },
+  "scanner": {
+    "title": "Scan Barcode",
+    "permission": "We need camera permission to scan barcode",
+    "grantPermission": "Grant Permission",
+    "scanAgain": "Scan Again",
+    "placeBarcode": "Place barcode in the frame",
+    "invalidCode": "Invalid code"
+  },
+  "messages": {
+    "addedToCart": "Added to cart",
+    "addedToLibrary": "Added to library",
+    "removedFromCart": "Removed from cart",
+    "loginRequired": "Please login to your account",
+    "pleaseWait": "Please wait..."
+  }
+}

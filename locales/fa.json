@@ -1,0 +1,89 @@
+{
+  "common": {
+    "appName": "کتابی شاپ",
+    "loading": "در حال بارگذاری...",
+    "error": "خطا",
+    "success": "موفق",
+    "back": "بازگشت",
+    "save": "ذخیره",
+    "cancel": "انصراف",
+    "delete": "حذف",
+    "edit": "ویرایش",
+    "search": "جستجو",
+    "submit": "تایید"
+  },
+  "auth": {
+    "login": "ورود",
+    "logout": "خروج",
+    "signup": "ثبت نام",
+    "phone": "شماره موبایل",
+    "password": "رمز عبور",
+    "forgotPassword": "فراموشی رمز عبور؟",
+    "welcomeBack": "خوش آمدید",
+    "pleaseLogin": "لطفاً وارد حساب خود شوید",
+    "invalidPhone": "شماره موبایل نامعتبر است",
+    "acceptRules": "من قوانین و مقررات را می‌پذیرم"
+  },
+  "profile": {
+    "title": "پروفایل کاربری",
+    "nickname": "نام مستعار",
+    "firstName": "نام",
+    "lastName": "نام خانوادگی",
+    "email": "ایمیل",
+    "avatar": "آواتار",
+    "phoneNumber": "شماره موبایل",
+    "editProfile": "ویرایش پروفایل",
+    "updateProfile": "بروزرسانی مشخصات"
+  },
+  "book": {
+    "title": "کتاب",
+    "author": "نویسنده",
+    "publisher": "ناشر",
+    "price": "قیمت",
+    "discount": "تخفیف",
+    "pages": "تعداد صفحات",
+    "year": "سال انتشار",
+    "isbn": "شابک",
+    "category": "دسته‌بندی",
+    "inStock": "موجود",
+    "outOfStock": "ناموجود",
+    "addToCart": "افزودن به سبد خرید",
+    "addToLibrary": "افزودن به کتابخانه",
+    "bookDetails": "جزئیات کتاب",
+    "bookNotFound": "کتابی یافت نشد",
+    "findBook": "یافتن کتاب",
+    "enterBookCode": "کد کتاب را وارد کنید"
+  },
+  "cart": {
+    "title": "سبد خرید",
+    "empty": "سبد خرید خالی است",
+    "total": "جمع کل",
+    "checkout": "پرداخت نهایی",
+    "continueShopping": "ادامه خرید",
+    "remove": "حذف",
+    "quantity": "تعداد"
+  },
+  "library": {
+    "title": "کتابخانه من",
+    "empty": "کتابخانه شما خالی است",
+    "readList": "لیست خواندنی‌ها",
+    "likedList": "کتاب‌های پسندیده",
+    "comments": "نظرات من",
+    "paymentHistory": "تاریخچه پرداخت"
+  },
+  "scanner": {
+    "title": "اسکن بارکد",
+    "permission": "برای اسکن بارکد به دسترسی دوربین نیاز داریم",
+    "grantPermission": "اعطای دسترسی",
+    "scanAgain": "اسکن مجدد",
+    "placeBarcode": "بارکد را در کادر قرار دهید",
+    "invalidCode": "کد نامعتبر است"
+  },
+  "messages": {
+    "addedToCart": "به سبد خرید اضافه شد",
+    "addedToLibrary": "به کتابخانه اضافه شد",
+    "removedFromCart": "از سبد خرید حذف شد",
+    "loginRequired": "لطفاً ابتدا وارد حساب خود شوید",
+    "pleaseWait": "لطفاً صبر کنید..."
+  }
+}
