@@ -2,6 +2,7 @@
 import { View, TouchableOpacity, Text } from "react-native";
 import { useRouter } from "expo-router";
 import { useAuth } from "@/hooks/useAuth";
+import { useTranslate } from "@/hooks/useTranslation";
 
 interface LogoutBtnProps {
   targetURL: string;
@@ -10,6 +11,7 @@ interface LogoutBtnProps {
 export default function LogoutBtn({ targetURL }: LogoutBtnProps) {
   const router = useRouter();
   const { logout } = useAuth();
+  const {t} = useTranslate()
 
   const handleLogout = async () => {
     await logout();
@@ -41,7 +43,7 @@ export default function LogoutBtn({ targetURL }: LogoutBtnProps) {
             textAlign: "center",
           }}
         >
-          خروج از حساب کاربری
+         {t('profile.logout')}
         </Text>
       </TouchableOpacity>
     </View>

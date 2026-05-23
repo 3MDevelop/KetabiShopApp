@@ -9,7 +9,12 @@
     "delete": "حذف",
     "edit": "ویرایش",
     "search": "جستجو",
-    "submit": "تایید"
+    "submit": "تایید",
+    "loadingBook": "در حال دریافت اطلاعات کتاب...",
+    "added": "افزوده شد",
+    "removed": "حذف شد",
+    "unknown": "نامشخص",
+    "connectionError": "مشکل در ارتباط با سرور"
   },
   "profile": {
     "title": "پروفایل کاربری",
@@ -24,13 +29,62 @@
     "language": "تغییر زبان",
     "support": "پشتیبانی",
     "about": "درباره ما",
-    "logout": "خروج از حساب",
+    "logout": "خروج از حساب کاربری",
+    "login": "ورود به حساب کاربری",
     "light": "روشن",
     "dark": "تیره",
-    "system": "سیستمی"    
+    "system": "سیستمی",
+    "userUpdate": "بروزرسانی حساب کاربری",
+    "guestUserLable": "مهمان / ورود"
   },
   "nav": {
-  "categories": "دسته بندی",
-  "offers": "پیشنهادات"
-}
+    "categories": "دسته بندی",
+    "offers": "پیشنهادات"
+  },
+  "cart": {
+    "title": "سبد خرید",
+    "emptyTitle": "🛒 سبد خرید خالی است",
+    "emptyText": "هنوز محصولی به سبد خرید اضافه نکرده‌اید.",
+    "emptyHint": "برای خرید، به فروشگاه بروید و محصولات مورد نظر خود را انتخاب کنید.",
+    "viewProducts": "مشاهده محصولات",
+    "physicalBook": "کتاب فیزیکی",
+    "ebook": "کتاب الکترونیک",
+    "audiobook": "کتاب صوتی",
+    "podcast": "پادکست",
+    "audio": "فایل صوتی",
+    "product": "محصول",
+    "instantDownload": "دانلود آنی پس از خرید",
+    "onlinePlay": "پخش آنلاین و دانلود",
+    "currency": "تومان",
+    "total": "جمع کل:",
+    "finalAmount": "مبلغ قابل پرداخت:",
+    "checkout": "پرداخت نهایی",
+    "loginRequired": "برای پرداخت، به حساب کاربری خود وارد شوید",
+    "continueShopping": "ادامه خرید",
+    "singleItem": "یک عدد",
+    "addedToCart": "به سبد خرید اضافه شد"
+  },
+
+  "book": {
+    "details": "جزئیات کتاب",
+    "invalidCode": "کد کتاب معتبر نیست",
+    "notFound": "کتابی یافت نشد",
+    "notFoundDesc": "کتاب مورد نظر موجود نیست یا حذف شده است",
+    "unknownAuthor": "نویسنده نامشخص",
+    "addToCart": "افزودن به سبد خرید",
+    "outOfStock": "ناموجود",
+    "inStock": "موجود در انبار",
+    "discount": "تخفیف",
+    "specifications": "مشخصات کتاب",
+    "publisher": "ناشر",
+    "isbn": "شابک",
+    "pages": "تعداد صفحات",
+    "pagesUnit": "صفحه",
+    "year": "سال انتشار",
+    "category": "دسته‌بندی",
+    "stock": "موجودی",
+    "description": "توضیحات کتاب",
+    "addedToWishlist": "به لیست علاقه‌مندی‌ها اضافه شد",
+    "removedFromWishlist": "از لیست علاقه‌مندی‌ها حذف شد"
+  }
 }

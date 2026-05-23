@@ -24,13 +24,36 @@
     "language": "Language",
     "support": "Support",
     "about": "About Us",
-    "logout": "Logout",
+    "logout": "User Logout",
+    "login": "User Login",
     "light": "Light",
     "dark": "Dark",
     "system": "System"
   },
   "nav": {
-  "categories": "Categories",
-  "offers": "Offers"
-}
+    "categories": "Categories",
+    "offers": "Offers"
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "emptyTitle": "🛒 Cart is empty",
+    "emptyText": "You haven't added any products to your cart.",
+    "emptyHint": "Go to the store and select the products you want.",
+    "viewProducts": "View Products",
+    "physicalBook": "Physical Book",
+    "ebook": "E-book",
+    "audiobook": "Audiobook",
+    "podcast": "Podcast",
+    "audio": "Audio File",
+    "product": "Product",
+    "instantDownload": "Instant download after purchase",
+    "onlinePlay": "Online streaming & download",
+    "currency": "Toman",
+    "total": "Total:",
+    "finalAmount": "Amount payable:",
+    "checkout": "Checkout",
+    "loginRequired": "Please login to your account to proceed",
+    "continueShopping": "Continue Shopping",
+    "singleItem": "Single item"
+  }
 }

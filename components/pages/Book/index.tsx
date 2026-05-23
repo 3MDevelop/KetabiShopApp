@@ -10,9 +10,10 @@ import {
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { useTranslate } from "@/hooks/useTranslation";
+import { useLanguage } from "@/context/LanguageContext";
 import Toast from "react-native-toast-message";
 import styles from "./styles";
-
 
 interface BookData {
   id: string;
@@ -35,7 +36,10 @@ interface BookData {
 
 const stripHtmlTags = (html: string) => {
   if (!html) return "";
-  return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+  return html
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 };
 
 export default function BookDetail() {
@@ -44,14 +48,16 @@ export default function BookDetail() {
   const [loading, setLoading] = useState(true);
   const [wishlist, setWishlist] = useState(false);
   const router = useRouter();
+  const { t } = useTranslate();
+  const { isRTL } = useLanguage();
 
   const fetchBookDetails = useCallback(async () => {
     if (!id) {
       setLoading(false);
       Toast.show({
         type: "error",
-        text1: "خطا",
-        text2: "کد کتاب معتبر نیست",
+        text1: t('common.error'),
+        text2: t('book.invalidCode'),
         position: "top",
         topOffset: 20,
         visibilityTime: 2000,
@@ -78,8 +84,8 @@ export default function BookDetail() {
       console.error("Error fetching book details:", error);
       Toast.show({
         type: "error",
-        text1: "خطا",
-        text2: "مشکل در ارتباط با سرور",
+        text1: t('common.error'),
+        text2: t('common.connectionError'),
         position: "top",
         topOffset: 20,
         visibilityTime: 2000,
@@ -88,7 +94,7 @@ export default function BookDetail() {
     } finally {
       setLoading(false);
     }
-  }, [id, router]);
+  }, [id, router, t]);
 
   useEffect(() => {
     fetchBookDetails();
@@ -97,8 +103,8 @@ export default function BookDetail() {
   const addToCart = () => {
     Toast.show({
       type: "success",
-      text1: "افزوده شد",
-      text2: `${book?.title} به سبد خرید اضافه شد`,
+      text1: t('cart.added'),
+      text2: `${book?.title} ${t('cart.addedToCart')}`,
       position: "top",
       topOffset: 20,
       visibilityTime: 2000,
@@ -109,10 +115,10 @@ export default function BookDetail() {
     setWishlist(!wishlist);
     Toast.show({
       type: "success",
-      text1: wishlist ? "حذف شد" : "افزوده شد",
+      text1: wishlist ? t('common.removed') : t('common.added'),
       text2: wishlist
-        ? `${book?.title} از لیست علاقه‌مندی‌ها حذف شد`
-        : `${book?.title} به لیست علاقه‌مندی‌ها اضافه شد`,
+        ? `${book?.title} ${t('book.removedFromWishlist')}`
+        : `${book?.title} ${t('book.addedToWishlist')}`,
       position: "top",
       topOffset: 20,
       visibilityTime: 2000,
@@ -123,7 +129,7 @@ export default function BookDetail() {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#4CAF50" />
-        <Text style={styles.loadingText}>در حال دریافت اطلاعات کتاب...</Text>
+        <Text style={styles.loadingText}>{t('common.loadingBook')}</Text>
       </View>
     );
   }
@@ -134,11 +140,16 @@ export default function BookDetail() {
         <View style={styles.errorIcon}>
           <Ionicons name="book-outline" size={80} color="#ccc" />
         </View>
-        <Text style={styles.errorTitle}>کتابی یافت نشد</Text>
-        <Text style={styles.errorText}>کتاب مورد نظر موجود نیست یا حذف شده است</Text>
-        <TouchableOpacity style={styles.errorBackButton} onPress={() => router.back()}>
-          <Ionicons name="arrow-forward" size={20} color="#fff" />
-          <Text style={styles.errorBackText}>بازگشت</Text>
+        <Text style={styles.errorTitle}>{t('book.notFound')}</Text>
+        <Text style={styles.errorText}>
+          {t('book.notFoundDesc')}
+        </Text>
+        <TouchableOpacity
+          style={styles.errorBackButton}
+          onPress={() => router.back()}
+        >
+          <Ionicons name={isRTL ? "arrow-forward" : "arrow-back"} size={20} color="#fff" />
+          <Text style={styles.errorBackText}>{t('common.back')}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -149,32 +160,32 @@ export default function BookDetail() {
   const isAvailable = book.exist === "1";
 
   return (
-    <ScrollView 
+    <ScrollView
       style={styles.container}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.scrollContent}
     >
-      {/* هدر با دکمه بازگشت */}
       <View style={styles.headerContainer}>
-
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-          <Ionicons name="arrow-forward" size={24} color="#333" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>جزئیات کتاب</Text>
-        <View style={{ width: 40 }} />
-      </View>
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => router.back()}
+          >
+            <Ionicons name={isRTL ? "arrow-forward" : "arrow-back"} size={24} color="#333" />
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>{t('book.details')}</Text>
+          <View style={{ width: 40 }} />
+        </View>
       </View>
 
       <View style={styles.content}>
-        {/* تصویر کتاب */}
         <View style={styles.imageSection}>
           <View style={styles.imageWrapper}>
             {book.pic ? (
-              <Image 
-                source={{ uri: book.pic }} 
-                style={styles.detailImage} 
-                resizeMode="cover" 
+              <Image
+                source={{ uri: book.pic }}
+                style={styles.detailImage}
+                resizeMode="cover"
               />
             ) : (
               <View style={[styles.detailImage, styles.noImage]}>
@@ -184,72 +195,79 @@ export default function BookDetail() {
             {hasDiscount && (
               <View style={styles.discountBadge}>
                 <Text style={styles.discountBadgeText}>
-                  {book.percentFa}٪ تخفیف
+                  {book.percentFa}% {t('book.discount')}
                 </Text>
               </View>
             )}
           </View>
         </View>
 
-        {/* عنوان و نویسنده */}
         <View style={styles.titleSection}>
           <Text style={styles.bookTitle}>{book.title}</Text>
           <View style={styles.authorWrapper}>
             <Ionicons name="person-outline" size={18} color="#999" />
-            <Text style={styles.bookAuthor}>{book.author || "نویسنده نامشخص"}</Text>
+            <Text style={styles.bookAuthor}>
+              {book.author || t('book.unknownAuthor')}
+            </Text>
           </View>
         </View>
 
-        {/* قیمت و دکمه‌ها */}
         <View style={styles.priceSection}>
           <View style={styles.priceWrapper}>
             {hasDiscount ? (
               <>
-                <Text style={styles.oldPrice}>{Number(book.price).toLocaleString()} تومان</Text>
-                <Text style={styles.finalPrice}>{Number(finalPrice).toLocaleString()} تومان</Text>
+                <Text style={styles.oldPrice}>
+                  {Number(book.price).toLocaleString()} {t('cart.currency')}
+                </Text>
+                <Text style={styles.finalPrice}>
+                  {Number(finalPrice).toLocaleString()} {t('cart.currency')}
+                </Text>
               </>
             ) : (
-              <Text style={styles.singlePrice}>{Number(book.price).toLocaleString()} تومان</Text>
+              <Text style={styles.singlePrice}>
+                {Number(book.price).toLocaleString()} {t('cart.currency')}
+              </Text>
             )}
           </View>
 
           <View style={styles.actionButtons}>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={[styles.cartButton, !isAvailable && styles.disabledButton]}
               onPress={addToCart}
               disabled={!isAvailable}
             >
               <Ionicons name="cart-outline" size={22} color="#fff" />
               <Text style={styles.cartButtonText}>
-                {isAvailable ? "افزودن به سبد خرید" : "ناموجود"}
+                {isAvailable ? t('book.addToCart') : t('book.outOfStock')}
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity 
+            <TouchableOpacity
               style={[styles.wishlistButton, wishlist && styles.wishlistActive]}
               onPress={toggleWishlist}
             >
-              <Ionicons 
-                name={wishlist ? "heart" : "heart-outline"} 
-                size={24} 
-                color={wishlist ? "#f44336" : "#666"} 
+              <Ionicons
+                name={wishlist ? "heart" : "heart-outline"}
+                size={24}
+                color={wishlist ? "#f44336" : "#666"}
               />
             </TouchableOpacity>
           </View>
         </View>
 
-        {/* اطلاعات کتاب */}
         <View style={styles.infoCard}>
-          <Text style={styles.cardTitle}>مشخصات کتاب</Text>
-          
+          <Text style={styles.cardTitle}>{t('book.specifications')}</Text>
+
           <View style={styles.infoGrid}>
             <View style={styles.infoItem}>
               <View style={styles.infoIcon}>
                 <Ionicons name="book-outline" size={20} color="#4CAF50" />
               </View>
               <View style={styles.infoText}>
-                <Text style={styles.infoLabel}>ناشر</Text>
-                <Text style={styles.infoValue}>{book.publisher || "نامشخص"}</Text>
+                <Text style={styles.infoLabel}>{t('book.publisher')}</Text>
+                <Text style={styles.infoValue}>
+                  {book.publisher || t('common.unknown')}
+                </Text>
               </View>
             </View>
 
@@ -258,18 +276,24 @@ export default function BookDetail() {
                 <Ionicons name="barcode-outline" size={20} color="#4CAF50" />
               </View>
               <View style={styles.infoText}>
-                <Text style={styles.infoLabel}>شابک</Text>
-                <Text style={styles.infoValue}>{book.isbn || "نامشخص"}</Text>
+                <Text style={styles.infoLabel}>{t('book.isbn')}</Text>
+                <Text style={styles.infoValue}>{book.isbn || t('common.unknown')}</Text>
               </View>
             </View>
 
             <View style={styles.infoItem}>
               <View style={styles.infoIcon}>
-                <Ionicons name="document-text-outline" size={20} color="#4CAF50" />
+                <Ionicons
+                  name="document-text-outline"
+                  size={20}
+                  color="#4CAF50"
+                />
               </View>
               <View style={styles.infoText}>
-                <Text style={styles.infoLabel}>تعداد صفحات</Text>
-                <Text style={styles.infoValue}>{book.number_pages || "نامشخص"} صفحه</Text>
+                <Text style={styles.infoLabel}>{t('book.pages')}</Text>
+                <Text style={styles.infoValue}>
+                  {book.number_pages || t('common.unknown')} {t('book.pagesUnit')}
+                </Text>
               </View>
             </View>
 
@@ -278,8 +302,10 @@ export default function BookDetail() {
                 <Ionicons name="calendar-outline" size={20} color="#4CAF50" />
               </View>
               <View style={styles.infoText}>
-                <Text style={styles.infoLabel}>سال انتشار</Text>
-                <Text style={styles.infoValue}>{book.publish_year || "نامشخص"}</Text>
+                <Text style={styles.infoLabel}>{t('book.year')}</Text>
+                <Text style={styles.infoValue}>
+                  {book.publish_year || t('common.unknown')}
+                </Text>
               </View>
             </View>
 
@@ -288,35 +314,40 @@ export default function BookDetail() {
                 <Ionicons name="layers-outline" size={20} color="#4CAF50" />
               </View>
               <View style={styles.infoText}>
-                <Text style={styles.infoLabel}>دسته‌بندی</Text>
+                <Text style={styles.infoLabel}>{t('book.category')}</Text>
                 <Text style={styles.infoValue}>
-                  {book.main_category || ""} {book.sub_category ? `- ${book.sub_category}` : ""}
+                  {book.main_category || ""}{" "}
+                  {book.sub_category ? `- ${book.sub_category}` : ""}
                 </Text>
               </View>
             </View>
 
             <View style={styles.infoItem}>
               <View style={styles.infoIcon}>
-                <Ionicons 
-                  name="checkmark-circle-outline" 
-                  size={20} 
-                  color={isAvailable ? "#4CAF50" : "#f44336"} 
+                <Ionicons
+                  name="checkmark-circle-outline"
+                  size={20}
+                  color={isAvailable ? "#4CAF50" : "#f44336"}
                 />
               </View>
               <View style={styles.infoText}>
-                <Text style={styles.infoLabel}>موجودی</Text>
-                <Text style={[styles.infoValue, isAvailable ? styles.inStock : styles.outOfStock]}>
-                  {isAvailable ? "موجود در انبار" : "ناموجود"}
+                <Text style={styles.infoLabel}>{t('book.stock')}</Text>
+                <Text
+                  style={[
+                    styles.infoValue,
+                    isAvailable ? styles.inStock : styles.outOfStock,
+                  ]}
+                >
+                  {isAvailable ? t('book.inStock') : t('book.outOfStock')}
                 </Text>
               </View>
             </View>
           </View>
         </View>
 
-        {/* توضیحات کتاب */}
         {book.des_fa && (
           <View style={styles.descriptionCard}>
-            <Text style={styles.cardTitle}>📖 توضیحات کتاب</Text>
+            <Text style={styles.cardTitle}>📖 {t('book.description')}</Text>
             <Text style={styles.descriptionText}>
               {stripHtmlTags(book.des_fa)}
             </Text>

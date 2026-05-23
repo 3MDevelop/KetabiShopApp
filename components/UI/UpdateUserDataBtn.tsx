@@ -1,6 +1,7 @@
 // components/common/UpdateUserDataBtn.tsx
 
 import { View, TouchableOpacity, Text, ActivityIndicator } from "react-native";
+import { useTranslate } from "@/hooks/useTranslation";
 
 interface UpdateUserDataBtnProps {
   hasChanges: boolean;
@@ -13,6 +14,7 @@ export default function UpdateUserDataBtn({
   onPress,
   isLoading = false,
 }: UpdateUserDataBtnProps) {
+  const {t} = useTranslate()
   return (
     <View
       style={{
@@ -43,7 +45,7 @@ export default function UpdateUserDataBtn({
               textAlign: "center",
             }}
           >
-            بروزرسانی حساب کاربری
+           {t('profile.userUpdate')}
           </Text>
         )}
       </TouchableOpacity>

@@ -4,6 +4,8 @@ import { Ionicons } from "@expo/vector-icons";
 import styles from "./styles";
 import { useAuth } from "@/hooks/useAuth";
 import { router } from "expo-router";
+import { useTranslate } from "@/hooks/useTranslation";
+import { useLanguage } from "@/context/LanguageContext";
 
 type ProductType =
   | "physical_book"
@@ -24,6 +26,8 @@ interface CartItem {
 }
 
 export default function Basket() {
+  const { t } = useTranslate();
+  const { isRTL } = useLanguage();
   const { isLoggedIn } = useAuth();
   const [cartItems, setCartItems] = useState<CartItem[]>([
     {
@@ -83,42 +87,42 @@ export default function Basket() {
           name: "book",
           color: "#007AFF",
           bgColor: "#007AFF15",
-          label: "کتاب فیزیکی",
+          label: t('cart.physicalBook') ,
         };
       case "ebook":
         return {
           name: "tablet-portrait",
           color: "#9C27B0",
           bgColor: "#9C27B015",
-          label: "کتاب الکترونیک",
+          label: t('cart.ebook') ,
         };
       case "audiobook":
         return {
           name: "headset",
           color: "#FF6B35",
           bgColor: "#FF6B3515",
-          label: "کتاب صوتی",
+          label: t('cart.audiobook') ,
         };
       case "podcast":
         return {
           name: "mic",
           color: "#FF6B35",
           bgColor: "#FF6B3515",
-          label: "پادکست",
+          label: t('cart.podcast'),
         };
       case "audio":
         return {
           name: "musical-notes",
           color: "#FF6B35",
           bgColor: "#FF6B3515",
-          label: "فایل صوتی",
+          label: t('cart.audio') ,
         };
       default:
         return {
           name: "document",
           color: "#007AFF",
           bgColor: "#007AFF15",
-          label: "محصول",
+          label: t('cart.product') ,
         };
     }
   };
@@ -145,17 +149,13 @@ export default function Basket() {
     const item = cartItems.find((i) => i.id === id);
     if (!item) return;
 
-    
-
     if (newQuantity < 1) {
       removeFromCart(id);
       return;
     }
 
-   
-
     setCartItems((prev) =>
-      prev.map((i) => (i.id === id ? { ...i, quantity: newQuantity } : i)),
+      prev.map((i) => (i.id === id ? { ...i, quantity: newQuantity } : i))
     );
   };
 
@@ -171,17 +171,20 @@ export default function Basket() {
       router.push("/");
     }
   };
+
   if (cartItems.length === 0) {
     return (
       <ScrollView style={styles.container}>
         <View style={styles.content}>
           <View style={styles.emptyCartContainer}>
             <Ionicons name="cart-outline" size={80} color="#ccc" />
-            <Text style={styles.emptyCartTitle}>🛒 سبد خرید خالی است</Text>
+            <Text style={styles.emptyCartTitle}>
+              {t('cart.emptyTitle') }
+            </Text>
             <Text style={styles.emptyCartText}>
-              هنوز محصولی به سبد خرید اضافه نکرده‌اید.
+              {t('cart.emptyText') }
               {"\n"}
-              برای خرید، به فروشگاه بروید و محصولات مورد نظر خود را انتخاب کنید.
+              {t('cart.emptyHint') }
             </Text>
 
             <TouchableOpacity
@@ -189,8 +192,14 @@ export default function Basket() {
               onPress={() => router.push("/booklist")}
             >
               <Ionicons name="book-outline" size={20} color="#fff" />
-              <Text style={styles.shopButtonText}>مشاهده محصولات</Text>
-              <Ionicons name="arrow-forward" size={18} color="#fff" />
+              <Text style={styles.shopButtonText}>
+                {t('cart.viewProducts')}
+              </Text>
+              <Ionicons
+                name={isRTL ? "arrow-back" : "arrow-forward"}
+                size={18}
+                color="#fff"
+              />
             </TouchableOpacity>
           </View>
         </View>
@@ -204,13 +213,12 @@ export default function Basket() {
         {/* هدر */}
         <View style={styles.header}>
           <Ionicons name="cart" size={28} color="#007AFF" />
-          <Text style={styles.title}>سبد خرید</Text>
+          <Text style={styles.title}>{t('cart.title') }</Text>
           <View style={styles.badge}>
             <Text style={styles.badgeText}>{cartItems.length}</Text>
           </View>
         </View>
 
-        {/* لیست آیتم‌های سبد خرید */}
         <View style={styles.cartListContainer}>
           {cartItems.map((item) => {
             const productStyle = getProductStyle(item.type);
@@ -265,7 +273,7 @@ export default function Basket() {
                           size={12}
                           color="#9C27B0"
                         />{" "}
-                        دانلود آنی پس از خرید
+                        {t('cart.instantDownload') }
                       </Text>
                     )}
                     {isDigital && item.type !== "ebook" && (
@@ -275,7 +283,7 @@ export default function Basket() {
                           size={12}
                           color="#FF6B35"
                         />{" "}
-                        پخش آنلاین و دانلود
+                        {t('cart.onlinePlay') }
                       </Text>
                     )}
                     <Text
@@ -284,13 +292,12 @@ export default function Basket() {
                         { color: productStyle.color },
                       ]}
                     >
-                      {(item.price * item.quantity).toLocaleString()} تومان
+                      {(item.price * item.quantity).toLocaleString()} {t('cart.currency')}
                     </Text>
                   </View>
                 </View>
 
                 <View style={styles.cartItemActions}>
-                  {/* کنترل تعداد - فقط برای کتاب فیزیکی */}
                   {item.type === "physical_book" ? (
                     <View style={styles.quantityControl}>
                       <TouchableOpacity
@@ -321,13 +328,19 @@ export default function Basket() {
                         <Ionicons name="add" size={18} color="#fff" />
                       </TouchableOpacity>
                     </View>
-                  ) : null}
+                  ) : (
+                    <View style={styles.singleItemBadge}>
+                      <Ionicons name="checkmark-circle" size={16} color="#28a745" />
+                      <Text style={styles.singleItemText}>
+                        {t('cart.singleItem') }
+                      </Text>
+                    </View>
+                  )}
 
                   <Text style={styles.unitPrice}>
-                    {item.price.toLocaleString()} تومان
+                    {item.price.toLocaleString()} {t('cart.currency') }
                   </Text>
 
-                  {/* دکمه حذف */}
                   <TouchableOpacity
                     style={styles.removeButton}
                     onPress={() => removeFromCart(item.id)}
@@ -340,21 +353,22 @@ export default function Basket() {
           })}
         </View>
 
-        {/* بخش جمع‌کل و پرداخت */}
         <View style={styles.checkoutCard}>
           <View style={styles.totalRow}>
-            <Text style={styles.totalLabel}>جمع کل:</Text>
+            <Text style={styles.totalLabel}>{t('cart.total') }</Text>
             <Text style={styles.totalPrice}>
-              {calculateTotal().toLocaleString()} تومان
+              {calculateTotal().toLocaleString()} {t('cart.currency') }
             </Text>
           </View>
 
           <View style={styles.divider} />
 
           <View style={styles.totalRow}>
-            <Text style={styles.finalLabel}>مبلغ قابل پرداخت:</Text>
+            <Text style={styles.finalLabel}>
+              {t('cart.finalAmount') }
+            </Text>
             <Text style={styles.finalPrice}>
-              {calculateTotal().toLocaleString()} تومان
+              {calculateTotal().toLocaleString()} {t('cart.currency') }
             </Text>
           </View>
 
@@ -363,23 +377,30 @@ export default function Basket() {
             onPress={handleCheckout}
           >
             <Ionicons name="card-outline" size={22} color="#fff" />
-            <Text style={styles.checkoutButtonText}>پرداخت نهایی</Text>
+            <Text style={styles.checkoutButtonText}>
+              {t('cart.checkout') }
+            </Text>
           </TouchableOpacity>
 
           {!isLoggedIn && (
             <Text style={styles.loginHint}>
-              ⚠️ برای پرداخت، به حساب کاربری خود وارد شوید
+              ⚠️ {t('cart.loginRequired') }
             </Text>
           )}
         </View>
 
-        {/* دکمه ادامه خرید */}
         <TouchableOpacity
           style={styles.continueShoppingButton}
           onPress={() => router.push("/booklist")}
         >
-          <Ionicons name="arrow-back-outline" size={20} color="#007AFF" />
-          <Text style={styles.continueShoppingText}>ادامه خرید</Text>
+          <Ionicons
+            name={isRTL ? "arrow-back" : "arrow-forward"}
+            size={20}
+            color="#007AFF"
+          />
+          <Text style={styles.continueShoppingText}>
+            {t('cart.continueShopping')}
+          </Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

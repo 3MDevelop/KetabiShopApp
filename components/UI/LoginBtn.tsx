@@ -1,6 +1,7 @@
 import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { useTranslate } from "@/hooks/useTranslation";
 
 interface LoginBtnProps {
   isIconic?: boolean;
@@ -8,6 +9,7 @@ interface LoginBtnProps {
 
 export default function LoginBtn({ isIconic = false }: LoginBtnProps) {
   const router = useRouter();
+  const {t} = useTranslate()
   return (
     <TouchableOpacity
       
@@ -19,7 +21,7 @@ export default function LoginBtn({ isIconic = false }: LoginBtnProps) {
         </View>
       ) : (
         <View style={styles.loginTextButton}>
-          <Text style={styles.loginButtonText}>ورود به حساب کاربری</Text>
+          <Text style={styles.loginButtonText}> {t('profile.login')} </Text>
         </View>
       )}
     </TouchableOpacity>
