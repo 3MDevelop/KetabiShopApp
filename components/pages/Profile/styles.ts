@@ -69,4 +69,16 @@ export const styles = StyleSheet.create({
     paddingTop: 20,
   },
 
+  bottomContainer: {
+    marginTop: 25,
+    display: "flex",
+    paddingHorizontal: 64,
+    marginBottom: 32,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginHorizontal: "auto",
+    width: "100%",
+    maxWidth: 700,
+  },
 });

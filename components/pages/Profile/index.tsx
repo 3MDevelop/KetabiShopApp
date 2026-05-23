@@ -152,11 +152,10 @@ export default function Profile() {
           />
         </View>
 
-        <View style={{ marginTop: 25 }}></View>
-
-        {isLoggedIn ? <LogoutBtn targetURL="/" /> : null}
-
-        <SocialBtn />
+        <View style={styles.bottomContainer}>
+          <SocialBtn />
+          {isLoggedIn ? <LogoutBtn targetURL="/" /> : null}
+        </View>
       </Animated.ScrollView>
 
       <BackToTop scrollY={scrollY} onPress={scrollToTop} />
