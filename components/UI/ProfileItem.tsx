@@ -1,6 +1,8 @@
+// components/UI/ProfileItem.tsx
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface ProfileItemsProps {
   itemLable: string;
@@ -14,6 +16,7 @@ export default function ProfileItems({
   itemLogo,
 }: ProfileItemsProps) {
   const router = useRouter();
+  const { isRTL } = useLanguage();
 
   return (
     <TouchableOpacity
@@ -24,20 +27,21 @@ export default function ProfileItems({
       activeOpacity={0.7}
     >
       <View style={styles.innerContainer}>
+        {/* آیکون اصلی - همیشه سمت راست در فارسی، سمت چپ در انگلیسی */}
         <Ionicons
           name={itemLogo as any}
           size={24}
           color="#3996e8"
-          style={styles.icon}
+          style={isRTL ? styles.iconRight : styles.iconLeft}
         />
         
         <Text style={styles.title}>{itemLable}</Text>
         
         <Ionicons
-          name={"arrow-back"}
+          name={isRTL ? "arrow-back" : "arrow-forward"}
           size={18}
           color="#3996e8"
-          style={styles.arrowIcon}
+          style={isRTL ? styles.arrowLeft : styles.arrowRight}
         />
       </View>
     </TouchableOpacity>
@@ -49,7 +53,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginBottom: 8,
   },
-
   innerContainer: {
     padding: 14,
     paddingHorizontal: 20,
@@ -58,19 +61,30 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#e9ecef",
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
+    justifyContent: "space-between",
   },
-  icon: {
+  iconRight: {
+    marginRight: 0,
     marginLeft: 12,
+  },
+  iconLeft: {
+    marginLeft: 0,
+    marginRight: 12,
   },
   title: {
     flex: 1,
     fontSize: 14,
     fontWeight: "600",
     color: "#333",
+    textAlign: "auto",
   },
-  arrowIcon: {
+  arrowLeft: {
     marginLeft: 12,
+    marginRight: 0,
+  },
+  arrowRight: {
+    marginRight: 12,
+    marginLeft: 0,
   },
 });

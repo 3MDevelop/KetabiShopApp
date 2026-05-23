@@ -1,65 +1,58 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
+import { useLanguage } from "@/context/LanguageContext";
+import { useTranslate } from "@/hooks/useTranslation";
 
 export default function ProfileItem_setLang() {
-  const [selectedLang, setSelectedLang] = useState("fa");
+  const { language, setLanguage, isRTL } = useLanguage();
+  const { t } = useTranslate();
+
+  const languages = [
+    { id: "fa", name: "فارسی" },
+    { id: "en", name: "English" },
+    { id: "ar", name: "العربية" }, // ✅ اضافه شد
+  ];
+
   return (
-    <TouchableOpacity style={styles.container} activeOpacity={0.7}>
+    <View style={styles.container}>
       <View style={styles.innerContainer}>
-        <Ionicons
-          name="language-sharp"
-          size={24}
-          color="#3996e8"
-          style={styles.icon}
-        />
-        <Text style={styles.title}>تغییر زبان</Text>
-        <TouchableOpacity
-          style={styles.radioItem}
-          onPress={() => setSelectedLang("ar")}
-        >
-          <Text style={styles.radioLabel}>العربية</Text>
-          <View
-            style={[
-              styles.radioCircle,
-              selectedLang === "ar" && styles.radioSelected,
-            ]}
-          >
-            {selectedLang === "ar" && <View style={styles.radioInner} />}
-          </View>
-        </TouchableOpacity>
+        <View style={styles.leftSection}>
+          <Ionicons
+            name="language-sharp"
+            size={24}
+            color="#3996e8"
+            style={isRTL ? styles.iconRTL : styles.iconLTR}
+          />
+          <Text style={styles.title}>
+            {t('profile.language') || "تغییر زبان"}
+          </Text>
+        </View>
 
-        <TouchableOpacity
-          style={styles.radioItem}
-          onPress={() => setSelectedLang("en")}
-        >
-          <Text style={styles.radioLabel}>English</Text>
-          <View
-            style={[
-              styles.radioCircle,
-              selectedLang === "en" && styles.radioSelected,
-            ]}
-          >
-            {selectedLang === "en" && <View style={styles.radioInner} />}
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.radioItem}
-          onPress={() => setSelectedLang("fa")}
-        >
-          <Text style={styles.radioLabel}>فارسی</Text>
-          <View
-            style={[
-              styles.radioCircle,
-              selectedLang === "fa" && styles.radioSelected,
-            ]}
-          >
-            {selectedLang === "fa" && <View style={styles.radioInner} />}
-          </View>
-        </TouchableOpacity>
+        <View style={styles.languageGroup}>
+          {languages.map((lang) => (
+            <TouchableOpacity
+              key={lang.id}
+              style={[
+                styles.languageItem,
+                language === lang.id && styles.languageItemActive,
+              ]}
+              onPress={async () => {
+                await setLanguage(lang.id as any);
+              }}
+            >
+              <Text
+                style={[
+                  styles.languageText,
+                  language === lang.id && styles.languageTextActive,
+                ]}
+              >
+                {lang.name}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 }
 
@@ -68,7 +61,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginBottom: 8,
   },
-
   innerContainer: {
     padding: 14,
     paddingHorizontal: 20,
@@ -80,55 +72,44 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  icon: {
-    marginLeft: 12,
+  leftSection: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  iconRTL: {
+    marginLeft: 0,
+    marginRight: 8,
+  },
+  iconLTR: {
+    marginLeft: 8,
+    marginRight: 0,
   },
   title: {
-    flex: 1,
     fontSize: 14,
     fontWeight: "600",
     color: "#333",
   },
-  arrowIcon: {
-    marginLeft: 12,
-  },
-
-  radioContainer: {
-    marginHorizontal: 16,
-    marginTop: 8,
-    backgroundColor: "#fff",
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "#e9ecef",
-    paddingVertical: 8,
-  },
-  radioItem: {
+  languageGroup: {
     flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 12,
+    gap: 8,
+  },
+  languageItem: {
     paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 8,
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#ddd",
   },
-  radioCircle: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: "#3996e8",
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 6,
-  },
-  radioSelected: {
-    borderColor: "#3996e8",
-  },
-  radioInner: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
+  languageItemActive: {
     backgroundColor: "#3996e8",
+    borderColor: "#3996e8",
   },
-  radioLabel: {
-    fontSize: 12,
-    color: "#333",
+  languageText: {
+    fontSize: 13,
+    color: "#666",
+  },
+  languageTextActive: {
+    color: "#fff",
   },
 });

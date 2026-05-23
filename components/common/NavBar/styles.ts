@@ -69,5 +69,18 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-  }
+  },
+  // components/common/styles.ts
+NavBarRTL: {
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "space-between",
+  paddingHorizontal: 16,
+},
+NavBarLTR: {
+  flexDirection: "row-reverse",
+  alignItems: "center",
+  justifyContent: "space-between",
+  paddingHorizontal: 16,
+},
 });

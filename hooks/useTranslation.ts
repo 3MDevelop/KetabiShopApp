@@ -5,7 +5,7 @@ export const useTranslate = () => {
   const { t, i18n } = useTranslation();
   
   return {
-    t,           // تابع ترجمه
+    t,
     language: i18n.language,
     changeLanguage: i18n.changeLanguage,
   };

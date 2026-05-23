@@ -1,13 +1,15 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
+import { useLanguage } from "@/context/LanguageContext";
+import { useTranslate } from "@/hooks/useTranslation";
 
 type IconName = React.ComponentProps<typeof Ionicons>["name"];
 
 export default function ProfileItem_theme() {
-  const itemLable = "ظاهر برنامه";
-  const itemLogo = "color-palette-sharp";
   const [selectedTheme, setSelectedTheme] = useState("light");
+  const { isRTL } = useLanguage();
+  const { t } = useTranslate();
 
   const themes: {
     id: string;
@@ -17,30 +19,49 @@ export default function ProfileItem_theme() {
   }[] = [
     {
       id: "system",
-      name: "سیستمی",
+      name: t('profile.system') || "سیستم",
       icon: "phone-portrait-outline",
       activeIcon: "phone-portrait",
     },
-    { id: "dark", name: "تیره", icon: "moon-outline", activeIcon: "moon" },
-    { id: "light", name: "روشن", icon: "sunny-outline", activeIcon: "sunny" },
+    { 
+      id: "dark", 
+      name: t('profile.dark') || "تیره", 
+      icon: "moon-outline", 
+      activeIcon: "moon" 
+    },
+    { 
+      id: "light", 
+      name: t('profile.light') || "روشن", 
+      icon: "sunny-outline", 
+      activeIcon: "sunny" 
+    },
   ];
 
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
-        <Ionicons
-          name={itemLogo as any}
-          size={24}
-          color="#3996e8"
-          style={styles.icon}
-        />
-        <Text style={styles.title}>{itemLable}</Text>
+        {/* بخش سمت راست در RTL / سمت چپ در LTR: آیکون + متن */}
+        <View style={styles.leftSection}>
+          <Ionicons
+            name="color-palette-sharp"
+            size={24}
+            color="#3996e8"
+            style={isRTL ? styles.iconRTL : styles.iconLTR}
+          />
+          <Text style={styles.title}>
+            {t('profile.theme') || "ظاهر برنامه"}
+          </Text>
+        </View>
 
-        <View style={styles.iconGroup}>
-          {themes.map((theme, index) => (
+        {/* بخش سمت چپ در RTL / سمت راست در LTR: دکمه‌های تم */}
+        <View style={[
+          styles.iconGroup,
+          isRTL ? styles.iconGroupRTL : styles.iconGroupLTR
+        ]}>
+          {themes.map((theme) => (
             <TouchableOpacity
               key={theme.id}
-              style={[styles.iconItem, index === 0 && styles.firstItem]}
+              style={styles.iconItem}
               onPress={() => setSelectedTheme(theme.id)}
             >
               <Text
@@ -55,10 +76,9 @@ export default function ProfileItem_theme() {
                 name={
                   selectedTheme === theme.id ? theme.activeIcon : theme.icon
                 }
-                size={28}
+                size={22}
                 color={selectedTheme === theme.id ? "#3996e8" : "#999"}
               />
-              
             </TouchableOpacity>
           ))}
         </View>
@@ -72,7 +92,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginBottom: 8,
   },
-
   innerContainer: {
     padding: 14,
     paddingHorizontal: 20,
@@ -84,31 +103,39 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  icon: {
+  leftSection: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  iconRTL: {
     marginLeft: 12,
+    marginRight: 0,
+  },
+  iconLTR: {
+    marginLeft: 0,
+    marginRight: 12,
   },
   title: {
-    flex: 1,
     fontSize: 14,
     fontWeight: "600",
     color: "#333",
   },
-  arrowIcon: {
-    marginLeft: 12,
-  },
-
   iconGroup: {
     flexDirection: "row",
     gap: 12,
+  },
+  iconGroupRTL: {
+    // حالت RTL: دکمه‌ها به ترتیب معمولی
+  },
+  iconGroupLTR: {
+    // حالت LTR: ترتیب برعکس
+    flexDirection: "row-reverse",
   },
   iconItem: {
     flexDirection: "row",
     alignItems: "center",
     gap: 4,
     paddingHorizontal: 8,
-  },
-  firstItem: {
-    paddingLeft: 0,
   },
   iconLabel: {
     fontSize: 12,

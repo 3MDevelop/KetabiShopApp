@@ -1,0 +1,37 @@
+// locales/ar.json
+{
+  "common": {
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "نجاح",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "back": "رجوع",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "search": "بحث",
+    "submit": "تأكيد"
+  },
+  "profile": {
+    "title": "الملف الشخصي",
+    "myActivities": "أنشطتي",
+    "myLibrary": "مكتبتي",
+    "paymentHistory": "سجل الدفعات",
+    "myComments": "تعليقاتي",
+    "myLikes": "المعجب بها",
+    "myFavorites": "المفضلة",
+    "settings": "الإعدادات",
+    "theme": "مظهر التطبيق",
+    "language": "تغيير اللغة",
+    "support": "الدعم",
+    "about": "معلومات عنا",
+    "logout": "تسجيل خروج",
+    "light": "فاتح",
+    "dark": "داكن",
+    "system": "النظام"
+  },
+  "nav": {
+    "categories": "التصنيفات",
+    "offers": "العروض"
+  }
+}

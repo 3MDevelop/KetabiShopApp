@@ -4,6 +4,7 @@ import { useResponsive } from "@/hooks/useResponsive";
 import { useRouter } from "expo-router";
 import { useRef } from "react";
 import UserAvatar from "@/components/UI/userAvatar";
+import { useTranslate } from "@/hooks/useTranslation";
 
 import styles from "./styles";
 
@@ -11,6 +12,8 @@ export default function NavBar({ Colors, appTheme }: any) {
   const { isDesktop } = useResponsive();
   const profileRef = useRef<View>(null);
   const router = useRouter();
+  const { t } = useTranslate();
+
   return (
     <>
       <View
@@ -46,7 +49,7 @@ export default function NavBar({ Colors, appTheme }: any) {
                 <Text
                   style={{ marginEnd: 10, color: "white", fontWeight: 500 }}
                 >
-                  دسته بندی
+                  {t('nav.categories') || "دسته بندی"}
                 </Text>
               </TouchableOpacity>
 
@@ -62,7 +65,7 @@ export default function NavBar({ Colors, appTheme }: any) {
                 <Text
                   style={{ marginEnd: 10, color: "white", fontWeight: 500 }}
                 >
-                  پیشنهادات
+                  {t('nav.offers') || "پیشنهادات"}
                 </Text>
               </TouchableOpacity>
               

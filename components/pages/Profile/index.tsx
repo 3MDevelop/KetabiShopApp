@@ -1,4 +1,4 @@
-// components/Profile/Profile.tsx
+// components/pages/Profile/index.tsx
 import { useRouter } from "expo-router";
 import React, { useRef } from "react";
 import { useAuth } from "@/hooks/useAuth";
@@ -21,6 +21,7 @@ import UserInfoLable from "@/components/UI/UserInfoLable";
 import UserAvatarEditBtn from "@/components/UI/UserAvatarEditBtn";
 import ProfileItem_theme from "@/components/UI/ProfileItem_theme";
 import ProfileItem_setLang from "@/components/UI/ProfileItem_setLang";
+import { useTranslate } from "@/hooks/useTranslation";
 
 import { styles } from "./styles";
 import {
@@ -35,6 +36,7 @@ export default function Profile() {
   const scrollViewRef = useRef<NativeScrollView>(null);
   const router = useRouter();
   const { isLoggedIn } = useAuth();
+  const { t } = useTranslate();
 
   const scrollToTop = () => {
     scrollViewRef.current?.scrollTo({ y: 0, animated: true });
@@ -51,7 +53,7 @@ export default function Profile() {
         ref={scrollViewRef}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-          { useNativeDriver: false },
+          { useNativeDriver: false }
         )}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={true}
@@ -98,55 +100,61 @@ export default function Profile() {
             />
           </View>
         </Animated.View>
+
         <View
           style={{ marginHorizontal: "auto", width: "100%", maxWidth: 700 }}
         >
           {isLoggedIn ? (
             <>
               <Text style={[styles.mainTitle, { marginTop: 40 }]}>
-                فعالیتهای من
+                {t('profile.myActivities')}
               </Text>
 
               <ProfileItems
-                itemLable={"کتابخانه شخصی"}
+                itemLable={t('profile.myLibrary')}
                 itemAddress={"./myLibrary"}
                 itemLogo={"library"}
               />
 
               <ProfileItems
-                itemLable={"تاریخچه پرداخت"}
+                itemLable={t('profile.paymentHistory')}
                 itemAddress={"./paymentRecords"}
                 itemLogo={"wallet-sharp"}
               />
+
               <ProfileItems
-                itemLable={"نظرات من"}
+                itemLable={t('profile.myComments')}
                 itemAddress={"./myComments"}
                 itemLogo={"chatbubble-sharp"}
               />
 
               <ProfileItems
-                itemLable={"پسندیده های من"}
+                itemLable={t('profile.myLikes')}
                 itemAddress={"./myLikes"}
                 itemLogo={"thumbs-up-sharp"}
               />
+
               <ProfileItems
-                itemLable={"علاقه مندی ها"}
+                itemLable={t('profile.myFavorites')}
                 itemAddress={"./myFavorites"}
                 itemLogo={"star-sharp"}
               />
             </>
           ) : null}
 
-          <Text style={styles.mainTitle}>تنظیمات</Text>
+          <Text style={styles.mainTitle}>{t('profile.settings')}</Text>
+          
           <ProfileItem_theme />
           <ProfileItem_setLang />
+          
           <ProfileItems
-            itemLable={"پشتیبانی"}
+            itemLable={t('profile.support')}
             itemAddress={"support"}
             itemLogo={"headset-sharp"}
           />
+          
           <ProfileItems
-            itemLable={"درباره ما"}
+            itemLable={t('profile.about')}
             itemAddress={"about"}
             itemLogo={"id-card-sharp"}
           />
