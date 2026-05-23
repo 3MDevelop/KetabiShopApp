@@ -19,6 +19,8 @@ import ProfileItems from "@/components/UI/ProfileItem";
 import UserAvatar from "@/components/UI/userAvatar";
 import UserInfoLable from "@/components/UI/UserInfoLable";
 import UserAvatarEditBtn from "@/components/UI/UserAvatarEditBtn";
+import ProfileItem_theme from "@/components/UI/ProfileItem_theme";
+import ProfileItem_setLang from "@/components/UI/ProfileItem_setLang";
 
 import { styles } from "./styles";
 import {
@@ -110,6 +112,7 @@ export default function Profile() {
                 itemAddress={"./myLibrary"}
                 itemLogo={"library"}
               />
+
               <ProfileItems
                 itemLable={"تاریخچه پرداخت"}
                 itemAddress={"./paymentRecords"}
@@ -135,12 +138,8 @@ export default function Profile() {
           ) : null}
 
           <Text style={styles.mainTitle}>تنظیمات</Text>
-
-          <ProfileItems
-            itemLable={"ظاهر برنامه"}
-            itemAddress={""}
-            itemLogo={"color-palette-sharp"}
-          />
+          <ProfileItem_theme />
+          <ProfileItem_setLang />
           <ProfileItems
             itemLable={"پشتیبانی"}
             itemAddress={"support"}
