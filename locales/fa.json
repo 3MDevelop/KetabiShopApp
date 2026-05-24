@@ -21,7 +21,7 @@
       "loginBtn": "ورود به حساب کاربری"
     },
     "navbar": {
-      "categories": "دسته بندی",
+      "categories": "دسته فبندی",
       "offers": "پیشنهادات"
     },
     "product": {
@@ -61,7 +61,7 @@
       "system": "سیستم"
     },
     "QRScanner": {
-      "lable": "اسکن QR Code"
+      "label": "اسکن QR Code"
     }
   },
   "pages": {
@@ -92,7 +92,7 @@
       "myComments": "نظرات من",
       "myLikes": "پسندیده‌های من",
       "myFavorites": "علاقه‌مندی‌ها",
-      "guestUserLable": "مهمان / ورود",
+      "guestUserLabel": "مهمان / ورود",
       "about":"در باره ما"
     },
     "Rules": {},
@@ -100,7 +100,7 @@
     "Support": {},
     "Temp": {},
     "User": {},
-    "About": { "about_lable": "درباره ما" },
+    "About": { "about_label": "درباره ما" },
     "Basket": {},
     "Book": {
       "details": "جزئیات کتاب",

@@ -1,15 +1,16 @@
 import React from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import styles from "./styles";
+import CustomText from "@/components/common/CustomText";
 
 export default function MyFavorites() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>درباره ما</Text>
-        <Text style={styles.description}>ما خوبیم</Text>
-        <Text style={styles.description}>ما خیلی خفنیم</Text>
-        <Text style={styles.description}>بقیه ....</Text>
+        <CustomText style={styles.title}>درباره ما</CustomText>
+        <CustomText style={styles.description}>ما خوبیم</CustomText>
+        <CustomText style={styles.description}>ما خیلی خفنیم</CustomText>
+        <CustomText style={styles.description}>بقیه ....</CustomText>
       </View>
     </ScrollView>
   );

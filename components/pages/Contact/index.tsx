@@ -1,16 +1,17 @@
 // app/contact.tsx
-import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import React from "react";
+import { ScrollView, View } from "react-native";
 import styles from "./styles";
+import CustomText from "@/components/common/CustomText";
 
 export default function Contact() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>تماس با ما</Text>
-        <Text style={styles.description}>
+        <CustomText style={styles.title}>تماس با ما</CustomText>
+        <CustomText style={styles.description}>
           اطلاعات تماس اینجا قرار می‌گیرد.
-        </Text>
+        </CustomText>
       </View>
     </ScrollView>
   );

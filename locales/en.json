@@ -1,59 +1,126 @@
 {
   "common": {
-    "loading": "Loading...",
-    "error": "Error",
-    "success": "Success",
-    "save": "Save",
-    "cancel": "Cancel",
-    "back": "Back",
-    "delete": "Delete",
-    "edit": "Edit",
-    "search": "Search",
-    "submit": "Submit"
+    "common": {
+      "loading": "Loading...",
+      "error": "Error",
+      "success": "Success",
+      "save": "Save",
+      "cancel": "Cancel",
+      "back": "Back",
+      "delete": "Delete",
+      "edit": "Edit",
+      "search": "Search",
+      "submit": "Submit",
+      "added": "Added",
+      "removed": "Removed",
+      "unknown": "Unknown",
+      "connectionError": "Connection error with server",
+      
+      "userUpdateBtn": "Update Account",
+      "logoutBtn": "Logout",
+      "loginBtn": "Login"
+    },
+    "navbar": {
+      "categories": "Categories",
+      "offers": "Offers"
+    },
+    "product": {
+      "viewProducts": "View Products",
+      "physicalBook": "Physical Book",
+      "ebook": "E-book",
+      "audiobook": "Audiobook",
+      "podcast": "Podcast",
+      "audio": "Audio File",
+      "product": "Product"
+    },
+    "cart": {
+      "title": "Shopping Cart",
+      "emptyTitle": "Cart is Empty",
+      "emptyText": "You haven't added any products to your cart yet.",
+      "emptyHint": "Go to the store and select the products you want to purchase.",
+      "instantDownload": "Instant download after purchase",
+      "onlinePlay": "Online playback & download",
+      "currency": "Toman",
+      "total": "Total:",
+      "finalAmount": "Final amount:",
+      "checkout": "Checkout",
+      "loginRequired": "Please login to your account to proceed with payment",
+      "continueShopping": "Continue Shopping",
+      "singleItem": "One item",
+      "addedToCart": "Added to cart"
+    }
   },
-  "profile": {
-    "title": "User Profile",
-    "myActivities": "My Activities",
-    "myLibrary": "My Library",
-    "paymentHistory": "Payment History",
-    "myComments": "My Comments",
-    "myLikes": "My Likes",
-    "myFavorites": "My Favorites",
-    "settings": "Settings",
-    "theme": "Appearance",
-    "language": "Language",
-    "support": "Support",
-    "about": "About Us",
-    "logout": "User Logout",
-    "login": "User Login",
-    "light": "Light",
-    "dark": "Dark",
-    "system": "System"
+  "ui": {
+    "ProfileItem_setLang": {
+      "language": "Change Language"
+    },
+    "ProfileItem_theme": {
+      "theme": "App Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "QRScanner": {
+      "lable": "Scan QR Code"
+    }
   },
-  "nav": {
-    "categories": "Categories",
-    "offers": "Offers"
-  },
-  "cart": {
-    "title": "Shopping Cart",
-    "emptyTitle": "🛒 Cart is empty",
-    "emptyText": "You haven't added any products to your cart.",
-    "emptyHint": "Go to the store and select the products you want.",
-    "viewProducts": "View Products",
-    "physicalBook": "Physical Book",
-    "ebook": "E-book",
-    "audiobook": "Audiobook",
-    "podcast": "Podcast",
-    "audio": "Audio File",
-    "product": "Product",
-    "instantDownload": "Instant download after purchase",
-    "onlinePlay": "Online streaming & download",
-    "currency": "Toman",
-    "total": "Total:",
-    "finalAmount": "Amount payable:",
-    "checkout": "Checkout",
-    "loginRequired": "Please login to your account to proceed",
-    "continueShopping": "Continue Shopping",
-    "singleItem": "Single item"
+  "pages": {
+    "BookFinder": {
+      "invalidCode": "Invalid book code",
+      "notFound": "No book found",
+      "loadingBook": "Loading book information..."
+    },
+    "BookList": {},
+    "Categories": {},
+    "Contact": {},
+    "Index": {},
+    "Invitation": {},
+    "Login": {},
+    "MyComments": {},
+    "MyFavorites": {},
+    "MyLibrary": {},
+    "MyLikes": {},
+    "Offers": {},
+    "PaymentRecords": {},
+    "Profile": {
+      "settings": "Settings",
+      "support": "Support",
+      "title": "User Profile",
+      "myActivities": "My Activities",
+      "myLibrary": "Personal Library",
+      "paymentHistory": "Payment History",
+      "myComments": "My Comments",
+      "myLikes": "My Likes",
+      "myFavorites": "Favorites",
+      "guestUserLabel": "Guest / Login",
+      "about": "About Us"
+    },
+    "Rules": {},
+    "Search": {},
+    "Support": {},
+    "Temp": {},
+    "User": {},
+    "About": { "about_lable": "About Us" },
+    "Basket": {},
+    "Book": {
+      "details": "Book Details",
+      "notFoundDesc": "The requested book does not exist or has been removed",
+      "unknownAuthor": "Unknown Author",
+      "addToCart": "Add to Cart",
+      "outOfStock": "Out of Stock",
+      "inStock": "In Stock",
+      "discount": "Discount",
+      "specifications": "Specifications",
+      "publisher": "Publisher",
+      "isbn": "ISBN",
+      "pages": "Pages",
+      "pagesUnit": "pages",
+      "year": "Publication Year",
+      "category": "Category",
+      "stock": "Stock",
+      "description": "Description",
+      "addedToWishlist": "Added to wishlist",
+      "removedFromWishlist": "Removed from wishlist"
+    }
   }
 }

@@ -1,7 +1,8 @@
-import React from "react";
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { useCat } from "@/context/CatContext";
+import React from "react";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 import styles from "./styles";
+import CustomText from "@/components/common/CustomText";
 
 export default function Categories() {
   const { catList, isLoading, error } = useCat();
@@ -9,7 +10,7 @@ export default function Categories() {
   if (isLoading) {
     return (
       <View style={styles.centerContainer}>
-        <Text>در حال بارگذاری...</Text>
+        <CustomText>در حال بارگذاری...</CustomText>
       </View>
     );
   }
@@ -17,7 +18,7 @@ export default function Categories() {
   if (error) {
     return (
       <View style={styles.centerContainer}>
-        <Text style={styles.errorText}>خطا: {error}</Text>
+        <CustomText style={styles.errorText}>خطا: {error}</CustomText>
       </View>
     );
   }
@@ -28,16 +29,16 @@ export default function Categories() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>دسته بندی کتاب‌ها</Text>
-        <Text style={styles.description}>
+        <CustomText style={styles.title}>دسته بندی کتاب‌ها</CustomText>
+        <CustomText style={styles.description}>
           {genres.length} دسته بندی مختلف برای کشف کتاب‌های جدید
-        </Text>
+        </CustomText>
 
         <View style={styles.categoriesGrid}>
           {genres.map((genre) => (
             <TouchableOpacity key={genre.id} style={styles.categoryCard}>
-              <Text style={styles.categoryName}>{genre.label}</Text>
-              <Text style={styles.categoryId}>{genre.name}</Text>
+              <CustomText style={styles.categoryName}>{genre.label}</CustomText>
+              <CustomText style={styles.categoryId}>{genre.name}</CustomText>
             </TouchableOpacity>
           ))}
         </View>

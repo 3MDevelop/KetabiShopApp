@@ -1,19 +1,19 @@
 // app/book/[id].tsx
-import React, { useEffect, useState, useCallback } from "react";
-import {
-  ScrollView,
-  Text,
-  View,
-  Image,
-  ActivityIndicator,
-  TouchableOpacity,
-} from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
-import { useTranslate } from "@/hooks/useTranslation";
 import { useLanguage } from "@/context/LanguageContext";
+import { useTranslate } from "@/hooks/useTranslation";
+import { Ionicons } from "@expo/vector-icons";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import React, { useCallback, useEffect, useState } from "react";
+import {
+    ActivityIndicator,
+    Image,
+    ScrollView,
+    TouchableOpacity,
+    View
+} from "react-native";
 import Toast from "react-native-toast-message";
 import styles from "./styles";
+import CustomText from "@/components/common/CustomText";
 
 interface BookData {
   id: string;
@@ -56,8 +56,8 @@ export default function BookDetail() {
       setLoading(false);
       Toast.show({
         type: "error",
-        text1: t('common.error'),
-        text2: t('book.invalidCode'),
+        text1: t("common.error"),
+        text2: t("book.invalidCode"),
         position: "top",
         topOffset: 20,
         visibilityTime: 2000,
@@ -84,8 +84,8 @@ export default function BookDetail() {
       console.error("Error fetching book details:", error);
       Toast.show({
         type: "error",
-        text1: t('common.error'),
-        text2: t('common.connectionError'),
+        text1: t("common.error"),
+        text2: t("common.connectionError"),
         position: "top",
         topOffset: 20,
         visibilityTime: 2000,
@@ -103,8 +103,8 @@ export default function BookDetail() {
   const addToCart = () => {
     Toast.show({
       type: "success",
-      text1: t('cart.added'),
-      text2: `${book?.title} ${t('cart.addedToCart')}`,
+      text1: t("cart.added"),
+      text2: `${book?.title} ${t("cart.addedToCart")}`,
       position: "top",
       topOffset: 20,
       visibilityTime: 2000,
@@ -115,10 +115,10 @@ export default function BookDetail() {
     setWishlist(!wishlist);
     Toast.show({
       type: "success",
-      text1: wishlist ? t('common.removed') : t('common.added'),
+      text1: wishlist ? t("common.removed") : t("common.added"),
       text2: wishlist
-        ? `${book?.title} ${t('book.removedFromWishlist')}`
-        : `${book?.title} ${t('book.addedToWishlist')}`,
+        ? `${book?.title} ${t("book.removedFromWishlist")}`
+        : `${book?.title} ${t("book.addedToWishlist")}`,
       position: "top",
       topOffset: 20,
       visibilityTime: 2000,
@@ -129,7 +129,9 @@ export default function BookDetail() {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#4CAF50" />
-        <Text style={styles.loadingText}>{t('common.loadingBook')}</Text>
+        <CustomText style={styles.loadingText}>
+          {t("common.loadingBook")}
+        </CustomText>
       </View>
     );
   }
@@ -140,16 +142,22 @@ export default function BookDetail() {
         <View style={styles.errorIcon}>
           <Ionicons name="book-outline" size={80} color="#ccc" />
         </View>
-        <Text style={styles.errorTitle}>{t('book.notFound')}</Text>
-        <Text style={styles.errorText}>
-          {t('book.notFoundDesc')}
-        </Text>
+        <CustomText style={styles.errorTitle}>{t("book.notFound")}</CustomText>
+        <CustomText style={styles.errorText}>
+          {t("book.notFoundDesc")}
+        </CustomText>
         <TouchableOpacity
           style={styles.errorBackButton}
           onPress={() => router.back()}
         >
-          <Ionicons name={isRTL ? "arrow-forward" : "arrow-back"} size={20} color="#fff" />
-          <Text style={styles.errorBackText}>{t('common.back')}</Text>
+          <Ionicons
+            name={isRTL ? "arrow-forward" : "arrow-back"}
+            size={20}
+            color="#fff"
+          />
+          <CustomText style={styles.errorBackText}>
+            {t("common.back")}
+          </CustomText>
         </TouchableOpacity>
       </View>
     );
@@ -171,9 +179,15 @@ export default function BookDetail() {
             style={styles.backButton}
             onPress={() => router.back()}
           >
-            <Ionicons name={isRTL ? "arrow-forward" : "arrow-back"} size={24} color="#333" />
+            <Ionicons
+              name={isRTL ? "arrow-forward" : "arrow-back"}
+              size={24}
+              color="#333"
+            />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>{t('book.details')}</Text>
+          <CustomText style={styles.headerTitle}>
+            {t("book.details")}
+          </CustomText>
           <View style={{ width: 40 }} />
         </View>
       </View>
@@ -194,21 +208,21 @@ export default function BookDetail() {
             )}
             {hasDiscount && (
               <View style={styles.discountBadge}>
-                <Text style={styles.discountBadgeText}>
-                  {book.percentFa}% {t('book.discount')}
-                </Text>
+                <CustomText style={styles.discountBadgeText}>
+                  {book.percentFa}% {t("book.discount")}
+                </CustomText>
               </View>
             )}
           </View>
         </View>
 
         <View style={styles.titleSection}>
-          <Text style={styles.bookTitle}>{book.title}</Text>
+          <CustomText style={styles.bookTitle}>{book.title}</CustomText>
           <View style={styles.authorWrapper}>
             <Ionicons name="person-outline" size={18} color="#999" />
-            <Text style={styles.bookAuthor}>
-              {book.author || t('book.unknownAuthor')}
-            </Text>
+            <CustomText style={styles.bookAuthor}>
+              {book.author || t("book.unknownAuthor")}
+            </CustomText>
           </View>
         </View>
 
@@ -216,17 +230,17 @@ export default function BookDetail() {
           <View style={styles.priceWrapper}>
             {hasDiscount ? (
               <>
-                <Text style={styles.oldPrice}>
-                  {Number(book.price).toLocaleString()} {t('cart.currency')}
-                </Text>
-                <Text style={styles.finalPrice}>
-                  {Number(finalPrice).toLocaleString()} {t('cart.currency')}
-                </Text>
+                <CustomText style={styles.oldPrice}>
+                  {Number(book.price).toLocaleString()} {t("cart.currency")}
+                </CustomText>
+                <CustomText style={styles.finalPrice}>
+                  {Number(finalPrice).toLocaleString()} {t("cart.currency")}
+                </CustomText>
               </>
             ) : (
-              <Text style={styles.singlePrice}>
-                {Number(book.price).toLocaleString()} {t('cart.currency')}
-              </Text>
+              <CustomText style={styles.singlePrice}>
+                {Number(book.price).toLocaleString()} {t("cart.currency")}
+              </CustomText>
             )}
           </View>
 
@@ -237,9 +251,9 @@ export default function BookDetail() {
               disabled={!isAvailable}
             >
               <Ionicons name="cart-outline" size={22} color="#fff" />
-              <Text style={styles.cartButtonText}>
-                {isAvailable ? t('book.addToCart') : t('book.outOfStock')}
-              </Text>
+              <CustomText style={styles.cartButtonText}>
+                {isAvailable ? t("book.addToCart") : t("book.outOfStock")}
+              </CustomText>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -256,7 +270,9 @@ export default function BookDetail() {
         </View>
 
         <View style={styles.infoCard}>
-          <Text style={styles.cardTitle}>{t('book.specifications')}</Text>
+          <CustomText style={styles.cardTitle}>
+            {t("book.specifications")}
+          </CustomText>
 
           <View style={styles.infoGrid}>
             <View style={styles.infoItem}>
@@ -264,10 +280,12 @@ export default function BookDetail() {
                 <Ionicons name="book-outline" size={20} color="#4CAF50" />
               </View>
               <View style={styles.infoText}>
-                <Text style={styles.infoLabel}>{t('book.publisher')}</Text>
-                <Text style={styles.infoValue}>
-                  {book.publisher || t('common.unknown')}
-                </Text>
+                <CustomText style={styles.infoLabel}>
+                  {t("book.publisher")}
+                </CustomText>
+                <CustomText style={styles.infoValue}>
+                  {book.publisher || t("common.unknown")}
+                </CustomText>
               </View>
             </View>
 
@@ -276,8 +294,12 @@ export default function BookDetail() {
                 <Ionicons name="barcode-outline" size={20} color="#4CAF50" />
               </View>
               <View style={styles.infoText}>
-                <Text style={styles.infoLabel}>{t('book.isbn')}</Text>
-                <Text style={styles.infoValue}>{book.isbn || t('common.unknown')}</Text>
+                <CustomText style={styles.infoLabel}>
+                  {t("book.isbn")}
+                </CustomText>
+                <CustomText style={styles.infoValue}>
+                  {book.isbn || t("common.unknown")}
+                </CustomText>
               </View>
             </View>
 
@@ -290,10 +312,13 @@ export default function BookDetail() {
                 />
               </View>
               <View style={styles.infoText}>
-                <Text style={styles.infoLabel}>{t('book.pages')}</Text>
-                <Text style={styles.infoValue}>
-                  {book.number_pages || t('common.unknown')} {t('book.pagesUnit')}
-                </Text>
+                <CustomText style={styles.infoLabel}>
+                  {t("book.pages")}
+                </CustomText>
+                <CustomText style={styles.infoValue}>
+                  {book.number_pages || t("common.unknown")}{" "}
+                  {t("book.pagesUnit")}
+                </CustomText>
               </View>
             </View>
 
@@ -302,10 +327,12 @@ export default function BookDetail() {
                 <Ionicons name="calendar-outline" size={20} color="#4CAF50" />
               </View>
               <View style={styles.infoText}>
-                <Text style={styles.infoLabel}>{t('book.year')}</Text>
-                <Text style={styles.infoValue}>
-                  {book.publish_year || t('common.unknown')}
-                </Text>
+                <CustomText style={styles.infoLabel}>
+                  {t("book.year")}
+                </CustomText>
+                <CustomText style={styles.infoValue}>
+                  {book.publish_year || t("common.unknown")}
+                </CustomText>
               </View>
             </View>
 
@@ -314,11 +341,13 @@ export default function BookDetail() {
                 <Ionicons name="layers-outline" size={20} color="#4CAF50" />
               </View>
               <View style={styles.infoText}>
-                <Text style={styles.infoLabel}>{t('book.category')}</Text>
-                <Text style={styles.infoValue}>
-                  {book.main_category || ""}{" "}
+                <CustomText style={styles.infoLabel}>
+                  {t("book.category")}
+                </CustomText>
+                <CustomText style={styles.infoValue}>
+                  {book.main_category}{" "}
                   {book.sub_category ? `- ${book.sub_category}` : ""}
-                </Text>
+                </CustomText>
               </View>
             </View>
 
@@ -331,15 +360,17 @@ export default function BookDetail() {
                 />
               </View>
               <View style={styles.infoText}>
-                <Text style={styles.infoLabel}>{t('book.stock')}</Text>
-                <Text
+                <CustomText style={styles.infoLabel}>
+                  {t("book.stock")}
+                </CustomText>
+                <CustomText
                   style={[
                     styles.infoValue,
                     isAvailable ? styles.inStock : styles.outOfStock,
                   ]}
                 >
-                  {isAvailable ? t('book.inStock') : t('book.outOfStock')}
-                </Text>
+                  {isAvailable ? t("book.inStock") : t("book.outOfStock")}
+                </CustomText>
               </View>
             </View>
           </View>
@@ -347,10 +378,12 @@ export default function BookDetail() {
 
         {book.des_fa && (
           <View style={styles.descriptionCard}>
-            <Text style={styles.cardTitle}>📖 {t('book.description')}</Text>
-            <Text style={styles.descriptionText}>
+            <CustomText style={styles.cardTitle}>
+              📖 {t("book.description")}
+            </CustomText>
+            <CustomText style={styles.descriptionText}>
               {stripHtmlTags(book.des_fa)}
-            </Text>
+            </CustomText>
           </View>
         )}
       </View>

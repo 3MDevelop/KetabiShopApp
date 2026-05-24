@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import { ScrollView, Text, View, TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import styles from "./styles";
-import { useAuth } from "@/hooks/useAuth";
-import { router } from "expo-router";
-import { useTranslate } from "@/hooks/useTranslation";
 import { useLanguage } from "@/context/LanguageContext";
+import { useAuth } from "@/hooks/useAuth";
+import { useTranslate } from "@/hooks/useTranslation";
+import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
+import React, { useState } from "react";
+import { ScrollView, TouchableOpacity, View } from "react-native";
+import styles from "./styles";
+import CustomText from "@/components/common/CustomText";
 
 type ProductType =
   | "physical_book"
@@ -87,42 +88,42 @@ export default function Basket() {
           name: "book",
           color: "#007AFF",
           bgColor: "#007AFF15",
-          label: t('cart.physicalBook') ,
+          label: t("cart.physicalBook"),
         };
       case "ebook":
         return {
           name: "tablet-portrait",
           color: "#9C27B0",
           bgColor: "#9C27B015",
-          label: t('cart.ebook') ,
+          label: t("cart.ebook"),
         };
       case "audiobook":
         return {
           name: "headset",
           color: "#FF6B35",
           bgColor: "#FF6B3515",
-          label: t('cart.audiobook') ,
+          label: t("cart.audiobook"),
         };
       case "podcast":
         return {
           name: "mic",
           color: "#FF6B35",
           bgColor: "#FF6B3515",
-          label: t('cart.podcast'),
+          label: t("cart.podcast"),
         };
       case "audio":
         return {
           name: "musical-notes",
           color: "#FF6B35",
           bgColor: "#FF6B3515",
-          label: t('cart.audio') ,
+          label: t("cart.audio"),
         };
       default:
         return {
           name: "document",
           color: "#007AFF",
           bgColor: "#007AFF15",
-          label: t('cart.product') ,
+          label: t("cart.product"),
         };
     }
   };
@@ -155,7 +156,7 @@ export default function Basket() {
     }
 
     setCartItems((prev) =>
-      prev.map((i) => (i.id === id ? { ...i, quantity: newQuantity } : i))
+      prev.map((i) => (i.id === id ? { ...i, quantity: newQuantity } : i)),
     );
   };
 
@@ -178,23 +179,23 @@ export default function Basket() {
         <View style={styles.content}>
           <View style={styles.emptyCartContainer}>
             <Ionicons name="cart-outline" size={80} color="#ccc" />
-            <Text style={styles.emptyCartTitle}>
-              {t('cart.emptyTitle') }
-            </Text>
-            <Text style={styles.emptyCartText}>
-              {t('cart.emptyText') }
+            <CustomText style={styles.emptyCartTitle}>
+              {t("cart.emptyTitle")}
+            </CustomText>
+            <CustomText style={styles.emptyCartText}>
+              {t("cart.emptyText")}
               {"\n"}
-              {t('cart.emptyHint') }
-            </Text>
+              {t("cart.emptyHint")}
+            </CustomText>
 
             <TouchableOpacity
               style={styles.shopButton}
               onPress={() => router.push("/booklist")}
             >
               <Ionicons name="book-outline" size={20} color="#fff" />
-              <Text style={styles.shopButtonText}>
-                {t('cart.viewProducts')}
-              </Text>
+              <CustomText style={styles.shopButtonText}>
+                {t("cart.viewProducts")}
+              </CustomText>
               <Ionicons
                 name={isRTL ? "arrow-back" : "arrow-forward"}
                 size={18}
@@ -213,9 +214,9 @@ export default function Basket() {
         {/* هدر */}
         <View style={styles.header}>
           <Ionicons name="cart" size={28} color="#007AFF" />
-          <Text style={styles.title}>{t('cart.title') }</Text>
+          <CustomText style={styles.title}>{t("cart.title")}</CustomText>
           <View style={styles.badge}>
-            <Text style={styles.badgeText}>{cartItems.length}</Text>
+            <CustomText style={styles.badgeText}>{cartItems.length}</CustomText>
           </View>
         </View>
 
@@ -242,58 +243,63 @@ export default function Basket() {
                   </View>
                   <View style={styles.cartItemDetails}>
                     <View style={styles.productHeader}>
-                      <Text style={styles.cartItemTitle}>{item.title}</Text>
+                      <CustomText style={styles.cartItemTitle}>
+                        {item.title}
+                      </CustomText>
                       <View
                         style={[
                           styles.productTypeBadge,
                           { backgroundColor: `${productStyle.color}20` },
                         ]}
                       >
-                        <Text
+                        <CustomText
                           style={[
                             styles.productTypeText,
                             { color: productStyle.color },
                           ]}
                         >
                           {productStyle.label}
-                        </Text>
+                        </CustomText>
                       </View>
                     </View>
-                    <Text style={styles.cartItemAuthor}>{item.author}</Text>
+                    <CustomText style={styles.cartItemAuthor}>
+                      {item.author}
+                    </CustomText>
                     {item.duration && (
-                      <Text style={styles.productDuration}>
+                      <CustomText style={styles.productDuration}>
                         <Ionicons name="time-outline" size={12} color="#999" />{" "}
                         {item.duration}
-                      </Text>
+                      </CustomText>
                     )}
                     {isEbook && (
-                      <Text style={styles.digitalBadge}>
+                      <CustomText style={styles.digitalBadge}>
                         <Ionicons
                           name="cloud-outline"
                           size={12}
                           color="#9C27B0"
                         />{" "}
-                        {t('cart.instantDownload') }
-                      </Text>
+                        {t("cart.instantDownload")}
+                      </CustomText>
                     )}
                     {isDigital && item.type !== "ebook" && (
-                      <Text style={styles.digitalBadge}>
+                      <CustomText style={styles.digitalBadge}>
                         <Ionicons
                           name="headset-outline"
                           size={12}
                           color="#FF6B35"
                         />{" "}
-                        {t('cart.onlinePlay') }
-                      </Text>
+                        {t("cart.onlinePlay")}
+                      </CustomText>
                     )}
-                    <Text
+                    <CustomText
                       style={[
                         styles.cartItemPrice,
                         { color: productStyle.color },
                       ]}
                     >
-                      {(item.price * item.quantity).toLocaleString()} {t('cart.currency')}
-                    </Text>
+                      {(item.price * item.quantity).toLocaleString()}{" "}
+                      {t("cart.currency")}
+                    </CustomText>
                   </View>
                 </View>
 
@@ -313,7 +319,9 @@ export default function Basket() {
                       >
                         <Ionicons name="remove" size={18} color="#fff" />
                       </TouchableOpacity>
-                      <Text style={styles.quantityText}>{item.quantity}</Text>
+                      <CustomText style={styles.quantityText}>
+                        {item.quantity}
+                      </CustomText>
                       <TouchableOpacity
                         style={[
                           styles.quantityButton,
@@ -330,16 +338,20 @@ export default function Basket() {
                     </View>
                   ) : (
                     <View style={styles.singleItemBadge}>
-                      <Ionicons name="checkmark-circle" size={16} color="#28a745" />
-                      <Text style={styles.singleItemText}>
-                        {t('cart.singleItem') }
-                      </Text>
+                      <Ionicons
+                        name="checkmark-circle"
+                        size={16}
+                        color="#28a745"
+                      />
+                      <CustomText style={styles.singleItemText}>
+                        {t("cart.singleItem")}
+                      </CustomText>
                     </View>
                   )}
 
-                  <Text style={styles.unitPrice}>
-                    {item.price.toLocaleString()} {t('cart.currency') }
-                  </Text>
+                  <CustomText style={styles.unitPrice}>
+                    {item.price.toLocaleString()} {t("cart.currency")}
+                  </CustomText>
 
                   <TouchableOpacity
                     style={styles.removeButton}
@@ -355,21 +367,21 @@ export default function Basket() {
 
         <View style={styles.checkoutCard}>
           <View style={styles.totalRow}>
-            <Text style={styles.totalLabel}>{t('cart.total') }</Text>
-            <Text style={styles.totalPrice}>
-              {calculateTotal().toLocaleString()} {t('cart.currency') }
-            </Text>
+            <CustomText style={styles.totalLabel}>{t("cart.total")}</CustomText>
+            <CustomText style={styles.totalPrice}>
+              {calculateTotal().toLocaleString()} {t("cart.currency")}
+            </CustomText>
           </View>
 
           <View style={styles.divider} />
 
           <View style={styles.totalRow}>
-            <Text style={styles.finalLabel}>
-              {t('cart.finalAmount') }
-            </Text>
-            <Text style={styles.finalPrice}>
-              {calculateTotal().toLocaleString()} {t('cart.currency') }
-            </Text>
+            <CustomText style={styles.finalLabel}>
+              {t("cart.finalAmount")}
+            </CustomText>
+            <CustomText style={styles.finalPrice}>
+              {calculateTotal().toLocaleString()} {t("cart.currency")}
+            </CustomText>
           </View>
 
           <TouchableOpacity
@@ -377,15 +389,15 @@ export default function Basket() {
             onPress={handleCheckout}
           >
             <Ionicons name="card-outline" size={22} color="#fff" />
-            <Text style={styles.checkoutButtonText}>
-              {t('cart.checkout') }
-            </Text>
+            <CustomText style={styles.checkoutButtonText}>
+              {t("cart.checkout")}
+            </CustomText>
           </TouchableOpacity>
 
           {!isLoggedIn && (
-            <Text style={styles.loginHint}>
-              ⚠️ {t('cart.loginRequired') }
-            </Text>
+            <CustomText style={styles.loginHint}>
+              ⚠️ {t("cart.loginRequired")}
+            </CustomText>
           )}
         </View>
 
@@ -398,9 +410,9 @@ export default function Basket() {
             size={20}
             color="#007AFF"
           />
-          <Text style={styles.continueShoppingText}>
-            {t('cart.continueShopping')}
-          </Text>
+          <CustomText style={styles.continueShoppingText}>
+            {t("cart.continueShopping")}
+          </CustomText>
         </TouchableOpacity>
       </View>
     </ScrollView>

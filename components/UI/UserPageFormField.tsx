@@ -1,5 +1,6 @@
-import { View, StyleSheet, Text, TextInput } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { StyleSheet, View,TextInput } from "react-native";
+import CustomText from "@/components/common/CustomText";
 
 interface UserPageFormFieldProps {
   label: string;
@@ -26,7 +27,7 @@ export default function UserPageFormField({
         <Ionicons name={iconName} size={20} color="#007AFF" />
       </View>
       <View style={styles.fieldContent}>
-        <Text style={styles.fieldLabel}>{label}</Text>
+        <CustomText style={styles.fieldLabel}>{label}</CustomText>
         <TextInput
           style={styles.fieldInput}
           value={value}

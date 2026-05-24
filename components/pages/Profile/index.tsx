@@ -1,35 +1,35 @@
 // components/pages/Profile/index.tsx
+import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "expo-router";
 import React, { useRef } from "react";
-import { useAuth } from "@/hooks/useAuth";
 import {
-  View,
-  Text,
-  Animated,
-  TouchableOpacity,
-  ScrollView as NativeScrollView,
+    Animated,
+    ScrollView as NativeScrollView,
+    TouchableOpacity,
+    View
 } from "react-native";
 
-import SocialBtn from "@/components/UI/SocialBtn";
-import Cycles from "@/components/UI/Cycles";
 import BackToTop from "@/components/UI/BackToTop";
+import Cycles from "@/components/UI/Cycles";
 import LogoutBtn from "@/components/UI/LogoutBtn";
 import ParallexCycles from "@/components/UI/ParallexCycles";
 import ProfileItems from "@/components/UI/ProfileItem";
-import UserAvatar from "@/components/UI/userAvatar";
-import UserInfoLable from "@/components/UI/UserInfoLable";
-import UserAvatarEditBtn from "@/components/UI/UserAvatarEditBtn";
-import ProfileItem_theme from "@/components/UI/ProfileItem_theme";
 import ProfileItem_setLang from "@/components/UI/ProfileItem_setLang";
+import ProfileItem_theme from "@/components/UI/ProfileItem_theme";
+import SocialBtn from "@/components/UI/SocialBtn";
+import UserAvatar from "@/components/UI/userAvatar";
+import UserAvatarEditBtn from "@/components/UI/UserAvatarEditBtn";
+import UserInfoLable from "@/components/UI/UserInfoLable";
 import { useTranslate } from "@/hooks/useTranslation";
 
-import { styles } from "./styles";
 import {
-  createHeaderBackgroundAnimation,
-  createHeaderTranslateAnimation,
-  createHeaderOpacityAnimation,
-  createProgressBarAnimation,
+    createHeaderBackgroundAnimation,
+    createHeaderOpacityAnimation,
+    createHeaderTranslateAnimation,
+    createProgressBarAnimation,
 } from "./animation";
+import { styles } from "./styles";
+import CustomText from "@/components/common/CustomText";
 
 export default function Profile() {
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -53,7 +53,7 @@ export default function Profile() {
         ref={scrollViewRef}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-          { useNativeDriver: false }
+          { useNativeDriver: false },
         )}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={true}
@@ -106,55 +106,57 @@ export default function Profile() {
         >
           {isLoggedIn ? (
             <>
-              <Text style={[styles.mainTitle, { marginTop: 40 }]}>
-                {t('pages.Profile.myActivities')}
-              </Text>
+              <CustomText style={[styles.mainTitle, { marginTop: 40 }]}>
+                {t("pages.Profile.myActivities")}
+              </CustomText>
 
               <ProfileItems
-                itemLable={t('pages.Profile.myLibrary')}
+                itemLable={t("pages.Profile.myLibrary")}
                 itemAddress={"./myLibrary"}
                 itemLogo={"library"}
               />
 
               <ProfileItems
-                itemLable={t('pages.Profile.paymentHistory')}
+                itemLable={t("pages.Profile.paymentHistory")}
                 itemAddress={"./paymentRecords"}
                 itemLogo={"wallet-sharp"}
               />
 
               <ProfileItems
-                itemLable={t('pages.Profile.myComments')}
+                itemLable={t("pages.Profile.myComments")}
                 itemAddress={"./myComments"}
                 itemLogo={"chatbubble-sharp"}
               />
 
               <ProfileItems
-                itemLable={t('pages.Profile.myLikes')}
+                itemLable={t("pages.Profile.myLikes")}
                 itemAddress={"./myLikes"}
                 itemLogo={"thumbs-up-sharp"}
               />
 
               <ProfileItems
-                itemLable={t('pages.Profile.myFavorites')}
+                itemLable={t("pages.Profile.myFavorites")}
                 itemAddress={"./myFavorites"}
                 itemLogo={"star-sharp"}
               />
             </>
           ) : null}
 
-          <Text style={styles.mainTitle}>{t('pages.Profile.settings')}</Text>
-          
+          <CustomText style={styles.mainTitle}>
+            {t("pages.Profile.settings")}
+          </CustomText>
+
           <ProfileItem_theme />
           <ProfileItem_setLang />
-          
+
           <ProfileItems
-            itemLable={t('pages.Profile.support')}
+            itemLable={t("pages.Profile.support")}
             itemAddress={"support"}
             itemLogo={"headset-sharp"}
           />
-          
+
           <ProfileItems
-            itemLable={t('pages.Profile.about')}
+            itemLable={t("pages.Profile.about")}
             itemAddress={"about"}
             itemLogo={"id-card-sharp"}
           />

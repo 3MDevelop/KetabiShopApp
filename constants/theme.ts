@@ -1,53 +1,65 @@
-/**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
- */
+// constants/theme.ts
 
-import { Platform } from 'react-native';
-
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
-
+// رنگ‌های ثابت برنامه (برای NavBar و ...)
 export const Colors = {
   light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
+    background: '#FFFFFF',
+    surface: '#F2F2F7',
+    primary: '#007AFF',
+    secondary: '#5856D6',
+    text: '#000000',
+    textSecondary: '#8E8E93',
+    border: '#C6C6C8',
+    error: '#FF3B30',
+    success: '#34C759',
+    warning: '#FF9500',
   },
   dark: {
-    text: '#ECEDEE',
-    background: '#646464',
-    tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
+    background: '#000000',
+    surface: '#1C1C1E',
+    primary: '#0A84FF',
+    secondary: '#5E5CE6',
+    text: '#FFFFFF',
+    textSecondary: '#8E8E93',
+    border: '#38383A',
+    error: '#FF453A',
+    success: '#30D158',
+    warning: '#FF9F0A',
   },
 };
 
-export const Fonts = Platform.select({
-  ios: {
-    /** iOS `UIFontDescriptorSystemDesignDefault` */
-    sans: 'system-ui',
-    /** iOS `UIFontDescriptorSystemDesignSerif` */
-    serif: 'ui-serif',
-    /** iOS `UIFontDescriptorSystemDesignRounded` */
-    rounded: 'ui-rounded',
-    /** iOS `UIFontDescriptorSystemDesignMonospaced` */
-    mono: 'ui-monospace',
+// تم اصلی برنامه (برای ThemeProvider)
+export const lightTheme = {
+  colors: Colors.light,
+  spacing: {
+    xs: 4,
+    sm: 8,
+    md: 16,
+    lg: 24,
+    xl: 32,
+    xxl: 48,
   },
-  default: {
-    sans: 'normal',
-    serif: 'serif',
-    rounded: 'normal',
-    mono: 'monospace',
+  typography: {
+    h1: { fontSize: 32, fontWeight: 'bold' as const, lineHeight: 40 },
+    h2: { fontSize: 24, fontWeight: 'bold' as const, lineHeight: 32 },
+    h3: { fontSize: 20, fontWeight: 'bold' as const, lineHeight: 28 },
+    body: { fontSize: 16, fontWeight: 'normal' as const, lineHeight: 24 },
+    caption: { fontSize: 12, fontWeight: 'normal' as const, lineHeight: 16 },
   },
-  web: {
-    sans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
-    serif: "Georgia, 'Times New Roman', serif",
-    rounded: "'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
-    mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
+  borderRadius: {
+    small: 4,
+    medium: 8,
+    large: 12,
+    xlarge: 16,
+    circle: 999,
   },
-});
+};
+
+export const darkTheme = {
+  colors: Colors.dark,
+  spacing: lightTheme.spacing,
+  typography: lightTheme.typography,
+  borderRadius: lightTheme.borderRadius,
+};
+
+export type Theme = typeof lightTheme;

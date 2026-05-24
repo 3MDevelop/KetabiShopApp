@@ -1,12 +1,13 @@
-import { View, StyleSheet, Text, TextInput, ScrollView } from "react-native";
+import LoginBtn from "@/components/UI/LoginBtn";
+import LogoutBtn from "@/components/UI/LogoutBtn";
+import UpdateUserDataBtn from "@/components/UI/UpdateUserDataBtn";
 import UserAvatar from "@/components/UI/userAvatar";
+import { useAuth } from "@/hooks/useAuth";
 import { useResponsive } from "@/hooks/useResponsive";
 import { Ionicons } from "@expo/vector-icons";
-import { useState, useEffect } from "react";
-import { useAuth } from "@/hooks/useAuth";
-import UpdateUserDataBtn from "@/components/UI/UpdateUserDataBtn";
-import LogoutBtn from "@/components/UI/LogoutBtn";
-import LoginBtn from "@/components/UI/LoginBtn";
+import { useEffect, useState } from "react";
+import { ScrollView, StyleSheet, View,TextInput } from "react-native";
+import CustomText from "@/components/common/CustomText";
 
 export default function CombinedParallax() {
   const { isDesktop } = useResponsive();
@@ -105,7 +106,9 @@ export default function CombinedParallax() {
         <View style={styles.content}>
           <View style={styles.emptyStateContainer}>
             <Ionicons name="person-circle-outline" size={80} color="#ccc" />
-            <Text style={styles.emptyStateTitle}>پروفایل کاربری</Text>
+            <CustomText style={styles.emptyStateTitle}>
+              پروفایل کاربری
+            </CustomText>
             <View style={{ flexDirection: "row", gap: 20 }}>
               <LoginBtn />
               <LoginBtn isIconic={true} />
@@ -138,7 +141,9 @@ export default function CombinedParallax() {
                     <Ionicons name="star-outline" size={20} color="#007AFF" />
                   </View>
                   <View style={styles.fieldContent}>
-                    <Text style={styles.fieldLabel}>نام مستعار</Text>
+                    <CustomText style={styles.fieldLabel}>
+                      نام مستعار
+                    </CustomText>
                     <TextInput
                       style={styles.fieldInput}
                       value={nickname}
@@ -154,7 +159,7 @@ export default function CombinedParallax() {
                     <Ionicons name="person-outline" size={20} color="#007AFF" />
                   </View>
                   <View style={styles.fieldContent}>
-                    <Text style={styles.fieldLabel}>نام</Text>
+                    <CustomText style={styles.fieldLabel}>نام</CustomText>
                     <TextInput
                       style={styles.fieldInput}
                       value={firstName}
@@ -170,7 +175,9 @@ export default function CombinedParallax() {
                     <Ionicons name="people-outline" size={20} color="#007AFF" />
                   </View>
                   <View style={styles.fieldContent}>
-                    <Text style={styles.fieldLabel}>نام خانوادگی</Text>
+                    <CustomText style={styles.fieldLabel}>
+                      نام خانوادگی
+                    </CustomText>
                     <TextInput
                       style={styles.fieldInput}
                       value={lastName}
@@ -190,30 +197,30 @@ export default function CombinedParallax() {
               isDesktop ? styles.normalSize : styles.fullWidth,
             ]}
           >
-            <Text style={styles.sectionTitle}>اطلاعات تماس</Text>
+            <CustomText style={styles.sectionTitle}>اطلاعات تماس</CustomText>
             <View style={styles.contactField}>
               <Ionicons name="mail-outline" size={20} color="#007AFF" />
-              <Text style={styles.contactText}>
+              <CustomText style={styles.contactText}>
                 {email || "ایمیل ثبت نشده"}
-              </Text>
+              </CustomText>
             </View>
             <View style={styles.contactField}>
               <Ionicons name="call-outline" size={20} color="#007AFF" />
-              <Text style={styles.contactText}>
+              <CustomText style={styles.contactText}>
                 {user?.phone || "شماره ثبت نشده"}
-              </Text>
+              </CustomText>
             </View>
           </View>
         </View>
 
         <View style={styles.cards}>
-          <Text style={styles.sectionTitle}>آواتارها</Text>
-          <Text>Avatar List</Text>
+          <CustomText style={styles.sectionTitle}>آواتارها</CustomText>
+          <CustomText>Avatar List</CustomText>
         </View>
 
         <View style={styles.cards}>
-          <Text style={styles.sectionTitle}>آدرس‌ها</Text>
-          <Text>Address List</Text>
+          <CustomText style={styles.sectionTitle}>آدرس‌ها</CustomText>
+          <CustomText>Address List</CustomText>
         </View>
 
         <View style={[styles.buttonContainer, isDesktop && styles.buttonRow]}>

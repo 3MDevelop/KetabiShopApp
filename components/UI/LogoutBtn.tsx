@@ -1,8 +1,9 @@
 // logoutBTN.tsx
-import { View, TouchableOpacity, Text } from "react-native";
-import { useRouter } from "expo-router";
 import { useAuth } from "@/hooks/useAuth";
 import { useTranslate } from "@/hooks/useTranslation";
+import { useRouter } from "expo-router";
+import { TouchableOpacity, View } from "react-native";
+import CustomText from "@/components/common/CustomText";
 
 interface LogoutBtnProps {
   targetURL: string;
@@ -11,7 +12,7 @@ interface LogoutBtnProps {
 export default function LogoutBtn({ targetURL }: LogoutBtnProps) {
   const router = useRouter();
   const { logout } = useAuth();
-  const {t} = useTranslate()
+  const { t } = useTranslate();
 
   const handleLogout = async () => {
     await logout();
@@ -30,21 +31,21 @@ export default function LogoutBtn({ targetURL }: LogoutBtnProps) {
       <TouchableOpacity
         style={{
           backgroundColor: "#f44336",
-          minWidth:170,
+          minWidth: 170,
           paddingVertical: 12,
           borderRadius: 8,
         }}
         onPress={handleLogout}
       >
-        <Text
+        <CustomText
           style={{
             color: "white",
             fontWeight: "bold",
             textAlign: "center",
           }}
         >
-         {t('common.common.logoutBtn')}
-        </Text>
+          {t("common.common.logoutBtn")}
+        </CustomText>
       </TouchableOpacity>
     </View>
   );

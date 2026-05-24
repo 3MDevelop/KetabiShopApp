@@ -1,36 +1,126 @@
 {
   "common": {
-    "loading": "جاري التحميل...",
-    "error": "خطأ",
-    "success": "نجاح",
-    "save": "حفظ",
-    "cancel": "إلغاء",
-    "back": "رجوع",
-    "delete": "حذف",
-    "edit": "تعديل",
-    "search": "بحث",
-    "submit": "تأكيد"
+    "common": {
+      "loading": "جاري التحميل...",
+      "error": "خطأ",
+      "success": "نجاح",
+      "save": "حفظ",
+      "cancel": "إلغاء",
+      "back": "رجوع",
+      "delete": "حذف",
+      "edit": "تعديل",
+      "search": "بحث",
+      "submit": "تأكيد",
+      "added": "تمت الإضافة",
+      "removed": "تم الحذف",
+      "unknown": "غير معروف",
+      "connectionError": "مشكلة في الاتصال بالخادم",
+      
+      "userUpdateBtn": "تحديث الحساب",
+      "logoutBtn": "تسجيل الخروج",
+      "loginBtn": "تسجيل الدخول"
+    },
+    "navbar": {
+      "categories": "التصنيفات",
+      "offers": "العروض"
+    },
+    "product": {
+      "viewProducts": "عرض المنتجات",
+      "physicalBook": "كتاب ورقي",
+      "ebook": "كتاب إلكتروني",
+      "audiobook": "كتاب صوتي",
+      "podcast": "بودكاست",
+      "audio": "ملف صوتي",
+      "product": "منتج"
+    },
+    "cart": {
+      "title": "سلة التسوق",
+      "emptyTitle": "سلة التسوق فارغة",
+      "emptyText": "لم تقم بإضافة أي منتجات إلى سلة التسوق بعد.",
+      "emptyHint": "انتقل إلى المتجر واختر المنتجات التي تريد شراءها.",
+      "instantDownload": "تحميل فوري بعد الشراء",
+      "onlinePlay": "تشغيل مباشر وتحميل",
+      "currency": "تومان",
+      "total": "المجموع الكلي:",
+      "finalAmount": "المبلغ المستحق:",
+      "checkout": "إتمام الدفع",
+      "loginRequired": "يرجى تسجيل الدخول إلى حسابك لإتمام الدفع",
+      "continueShopping": "مواصلة التسوق",
+      "singleItem": "قطعة واحدة",
+      "addedToCart": "تمت الإضافة إلى سلة التسوق"
+    }
   },
-  "profile": {
-    "title": "الملف الشخصي",
-    "myActivities": "أنشطتي",
-    "myLibrary": "مكتبتي",
-    "paymentHistory": "سجل الدفعات",
-    "myComments": "تعليقاتي",
-    "myLikes": "المعجب بها",
-    "myFavorites": "المفضلة",
-    "settings": "الإعدادات",
-    "theme": "مظهر التطبيق",
-    "language": "تغيير اللغة",
-    "support": "الدعم",
-    "about": "معلومات عنا",
-    "logout": "تسجيل خروج",
-    "light": "فاتح",
-    "dark": "داكن",
-    "system": "النظام"
+  "ui": {
+    "ProfileItem_setLang": {
+      "language": "تغيير اللغة"
+    },
+    "ProfileItem_theme": {
+      "theme": "مظهر التطبيق",
+      "light": "فاتح",
+      "dark": "داكن",
+      "system": "النظام"
+    },
+    "QRScanner": {
+      "label": "مسح رمز QR"
+    }
   },
-  "nav": {
-    "categories": "التصنيفات",
-    "offers": "العروض"
+  "pages": {
+    "BookFinder": {
+      "invalidCode": "رمز الكتاب غير صالح",
+      "notFound": "لم يتم العثور على كتاب",
+      "loadingBook": "جاري تحميل معلومات الكتاب..."
+    },
+    "BookList": {},
+    "Categories": {},
+    "Contact": {},
+    "Index": {},
+    "Invitation": {},
+    "Login": {},
+    "MyComments": {},
+    "MyFavorites": {},
+    "MyLibrary": {},
+    "MyLikes": {},
+    "Offers": {},
+    "PaymentRecords": {},
+    "Profile": {
+      "settings": "الإعدادات",
+      "support": "الدعم",
+      "title": "الملف الشخصي",
+      "myActivities": "أنشطتي",
+      "myLibrary": "مكتبتي الشخصية",
+      "paymentHistory": "سجل المدفوعات",
+      "myComments": "تعليقاتي",
+      "myLikes": "إعجاباتي",
+      "myFavorites": "المفضلة",
+      "guestUserLabel": "زائر / تسجيل الدخول",
+      "about": "معلومات عنا"
+    },
+    "Rules": {},
+    "Search": {},
+    "Support": {},
+    "Temp": {},
+    "User": {},
+    "About": { "about_label": "معلومات عنا" },
+    "Basket": {},
+    "Book": {
+      "details": "تفاصيل الكتاب",
+      "notFoundDesc": "الكتاب المطلوب غير موجود أو تم حذفه",
+      "unknownAuthor": "مؤلف غير معروف",
+      "addToCart": "إضافة إلى سلة التسوق",
+      "outOfStock": "غير متوفر",
+      "inStock": "متوفر في المخزون",
+      "discount": "خصم",
+      "specifications": "مواصفات الكتاب",
+      "publisher": "الناشر",
+      "isbn": "ردمك",
+      "pages": "عدد الصفحات",
+      "pagesUnit": "صفحة",
+      "year": "سنة النشر",
+      "category": "التصنيف",
+      "stock": "المخزون",
+      "description": "وصف الكتاب",
+      "addedToWishlist": "تمت الإضافة إلى قائمة الرغبات",
+      "removedFromWishlist": "تمت الإزالة من قائمة الرغبات"
+    }
   }
 }

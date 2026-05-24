@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from "react";
-import {
-  ScrollView,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  Image,
-  ActivityIndicator,
-} from "react-native";
-import styles from "./styles";
-import { Ionicons } from "@expo/vector-icons";
 import QRScanner from "@/components/UI/QRScanner";
-import Toast from "react-native-toast-message";
-import { useRouter, useLocalSearchParams } from "expo-router";
 import { useAuth } from "@/hooks/useAuth";
+import { Ionicons } from "@expo/vector-icons";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import React, { useEffect, useState } from "react";
+import {
+    ActivityIndicator,
+    Image,
+    ScrollView,
+    TouchableOpacity,
+    View,TextInput
+} from "react-native";
+import Toast from "react-native-toast-message";
+import styles from "./styles";
+import CustomText from "@/components/common/CustomText";
 
 interface BookInfo {
   title: string;
@@ -95,10 +94,10 @@ export default function BookFinder() {
       if (result.status === true && result.data) {
         const bookData = result.data;
         setBookInfo({
-          title: bookData.title || "بدون عنوان",
+          title: bookData.title,
           code: codeToFetch,
-          author: bookData.author || "نویسنده نامشخص",
-          image: bookData.pic || "",
+          author: bookData.author,
+          image: bookData.pic,
           price: bookData.price,
           publisher: bookData.pub,
         });
@@ -177,7 +176,9 @@ export default function BookFinder() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>یافتن کتاب با استفاده از کد کتاب</Text>
+        <CustomText style={styles.title}>
+          یافتن کتاب با استفاده از کد کتاب
+        </CustomText>
 
         {bookInfo && !loading && (
           <View style={{ width: "100%", height: 360 }}>
@@ -195,22 +196,24 @@ export default function BookFinder() {
                   </View>
                 )}
                 <View style={styles.bookDetails}>
-                  <Text style={styles.bookInfoTitle}>{bookInfo.title}</Text>
-                  <Text style={styles.bookInfoText}>
-                    <Text style={styles.boldText}>نویسنده:</Text>{" "}
+                  <CustomText style={styles.bookInfoTitle}>
+                    {bookInfo.title}
+                  </CustomText>
+                  <CustomText style={styles.bookInfoText}>
+                    <CustomText style={styles.boldText}>نویسنده:</CustomText>{" "}
                     {bookInfo.author}
-                  </Text>
+                  </CustomText>
                   {bookInfo.publisher && (
-                    <Text style={styles.bookInfoText}>
-                      <Text style={styles.boldText}>ناشر:</Text>{" "}
+                    <CustomText style={styles.bookInfoText}>
+                      <CustomText style={styles.boldText}>ناشر:</CustomText>{" "}
                       {bookInfo.publisher}
-                    </Text>
+                    </CustomText>
                   )}
                   {bookInfo.price && (
-                    <Text style={styles.bookInfoText}>
-                      <Text style={styles.boldText}>قیمت:</Text>{" "}
+                    <CustomText style={styles.bookInfoText}>
+                      <CustomText style={styles.boldText}>قیمت:</CustomText>{" "}
                       {bookInfo.price} تومان
-                    </Text>
+                    </CustomText>
                   )}
                   <TouchableOpacity
                     style={styles.bookPageBtn}
@@ -221,7 +224,9 @@ export default function BookFinder() {
                       })
                     }
                   >
-                    <Text style={styles.buttonText}>مشاهده جزئیات کتاب</Text>
+                    <CustomText style={styles.buttonText}>
+                      مشاهده جزئیات کتاب
+                    </CustomText>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -240,7 +245,9 @@ export default function BookFinder() {
                   onPress={addBookToLibrary}
                   style={styles.addCodeButton}
                 >
-                  <Text style={styles.addCodeButtonText}>تایید</Text>
+                  <CustomText style={styles.addCodeButtonText}>
+                    تایید
+                  </CustomText>
                 </TouchableOpacity>
               </View>
             </View>
@@ -250,7 +257,7 @@ export default function BookFinder() {
         <View style={{ marginBottom: 16 }}>
           {!qrInType ? (
             <View>
-              <Text style={styles.label}>کد کتاب:</Text>
+              <CustomText style={styles.label}>کد کتاب:</CustomText>
               <TextInput
                 style={styles.input}
                 placeholder="کد کتاب را وارد کنید"
@@ -282,7 +289,7 @@ export default function BookFinder() {
               {loading ? (
                 <ActivityIndicator color="white" />
               ) : (
-                <Text style={styles.buttonText}>یافتن کتاب</Text>
+                <CustomText style={styles.buttonText}>یافتن کتاب</CustomText>
               )}
             </TouchableOpacity>
           ) : null}
@@ -302,7 +309,7 @@ export default function BookFinder() {
         {loading && (
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color="#4CAF50" />
-            <Text style={styles.loadingText}>در حال جستجو...</Text>
+            <CustomText style={styles.loadingText}>در حال جستجو...</CustomText>
           </View>
         )}
       </View>

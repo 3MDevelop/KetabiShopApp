@@ -1,10 +1,11 @@
-import { View, Text, Pressable } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import styles from "./styles";
-import { useRouter, Href, usePathname } from "expo-router";
-import { useEffect, useCallback, useMemo } from "react";
-import Toast from "react-native-toast-message";
 import { useAuth } from "@/hooks/useAuth";
+import { Ionicons } from "@expo/vector-icons";
+import { Href, usePathname, useRouter } from "expo-router";
+import { useCallback, useEffect, useMemo } from "react";
+import { Pressable, View } from "react-native";
+import Toast from "react-native-toast-message";
+import styles from "./styles";
+import CustomText from "@/components/common/CustomText";
 
 export default function BottomNavigation({
   labels,
@@ -62,7 +63,7 @@ export default function BottomNavigation({
       }
       return;
     }
-    
+
     const currentItem = menuItems.find((item) => item.href === pathname);
     if (currentItem && activePage !== currentItem.target) {
       setActivePage(currentItem.target);
@@ -115,14 +116,14 @@ export default function BottomNavigation({
               size={24}
               color={isActive(item.target) ? "#ffffff" : "#dbdbdb"}
             />
-            <Text
+            <CustomText
               style={[
                 styles.mBarItemLabel,
                 isActive(item.target) && styles.mBarItemLabelActive,
               ]}
             >
               {item.label}
-            </Text>
+            </CustomText>
           </Pressable>
         ))}
         <Pressable
@@ -145,12 +146,12 @@ export default function BottomNavigation({
             size={24}
             color={isActive("myLibrary") ? "#ffffff" : "#dbdbdb"}
           />
-          <Text
+          <CustomText
             style={[
               styles.mBarItemLabel,
               isActive("myLibrary") && styles.mBarItemLabelActive,
             ]}
-          ></Text>
+          ></CustomText>
         </Pressable>
       </View>
     </View>

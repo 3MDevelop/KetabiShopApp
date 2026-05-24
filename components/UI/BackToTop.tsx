@@ -1,5 +1,6 @@
 // backToTop.tsx
-import { Animated, TouchableOpacity, Text } from "react-native";
+import { Animated, TouchableOpacity } from "react-native";
+import CustomText from "@/components/common/CustomText";
 
 interface BackToTopProps {
   scrollY: Animated.Value;
@@ -48,9 +49,11 @@ export default function BackToTop({ scrollY, onPress }: BackToTopProps) {
         onPress={onPress}
         activeOpacity={0.8}
       >
-        <Text style={{ color: "white", fontSize: 24, fontWeight: "bold" }}>
+        <CustomText
+          style={{ color: "white", fontSize: 24, fontWeight: "bold" }}
+        >
           ↑
-        </Text>
+        </CustomText>
       </TouchableOpacity>
     </Animated.View>
   );

@@ -1,12 +1,13 @@
 // app/index.tsx
 
-import React from "react";
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
-import styles from "./styles";
-import { useAuth } from "@/hooks/useAuth";
-import { useRouter } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
 import LoginBtn from "@/components/UI/LoginBtn";
+import { useAuth } from "@/hooks/useAuth";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import React from "react";
+import { ScrollView, TouchableOpacity, View } from "react-native";
+import styles from "./styles";
+import CustomText from "@/components/common/CustomText";
 
 export default function MyLibrary() {
   const router = useRouter();
@@ -16,9 +17,9 @@ export default function MyLibrary() {
     return (
       <View style={styles.notLoggedInContainer}>
         <Ionicons name="book-outline" size={80} color="#ccc" />
-        <Text style={styles.notLoggedInText}>
+        <CustomText style={styles.notLoggedInText}>
           برای نمایش کتابخانه شخصی، ابتدا باید وارد حساب کاربری خود شوید
-        </Text>
+        </CustomText>
         <LoginBtn />
       </View>
     );
@@ -27,17 +28,19 @@ export default function MyLibrary() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>📚 کتابخانه من</Text>
+        <CustomText style={styles.title}>📚 کتابخانه من</CustomText>
 
         {user?.readList && user?.readList.length > 0 ? (
           <View style={styles.readListContainer}>
-            <Text style={styles.readListTitle}>لیست خواندنی‌ها:</Text>
+            <CustomText style={styles.readListTitle}>
+              لیست خواندنی‌ها:
+            </CustomText>
             {user?.readList.map((item, index) => (
               <View key={item.id || index} style={styles.readListItem}>
                 <Ionicons name="book" size={20} color="#007AFF" />
-                <Text style={styles.readListItemText}>
+                <CustomText style={styles.readListItemText}>
                   {item.title || `کتاب ${index + 1}`}
-                </Text>
+                </CustomText>
               </View>
             ))}
           </View>
@@ -50,13 +53,13 @@ export default function MyLibrary() {
               </View>
             </View>
 
-            <Text style={styles.emptyListTitle}>
+            <CustomText style={styles.emptyListTitle}>
               کتابخانه شما در انتظار کتاب‌های جدید است!
-            </Text>
-            <Text style={styles.emptyListText}>
+            </CustomText>
+            <CustomText style={styles.emptyListText}>
               با افزودن کتاب به لیست خواندنی‌ها، همیشه مطالعه را در اولویت قرار
               دهید
-            </Text>
+            </CustomText>
 
             <TouchableOpacity
               style={styles.suggestionButton}
@@ -69,9 +72,9 @@ export default function MyLibrary() {
               activeOpacity={0.8}
             >
               <Ionicons name="sparkles" size={20} color="#fff" />
-              <Text style={styles.suggestionButtonText}>
+              <CustomText style={styles.suggestionButtonText}>
                 پیشنهادهای ویژه برای شما
-              </Text>
+              </CustomText>
             </TouchableOpacity>
           </View>
         )}

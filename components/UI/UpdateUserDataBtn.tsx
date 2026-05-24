@@ -1,7 +1,8 @@
 // components/common/UpdateUserDataBtn.tsx
 
-import { View, TouchableOpacity, Text, ActivityIndicator } from "react-native";
 import { useTranslate } from "@/hooks/useTranslation";
+import { ActivityIndicator, TouchableOpacity, View } from "react-native";
+import CustomText from "@/components/common/CustomText";
 
 interface UpdateUserDataBtnProps {
   hasChanges: boolean;
@@ -14,7 +15,7 @@ export default function UpdateUserDataBtn({
   onPress,
   isLoading = false,
 }: UpdateUserDataBtnProps) {
-  const {t} = useTranslate()
+  const { t } = useTranslate();
   return (
     <View
       style={{
@@ -38,15 +39,15 @@ export default function UpdateUserDataBtn({
         {isLoading ? (
           <ActivityIndicator size="small" color="#fff" />
         ) : (
-          <Text
+          <CustomText
             style={{
               color: "white",
               fontWeight: "bold",
               textAlign: "center",
             }}
           >
-           {t('commob.common.userUpdateBtn')}
-          </Text>
+            {t("commob.common.userUpdateBtn")}
+          </CustomText>
         )}
       </TouchableOpacity>
     </View>

@@ -1,10 +1,11 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import UserAvatar from "@/components/UI/userAvatar";
 import { useResponsive } from "@/hooks/useResponsive";
+import { useTranslate } from "@/hooks/useTranslation";
+import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useRef } from "react";
-import UserAvatar from "@/components/UI/userAvatar";
-import { useTranslate } from "@/hooks/useTranslation";
+import { Image, TouchableOpacity, View } from "react-native";
+import CustomText from "@/components/common/CustomText";
 
 import styles from "./styles";
 
@@ -46,11 +47,11 @@ export default function NavBar({ Colors, appTheme }: any) {
                   size={24}
                   style={[{ color: "#dbdbdb" }]}
                 />
-                <Text
+                <CustomText
                   style={{ marginEnd: 10, color: "white", fontWeight: 500 }}
                 >
-                  {t('common.navbar.categories') }
-                </Text>
+                  {t("common.navbar.categories")}
+                </CustomText>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -62,13 +63,12 @@ export default function NavBar({ Colors, appTheme }: any) {
                   size={24}
                   style={[{ color: "#dbdbdb" }]}
                 />
-                <Text
+                <CustomText
                   style={{ marginEnd: 10, color: "white", fontWeight: 500 }}
                 >
-                  {t('common.navbar.offers') }
-                </Text>
+                  {t("common.navbar.offers")}
+                </CustomText>
               </TouchableOpacity>
-              
             </View>
           ) : null}
 
@@ -100,7 +100,7 @@ export default function NavBar({ Colors, appTheme }: any) {
                 style={[{ color: "#dbdbdb", marginBottom: 3 }]}
               />
               <View style={styles.basketBadge}>
-                <Text style={styles.badgeText}>99</Text>
+                <CustomText style={styles.badgeText}>99</CustomText>
               </View>
             </View>
           </TouchableOpacity>

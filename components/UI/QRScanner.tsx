@@ -1,5 +1,6 @@
-import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import CustomText from "@/components/common/CustomText";
 
 interface QRScannerProps {
   scannedCode?: string;
@@ -21,7 +22,7 @@ export default function QRScanner({
         }}
       >
         <Ionicons name="qr-code-outline" size={48} color="#fff" />
-        <Text style={styles.scannerText}>اسکن QR کد</Text>
+        <CustomText style={styles.scannerText}>اسکن QR کد</CustomText>
       </TouchableOpacity>
     </View>
   );

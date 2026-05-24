@@ -1,7 +1,8 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTranslate } from "@/hooks/useTranslation";
+import { Ionicons } from "@expo/vector-icons";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import CustomText from "@/components/common/CustomText";
 
 export default function ProfileItem_setLang() {
   const { language, setLanguage, isRTL } = useLanguage();
@@ -23,9 +24,9 @@ export default function ProfileItem_setLang() {
             color="#3996e8"
             style={isRTL ? styles.iconRTL : styles.iconLTR}
           />
-          <Text style={styles.title}>
-            {t('ui.ProfileItem_setLang.language')}
-          </Text>
+          <CustomText style={styles.title}>
+            {t("ui.ProfileItem_setLang.language")}
+          </CustomText>
         </View>
 
         <View style={styles.languageGroup}>
@@ -40,14 +41,14 @@ export default function ProfileItem_setLang() {
                 await setLanguage(lang.id as any);
               }}
             >
-              <Text
+              <CustomText
                 style={[
                   styles.languageText,
                   language === lang.id && styles.languageTextActive,
                 ]}
               >
                 {lang.name}
-              </Text>
+              </CustomText>
             </TouchableOpacity>
           ))}
         </View>

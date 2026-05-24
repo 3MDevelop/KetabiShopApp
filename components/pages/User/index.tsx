@@ -1,16 +1,17 @@
-import { View, Text, ScrollView } from "react-native";
+import LoginBtn from "@/components/UI/LoginBtn";
+import LogoutBtn from "@/components/UI/LogoutBtn";
+import UpdateUserDataBtn from "@/components/UI/UpdateUserDataBtn";
+import UserAddressList from "@/components/UI/UserAddressList";
 import UserAvatar from "@/components/UI/userAvatar";
+import UserAvatarList from "@/components/UI/UserAvatarList";
+import UserPageFormField from "@/components/UI/UserPageFormField";
+import { useAuth } from "@/hooks/useAuth";
 import { useResponsive } from "@/hooks/useResponsive";
 import { Ionicons } from "@expo/vector-icons";
-import { useState, useEffect } from "react";
-import { useAuth } from "@/hooks/useAuth";
-import UpdateUserDataBtn from "@/components/UI/UpdateUserDataBtn";
-import LogoutBtn from "@/components/UI/LogoutBtn";
-import LoginBtn from "@/components/UI/LoginBtn";
-import UserPageFormField from "@/components/UI/UserPageFormField";
+import { useEffect, useState } from "react";
+import { ScrollView, View } from "react-native";
 import styles from "./styles";
-import UserAvatarList from "@/components/UI/UserAvatarList";
-import UserAddressList from "@/components/UI/UserAddressList";
+import CustomText from "@/components/common/CustomText";
 
 export default function CombinedParallax() {
   const { isDesktop } = useResponsive();
@@ -109,7 +110,9 @@ export default function CombinedParallax() {
         <View style={styles.content}>
           <View style={styles.emptyStateContainer}>
             <Ionicons name="person-circle-outline" size={80} color="#ccc" />
-            <Text style={styles.emptyStateTitle}>پروفایل کاربری</Text>
+            <CustomText style={styles.emptyStateTitle}>
+              پروفایل کاربری
+            </CustomText>
             <LoginBtn />
           </View>
         </View>
@@ -158,13 +161,13 @@ export default function CombinedParallax() {
                   ]}
                 >
                   <View style={styles.userIDCotent}>
-                    <Text style={styles.userIDLogo}>ID</Text>
+                    <CustomText style={styles.userIDLogo}>ID</CustomText>
                   </View>
-                  <Text style={styles.userIDText}>{user?.ID}</Text>
+                  <CustomText style={styles.userIDText}>{user?.ID}</CustomText>
                 </View>
               </View>
               <View style={styles.infoCardForm}>
-                <Text style={styles.sectionTitle}>مشخصات فردی</Text>
+                <CustomText style={styles.sectionTitle}>مشخصات فردی</CustomText>
                 <UserPageFormField
                   label="نام مستعار"
                   value={nickname}
@@ -208,7 +211,7 @@ export default function CombinedParallax() {
             <View style={styles.infoCardLogoContent}>
               <Ionicons name="at-sharp" size={isDesktop ? 160 : 90} />
             </View>
-            <Text style={styles.sectionTitle}>اطلاعات تماس</Text>
+            <CustomText style={styles.sectionTitle}>اطلاعات تماس</CustomText>
 
             <UserPageFormField
               label="ایمبل"
@@ -219,20 +222,24 @@ export default function CombinedParallax() {
 
             <View style={styles.contactField}>
               <Ionicons name="call-outline" size={20} color="#007AFF" />
-              <Text style={styles.contactText}>
+              <CustomText style={styles.contactText}>
                 {user?.phone || "شماره ثبت نشده"}
-              </Text>
+              </CustomText>
             </View>
           </View>
         </View>
 
         <View style={styles.cards}>
-          <Text style={[styles.sectionTitle, { marginTop: 16 }]}>آواتارها</Text>
+          <CustomText style={[styles.sectionTitle, { marginTop: 16 }]}>
+            آواتارها
+          </CustomText>
           <UserAvatarList />
         </View>
 
         <View style={styles.cards}>
-          <Text style={[styles.sectionTitle, { marginTop: 16 }]}>آدرس‌ها</Text>
+          <CustomText style={[styles.sectionTitle, { marginTop: 16 }]}>
+            آدرس‌ها
+          </CustomText>
           <UserAddressList />
         </View>
 

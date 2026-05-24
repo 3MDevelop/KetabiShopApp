@@ -1,20 +1,27 @@
-import React from "react";
-import { View, Text, ScrollView } from "react-native";
-import styles from "./styles";
 import FullWidthBanner from "@/components/common/FullWidthBanner";
-import Seperator from "@/components/UI/Seperator";
+import React from "react";
+import { ScrollView, View } from "react-native";
+import styles from "./styles";
+import CustomText from "@/components/common/CustomText";
+import { useFontFamily } from "@/hooks/useFonts"; 
+
 
 export default function HomePage() {
+  const { getFontFamily } = useFontFamily(); 
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>صفحه اصلی</Text>
-        <Text style={[styles.description, { marginBottom: 20 }]}>
-          این محتوای صفحه اصلی است که در mainContainer نمایش داده می‌شود.
-        </Text>
+        <CustomText style={styles.title}>صفحه اصلی</CustomText>
+        <CustomText style={[styles.description]}>
+          تست فونت: این متن باید با فونت Vazirmatn نمایش داده شود
+        </CustomText>
+        <CustomText
+          style={[styles.description, { fontFamily: getFontFamily("normal") }]}
+        >
+          تست فونت: این متن باید با فونت Vazirmatn نمایش داده شود
+        </CustomText>
         <FullWidthBanner urlIsInner={true} url={"about"} />
-        <Seperator />
-        <FullWidthBanner urlIsInner={false} url={"www.google.com"} />
       </View>
     </ScrollView>
   );

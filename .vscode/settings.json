@@ -4,5 +4,10 @@
     "source.organizeImports": "explicit",
     "source.sortMembers": "explicit"
   },
-  "editor.fontSize": 18
+  "editor.fontSize": 18,
+   "edge-extension.enabled": false,
+  "typescript.validate.enable": true,
+  "typescript.tsserver.exclude": [
+    "**/node_modules/**"
+  ]
 }

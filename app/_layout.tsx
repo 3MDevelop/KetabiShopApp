@@ -4,8 +4,11 @@ import { StyleSheet, View, ActivityIndicator } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useState, useEffect } from "react";
 import Toast from "react-native-toast-message";
-import { LanguageProvider, useLanguage } from "@/context/LanguageContext";
 import { initI18n } from "@/locales";
+
+import { useCustomFonts } from '@/hooks/useFonts';
+import { ThemeProvider } from '@/context/ThemeContext';
+import { LanguageProvider, useLanguage } from '@/context/LanguageContext';
 
 import { Colors } from "@/constants/theme";
 import labels from "@/data/labels.json";
@@ -26,7 +29,6 @@ function RootLayoutContent() {
   const hideNavigation = pathname === "/login";
 
   return (
-    // فقط direction تغییر می‌کند، بقیه استایل‌ها دست نمی‌خورند
     <View style={[styles.container, { direction: isRTL ? "rtl" : "ltr" }]}>
       <AuthProvider>
         <CatProvider>
@@ -65,12 +67,14 @@ function RootLayoutContent() {
 
 export default function RootLayout() {
   const [isReady, setIsReady] = useState(false);
+  const { fontsLoaded } = useCustomFonts(); // ✅ اینجا مشکلی ندارد چون useLanguage ندارد
 
   useEffect(() => {
     initI18n().then(() => setIsReady(true));
   }, []);
 
-  if (!isReady) {
+  // ✅ منتظر بارگذاری i18n و فونت‌ها
+  if (!isReady || !fontsLoaded) {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#4CAF50" />
@@ -80,7 +84,9 @@ export default function RootLayout() {
 
   return (
     <LanguageProvider>
-      <RootLayoutContent />
+      <ThemeProvider>
+        <RootLayoutContent />
+      </ThemeProvider>
     </LanguageProvider>
   );
 }

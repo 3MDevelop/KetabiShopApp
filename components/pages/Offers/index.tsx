@@ -1,17 +1,16 @@
 import React from "react";
-import { View, Text, ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 import styles from "./styles";
+import CustomText from "@/components/common/CustomText";
 
 export default function Offers() {
-  
-
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>صفحه پیشنهادات</Text>
-        <Text style={styles.description}>
+        <CustomText style={styles.title}>صفحه پیشنهادات</CustomText>
+        <CustomText style={styles.description}>
           این محتوای صفحه اصلی است که در Offers نمایش داده می‌شود.
-        </Text>
+        </CustomText>
       </View>
     </ScrollView>
   );

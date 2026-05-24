@@ -1,7 +1,8 @@
-import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
-import { useRouter } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
 import { useTranslate } from "@/hooks/useTranslation";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import CustomText from "@/components/common/CustomText";
 
 interface LoginBtnProps {
   isIconic?: boolean;
@@ -9,19 +10,19 @@ interface LoginBtnProps {
 
 export default function LoginBtn({ isIconic = false }: LoginBtnProps) {
   const router = useRouter();
-  const {t} = useTranslate()
+  const { t } = useTranslate();
   return (
-    <TouchableOpacity
-      
-      onPress={() => router.push("/login")}
-    >
+    <TouchableOpacity onPress={() => router.push("/login")}>
       {isIconic ? (
         <View style={styles.loginIconButton}>
           <Ionicons name="log-in-sharp" size={30} color={"white"} />
         </View>
       ) : (
         <View style={styles.loginTextButton}>
-          <Text style={styles.loginButtonText}> {t('common.common.loginBtn')} </Text>
+          <CustomText style={styles.loginButtonText}>
+            {" "}
+            {t("common.common.loginBtn")}{" "}
+          </CustomText>
         </View>
       )}
     </TouchableOpacity>
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
   loginIconButton: {
     backgroundColor: "#007AFF",
     padding: 8,
-    paddingRight:12,
+    paddingRight: 12,
     borderRadius: 8,
     alignItems: "center",
   },

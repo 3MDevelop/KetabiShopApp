@@ -1,17 +1,17 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  ActivityIndicator,
-} from "react-native";
-import { useState } from "react";
-import { router } from "expo-router";
+import { User } from "@/context/AuthContext";
 import { useAuth } from "@/hooks/useAuth";
 import { Ionicons } from "@expo/vector-icons";
-import { User } from "@/context/AuthContext";
+import { router } from "expo-router";
+import { useState } from "react";
+import {
+    ActivityIndicator,
+    TouchableOpacity,
+    View,
+    TextInput
+} from "react-native";
 import Toast from "react-native-toast-message";
 import styles from "./styles";
+import CustomText from "@/components/common/CustomText";
 
 type ToastType = "success" | "error" | "info" | "warning";
 
@@ -149,7 +149,7 @@ export default function Login() {
 
         showToast("success", "موفق", "ورود با موفقیت انجام شد");
         await login(userData);
-        router.back()
+        router.back();
       } else {
         showToast(
           "error",
@@ -169,7 +169,7 @@ export default function Login() {
     return (
       <View style={styles.container}>
         <ActivityIndicator size="large" color="#2196f3" />
-        <Text style={styles.loadingText}>در حال اتصال...</Text>
+        <CustomText style={styles.loadingText}>در حال اتصال...</CustomText>
       </View>
     );
   }
@@ -182,12 +182,12 @@ export default function Login() {
             <View style={styles.avatarContainerLoggedIn}>
               <Ionicons name="person" size={45} color={"#18abe6"} />
             </View>
-            <Text style={styles.welcomeText}>
+            <CustomText style={styles.welcomeText}>
               شما قبلاً به سیستم وارد شده‌اید
-            </Text>
-            <Text style={styles.redirectText}>
+            </CustomText>
+            <CustomText style={styles.redirectText}>
               در حال انتقال به صفحه اصلی...
-            </Text>
+            </CustomText>
             <ActivityIndicator
               style={styles.activityIndicator}
               size="small"
@@ -195,7 +195,7 @@ export default function Login() {
             />
             {(() => {
               setTimeout(() => {
-                router.back()
+                router.back();
               }, 2000);
               return null;
             })()}
@@ -219,9 +219,9 @@ export default function Login() {
             <View style={styles.avatarContainer}>
               <Ionicons name="person" size={45} color={"#6b6b6b"} />
             </View>
-            <Text style={styles.titleWithMargin}>
+            <CustomText style={styles.titleWithMargin}>
               {!showCodeInput ? "ورود به حساب کاربری" : "تایید کد"}
-            </Text>
+            </CustomText>
 
             {!showCodeInput && (
               <TextInput
@@ -264,16 +264,20 @@ export default function Login() {
                       isAccepted && styles.checkboxChecked,
                     ]}
                   >
-                    {isAccepted && <Text style={styles.checkboxText}>✓</Text>}
+                    {isAccepted && (
+                      <CustomText style={styles.checkboxText}>✓</CustomText>
+                    )}
                   </View>
                 </TouchableOpacity>
 
                 <View style={styles.rulesContainer}>
-                  <Text style={styles.rulesText}>من </Text>
+                  <CustomText style={styles.rulesText}>من </CustomText>
                   <TouchableOpacity onPress={() => router.push("/rules")}>
-                    <Text style={styles.rulesLink}>قوانین و مقررات</Text>
+                    <CustomText style={styles.rulesLink}>
+                      قوانین و مقررات
+                    </CustomText>
                   </TouchableOpacity>
-                  <Text style={styles.rulesText}> را می‌پذیرم</Text>
+                  <CustomText style={styles.rulesText}> را می‌پذیرم</CustomText>
                 </View>
               </View>
             )}
@@ -296,9 +300,9 @@ export default function Login() {
               {isLoadingCode || isLoading ? (
                 <ActivityIndicator color="white" />
               ) : (
-                <Text style={styles.buttonText}>
+                <CustomText style={styles.buttonText}>
                   {!showCodeInput ? "دریافت کد" : "ورود"}
-                </Text>
+                </CustomText>
               )}
             </TouchableOpacity>
 
@@ -310,7 +314,9 @@ export default function Login() {
                 }}
                 style={styles.backButton}
               >
-                <Text style={styles.backButtonText}>← ویرایش شماره موبایل</Text>
+                <CustomText style={styles.backButtonText}>
+                  ← ویرایش شماره موبایل
+                </CustomText>
               </TouchableOpacity>
             )}
           </View>

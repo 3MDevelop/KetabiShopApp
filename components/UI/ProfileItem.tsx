@@ -1,8 +1,9 @@
 // components/UI/ProfileItem.tsx
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { useLanguage } from "@/context/LanguageContext";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { useLanguage } from "@/context/LanguageContext";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import CustomText from "@/components/common/CustomText";
 
 interface ProfileItemsProps {
   itemLable: string;
@@ -33,9 +34,9 @@ export default function ProfileItems({
           color="#3996e8"
           style={isRTL ? styles.iconRight : styles.iconLeft}
         />
-        
-        <Text style={styles.title}>{itemLable}</Text>
-        
+
+        <CustomText style={styles.title}>{itemLable}</CustomText>
+
         <Ionicons
           name={isRTL ? "arrow-back" : "arrow-forward"}
           size={18}

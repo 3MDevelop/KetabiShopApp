@@ -1,11 +1,12 @@
-import { View, Text, StyleSheet } from "react-native";
 import { useAuth } from "@/hooks/useAuth";
+import { StyleSheet, View } from "react-native";
+import CustomText from "@/components/common/CustomText";
 
 export default function UserAddressList() {
   const { user } = useAuth();
   return (
     <View style={styles.container}>
-      <Text>{user?.addresses}</Text>
+      <CustomText>{user?.addresses}</CustomText>
     </View>
   );
 }

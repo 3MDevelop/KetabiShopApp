@@ -1,15 +1,16 @@
 import React from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import styles from "./styles";
+import CustomText from "@/components/common/CustomText";
 
 export default function Search() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>جستجوی کتاب</Text>
-        <Text style={styles.description}>
+        <CustomText style={styles.title}>جستجوی کتاب</CustomText>
+        <CustomText style={styles.description}>
           این صفحه جستجوی است. اطلاعات مربوط به جستجو اینجا قرار می‌گیرد.
-        </Text>
+        </CustomText>
       </View>
     </ScrollView>
   );

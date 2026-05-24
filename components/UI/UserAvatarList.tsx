@@ -5,6 +5,7 @@ import UserAvatar from "./userAvatar";
 import { AVATAR_LIST } from "@/constants/avatarImages";
 import { useAuth } from "@/hooks/useAuth";
 
+
 export default function UserAvatarList() {
   const avatarCount = AVATAR_LIST.length;
 const {user} = useAuth()

@@ -1,4 +1,5 @@
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
+import CustomText from "@/components/common/CustomText";
 
 interface tempComponentProps {
   data?: number;
@@ -7,7 +8,7 @@ interface tempComponentProps {
 export default function tempComponent({ data }: tempComponentProps) {
   return (
     <View style={styles.container}>
-      <Text>Vertical List Content</Text>
+      <CustomText>Vertical List Content</CustomText>
     </View>
   );
 }
