@@ -43,7 +43,7 @@ export default function LogoutBtn({ targetURL }: LogoutBtnProps) {
             textAlign: "center",
           }}
         >
-         {t('profile.logout')}
+         {t('common.common.logoutBtn')}
         </Text>
       </TouchableOpacity>
     </View>

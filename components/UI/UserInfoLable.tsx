@@ -12,7 +12,7 @@ export default function UserInfoLable({ style }: CycleProps) {
     <View style={style}>
       <Text
         style={Styles.userName}
-      >{`${isLoggedIn ? user?.nName || user?.ID : t("profile.guestUserLable")}`}</Text>
+      >{`${isLoggedIn ? user?.nName || user?.ID : t("pages.Profile.guestUserLable")}`}</Text>
     </View>
   );
 }

@@ -27,7 +27,6 @@ export default function ProfileItems({
       activeOpacity={0.7}
     >
       <View style={styles.innerContainer}>
-        {/* آیکون اصلی - همیشه سمت راست در فارسی، سمت چپ در انگلیسی */}
         <Ionicons
           name={itemLogo as any}
           size={24}

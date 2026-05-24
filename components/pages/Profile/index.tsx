@@ -107,54 +107,54 @@ export default function Profile() {
           {isLoggedIn ? (
             <>
               <Text style={[styles.mainTitle, { marginTop: 40 }]}>
-                {t('profile.myActivities')}
+                {t('pages.Profile.myActivities')}
               </Text>
 
               <ProfileItems
-                itemLable={t('profile.myLibrary')}
+                itemLable={t('pages.Profile.myLibrary')}
                 itemAddress={"./myLibrary"}
                 itemLogo={"library"}
               />
 
               <ProfileItems
-                itemLable={t('profile.paymentHistory')}
+                itemLable={t('pages.Profile.paymentHistory')}
                 itemAddress={"./paymentRecords"}
                 itemLogo={"wallet-sharp"}
               />
 
               <ProfileItems
-                itemLable={t('profile.myComments')}
+                itemLable={t('pages.Profile.myComments')}
                 itemAddress={"./myComments"}
                 itemLogo={"chatbubble-sharp"}
               />
 
               <ProfileItems
-                itemLable={t('profile.myLikes')}
+                itemLable={t('pages.Profile.myLikes')}
                 itemAddress={"./myLikes"}
                 itemLogo={"thumbs-up-sharp"}
               />
 
               <ProfileItems
-                itemLable={t('profile.myFavorites')}
+                itemLable={t('pages.Profile.myFavorites')}
                 itemAddress={"./myFavorites"}
                 itemLogo={"star-sharp"}
               />
             </>
           ) : null}
 
-          <Text style={styles.mainTitle}>{t('profile.settings')}</Text>
+          <Text style={styles.mainTitle}>{t('pages.Profile.settings')}</Text>
           
           <ProfileItem_theme />
           <ProfileItem_setLang />
           
           <ProfileItems
-            itemLable={t('profile.support')}
+            itemLable={t('pages.Profile.support')}
             itemAddress={"support"}
             itemLogo={"headset-sharp"}
           />
           
           <ProfileItems
-            itemLable={t('profile.about')}
+            itemLable={t('pages.Profile.about')}
             itemAddress={"about"}
             itemLogo={"id-card-sharp"}
           />

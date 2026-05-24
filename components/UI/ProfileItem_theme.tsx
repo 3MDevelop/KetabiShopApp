@@ -19,19 +19,19 @@ export default function ProfileItem_theme() {
   }[] = [
     {
       id: "system",
-      name: t('profile.system') || "سیستم",
+      name: t('ui.ProfileItem_theme.system') ,
       icon: "phone-portrait-outline",
       activeIcon: "phone-portrait",
     },
     { 
       id: "dark", 
-      name: t('profile.dark') || "تیره", 
+      name: t('ui.ProfileItem_theme.dark'), 
       icon: "moon-outline", 
       activeIcon: "moon" 
     },
     { 
       id: "light", 
-      name: t('profile.light') || "روشن", 
+      name: t('ui.ProfileItem_theme.light') , 
       icon: "sunny-outline", 
       activeIcon: "sunny" 
     },
@@ -40,7 +40,6 @@ export default function ProfileItem_theme() {
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
-        {/* بخش سمت راست در RTL / سمت چپ در LTR: آیکون + متن */}
         <View style={styles.leftSection}>
           <Ionicons
             name="color-palette-sharp"
@@ -49,11 +48,10 @@ export default function ProfileItem_theme() {
             style={isRTL ? styles.iconRTL : styles.iconLTR}
           />
           <Text style={styles.title}>
-            {t('profile.theme') || "ظاهر برنامه"}
+            {t('ui.ProfileItem_theme.theme')}
           </Text>
         </View>
 
-        {/* بخش سمت چپ در RTL / سمت راست در LTR: دکمه‌های تم */}
         <View style={[
           styles.iconGroup,
           isRTL ? styles.iconGroupRTL : styles.iconGroupLTR

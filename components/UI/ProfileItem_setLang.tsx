@@ -10,7 +10,7 @@ export default function ProfileItem_setLang() {
   const languages = [
     { id: "fa", name: "فارسی" },
     { id: "en", name: "English" },
-    { id: "ar", name: "العربية" }, // ✅ اضافه شد
+    { id: "ar", name: "العربية" },
   ];
 
   return (
@@ -24,7 +24,7 @@ export default function ProfileItem_setLang() {
             style={isRTL ? styles.iconRTL : styles.iconLTR}
           />
           <Text style={styles.title}>
-            {t('profile.language') || "تغییر زبان"}
+            {t('ui.ProfileItem_setLang.language')}
           </Text>
         </View>
 
@@ -77,12 +77,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   iconRTL: {
-    marginLeft: 0,
-    marginRight: 8,
+    marginLeft: 12,
+    marginRight: 0,
   },
   iconLTR: {
-    marginLeft: 8,
-    marginRight: 0,
+    marginLeft: 0,
+    marginRight: 12,
   },
   title: {
     fontSize: 14,

@@ -21,7 +21,7 @@ export default function LoginBtn({ isIconic = false }: LoginBtnProps) {
         </View>
       ) : (
         <View style={styles.loginTextButton}>
-          <Text style={styles.loginButtonText}> {t('profile.login')} </Text>
+          <Text style={styles.loginButtonText}> {t('common.common.loginBtn')} </Text>
         </View>
       )}
     </TouchableOpacity>

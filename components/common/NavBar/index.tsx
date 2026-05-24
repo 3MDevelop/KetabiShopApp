@@ -49,7 +49,7 @@ export default function NavBar({ Colors, appTheme }: any) {
                 <Text
                   style={{ marginEnd: 10, color: "white", fontWeight: 500 }}
                 >
-                  {t('nav.categories') || "دسته بندی"}
+                  {t('common.navbar.categories') }
                 </Text>
               </TouchableOpacity>
 
@@ -65,7 +65,7 @@ export default function NavBar({ Colors, appTheme }: any) {
                 <Text
                   style={{ marginEnd: 10, color: "white", fontWeight: 500 }}
                 >
-                  {t('nav.offers') || "پیشنهادات"}
+                  {t('common.navbar.offers') }
                 </Text>
               </TouchableOpacity>
               

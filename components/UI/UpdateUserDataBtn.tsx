@@ -45,7 +45,7 @@ export default function UpdateUserDataBtn({
               textAlign: "center",
             }}
           >
-           {t('profile.userUpdate')}
+           {t('commob.common.userUpdateBtn')}
           </Text>
         )}
       </TouchableOpacity>
