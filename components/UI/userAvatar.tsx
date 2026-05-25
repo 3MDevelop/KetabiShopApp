@@ -20,7 +20,7 @@ export default function UserAvatar({
   const fontSize = useMemo(() => iconWidth * 0.6, [iconWidth]);
   const fontPadding = useMemo(() => iconWidth * 0.13, [iconWidth]);
   const iconSize = useMemo(() => iconWidth * 0.7, [iconWidth]);
-  const iconPadding = useMemo(() => iconWidth * 0.04, [iconWidth]);
+  const iconPaddingU = useMemo(() => iconWidth * 0.15, [iconWidth]);
 
   const getFirstChar = () => {
     if (inText) {
@@ -66,7 +66,7 @@ export default function UserAvatar({
           ]}
         >
           <CustomText
-            style={[Styles.userIconText, { paddingBottom: iconPadding }]}
+            style={[Styles.userIconText, { paddingTop: iconPaddingU }]}
           >
             <Ionicons name="people" size={iconSize * 0.8} color="white" />
           </CustomText>

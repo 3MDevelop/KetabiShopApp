@@ -1,12 +1,12 @@
 // constants/theme.ts
 
-// رنگ‌های ثابت برنامه (برای NavBar و ...)
 export const Colors = {
   light: {
     background: '#FFFFFF',
     surface: '#F2F2F7',
     primary: '#007AFF',
     secondary: '#5856D6',
+    navBackColor:'#0a7ea4',
     text: '#000000',
     textSecondary: '#8E8E93',
     border: '#C6C6C8',
@@ -19,6 +19,7 @@ export const Colors = {
     surface: '#1C1C1E',
     primary: '#0A84FF',
     secondary: '#5E5CE6',
+    navBackColor:'#0a323f',
     text: '#FFFFFF',
     textSecondary: '#8E8E93',
     border: '#38383A',

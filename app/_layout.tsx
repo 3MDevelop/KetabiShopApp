@@ -1,25 +1,24 @@
 // app/_layout.tsx
-import { Stack, usePathname } from "expo-router";
-import { StyleSheet, View, ActivityIndicator } from "react-native";
-import { StatusBar } from "expo-status-bar";
-import { useState, useEffect } from "react";
-import Toast from "react-native-toast-message";
 import { initI18n } from "@/locales";
+import { Stack, usePathname } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
+import Toast from "react-native-toast-message";
 
-import { useCustomFonts } from '@/hooks/useFonts';
-import { ThemeProvider } from '@/context/ThemeContext';
-import { LanguageProvider, useLanguage } from '@/context/LanguageContext';
+import { LanguageProvider, useLanguage } from "@/context/LanguageContext";
+import { ThemeProvider } from "@/context/ThemeContext";
+import { useCustomFonts } from "@/hooks/useFonts";
 
 import { Colors } from "@/constants/theme";
-import labels from "@/data/labels.json";
 import { AuthProvider } from "@/context/AuthContext";
 import { CatProvider } from "@/context/CatContext";
+import labels from "@/data/labels.json";
 import { useResponsive } from "@/hooks/useResponsive";
 
-import NavBar from "@/components/common/NavBar";
 import BottomNavigation from "@/components/common/BottomNavigation";
+import NavBar from "@/components/common/NavBar";
 
-// کامپوننت داخلی که از useLanguage استفاده می‌کند
 function RootLayoutContent() {
   const { isRTL } = useLanguage();
   const [appTheme, setAppTheme] = useState("dark");
@@ -32,7 +31,7 @@ function RootLayoutContent() {
     <View style={[styles.container, { direction: isRTL ? "rtl" : "ltr" }]}>
       <AuthProvider>
         <CatProvider>
-          <View style={styles.container}>
+          <View style={styles.innerContainer}>
             <StatusBar style="auto" />
 
             {!hideNavigation && (
@@ -67,13 +66,12 @@ function RootLayoutContent() {
 
 export default function RootLayout() {
   const [isReady, setIsReady] = useState(false);
-  const { fontsLoaded } = useCustomFonts(); // ✅ اینجا مشکلی ندارد چون useLanguage ندارد
+  const { fontsLoaded } = useCustomFonts();
 
   useEffect(() => {
     initI18n().then(() => setIsReady(true));
   }, []);
 
-  // ✅ منتظر بارگذاری i18n و فونت‌ها
   if (!isReady || !fontsLoaded) {
     return (
       <View style={styles.loadingContainer}>
@@ -94,14 +92,20 @@ export default function RootLayout() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#e01212", // ✅ رنگ پس‌زمینه اصلی کل برنامه
+  },
+  innerContainer: {
+    flex: 1,
+    backgroundColor: "#2fc509", // ✅ رنگ پس‌زمینه داخلی
   },
   mainContainer: {
     flex: 1,
+    backgroundColor: "#090cb6", // ✅ رنگ پس‌زمینه محتوای اصلی
   },
   loadingContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "#f5f5f5", // ✅ رنگ پس‌زمینه صفحه لودینگ
   },
 });

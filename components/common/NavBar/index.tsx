@@ -6,6 +6,9 @@ import { useRouter } from "expo-router";
 import { useRef } from "react";
 import { Image, TouchableOpacity, View } from "react-native";
 import CustomText from "@/components/common/CustomText";
+import { useTheme } from "@/context/ThemeContext";
+
+
 
 import styles from "./styles";
 
@@ -14,13 +17,14 @@ export default function NavBar({ Colors, appTheme }: any) {
   const profileRef = useRef<View>(null);
   const router = useRouter();
   const { t } = useTranslate();
+  const {  theme } = useTheme();
 
   return (
     <>
       <View
         style={[
           styles.NavBarContainer,
-          { backgroundColor: Colors[appTheme].background },
+          { backgroundColor: theme.colors.navBackColor },
         ]}
       >
         <View style={styles.NavBar}>
