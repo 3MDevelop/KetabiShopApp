@@ -6,16 +6,16 @@ import { Pressable, View } from "react-native";
 import Toast from "react-native-toast-message";
 import styles from "./styles";
 import CustomText from "@/components/common/CustomText";
+import { useTheme } from "@/context/ThemeContext";
 
 export default function BottomNavigation({
   labels,
   setActivePage,
   activePage,
-  Colors,
-  appTheme,
 }: any) {
   const router = useRouter();
   const pathname = usePathname();
+  const { theme } = useTheme();
 
   const showToast = () => {
     Toast.show({
@@ -94,7 +94,7 @@ export default function BottomNavigation({
     <View
       style={{
         alignItems: "center",
-        backgroundColor: Colors[appTheme].background,
+        backgroundColor: theme.colors.surface,
       }}
     >
       <View style={styles.mobileHeader}>

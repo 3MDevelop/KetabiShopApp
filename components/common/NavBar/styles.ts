@@ -70,7 +70,6 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  // components/common/styles.ts
 NavBarRTL: {
   flexDirection: "row",
   alignItems: "center",

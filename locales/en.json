@@ -52,10 +52,10 @@
   },
   "ui": {
     "ProfileItem_setLang": {
-      "language": "Change Language"
+      "language": "Language"
     },
     "ProfileItem_theme": {
-      "theme": "App Theme",
+      "theme": "Theme",
       "light": "Light",
       "dark": "Dark",
       "system": "System"

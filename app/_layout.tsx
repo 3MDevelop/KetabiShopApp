@@ -7,10 +7,9 @@ import { ActivityIndicator, StyleSheet, View } from "react-native";
 import Toast from "react-native-toast-message";
 
 import { LanguageProvider, useLanguage } from "@/context/LanguageContext";
-import { ThemeProvider } from "@/context/ThemeContext";
+import { ThemeProvider, useTheme } from "@/context/ThemeContext";
 import { useCustomFonts } from "@/hooks/useFonts";
 
-import { Colors } from "@/constants/theme";
 import { AuthProvider } from "@/context/AuthContext";
 import { CatProvider } from "@/context/CatContext";
 import labels from "@/data/labels.json";
@@ -21,7 +20,8 @@ import NavBar from "@/components/common/NavBar";
 
 function RootLayoutContent() {
   const { isRTL } = useLanguage();
-  const [appTheme, setAppTheme] = useState("dark");
+  const [appTheme, setAppTheme] = useState("light");
+  const { theme } = useTheme();
   const [activePage, setActivePage] = useState<string | null>(null);
   const { isMobile } = useResponsive();
   const pathname = usePathname();
@@ -35,15 +35,16 @@ function RootLayoutContent() {
             <StatusBar style="auto" />
 
             {!hideNavigation && (
-              <NavBar
-                Colors={Colors}
-                appTheme={appTheme}
-                setAppTheme={setAppTheme}
-              />
+              <NavBar appTheme={appTheme} setAppTheme={setAppTheme} />
             )}
 
             <View style={styles.mainContainer}>
-              <Stack screenOptions={{ headerShown: false }} />
+              <Stack
+                screenOptions={{
+                  headerShown: false,
+                  contentStyle: { backgroundColor: theme.colors.appBack },
+                }}
+              />
             </View>
 
             {isMobile && !hideNavigation && (
@@ -51,8 +52,6 @@ function RootLayoutContent() {
                 labels={labels}
                 setActivePage={setActivePage}
                 activePage={activePage}
-                Colors={Colors}
-                appTheme={appTheme}
               />
             )}
 
@@ -92,20 +91,16 @@ export default function RootLayout() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#e01212", // ✅ رنگ پس‌زمینه اصلی کل برنامه
   },
   innerContainer: {
     flex: 1,
-    backgroundColor: "#2fc509", // ✅ رنگ پس‌زمینه داخلی
   },
   mainContainer: {
     flex: 1,
-    backgroundColor: "#090cb6", // ✅ رنگ پس‌زمینه محتوای اصلی
   },
   loadingContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f5f5f5", // ✅ رنگ پس‌زمینه صفحه لودینگ
   },
 });

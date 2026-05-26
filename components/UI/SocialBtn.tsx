@@ -2,6 +2,7 @@ import React from "react";
 
 import { View, TouchableOpacity, Linking } from "react-native";
 import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
+import { useTheme } from "@/context/ThemeContext";
 
 export default function SocialBtn() {
   const socialLinks = {
@@ -10,6 +11,7 @@ export default function SocialBtn() {
     telegram: "https://t.me/yourusername",
   };
 
+  const{theme} = useTheme()
   const openLink = async (url: string) => {
     const supported = await Linking.canOpenURL(url);
     if (supported) {
@@ -28,15 +30,15 @@ export default function SocialBtn() {
       }}
     >
       <TouchableOpacity onPress={() => openLink(socialLinks.instagram)}>
-        <AntDesign name="instagram" size={28} color="#808080" />
+        <AntDesign name="instagram" size={28} color={theme.colors.textSecondary} />
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => openLink(socialLinks.whatsapp)}>
-        <FontAwesome5 name="whatsapp" size={28} color="#808080" />
+        <FontAwesome5 name="whatsapp" size={28} color={theme.colors.textSecondary} />
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => openLink(socialLinks.telegram)}>
-        <FontAwesome5 name="telegram" size={28} color="#808080" />
+        <FontAwesome5 name="telegram" size={28} color={theme.colors.textSecondary} />
       </TouchableOpacity>
     </View>
   );

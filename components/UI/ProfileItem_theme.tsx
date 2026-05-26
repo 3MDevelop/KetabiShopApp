@@ -10,22 +10,22 @@ export default function ProfileItem_theme() {
   const { t } = useTranslate();
 
   const themes = [
-    { id: "light", name: t("profile.light"), icon: "sunny-outline" },
-    { id: "dark", name: t("profile.dark"), icon: "moon-outline" },
-    { id: "system", name: t("profile.system"), icon: "phone-portrait-outline" },
+    { id: "light", icon: "sunny-outline" },
+    { id: "dark", icon: "moon-outline" },
+    { id: "system", icon: "phone-portrait-outline" },
   ];
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.colors.surface }]}>
+    <View style={[styles.container, { backgroundColor: theme.colors.itemBack }]}>
       <View style={styles.innerContainer}>
         <View style={styles.leftSection}>
           <Ionicons
             name="color-palette-sharp"
             size={24}
-            color={theme.colors.primary}
+            color={theme.colors.iconColor}
           />
           <CustomText style={[styles.title, { color: theme.colors.text }]}>
-            {t("profile.theme")}
+            {t("ui.ProfileItem_theme.theme")}
           </CustomText>
         </View>
 
@@ -49,19 +49,6 @@ export default function ProfileItem_theme() {
                     : theme.colors.textSecondary
                 }
               />
-              <CustomText
-                style={[
-                  styles.themeText,
-                  {
-                    color:
-                      themeMode === item.id
-                        ? theme.colors.primary
-                        : theme.colors.textSecondary,
-                  },
-                ]}
-              >
-                {item.name}
-              </CustomText>
             </TouchableOpacity>
           ))}
         </View>
@@ -90,7 +77,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 14,
     fontWeight: "600",
-    marginLeft: 12,
+    marginHorizontal: 12,
   },
   themeGroup: {
     flexDirection: "row",

@@ -3,7 +3,6 @@
 export const Colors = {
   light: {
     background: '#FFFFFF',
-    surface: '#F2F2F7',
     primary: '#007AFF',
     secondary: '#5856D6',
     navBackColor:'#0a7ea4',
@@ -13,19 +12,26 @@ export const Colors = {
     error: '#FF3B30',
     success: '#34C759',
     warning: '#FF9500',
+    appBack:'#f5f5f5',
+    surface: '#5c5c5c',
+    itemBack:'#f8f9fa',
+    iconColor:'#3996e8'
   },
   dark: {
     background: '#000000',
-    surface: '#1C1C1E',
+    surface: '#242424',
     primary: '#0A84FF',
     secondary: '#5E5CE6',
     navBackColor:'#0a323f',
-    text: '#FFFFFF',
-    textSecondary: '#8E8E93',
+    text: '#e0e0e0',
+    textSecondary: '#e2e2e2',
     border: '#38383A',
     error: '#FF453A',
     success: '#30D158',
     warning: '#FF9F0A',
+    appBack:'#414141',
+    itemBack:'#242424',
+    iconColor:'#e2e2e2'
   },
 };
 

@@ -4,6 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import CustomText from "@/components/common/CustomText";
+import { useTheme } from "@/context/ThemeContext";
 
 interface ProfileItemsProps {
   itemLable: string;
@@ -18,7 +19,7 @@ export default function ProfileItems({
 }: ProfileItemsProps) {
   const router = useRouter();
   const { isRTL } = useLanguage();
-
+const {theme} = useTheme()
   return (
     <TouchableOpacity
       style={styles.container}
@@ -27,20 +28,20 @@ export default function ProfileItems({
       }}
       activeOpacity={0.7}
     >
-      <View style={styles.innerContainer}>
+      <View style={[styles.innerContainer,{backgroundColor:theme.colors.itemBack}]}>
         <Ionicons
           name={itemLogo as any}
           size={24}
-          color="#3996e8"
+          color={theme.colors.iconColor}
           style={isRTL ? styles.iconRight : styles.iconLeft}
         />
 
-        <CustomText style={styles.title}>{itemLable}</CustomText>
+        <CustomText style={[styles.title,{color:theme.colors.text}]}>{itemLable}</CustomText>
 
         <Ionicons
           name={isRTL ? "arrow-back" : "arrow-forward"}
           size={18}
-          color="#3996e8"
+          color={theme.colors.iconColor}
           style={isRTL ? styles.arrowLeft : styles.arrowRight}
         />
       </View>
@@ -58,8 +59,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: "#f8f9fa",
     borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "#e9ecef",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",

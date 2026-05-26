@@ -3,10 +3,12 @@ import { useTranslate } from "@/hooks/useTranslation";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import CustomText from "@/components/common/CustomText";
+import { useTheme } from "@/context/ThemeContext";
 
 export default function ProfileItem_setLang() {
   const { language, setLanguage, isRTL } = useLanguage();
   const { t } = useTranslate();
+  const { theme } = useTheme();
 
   const languages = [
     { id: "fa", name: "فارسی" },
@@ -15,16 +17,18 @@ export default function ProfileItem_setLang() {
   ];
 
   return (
-    <View style={styles.container}>
-      <View style={styles.innerContainer}>
+    <View
+      style={styles.container}
+    >
+      <View style={[styles.innerContainer, { backgroundColor: theme.colors.itemBack }]}>
         <View style={styles.leftSection}>
           <Ionicons
             name="language-sharp"
             size={24}
-            color="#3996e8"
+           color={theme.colors.iconColor}
             style={isRTL ? styles.iconRTL : styles.iconLTR}
           />
-          <CustomText style={styles.title}>
+          <CustomText style={[styles.title, { color: theme.colors.text }]}>
             {t("ui.ProfileItem_setLang.language")}
           </CustomText>
         </View>
@@ -47,7 +51,7 @@ export default function ProfileItem_setLang() {
                   language === lang.id && styles.languageTextActive,
                 ]}
               >
-                {lang.name}
+                {lang.id}
               </CustomText>
             </TouchableOpacity>
           ))}
@@ -65,10 +69,7 @@ const styles = StyleSheet.create({
   innerContainer: {
     padding: 14,
     paddingHorizontal: 20,
-    backgroundColor: "#f8f9fa",
     borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "#e9ecef",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",

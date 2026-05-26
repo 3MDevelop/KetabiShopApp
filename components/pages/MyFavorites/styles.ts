@@ -3,12 +3,10 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
-    
   },
   content: {
     padding: 20,
-    width:"100%",
+    width: "100%",
     maxWidth: 950,
     alignSelf: "center",
   },

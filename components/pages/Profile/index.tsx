@@ -21,6 +21,7 @@ import UserAvatar from "@/components/UI/userAvatar";
 import UserAvatarEditBtn from "@/components/UI/UserAvatarEditBtn";
 import UserInfoLable from "@/components/UI/UserInfoLable";
 import { useTranslate } from "@/hooks/useTranslation";
+import { useTheme } from "@/context/ThemeContext";
 
 import {
     createHeaderBackgroundAnimation,
@@ -37,6 +38,7 @@ export default function Profile() {
   const router = useRouter();
   const { isLoggedIn } = useAuth();
   const { t } = useTranslate();
+  const {theme} = useTheme()
 
   const scrollToTop = () => {
     scrollViewRef.current?.scrollTo({ y: 0, animated: true });
@@ -106,7 +108,7 @@ export default function Profile() {
         >
           {isLoggedIn ? (
             <>
-              <CustomText style={[styles.mainTitle, { marginTop: 40 }]}>
+              <CustomText style={[styles.mainTitle, { marginTop: 40,color:theme.colors.text }]}>
                 {t("pages.Profile.myActivities")}
               </CustomText>
 
@@ -142,7 +144,7 @@ export default function Profile() {
             </>
           ) : null}
 
-          <CustomText style={styles.mainTitle}>
+          <CustomText style={[styles.mainTitle,{color:theme.colors.text}]}>
             {t("pages.Profile.settings")}
           </CustomText>
 

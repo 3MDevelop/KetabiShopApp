@@ -8,8 +8,6 @@ import { Image, TouchableOpacity, View } from "react-native";
 import CustomText from "@/components/common/CustomText";
 import { useTheme } from "@/context/ThemeContext";
 
-
-
 import styles from "./styles";
 
 export default function NavBar({ Colors, appTheme }: any) {
@@ -17,7 +15,7 @@ export default function NavBar({ Colors, appTheme }: any) {
   const profileRef = useRef<View>(null);
   const router = useRouter();
   const { t } = useTranslate();
-  const {  theme } = useTheme();
+  const { theme } = useTheme();
 
   return (
     <>
@@ -110,7 +108,7 @@ export default function NavBar({ Colors, appTheme }: any) {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={{ marginBottom: 5, marginStart: 10 }}
+            style={{ marginBottom: 5, marginHorizontal: 10 }}
             ref={profileRef}
             onPress={() => {
               router.push("/profile");
