@@ -17,7 +17,7 @@ export default function UserAvatar({
 }: UserAvatarProps) {
   const { isLoggedIn, user } = useAuth();
 
-  const fontSize = useMemo(() => iconWidth * 0.6, [iconWidth]);
+  const fontSize = useMemo(() => iconWidth * 0.5, [iconWidth]);
   const fontPadding = useMemo(() => iconWidth * 0.13, [iconWidth]);
   const iconSize = useMemo(() => iconWidth * 0.7, [iconWidth]);
   const iconPaddingU = useMemo(() => iconWidth * 0.15, [iconWidth]);

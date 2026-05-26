@@ -3,10 +3,10 @@ import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "expo-router";
 import React, { useRef } from "react";
 import {
-    Animated,
-    ScrollView as NativeScrollView,
-    TouchableOpacity,
-    View
+  Animated,
+  ScrollView as NativeScrollView,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 import BackToTop from "@/components/UI/BackToTop";
@@ -22,12 +22,13 @@ import UserAvatarEditBtn from "@/components/UI/UserAvatarEditBtn";
 import UserInfoLable from "@/components/UI/UserInfoLable";
 import { useTranslate } from "@/hooks/useTranslation";
 import { useTheme } from "@/context/ThemeContext";
+import { useResponsive } from "@/hooks/useResponsive";
 
 import {
-    createHeaderBackgroundAnimation,
-    createHeaderOpacityAnimation,
-    createHeaderTranslateAnimation,
-    createProgressBarAnimation,
+  createHeaderBackgroundAnimation,
+  createHeaderOpacityAnimation,
+  createHeaderTranslateAnimation,
+  createProgressBarAnimation,
 } from "./animation";
 import { styles } from "./styles";
 import CustomText from "@/components/common/CustomText";
@@ -38,7 +39,8 @@ export default function Profile() {
   const router = useRouter();
   const { isLoggedIn } = useAuth();
   const { t } = useTranslate();
-  const {theme} = useTheme()
+  const { theme } = useTheme();
+  const { isMobile } = useResponsive();
 
   const scrollToTop = () => {
     scrollViewRef.current?.scrollTo({ y: 0, animated: true });
@@ -108,7 +110,12 @@ export default function Profile() {
         >
           {isLoggedIn ? (
             <>
-              <CustomText style={[styles.mainTitle, { marginTop: 40,color:theme.colors.text }]}>
+              <CustomText
+                style={[
+                  styles.mainTitle,
+                  { marginTop: 40, color: theme.colors.text },
+                ]}
+              >
                 {t("pages.Profile.myActivities")}
               </CustomText>
 
@@ -144,7 +151,7 @@ export default function Profile() {
             </>
           ) : null}
 
-          <CustomText style={[styles.mainTitle,{color:theme.colors.text}]}>
+          <CustomText style={[styles.mainTitle, { color: theme.colors.text }]}>
             {t("pages.Profile.settings")}
           </CustomText>
 
@@ -164,7 +171,12 @@ export default function Profile() {
           />
         </View>
 
-        <View style={styles.bottomContainer}>
+        <View
+          style={[
+            styles.bottomContainer,
+            isMobile ? { flexDirection: "column" } : { flexDirection: "row" },
+          ]}
+        >
           <SocialBtn />
           {isLoggedIn ? <LogoutBtn targetURL="/" /> : null}
         </View>

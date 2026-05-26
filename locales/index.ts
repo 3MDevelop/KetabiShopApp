@@ -4,15 +4,13 @@ import { initReactI18next } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import fa from './fa.json';
 import en from './en.json';
-import ar from './ar.json'; // ✅ اضافه شد
 
 const resources = {
   fa: { translation: fa },
   en: { translation: en },
-  ar: { translation: ar }, // ✅ اضافه شد
 };
 
-export type SupportedLanguage = 'fa' | 'en' | 'ar'; // ✅ اضافه شد
+export type SupportedLanguage = 'fa' | 'en' ; 
 
 const defaultLanguage: SupportedLanguage = 'fa';
 
@@ -20,7 +18,7 @@ const getStoredLanguage = async (): Promise<SupportedLanguage> => {
   try {
     const storedLang = await AsyncStorage.getItem('app_language');
     
-    if (storedLang === 'fa' || storedLang === 'en' || storedLang === 'ar') { // ✅ اضافه شد
+    if (storedLang === 'fa' || storedLang === 'en') { 
       return storedLang;
     }
     
@@ -54,7 +52,6 @@ export const getAvailableLanguages = async (): Promise<{ code: SupportedLanguage
   return [
     { code: 'fa', name: 'فارسی' },
     { code: 'en', name: 'English' },
-    { code: 'ar', name: 'العربية' }, // ✅ اضافه شد
   ];
 };
 

@@ -18,7 +18,6 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     loadInitialData();
     
-    // گوش دادن به تغییرات زبان
     const handleLanguageChange = (lng: string) => {
       setLanguageState(lng as SupportedLanguage);
     };
@@ -44,7 +43,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     await changeLanguage(lang);
   };
 
-  const isRTL = language === 'fa' || language === 'ar'; 
+  const isRTL = language === 'fa'; 
 
   return (
     <LanguageContext.Provider 

@@ -31,16 +31,16 @@ export default function LogoutBtn({ targetURL }: LogoutBtnProps) {
       <TouchableOpacity
         style={{
           backgroundColor: "#f44336",
-          minWidth: 170,
-          paddingVertical: 12,
+          paddingVertical: 8,
+          paddingHorizontal:20,
           borderRadius: 8,
         }}
         onPress={handleLogout}
       >
         <CustomText
           style={{
+            fontSize:12,
             color: "white",
-            fontWeight: "bold",
             textAlign: "center",
           }}
         >

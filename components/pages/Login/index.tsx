@@ -1,14 +1,20 @@
+// components/pages/login/index.tsx
+
 import { User } from "@/context/AuthContext";
 import { useAuth } from "@/hooks/useAuth";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
-    ActivityIndicator,
-    TouchableOpacity,
-    View,
-    TextInput
+  ActivityIndicator,
+  TouchableOpacity,
+  View,
+  TextInput,
+  Platform,
 } from "react-native";
+import { useTheme } from "@/context/ThemeContext";
+import { useLanguage } from "@/context/LanguageContext";
+import { useTranslate } from "@/hooks/useTranslation";
 import Toast from "react-native-toast-message";
 import styles from "./styles";
 import CustomText from "@/components/common/CustomText";
@@ -22,35 +28,45 @@ export default function Login() {
   const [showCodeInput, setShowCodeInput] = useState(false);
   const [isLoadingCode, setIsLoadingCode] = useState(false);
   const { isLoggedIn, isLoading, login } = useAuth();
+  const { theme } = useTheme();
+  const { isRTL } = useLanguage();
+  const { t } = useTranslate();
 
-  const showToast = (
-    type: ToastType,
-    message: string,
-    description?: string,
-  ) => {
-    Toast.show({
-      type: type,
-      text1: message,
-      text2:
-        description ||
-        (type === "success"
-          ? "عملیات با موفقیت انجام شد"
-          : "لطفاً مجدداً تلاش کنید"),
-      position: "top",
-      topOffset: 20,
-      visibilityTime: 3000,
-    });
-  };
+  const showToast = useCallback(
+    (type: ToastType, message: string, description?: string) => {
+      Toast.show({
+        type: type,
+        text1: message,
+        text2:
+          description ||
+          (type === "success"
+            ? t("pages.Login.messages.success")
+            : t("pages.Login.messages.tryAgain")),
+        position: "top",
+        topOffset: 20,
+        visibilityTime: 3000,
+      });
+    },
+    [t]
+  );
 
-  const getAuthCode = async () => {
+  const getAuthCode = useCallback(async () => {
     const phoneRegex = /^09[0-9]{9}$/;
     if (!phoneRegex.test(phone)) {
-      showToast("error", "خطا", "شماره موبایل نامعتبر است");
+      showToast(
+        "error",
+        t("pages.Login.auth.invalidPhone"),
+        t("pages.Login.auth.phoneFormatHint"),
+      );
       return;
     }
 
     if (!isAccepted) {
-      showToast("error", "خطا", "لطفاً قوانین و مقررات را بپذیرید");
+      showToast(
+        "error",
+        t("pages.Login.auth.acceptRulesError"),
+        t("pages.Login.auth.acceptRulesHint"),
+      );
       return;
     }
 
@@ -67,25 +83,37 @@ export default function Login() {
 
       const result = await response.json();
       if (response.ok) {
-        showToast("success", "کد تایید ارسال شد", result.meta_data.content);
+        showToast(
+          "success",
+          t("pages.Login.auth.codeSent"),
+          result.meta_data.content,
+        );
         setShowCodeInput(true);
       } else {
         showToast(
           "error",
-          "خطا",
-          result.message || "مشکلی در ارسال کد رخ داده است",
+          t("common.error"),
+          result.message || t("pages.Login.auth.codeSendError"),
         );
       }
     } catch {
-      showToast("error", "خطا", "مشکل در ارتباط با سرور");
+      showToast(
+        "error",
+        t("pages.Login.common.error"),
+        t("pages.Login.common.connectionError"),
+      );
     } finally {
       setIsLoadingCode(false);
     }
-  };
+  }, [phone, isAccepted, showToast, t]);
 
-  const verifyCode = async () => {
+  const verifyCode = useCallback(async () => {
     if (!authCode || authCode.length !== 5) {
-      showToast("error", "خطا", "کد تایید باید ۵ رقم باشد");
+      showToast(
+        "error",
+        t("pages.Login.auth.invalidCode"),
+        t("pages.Login.auth.codeLengthHint"),
+      );
       return;
     }
 
@@ -147,29 +175,96 @@ export default function Login() {
           ],
         };
 
-        showToast("success", "موفق", "ورود با موفقیت انجام شد");
+        showToast(
+          "success",
+          t("pages.Login.common.success"),
+          t("pages.Login.auth.loginSuccess"),
+        );
         await login(userData);
         router.back();
       } else {
         showToast(
           "error",
-          "خطا",
-          result.message || result.meta_data?.message || "کد تایید نامعتبر است",
+          t("common.error"),
+          result.message ||
+            result.meta_data?.message ||
+            t("pages.Login.auth.invalidCode"),
         );
         setAuthCode("");
       }
     } catch {
-      showToast("error", "خطا", "مشکل در ارتباط با سرور");
+      showToast(
+        "error",
+        t("pages.Login.common.error"),
+        t("pages.Login.common.connectionError"),
+      );
     } finally {
       setIsLoadingCode(false);
     }
-  };
+  }, [authCode, phone, showToast, t, login]);
+
+  // ✅ قابلیت Space برای تیک زدن چک‌باکس (با پشتیبانی از Numpad)
+  useEffect(() => {
+    if (Platform.OS === "web" && !showCodeInput) {
+      const handleSpaceKey = (event: KeyboardEvent) => {
+        const isSpace =
+          event.code === "Space" ||
+          event.code === "NumpadSpace" ||
+          event.key === " " ||
+          event.which === 32 ||
+          event.keyCode === 32;
+
+        if (isSpace) {
+          event.preventDefault();
+          setIsAccepted((prev) => !prev);
+        }
+      };
+
+      window.addEventListener("keydown", handleSpaceKey);
+      return () => window.removeEventListener("keydown", handleSpaceKey);
+    }
+  }, [showCodeInput]);
+
+  // ✅ قابلیت Enter برای ارسال فرم (با پشتیبانی از Numpad)
+  useEffect(() => {
+    if (Platform.OS === "web") {
+      const handleEnterKey = (event: KeyboardEvent) => {
+        const isEnter =
+          event.code === "Enter" ||
+          event.code === "NumpadEnter" ||
+          event.key === "Enter" ||
+          event.which === 13 ||
+          event.keyCode === 13;
+
+        if (isEnter) {
+          event.preventDefault();
+
+          if (!showCodeInput) {
+            const isButtonEnabled = !isLoadingCode && isAccepted && phone;
+            if (isButtonEnabled) {
+              getAuthCode();
+            }
+          } else {
+            const isButtonEnabled = !isLoadingCode && authCode;
+            if (isButtonEnabled) {
+              verifyCode();
+            }
+          }
+        }
+      };
+
+      window.addEventListener("keydown", handleEnterKey);
+      return () => window.removeEventListener("keydown", handleEnterKey);
+    }
+  }, [showCodeInput, isLoadingCode, isAccepted, phone, authCode, getAuthCode, verifyCode]);
 
   if (isLoading) {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size="large" color="#2196f3" />
-        <CustomText style={styles.loadingText}>در حال اتصال...</CustomText>
+        <ActivityIndicator size="large" color={theme.colors.primary} />
+        <CustomText style={styles.loadingText}>
+          {t("pages.Login.common.loading")}
+        </CustomText>
       </View>
     );
   }
@@ -180,24 +275,31 @@ export default function Login() {
         <View style={styles.container}>
           <View style={styles.cardContainerLoggedIn}>
             <View style={styles.avatarContainerLoggedIn}>
-              <Ionicons name="person" size={45} color={"#18abe6"} />
+              <Ionicons name="person" size={45} color={theme.colors.primary} />
             </View>
             <CustomText style={styles.welcomeText}>
-              شما قبلاً به سیستم وارد شده‌اید
+              {t("pages.Login.auth.alreadyLoggedIn")}
             </CustomText>
-            <CustomText style={styles.redirectText}>
-              در حال انتقال به صفحه اصلی...
-            </CustomText>
-            <ActivityIndicator
-              style={styles.activityIndicator}
-              size="small"
-              color="#2196f3"
-            />
+
+            <TouchableOpacity
+              onPress={() => router.push("./")}
+              style={{ alignSelf: "center" }}
+            >
+              <View
+                style={{
+                  backgroundColor: theme.colors.primary,
+                  padding: 8,
+                  paddingHorizontal: 20,
+                  borderRadius: 4,
+                }}
+              >
+                <CustomText bold style={{ color: "white", fontSize: 12 }}>
+                  {t("pages.Login.common.backToHome")}
+                </CustomText>
+              </View>
+            </TouchableOpacity>
             {(() => {
-              setTimeout(() => {
-                router.back();
-              }, 2000);
-              return null;
+              router.back();
             })()}
           </View>
         </View>
@@ -214,19 +316,25 @@ export default function Login() {
               onPress={() => router.back()}
               style={{ display: "flex", flexDirection: "row" }}
             >
-              <Ionicons name={"arrow-back"} size={18} color={"#6b6b6b"} />
+              <Ionicons
+                name={isRTL ? "arrow-forward" : "arrow-back"}
+                size={18}
+                color={"#6b6b6b"}
+              />
             </TouchableOpacity>
             <View style={styles.avatarContainer}>
               <Ionicons name="person" size={45} color={"#6b6b6b"} />
             </View>
             <CustomText style={styles.titleWithMargin}>
-              {!showCodeInput ? "ورود به حساب کاربری" : "تایید کد"}
+              {!showCodeInput
+                ? t("pages.Login.auth.login")
+                : t("pages.Login.auth.verifyCode")}
             </CustomText>
 
             {!showCodeInput && (
               <TextInput
-                style={styles.input}
-                placeholder="شماره موبایل ( 09xxxxxxxxx )"
+                style={[styles.input, { textAlign: isRTL ? "right" : "left" }]}
+                placeholder={t("pages.Login.auth.phonePlaceholder")}
                 placeholderTextColor="#999"
                 value={phone}
                 onChangeText={setPhone}
@@ -239,14 +347,17 @@ export default function Login() {
             {showCodeInput && (
               <View style={styles.codeInputContainer}>
                 <TextInput
-                  style={styles.input}
-                  placeholder="کد تایید 5 رقمی"
+                  style={[
+                    styles.input,
+                    { textAlign: isRTL ? "right" : "left" },
+                  ]}
+                  placeholder={t("pages.Login.auth.codePlaceholder")}
                   placeholderTextColor="#999"
                   value={authCode}
                   onChangeText={setAuthCode}
                   autoCapitalize="none"
                   keyboardType="number-pad"
-                  maxLength={6}
+                  maxLength={5}
                   editable={!isLoading}
                 />
               </View>
@@ -270,14 +381,41 @@ export default function Login() {
                   </View>
                 </TouchableOpacity>
 
-                <View style={styles.rulesContainer}>
-                  <CustomText style={styles.rulesText}>من </CustomText>
-                  <TouchableOpacity onPress={() => router.push("/rules")}>
-                    <CustomText style={styles.rulesLink}>
-                      قوانین و مقررات
-                    </CustomText>
-                  </TouchableOpacity>
-                  <CustomText style={styles.rulesText}> را می‌پذیرم</CustomText>
+                <View
+                  style={[
+                    styles.rulesContainer,
+                    {
+                      justifyContent: "center",
+                      alignItems: "center",
+                    },
+                  ]}
+                >
+                  {isRTL ? (
+                    <>
+                      <CustomText style={styles.rulesText}>
+                        {t("pages.Login.auth.acceptRulesStart")}
+                      </CustomText>
+                      <TouchableOpacity onPress={() => router.push("/rules")}>
+                        <CustomText style={styles.rulesLink}>
+                          {t("pages.Login.auth.rules")}
+                        </CustomText>
+                      </TouchableOpacity>
+                      <CustomText style={styles.rulesText}>
+                        {t("pages.Login.auth.acceptRulesEnd")}
+                      </CustomText>
+                    </>
+                  ) : (
+                    <>
+                      <CustomText style={styles.rulesText}>
+                        {t("pages.Login.auth.acceptRulesStart")}
+                      </CustomText>
+                      <TouchableOpacity onPress={() => router.push("/rules")}>
+                        <CustomText style={styles.rulesLink}>
+                          {t("pages.Login.auth.rules")}
+                        </CustomText>
+                      </TouchableOpacity>
+                    </>
+                  )}
                 </View>
               </View>
             )}
@@ -301,7 +439,9 @@ export default function Login() {
                 <ActivityIndicator color="white" />
               ) : (
                 <CustomText style={styles.buttonText}>
-                  {!showCodeInput ? "دریافت کد" : "ورود"}
+                  {!showCodeInput
+                    ? t("pages.Login.auth.getCode")
+                    : t("pages.Login.auth.login")}
                 </CustomText>
               )}
             </TouchableOpacity>
@@ -315,7 +455,8 @@ export default function Login() {
                 style={styles.backButton}
               >
                 <CustomText style={styles.backButtonText}>
-                  ← ویرایش شماره موبایل
+                  {isRTL ? "← " : "→ "}
+                  {t("pages.Login.auth.editPhone")}
                 </CustomText>
               </TouchableOpacity>
             )}

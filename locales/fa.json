@@ -15,7 +15,7 @@
       "removed": "حذف شد",
       "unknown": "نامشخص",
       "connectionError": "مشکل در ارتباط با سرور",
-      
+
       "userUpdateBtn": "بروزرسانی حساب کاربری",
       "logoutBtn": "خروج از حساب کاربری",
       "loginBtn": "ورود به حساب کاربری"
@@ -75,7 +75,43 @@
     "Contact": {},
     "Index": {},
     "Invitation": {},
-    "Login": {},
+
+    "Login": {
+      "common": {
+        "loading": "در حال اتصال...",
+        "backToHome": "بازگشت به صفحه اصلی",
+        "success": "عملیات با موفقیت انجام شد",
+        "error": "خطا",
+        "connectionError": "مشکل در ارتباط با سرور"
+      },
+      "messages": {
+        "success": "عملیات با موفقیت انجام شد",
+        "tryAgain": "لطفاً مجدداً تلاش کنید"
+      },
+      "auth": {
+        "login": "ورود به حساب کاربری",
+        "verifyCode": "تایید کد",
+        "phone": "شماره موبایل",
+        "phonePlaceholder": "(09xxxxxxxxx) شماره موبایل",
+        "codePlaceholder": "کد تایید ۵ رقمی",
+        "getCode": "دریافت کد",
+        "editPhone": "ویرایش شماره موبایل",
+        "invalidPhone": "شماره موبایل نامعتبر است",
+        "invalidCode": "کد تایید نامعتبر است",
+        "phoneFormatHint": "شماره موبایل باید با 09 شروع شود",
+        "codeLengthHint": "کد تایید باید ۵ رقم باشد",
+        "acceptRules": "من قوانین و مقررات را می‌پذیرم",
+        "acceptRulesStart": "من ",
+        "acceptRulesEnd": " را می‌پذیرم",
+        "rules": "قوانین و مقررات",
+        "acceptRulesError": "خطا در پذیرش قوانین",
+        "acceptRulesHint": "لطفاً قوانین و مقررات را بپذیرید",
+        "codeSent": "کد تایید ارسال شد",
+        "codeSendError": "مشکلی در ارسال کد رخ داده است",
+        "loginSuccess": "ورود با موفقیت انجام شد",
+        "alreadyLoggedIn": "شما قبلاً به سیستم وارد شده‌اید"
+      }
+    },
     "MyComments": {},
     "MyFavorites": {},
     "MyLibrary": {},
@@ -93,7 +129,7 @@
       "myLikes": "پسندیده‌های من",
       "myFavorites": "علاقه‌مندی‌ها",
       "guestUserLabel": "مهمان / ورود",
-      "about":"در باره ما"
+      "about": "در باره ما"
     },
     "Rules": {},
     "Search": {},

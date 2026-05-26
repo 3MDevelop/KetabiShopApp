@@ -29,7 +29,6 @@ export default StyleSheet.create({
     color: "#333",
   },
   input: {
-    textAlign: "center",
     backgroundColor: "#fff",
     borderRadius: 10,
     padding: 12,
@@ -38,12 +37,15 @@ export default StyleSheet.create({
     fontSize: 12,
     borderWidth: 1,
     borderColor: "#ddd",
+    paddingVertical: 10,
+    color: "#333",
+    textAlign: "auto",
   },
   loginButton: {
     backgroundColor: "#007AFF",
     borderRadius: 10,
     padding: 8,
-    paddingBottom: 12,
+    
     alignItems: "center",
     marginBottom: 8,
   },
@@ -166,7 +168,7 @@ export default StyleSheet.create({
   },
 
   checkboxContainer: {
-    flexDirection: "row-reverse",
+    flexDirection: "row",
     alignItems: "center",
     marginVertical: 10,
     gap: 10,
@@ -194,9 +196,11 @@ export default StyleSheet.create({
   },
 
   rulesContainer: {
-    flexDirection: "row-reverse",
+    flexDirection: "row",
     flexWrap: "wrap",
     paddingBottom: 5,
+    alignItems: "center",
+    paddingTop: 5,
   },
 
   rulesText: {

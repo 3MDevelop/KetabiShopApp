@@ -14,9 +14,9 @@
       "added": "Added",
       "removed": "Removed",
       "unknown": "Unknown",
-      "connectionError": "Connection error with server",
-      
-      "userUpdateBtn": "Update Account",
+      "connectionError": "Connection error",
+
+      "userUpdateBtn": "Update Profile",
       "logoutBtn": "Logout",
       "loginBtn": "Login"
     },
@@ -35,18 +35,18 @@
     },
     "cart": {
       "title": "Shopping Cart",
-      "emptyTitle": "Cart is Empty",
-      "emptyText": "You haven't added any products to your cart yet.",
-      "emptyHint": "Go to the store and select the products you want to purchase.",
+      "emptyTitle": "Cart is empty",
+      "emptyText": "You haven't added any products to your cart.",
+      "emptyHint": "Go to the store and select the products you want.",
       "instantDownload": "Instant download after purchase",
-      "onlinePlay": "Online playback & download",
+      "onlinePlay": "Online streaming & download",
       "currency": "Toman",
       "total": "Total:",
-      "finalAmount": "Final amount:",
+      "finalAmount": "Amount payable:",
       "checkout": "Checkout",
-      "loginRequired": "Please login to your account to proceed with payment",
+      "loginRequired": "Please login to your account to proceed",
       "continueShopping": "Continue Shopping",
-      "singleItem": "One item",
+      "singleItem": "Single item",
       "addedToCart": "Added to cart"
     }
   },
@@ -55,19 +55,19 @@
       "language": "Language"
     },
     "ProfileItem_theme": {
-      "theme": "Theme",
+      "theme": "Appearance",
       "light": "Light",
       "dark": "Dark",
       "system": "System"
     },
     "QRScanner": {
-      "lable": "Scan QR Code"
+      "label": "Scan QR Code"
     }
   },
   "pages": {
     "BookFinder": {
       "invalidCode": "Invalid book code",
-      "notFound": "No book found",
+      "notFound": "Book not found",
       "loadingBook": "Loading book information..."
     },
     "BookList": {},
@@ -75,7 +75,42 @@
     "Contact": {},
     "Index": {},
     "Invitation": {},
-    "Login": {},
+    "Login": {
+      "common": {
+        "loading": "Connecting...",
+        "backToHome": "Back to Home",
+        "success": "Operation successful",
+        "error": "Error",
+        "connectionError": "Connection error"
+      },
+      "messages": {
+        "success": "Operation successful",
+        "tryAgain": "Please try again"
+      },
+      "auth": {
+        "login": "Login",
+        "verifyCode": "Verify Code",
+        "phone": "Phone Number",
+        "phonePlaceholder": "Phone Number (09xxxxxxxxx)",
+        "codePlaceholder": "5-digit verification code",
+        "getCode": "Get Code",
+        "editPhone": "Edit phone number",
+        "invalidPhone": "Invalid phone number",
+        "invalidCode": "Invalid verification code",
+        "phoneFormatHint": "Phone number must start with 09",
+        "codeLengthHint": "Verification code must be 5 digits",
+        "acceptRules": "I accept the terms and conditions",
+        "acceptRulesStart": "I accept the ",
+  "acceptRulesEnd": "",
+  "rules": "Terms and Conditions",
+        "acceptRulesError": "Rules acceptance error",
+        "acceptRulesHint": "Please accept the terms and conditions",
+        "codeSent": "Verification code sent",
+        "codeSendError": "Error sending code",
+        "loginSuccess": "Login successful",
+        "alreadyLoggedIn": "You are already logged in"
+      }
+    },
     "MyComments": {},
     "MyFavorites": {},
     "MyLibrary": {},
@@ -87,11 +122,11 @@
       "support": "Support",
       "title": "User Profile",
       "myActivities": "My Activities",
-      "myLibrary": "Personal Library",
+      "myLibrary": "My Library",
       "paymentHistory": "Payment History",
       "myComments": "My Comments",
       "myLikes": "My Likes",
-      "myFavorites": "Favorites",
+      "myFavorites": "My Favorites",
       "guestUserLabel": "Guest / Login",
       "about": "About Us"
     },
@@ -100,27 +135,27 @@
     "Support": {},
     "Temp": {},
     "User": {},
-    "About": { "about_lable": "About Us" },
+    "About": { "about_label": "About Us" },
     "Basket": {},
     "Book": {
       "details": "Book Details",
-      "notFoundDesc": "The requested book does not exist or has been removed",
-      "unknownAuthor": "Unknown Author",
+      "notFoundDesc": "The book you're looking for does not exist or has been removed",
+      "unknownAuthor": "Unknown author",
       "addToCart": "Add to Cart",
       "outOfStock": "Out of Stock",
       "inStock": "In Stock",
-      "discount": "Discount",
+      "discount": "Off",
       "specifications": "Specifications",
       "publisher": "Publisher",
       "isbn": "ISBN",
-      "pages": "Pages",
+      "pages": "Number of pages",
       "pagesUnit": "pages",
-      "year": "Publication Year",
+      "year": "Year",
       "category": "Category",
-      "stock": "Stock",
+      "stock": "Availability",
       "description": "Description",
-      "addedToWishlist": "Added to wishlist",
-      "removedFromWishlist": "Removed from wishlist"
+      "addedToWishlist": "added to wishlist",
+      "removedFromWishlist": "removed from wishlist"
     }
   }
 }

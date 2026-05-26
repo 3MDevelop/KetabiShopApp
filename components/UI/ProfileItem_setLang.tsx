@@ -13,7 +13,6 @@ export default function ProfileItem_setLang() {
   const languages = [
     { id: "fa", name: "فارسی" },
     { id: "en", name: "English" },
-    { id: "ar", name: "العربية" },
   ];
 
   return (
