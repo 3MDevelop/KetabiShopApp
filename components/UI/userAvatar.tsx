@@ -1,7 +1,7 @@
 import { useAuth } from "@/hooks/useAuth";
 import { Ionicons } from "@expo/vector-icons";
 import { useMemo } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import CustomText from "@/components/common/CustomText";
 
 interface UserAvatarProps {
@@ -18,7 +18,7 @@ export default function UserAvatar({
   const { isLoggedIn, user } = useAuth();
 
   const fontSize = useMemo(() => iconWidth * 0.5, [iconWidth]);
-  const fontPadding = useMemo(() => iconWidth * 0.13, [iconWidth]);
+  const fontPadding = useMemo(() => iconWidth * 0.1, [iconWidth]);
   const iconSize = useMemo(() => iconWidth * 0.7, [iconWidth]);
   const iconPaddingU = useMemo(() => iconWidth * 0.15, [iconWidth]);
 
@@ -45,14 +45,14 @@ export default function UserAvatar({
             },
           ]}
         >
-          <CustomText
+          <Text
             style={[
               Styles.userIconText,
-              { fontSize, paddingTop: fontPadding },
+              { fontSize, paddingBottom: fontPadding },
             ]}
           >
             {getFirstChar()}
-          </CustomText>
+          </Text>
         </View>
       ) : (
         <View

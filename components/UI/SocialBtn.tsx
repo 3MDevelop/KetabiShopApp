@@ -1,7 +1,7 @@
 import React from "react";
 
 import { View, TouchableOpacity, Linking } from "react-native";
-import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
+import { AntDesign, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@/context/ThemeContext";
 import { useResponsive } from "@/hooks/useResponsive";
 
@@ -24,27 +24,24 @@ export default function SocialBtn() {
   };
   return (
     <View
-      style={
-        [isMobile ? { marginBottom: 20 } : null,
-        {
-          flexDirection: "row",
-          gap: 30,
-          justifyContent: "center",
-          alignItems: "center",
-        }]
-      }
+      style={{
+        flexDirection: "row",
+        gap: 30,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
     >
       <TouchableOpacity onPress={() => openLink(socialLinks.instagram)}>
-        <AntDesign
-          name="instagram"
+        <Ionicons
+          name="logo-instagram"
           size={28}
           color={theme.colors.textSecondary}
         />
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => openLink(socialLinks.whatsapp)}>
-        <FontAwesome5
-          name="whatsapp"
+        <Ionicons
+          name="logo-whatsapp"
           size={28}
           color={theme.colors.textSecondary}
         />

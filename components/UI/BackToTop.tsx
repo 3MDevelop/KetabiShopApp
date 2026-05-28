@@ -1,6 +1,7 @@
 // backToTop.tsx
-import { Animated, TouchableOpacity } from "react-native";
-import CustomText from "@/components/common/CustomText";
+import { Animated, TouchableOpacity, Text } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+
 
 interface BackToTopProps {
   scrollY: Animated.Value;
@@ -49,11 +50,15 @@ export default function BackToTop({ scrollY, onPress }: BackToTopProps) {
         onPress={onPress}
         activeOpacity={0.8}
       >
-        <CustomText
-          style={{ color: "white", fontSize: 24, fontWeight: "bold" }}
-        >
-          ↑
-        </CustomText>
+
+        <Ionicons
+          name="arrow-up-sharp"
+          size={24}
+          color={"white"}
+          style={{ paddingTop: 5 }}>
+
+        </Ionicons>
+
       </TouchableOpacity>
     </Animated.View>
   );

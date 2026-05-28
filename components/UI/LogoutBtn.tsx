@@ -27,13 +27,14 @@ export default function LogoutBtn({ targetURL }: LogoutBtnProps) {
         justifyContent: "center",
         alignItems: "center",
       }}
-    >
+      >
       <TouchableOpacity
         style={{
           backgroundColor: "#f44336",
           paddingVertical: 8,
           paddingHorizontal:20,
           borderRadius: 8,
+          minWidth:280
         }}
         onPress={handleLogout}
       >

@@ -177,8 +177,10 @@ export default function Profile() {
             isMobile ? { flexDirection: "column" } : { flexDirection: "row" },
           ]}
         >
+          <View style={isMobile ? { marginBottom: 20 } : null}>
+            {isLoggedIn ? <LogoutBtn targetURL="/" /> : null}
+          </View>
           <SocialBtn />
-          {isLoggedIn ? <LogoutBtn targetURL="/" /> : null}
         </View>
       </Animated.ScrollView>
 
