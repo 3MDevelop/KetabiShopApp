@@ -3,142 +3,170 @@
     {
       "id": 1,
       "name": "romance",
-      "label": "رمانتیک"
+      "label": "رمانتیک",
+      "featuredImage": "@/assets/images/bookCat/1.png"
     },
     {
       "id": 2,
       "name": "thriller_mystery_suspense",
-      "label": "هیجان‌انگیز و معمایی"
+      "label": "هیجان‌انگیز و معمایی",
+      "featuredImage": "@/assets/images/bookCat/2.png"
     },
     {
       "id": 3,
       "name": "sci_fi",
-      "label": "علمی-تخیلی"
+      "label": "علمی-تخیلی",
+      "featuredImage": "@/assets/images/bookCat/3.png"
     },
     {
       "id": 4,
       "name": "fantasy",
-      "label": "فانتزی"
+      "label": "فانتزی",
+      "featuredImage": "@/assets/images/bookCat/4.png"
     },
     {
       "id": 5,
       "name": "horror",
-      "label": "وحشت"
+      "label": "وحشت",
+      "featuredImage": "@/assets/images/bookCat/5.png"
     },
     {
       "id": 6,
       "name": "literary_fiction",
-      "label": "ادبیات داستانی معاصر"
+      "label": "ادبیات داستانی معاصر",
+      "featuredImage": "@/assets/images/bookCat/6.png"
     },
     {
       "id": 7,
       "name": "historical_fiction",
-      "label": "تاریخی"
+      "label": "تاریخی",
+      "featuredImage": "@/assets/images/bookCat/7.png"
     },
     {
       "id": 8,
       "name": "realistic_fiction",
-      "label": "واقع‌گرا"
+      "label": "واقع‌گرا",
+      "featuredImage": "@/assets/images/bookCat/8.png"
     },
     {
       "id": 9,
       "name": "graphic_novels_comics",
-      "label": "داستان مصور و گرافیک ناول"
+      "label": "داستان مصور و گرافیک ناول",
+      "featuredImage": "@/assets/images/bookCat/9.png"
     },
     {
       "id": 10,
       "name": "biography_memoir",
-      "label": "بیوگرافی، زندگینامه و خاطرات"
+      "label": "بیوگرافی، زندگینامه و خاطرات",
+      "featuredImage": "@/assets/images/bookCat/10.png"
     },
     {
       "id": 11,
       "name": "self_help",
-      "label": "توسعه فردی و خودیاری"
+      "label": "توسعه فردی و خودیاری",
+      "featuredImage": "@/assets/images/bookCat/11.png"
     },
     {
       "id": 12,
       "name": "history",
-      "label": "تاریخ"
+      "label": "تاریخ",
+      "featuredImage": "@/assets/images/bookCat/12.png"
     },
     {
       "id": 13,
       "name": "science_technology",
-      "label": "علم و فناوری"
+      "label": "علم و فناوری",
+      "featuredImage": "@/assets/images/bookCat/13.png"
     },
     {
       "id": 14,
       "name": "philosophy",
-      "label": "فلسفه و اندیشه"
+      "label": "فلسفه و اندیشه",
+      "featuredImage": "@/assets/images/bookCat/14.png"
     },
     {
       "id": 15,
       "name": "business_economics",
-      "label": "کسب‌وکار و اقتصاد"
+      "label": "کسب‌وکار و اقتصاد",
+      "featuredImage": "@/assets/images/bookCat/15.png"
     },
     {
       "id": 16,
       "name": "health_fitness",
-      "label": "سلامت، ورزش و تندرستی"
+      "label": "سلامت، ورزش و تندرستی",
+      "featuredImage": "@/assets/images/bookCat/16.png"
     },
     {
       "id": 17,
       "name": "arts_photography",
-      "label": "هنر، عکاسی و معماری"
+      "label": "هنر، عکاسی و معماری",
+      "featuredImage": "@/assets/images/bookCat/17.png"
     },
     {
       "id": 18,
       "name": "food_cooking",
-      "label": "غذا و آشپزی"
+      "label": "غذا و آشپزی",
+      "featuredImage": "@/assets/images/bookCat/18.png"
     },
     {
       "id": 19,
       "name": "travel_geography",
-      "label": "سفرنامه و جغرافیا"
+      "label": "سفرنامه و جغرافیا",
+      "featuredImage": "@/assets/images/bookCat/19.png"
     },
     {
       "id": 20,
       "name": "religion_spirituality",
-      "label": "مذهب و معنویت"
+      "label": "مذهب و معنویت",
+      "featuredImage": "@/assets/images/bookCat/20.png"
     },
     {
       "id": 21,
       "name": "psychology",
-      "label": "روانشناسی"
+      "label": "روانشناسی",
+      "featuredImage": "@/assets/images/bookCat/21.png"
     },
     {
       "id": 22,
       "name": "young_adult",
-      "label": "ادبیات داستانی نوجوانان"
+      "label": "ادبیات داستانی نوجوانان",
+      "featuredImage": "@/assets/images/bookCat/22.png"
     },
     {
       "id": 23,
       "name": "children_literature",
-      "label": "ادبیات کودکان"
+      "label": "ادبیات کودکان",
+      "featuredImage": "@/assets/images/bookCat/23.png"
     },
     {
       "id": 24,
       "name": "new_adult",
-      "label": "ادبیات داستانی نوظهور"
+      "label": "ادبیات داستانی نوظهور",
+      "featuredImage": "@/assets/images/bookCat/24.png"
     },
     {
       "id": 25,
       "name": "humor_satire",
-      "label": "کمیک، طنز و هجو"
+      "label": "کمیک، طنز و هجو",
+      "featuredImage": "@/assets/images/bookCat/25.png"
     },
     {
       "id": 26,
       "name": "short_stories",
-      "label": "داستان کوتاه مجموعه"
+      "label": "داستان کوتاه مجموعه",
+      "featuredImage": "@/assets/images/bookCat/26.png"
     },
     {
       "id": 27,
       "name": "classics",
-      "label": "ادبیات کلاسیک"
+      "label": "ادبیات کلاسیک",
+      "featuredImage": "@/assets/images/bookCat/27.png"
     },
     {
       "id": 28,
       "name": "dark_romance",
-      "label": "ادبیات داستانی ترسناک-عاشقانه"
+      "label": "ادبیات داستانی ترسناک-عاشقانه",
+      "featuredImage": "@/assets/images/bookCat/28.png"
     }
   ],
   "hobbits": [

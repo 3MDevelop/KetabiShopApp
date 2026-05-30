@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
 
   content: {
@@ -49,36 +49,7 @@ export default StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-between",
   },
-  categoryCard: {
-    backgroundColor: "#fff",
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
-    width: "100%",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  cardContent: {
-    alignItems: "center",
-  },
-  categoryName: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#333",
-    textAlign: "center",
-    marginBottom: 4,
-  },
-  categoryId: {
-    fontSize: 12,
-    color: "#999",
-    textAlign: "center",
-  },
+
   errorText: {
     color: "red",
     fontSize: 16,

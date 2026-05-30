@@ -1,11 +1,18 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import { ActivityIndicator, View } from "react-native";
 
 // تعریف type صحیح برای داده‌های catList
 interface Genre {
   id: number;
   name: string;
   label: string;
+  featuredImage: "string";
 }
 
 interface CatListData {
@@ -23,7 +30,7 @@ const CatContext = createContext<CatContextType | undefined>(undefined);
 export const useCat = () => {
   const context = useContext(CatContext);
   if (!context) {
-    throw new Error('useCat must be used within a CatProvider');
+    throw new Error("useCat must be used within a CatProvider");
   }
   return context;
 };
@@ -41,10 +48,10 @@ export const CatProvider: React.FC<CatProviderProps> = ({ children }) => {
     const loadCatList = async () => {
       try {
         // در React Native، فایل JSON را می‌توان مستقیماً import کرد
-        const data = require('@/assets/data/catList.json');
+        const data = require("@/assets/data/catList.json");
         setCatList(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Error loading cat list');
+        setError(err instanceof Error ? err.message : "Error loading cat list");
       } finally {
         setIsLoading(false);
       }
@@ -55,7 +62,7 @@ export const CatProvider: React.FC<CatProviderProps> = ({ children }) => {
 
   if (isLoading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <ActivityIndicator size="large" />
       </View>
     );

@@ -1,8 +1,11 @@
-import { useCat } from "@/context/CatContext";
 import React from "react";
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import styles from "./styles";
 import CustomText from "@/components/common/CustomText";
+
+import { useCat } from "@/context/CatContext";
+
+import PreList from "@/components/UI/PreList";
 
 export default function Categories() {
   const { catList, isLoading, error } = useCat();
@@ -23,7 +26,6 @@ export default function Categories() {
     );
   }
 
-  // حالا به درستی می‌توانید به book_genres دسترسی پیدا کنید
   const genres = catList?.book_genres || [];
 
   return (
@@ -36,10 +38,9 @@ export default function Categories() {
 
         <View style={styles.categoriesGrid}>
           {genres.map((genre) => (
-            <TouchableOpacity key={genre.id} style={styles.categoryCard}>
-              <CustomText style={styles.categoryName}>{genre.label}</CustomText>
-              <CustomText style={styles.categoryId}>{genre.name}</CustomText>
-            </TouchableOpacity>
+            <>
+              <PreList key={genre.id} label={genre.label} name={genre.name} fImage={genre.featuredImage} />
+            </>
           ))}
         </View>
       </View>
