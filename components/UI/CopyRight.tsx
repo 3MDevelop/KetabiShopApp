@@ -1,4 +1,6 @@
 import { View } from "react-native";
+import CustomText from "@/components/common/CustomText";
+
 export default function CopyRight() {
   return (
     <View

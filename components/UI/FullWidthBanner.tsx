@@ -1,6 +1,5 @@
-import { ImageBackground, View, TouchableOpacity, Linking } from "react-native";
+import { ImageBackground, View, TouchableOpacity, Linking ,StyleSheet } from "react-native";
 import { router } from "expo-router";
-import styles from "./styles";
 
 interface FullWidthBannerProps {
   urlIsInner?: boolean;
@@ -49,3 +48,21 @@ export default function FullWidthBanner({
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "gray",
+    height: 250,
+    borderRadius: 8,
+    padding: 0,
+    overflow: "hidden",
+    marginBottom:16
+  },
+  imageBackground: {
+    width: "100%",
+    height: "100%",
+  },
+  imageStyle: {
+    borderRadius: 8,
+  },
+})

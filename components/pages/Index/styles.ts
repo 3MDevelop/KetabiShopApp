@@ -21,5 +21,6 @@ export default StyleSheet.create({
     fontSize: 16,
     color: '#666',
     lineHeight: 24,
+    marginBottom:16
   },
 });
