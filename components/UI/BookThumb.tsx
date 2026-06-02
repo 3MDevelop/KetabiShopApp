@@ -6,16 +6,18 @@ interface BookThumbProps {
   label?: string;
   backgroundColor?: string;
   onPress?: () => void;
+  ratio?: number;
 }
 
-export default function BookThumb({ 
-  label = "sampleBook", 
+export default function BookThumb({
+  label = "sampleBook",
   backgroundColor = "orange",
-  onPress 
+  onPress,
+  ratio
 }: BookThumbProps) {
   return (
     <TouchableOpacity
-      style={[styles.container, { backgroundColor }]}
+      style={[styles.container, { backgroundColor, aspectRatio: ratio }]}
       onPress={onPress}
       activeOpacity={0.7}
     >
@@ -26,12 +28,11 @@ export default function BookThumb({
 
 const styles = StyleSheet.create({
   container: {
-    width: 150,
     height: "100%",
     backgroundColor: "orange",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 12,
+    borderRadius: 8,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,

@@ -19,11 +19,9 @@ export default function HomePage() {
         
         <PreList
           label="رمانتیک"
-          name="romantic"
-          onPress={() => {
-            console.log("pressed");
-          }}
+          listHeight={200}
           fImage={require("@/assets/images/bookCat/04.png")}
+          listItemRatio={0.64}
         />
         
           <FullWidthBanner urlIsInner={true} url={"about"} />
