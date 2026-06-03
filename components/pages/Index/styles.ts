@@ -12,15 +12,6 @@ export default StyleSheet.create({
     maxWidth:1000,
     alignSelf:"center"
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  description: {
-    fontSize: 16,
-    color: '#666',
-    lineHeight: 24,
-    marginBottom:16
-  },
+  
+  
 });

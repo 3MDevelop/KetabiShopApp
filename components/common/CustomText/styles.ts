@@ -18,6 +18,10 @@ export default StyleSheet.create({
     fontSize: 20,
     lineHeight: 28,
   },
+  h4: {
+    fontSize: 18,
+    lineHeight: 26,
+  },
   body: {
     fontSize: 16,
     lineHeight: 24,
@@ -26,4 +30,9 @@ export default StyleSheet.create({
     fontSize: 12,
     lineHeight: 16,
   },
+  discription:{
+    fontSize: 12,
+    lineHeight: 16,
+    color: '#929292',
+  }
 });

@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import * as Font from 'expo-font';
 import { useLanguage } from '@/context/LanguageContext';
 
-// ✅ هوک برای بارگذاری فونت‌ها (بدون useLanguage)
 export const useCustomFonts = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
 

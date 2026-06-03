@@ -8,23 +8,21 @@ import FullWidthBanner from "@/components/UI/FullWidthBanner";
 import PreList from "@/components/UI/PreList";
 
 export default function HomePage() {
-
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
-        <CustomText style={styles.title}>صفحه اصلی</CustomText>
-        <CustomText style={[styles.description]}>
-          تست فونت: این متن باید با فونت Vazirmatn نمایش داده شود
+        <CustomText center bold variant="h2">
+          صفحه اصلی
         </CustomText>
-        
+
         <PreList
           label="رمانتیک"
           listHeight={200}
           fImage={require("@/assets/images/bookCat/04.png")}
           listItemRatio={0.64}
         />
-        
-          <FullWidthBanner urlIsInner={true} url={"about"} />
+
+        <FullWidthBanner urlIsInner={true} url={"about"} />
       </View>
     </ScrollView>
   );

@@ -6,8 +6,8 @@ export default StyleSheet.create({
     backgroundColor: "#646464",
     width: "100%",
     flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "flex-end",
+    height:120
   },
   NavBar: {
     width: "100%",

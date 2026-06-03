@@ -10,6 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useState, useEffect, useRef } from "react";
 import CustomText from "@/components/common/CustomText";
 import BookThumb from "@/components/UI/BookThumb";
+import { useResponsive } from "@/hooks/useResponsive";
 
 interface PreListProps {
   label?: string;
@@ -17,13 +18,18 @@ interface PreListProps {
   listHeight?: number;
   fImage?: any;
   listItemRatio?: number;
+  hasMore?: boolean;
+  bgColor?: any;
 }
 
 export default function PreList({
-  label = "sampleTitle",
+  label,
   fImage,
   listHeight = 250,
-  listItemRatio = 0.64
+  listItemRatio = 0.64,
+  hasMore = true,
+  bgColor = "#fff",
+  
 }: PreListProps) {
   const [aspectRatio, setAspectRatio] = useState(1);
   const scrollX = useRef(0);
@@ -33,8 +39,9 @@ export default function PreList({
   const scrollStep = 150;
   const contentWidth = useRef(0);
   const containerWidth = useRef(0);
+  const { isMobile } = useResponsive();
 
-  
+
 
   const defaultBooks = [
     { id: "1", name: "کتاب 1", color: "#FF6B6B" },
@@ -73,14 +80,17 @@ export default function PreList({
 
   return (
     <View style={{ width: "100%" }}>
-      <View style={styles.categoryCard}>
+      <View style={[styles.categoryCard, { backgroundColor: bgColor }]}>
         <View style={styles.header}>
           <View style={styles.headerRow}>
-            <CustomText style={styles.categoryName}>{label}</CustomText>
-
-            <TouchableOpacity>
-              <Ionicons name="arrow-back-sharp" size={22} color="gray" />
-            </TouchableOpacity>
+            {label && (
+              <CustomText bold variant="h4" style={styles.categoryName}>{label}</CustomText>
+            )}
+            {hasMore && (
+              <TouchableOpacity>
+                <Ionicons name="arrow-back-sharp" size={22} color="gray" />
+              </TouchableOpacity>
+            )}
           </View>
         </View>
 
@@ -92,7 +102,7 @@ export default function PreList({
             overflow: "hidden",
           }}
         >
-          {fImage && (
+          {fImage && !isMobile && (
             <Image
               source={fImage}
               resizeMode="cover"
@@ -107,7 +117,7 @@ export default function PreList({
           )}
 
           <View style={styles.container}>
-            {showLeftButton && (
+            {showLeftButton && !isMobile && (
               <TouchableOpacity
                 style={[styles.navButton, styles.prevButton]}
                 onPress={scrollLeft}
@@ -146,17 +156,17 @@ export default function PreList({
                   label={book.name}
                   backgroundColor={book.color}
                   onPress={() => handleBookPress(book.name)}
-                  ratio = {listItemRatio}
+                  ratio={listItemRatio}
                 />
               ))}
             </ScrollView>
 
-            {showRightButton && (
+            {showRightButton && !isMobile && (
               <TouchableOpacity
                 style={[styles.navButton, styles.nextButton]}
                 onPress={scrollRight}
               >
-                <Ionicons name="chevron-forward" size={24} color="#333" />
+                <Ionicons name="chevron-forward" size={24} color="#000000" />
               </TouchableOpacity>
             )}
           </View>
@@ -168,7 +178,6 @@ export default function PreList({
 
 const styles = StyleSheet.create({
   categoryCard: {
-    backgroundColor: "#fff",
     borderRadius: 12,
     padding: 16,
     marginBottom: 16,
@@ -181,15 +190,15 @@ const styles = StyleSheet.create({
 
   headerRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
     alignItems: "center",
     marginBottom: 8,
   },
 
   categoryName: {
-    fontSize: 16,
-    fontWeight: "600",
     color: "#333",
+    marginStart: "auto",
+    marginEnd:16
   },
 
   container: {
@@ -204,24 +213,29 @@ const styles = StyleSheet.create({
   },
 
   navButton: {
+    backgroundColor: "rgba(236, 244, 255, 0.4)",
     position: "absolute",
-    top: "50%",
-    marginTop: -18,
+    height: "100%",
     width: 36,
-    height: 36,
-    borderRadius: 18,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
     zIndex: 999,
-    elevation: 10,
+    elevation: 20,
   },
 
   prevButton: {
-    left: 5,
+    left: 0,
+    shadowColor: "#ffffff",
+    shadowRadius: 10,
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 8, height: 0 },
   },
 
   nextButton: {
-    right: 5,
+    right: 0,
+    shadowColor: "#ffffff",
+    shadowRadius: 10,
+    shadowOpacity: 0.2,
+    shadowOffset: { width: -8, height: 0 },
   },
 });
