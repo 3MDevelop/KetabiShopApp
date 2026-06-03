@@ -14,4 +14,5 @@ export interface CustomTextProps extends TextProps {
     | "discription";
   center?: boolean;
   children?: React.ReactNode;
+  marginB?: number;
 }

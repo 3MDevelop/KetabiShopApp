@@ -20,6 +20,7 @@ interface PreListProps {
   listItemRatio?: number;
   hasMore?: boolean;
   bgColor?: any;
+  listId?: string;
 }
 
 export default function PreList({
@@ -29,7 +30,7 @@ export default function PreList({
   listItemRatio = 0.64,
   hasMore = true,
   bgColor = "#fff",
-  
+  listId = "1",
 }: PreListProps) {
   const [aspectRatio, setAspectRatio] = useState(1);
   const scrollX = useRef(0);
@@ -41,17 +42,52 @@ export default function PreList({
   const containerWidth = useRef(0);
   const { isMobile } = useResponsive();
 
+  const api = "https://ketabishop.com/api/getlist/";
+  const [books, setBooks] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
+  const fetchBookListFromAPI = async (listIdParam: string = "1") => {
+    setLoading(true);
+    try {
+      const response = await fetch(api, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `list_id=${encodeURIComponent(listIdParam)}`,
+      });
 
-  const defaultBooks = [
-    { id: "1", name: "کتاب 1", color: "#FF6B6B" },
-    { id: "2", name: "کتاب 2", color: "#4ECDC4" },
-    { id: "3", name: "کتاب 3", color: "#45B7D1" },
-    { id: "4", name: "کتاب 4", color: "#96CEB4" },
-    { id: "5", name: "کتاب 5", color: "#FFEAA7" },
-    { id: "6", name: "کتاب 6", color: "#DDA0DD" },
-    { id: "7", name: "کتاب 7", color: "#98D8C8" },
-  ];
+      const result = await response.json();
+
+      if (result.status === true && result.list) {
+        const formattedBooks = result.list
+          .slice(0, 15)
+          .map((book: any, index: number) => ({
+            id: book.id,
+            name: book.book_title,
+            color: `hsl(${(index * 30) % 360}, 70%, 60%)`,
+            image: book.full_icon_address,
+            author: book.author_info,
+            price: book.main_price,
+          }));
+        setBooks(formattedBooks);
+      } else {
+        console.error("خطا در دریافت لیست:", result);
+        setBooks([]);
+      }
+    } catch (error) {
+      console.error("خطا در ارتباط با سرور:", error);
+      setBooks([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBookListFromAPI(listId);
+  }, [listId]);
+
+  const displayBooks = books;
 
   useEffect(() => {
     if (fImage?.width && fImage?.height) {
@@ -64,19 +100,41 @@ export default function PreList({
   };
 
   const scrollRight = () => {
+    const newX = scrollX.current + scrollStep;
     scrollViewRef.current?.scrollTo({
-      x: scrollX.current + scrollStep,
+      x: newX,
       animated: true,
     });
-    console.info(scrollX.current);
   };
 
   const scrollLeft = () => {
+    const newX = scrollX.current - scrollStep;
     scrollViewRef.current?.scrollTo({
-      x: scrollX.current - scrollStep,
+      x: newX,
       animated: true,
     });
   };
+
+  if (loading) {
+    return (
+      <View
+        style={[
+          styles.categoryCard,
+          {
+            backgroundColor: bgColor,
+            alignItems: "center",
+            justifyContent: "center",
+          },
+        ]}
+      >
+        <CustomText>در حال بارگذاری...</CustomText>
+      </View>
+    );
+  }
+
+  if (displayBooks.length === 0) {
+    return null;
+  }
 
   return (
     <View style={{ width: "100%" }}>
@@ -84,7 +142,9 @@ export default function PreList({
         <View style={styles.header}>
           <View style={styles.headerRow}>
             {label && (
-              <CustomText bold variant="h4" style={styles.categoryName}>{label}</CustomText>
+              <CustomText bold variant="h4" style={styles.categoryName}>
+                {label}
+              </CustomText>
             )}
             {hasMore && (
               <TouchableOpacity>
@@ -139,18 +199,14 @@ export default function PreList({
               }}
               onScroll={(e) => {
                 const x = e.nativeEvent.contentOffset.x;
-
                 scrollX.current = x;
-
-                // RTL
                 const maxScroll = contentWidth.current - containerWidth.current;
-
-                setShowLeftButton(Math.abs(x) < maxScroll - 10);
-                setShowRightButton(x < -10);
+                setShowLeftButton(x > 10);
+                setShowRightButton(x < maxScroll - 10);
               }}
               contentContainerStyle={styles.scrollContent}
             >
-              {defaultBooks.map((book, index) => (
+              {displayBooks.map((book, index) => (
                 <BookThumb
                   key={`${book.id}-${index}`}
                   label={book.name}
@@ -198,7 +254,7 @@ const styles = StyleSheet.create({
   categoryName: {
     color: "#333",
     marginStart: "auto",
-    marginEnd:16
+    marginEnd: 16,
   },
 
   container: {

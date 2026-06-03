@@ -5,15 +5,16 @@ export default StyleSheet.create({
     position: "relative",
     backgroundColor: "#646464",
     width: "100%",
-    flexDirection: "column",
-    justifyContent: "flex-end",
-    height:120
+    flexDirection: "row",
+    justifyContent: "center",
+
+    height: 120,
   },
   NavBar: {
     width: "100%",
     maxWidth: 950,
     shadowColor: "#000",
-    elevation: 5, 
+    elevation: 5,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end",
@@ -40,7 +41,7 @@ export default StyleSheet.create({
   headerLogo: {
     height: 64,
     width: 64,
-    marginHorizontal:10
+    marginHorizontal: 10,
   },
   profileCircle: {
     width: 40,
@@ -51,7 +52,6 @@ export default StyleSheet.create({
     alignItems: "center",
     marginLeft: 22,
     marginRight: 3,
-    marginBottom:5,
   },
   profileInitial: {
     color: "white",
@@ -59,27 +59,24 @@ export default StyleSheet.create({
     fontWeight: "bold",
   },
 
-  dIcoContainer:{
+  dIcoContainer: {
     flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    alignItems: "flex-end",
   },
-  
-  dIcon:{
+
+  dIcon: {
     flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
   },
-NavBarRTL: {
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "space-between",
-  paddingHorizontal: 16,
-},
-NavBarLTR: {
-  flexDirection: "row-reverse",
-  alignItems: "center",
-  justifyContent: "space-between",
-  paddingHorizontal: 16,
-},
+  NavBarRTL: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+  },
+  NavBarLTR: {
+    flexDirection: "row-reverse",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+  },
 });

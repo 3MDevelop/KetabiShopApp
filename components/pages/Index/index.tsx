@@ -11,7 +11,7 @@ export default function HomePage() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
-        <CustomText center bold variant="h2">
+        <CustomText marginB={16} center bold variant="h2">
           صفحه اصلی
         </CustomText>
 

@@ -10,6 +10,7 @@ export default function CustomText({
   variant = "body",
   center = false,
   children,
+  marginB = 0,
   ...props
 }: CustomTextProps) {
   const { getFontFamily } = useFontFamily();
@@ -22,7 +23,7 @@ export default function CustomText({
         {
           fontFamily: getFontFamily(bold ? "bold" : "normal"),
           textAlign: center ? "center" : "auto",
-          marginBottom: 16,
+          marginBottom: marginB
         },
         style,
       ]}

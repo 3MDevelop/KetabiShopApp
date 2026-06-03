@@ -49,8 +49,8 @@ export default function NavBar({ Colors, appTheme }: any) {
                   size={24}
                   style={[{ color: "#dbdbdb" }]}
                 />
-                <CustomText
-                  style={{ marginEnd: 10, color: "white", fontWeight: 500 }}
+                <CustomText bold
+                  style={{ marginEnd: 10, color: "white" }}
                 >
                   {t("common.navbar.categories")}
                 </CustomText>
