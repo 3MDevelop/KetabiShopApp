@@ -60,16 +60,14 @@ export default function PreList({
       const result = await response.json();
 
       if (result.status === true && result.list) {
-        const formattedBooks = result.list
-          .slice(0, 15)
-          .map((book: any, index: number) => ({
-            id: book.id,
-            name: book.book_title,
-            color: `hsl(${(index * 30) % 360}, 70%, 60%)`,
-            image: book.full_icon_address,
-            author: book.author_info,
-            price: book.main_price,
-          }));
+        const formattedBooks = result.list.map((book: any, index: number) => ({
+          id: book.id,
+          name: book.book_title,
+          color: `hsl(${(index * 30) % 360}, 70%, 60%)`,
+          image: book.full_icon_address,
+          author: book.author_info,
+          price: book.main_price,
+        }));
         setBooks(formattedBooks);
       } else {
         console.error("خطا در دریافت لیست:", result);
@@ -108,9 +106,8 @@ export default function PreList({
   };
 
   const scrollLeft = () => {
-    const newX = scrollX.current - scrollStep;
     scrollViewRef.current?.scrollTo({
-      x: newX,
+      x: scrollX.current - scrollStep,
       animated: true,
     });
   };
@@ -198,11 +195,10 @@ export default function PreList({
                 containerWidth.current = e.nativeEvent.layout.width;
               }}
               onScroll={(e) => {
-                const x = e.nativeEvent.contentOffset.x;
-                scrollX.current = x;
+                scrollX.current = e.nativeEvent.contentOffset.x;
                 const maxScroll = contentWidth.current - containerWidth.current;
-                setShowLeftButton(x > 10);
-                setShowRightButton(x < maxScroll - 10);
+                setShowRightButton(scrollX.current * -1 > 5);
+                setShowLeftButton(scrollX.current * -1 < maxScroll - 5);
               }}
               contentContainerStyle={styles.scrollContent}
             >
