@@ -17,7 +17,6 @@ export default function HomePage() {
 
         <PreList
           label="رمانتیک"
-          listHeight={200}
           fImage={require("@/assets/images/bookCat/04.png")}
           listItemRatio={0.64}
         />

@@ -11,6 +11,7 @@ export default function CustomText({
   center = false,
   children,
   marginB = 0,
+  singleLine = false,
   ...props
 }: CustomTextProps) {
   const { getFontFamily } = useFontFamily();
@@ -23,10 +24,16 @@ export default function CustomText({
         {
           fontFamily: getFontFamily(bold ? "bold" : "normal"),
           textAlign: center ? "center" : "auto",
-          marginBottom: marginB
+          marginBottom: marginB,
+          ...(singleLine && {
+            numberOfLines: 1,
+            ellipsizeMode: "tail",
+          }),
         },
         style,
       ]}
+      numberOfLines={singleLine ? 1 : undefined}
+      ellipsizeMode={singleLine ? "tail" : undefined}
       {...props}
     >
       {children}

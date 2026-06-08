@@ -15,4 +15,5 @@ export interface CustomTextProps extends TextProps {
   center?: boolean;
   children?: React.ReactNode;
   marginB?: number;
+  singleLine?:boolean;
 }

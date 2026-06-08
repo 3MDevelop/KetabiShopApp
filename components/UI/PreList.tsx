@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Image,
   ScrollView,
-  Alert,
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -26,13 +25,12 @@ interface PreListProps {
 export default function PreList({
   label,
   fImage,
-  listHeight = 250,
+  listHeight = 300,
   listItemRatio = 0.64,
   hasMore = true,
   bgColor = "#fff",
   listId = "1",
 }: PreListProps) {
-  const [aspectRatio, setAspectRatio] = useState(1);
   const scrollX = useRef(0);
   const scrollViewRef = useRef<ScrollView>(null);
   const [showLeftButton, setShowLeftButton] = useState(true);
@@ -67,6 +65,8 @@ export default function PreList({
           image: book.full_icon_address,
           author: book.author_info,
           price: book.main_price,
+          percent: book.percentFa,
+          discount:book.discountFa
         }));
         setBooks(formattedBooks);
       } else {
@@ -87,15 +87,7 @@ export default function PreList({
 
   const displayBooks = books;
 
-  useEffect(() => {
-    if (fImage?.width && fImage?.height) {
-      setAspectRatio(fImage.width / fImage.height);
-    }
-  }, [fImage]);
-
-  const handleBookPress = (bookName: string) => {
-    Alert.alert("کلیک شد", `کتاب ${bookName} انتخاب شد`);
-  };
+ 
 
   const scrollRight = () => {
     const newX = scrollX.current + scrollStep;
@@ -160,17 +152,22 @@ export default function PreList({
           }}
         >
           {fImage && !isMobile && (
-            <Image
-              source={fImage}
-              resizeMode="cover"
-              style={{
-                height: listHeight,
-                width: aspectRatio * listHeight,
-                backgroundColor: "#ddd",
-                marginStart: 10,
-                borderRadius: 8,
-              }}
-            />
+            <View style={{
+              height:"100%",
+              marginStart: 10,
+              aspectRatio:listItemRatio,
+              borderRadius: 8,
+              overflow:"hidden"
+            }}>
+              <Image
+                source={fImage}
+                resizeMode="cover"
+                style={{
+                  height: "100%",
+                  width:"100%",
+                }}
+              />
+            </View>
           )}
 
           <View style={styles.container}>
@@ -205,10 +202,14 @@ export default function PreList({
               {displayBooks.map((book, index) => (
                 <BookThumb
                   key={`${book.id}-${index}`}
-                  label={book.name}
-                  backgroundColor={book.color}
-                  onPress={() => handleBookPress(book.name)}
+                  bookID={book.id}
+                  bookName={book.name}
+                  author={book.author}
+                  price={book.price}
+                  imageUrl={book.image}
                   ratio={listItemRatio}
+                  percent={book.percent}
+                  discount={book.discount}
                 />
               ))}
             </ScrollView>
@@ -257,6 +258,8 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "relative",
     height: "100%",
+    borderRadius:8,
+    overflow:"hidden",
   },
 
   scrollContent: {

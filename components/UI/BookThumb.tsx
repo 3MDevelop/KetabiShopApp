@@ -1,33 +1,166 @@
 // components/UI/BookThumb.tsx
 
-import { Text, StyleSheet, TouchableOpacity } from "react-native";
-
+import { TouchableOpacity, View, Image } from "react-native";
+import CustomText from "@/components/common/CustomText";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 interface BookThumbProps {
-  label?: string;
-  backgroundColor?: string;
-  onPress?: () => void;
+  bookID?: number;
+  bookName?: string;
+  author?: string;
+  price?: number;
+  imageUrl?: string;
   ratio?: number;
+  percent?: number;
+  discount?: number;
+  color?: string;
 }
 
 export default function BookThumb({
-  label = "sampleBook",
-  backgroundColor = "orange",
-  onPress,
-  ratio
+  bookID,
+  bookName,
+  author,
+  price,
+  imageUrl,
+  ratio,
+  percent,
+  discount,
 }: BookThumbProps) {
+  const router = useRouter();
+
   return (
     <TouchableOpacity
-      style={[styles.container, { backgroundColor, aspectRatio: ratio }]}
-      onPress={onPress}
+      onPress={() =>
+        router.push({
+          pathname: "/book",
+          params: { id: bookID },
+        })
+      }
       activeOpacity={0.7}
+      style={{
+        backgroundColor: "#e9e9e9",
+        height: "100%",
+        padding: 10,
+        minWidth: 100,
+        flex: 1,
+        alignSelf: "center",
+        aspectRatio: ratio,
+      }}
     >
-      <Text style={styles.label}>{label}</Text>
+      {percent && (
+        <View
+          style={{
+            position: "absolute",
+            top: -3,
+            left: 0,
+            flexDirection: "row-reverse",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            zIndex: 99,
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignContent: "center",
+            }}
+          >
+            <Ionicons name="bookmark-sharp" color={"red"} size={46} />
+            <CustomText
+              variant="discription"
+              bold
+              style={{
+                color: "white",
+                position: "absolute",
+                alignSelf: "center",
+              }}
+            >
+              {percent + "%"}
+            </CustomText>
+          </View>
+        </View>
+      )}
+
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          flexGrow: 1,
+        }}
+      >
+        {imageUrl ? (
+          <Image
+            style={{ width: "100%", height: "100%" }}
+            resizeMode="contain"
+            source={{ uri: imageUrl }}
+          />
+        ) : (
+          <CustomText>notFound</CustomText>
+        )}
+      </View>
+
+      <View
+        style={{
+          marginTop: 12,
+          height: "22%",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
+        <CustomText
+          bold
+          variant="caption"
+          style={{ fontSize: 15, marginBottom: 8 }}
+          center
+          singleLine
+        >
+          {bookName}
+        </CustomText>
+        <CustomText singleLine variant="caption">
+          {author}{" "}
+        </CustomText>
+        {percent && (
+          <View
+            style={{
+              marginTop: 5,
+              flexDirection: "row-reverse",
+              gap: 8,
+              alignItems: "center",
+            }}
+          >
+            <CustomText
+              variant="caption"
+              style={{ textDecorationLine: "line-through", color: "#999" }}
+            >
+              {price}
+            </CustomText>
+            <CustomText
+              variant="caption"
+              style={{ color: "#4CAF50", fontWeight: "bold" }}
+            >
+              {discount}
+            </CustomText>
+            <CustomText
+              variant="caption"
+              style={{ color: "#4CAF50", fontWeight: "bold" }}
+            >
+              تومان
+            </CustomText>
+          </View>
+        )}
+        {!percent && <CustomText variant="caption">{price} تومان</CustomText>}
+        {!percent && <CustomText variant="caption">{price}</CustomText>}
+      </View>
     </TouchableOpacity>
   );
 }
 
-const styles = StyleSheet.create({
+/* const styles = StyleSheet.create({
   container: {
+    padding: 12,
+    paddingBottom: 40,
     height: "100%",
     backgroundColor: "orange",
     justifyContent: "center",
@@ -38,10 +171,15 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 3.84,
     elevation: 5,
+    overflow: "hidden",
   },
   label: {
     color: "#fff",
     fontWeight: "600",
     fontSize: 14,
   },
+  bookImage: {
+    backgroundColor: "#f0f0f0",
+  },
 });
+ */
