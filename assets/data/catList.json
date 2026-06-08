@@ -1,58 +1,58 @@
 {
   "book_genres": [
     {
-      "id": 1,
+      "id": "01",
       "name": "romance",
       "label": "رمانتیک",
-      "featuredImage": "@/assets/images/bookCat/1.png"
+      "featuredImage": "@/assets/images/bookCat/01.png"
     },
     {
-      "id": 2,
+      "id": "02",
       "name": "thriller_mystery_suspense",
       "label": "هیجان‌انگیز و معمایی",
-      "featuredImage": "@/assets/images/bookCat/2.png"
+      "featuredImage": "@/assets/images/bookCat/02.png"
     },
     {
       "id": 3,
       "name": "sci_fi",
       "label": "علمی-تخیلی",
-      "featuredImage": "@/assets/images/bookCat/3.png"
+      "featuredImage": "@/assets/images/bookCat/03.png"
     },
     {
       "id": 4,
       "name": "fantasy",
       "label": "فانتزی",
-      "featuredImage": "@/assets/images/bookCat/4.png"
+      "featuredImage": "@/assets/images/bookCat/04.png"
     },
     {
       "id": 5,
       "name": "horror",
       "label": "وحشت",
-      "featuredImage": "@/assets/images/bookCat/5.png"
+      "featuredImage": "@/assets/images/bookCat/05.png"
     },
     {
       "id": 6,
       "name": "literary_fiction",
       "label": "ادبیات داستانی معاصر",
-      "featuredImage": "@/assets/images/bookCat/6.png"
+      "featuredImage": "@/assets/images/bookCat/06.png"
     },
     {
       "id": 7,
       "name": "historical_fiction",
       "label": "تاریخی",
-      "featuredImage": "@/assets/images/bookCat/7.png"
+      "featuredImage": "@/assets/images/bookCat/07.png"
     },
     {
       "id": 8,
       "name": "realistic_fiction",
       "label": "واقع‌گرا",
-      "featuredImage": "@/assets/images/bookCat/8.png"
+      "featuredImage": "@/assets/images/bookCat/08.png"
     },
     {
       "id": 9,
       "name": "graphic_novels_comics",
       "label": "داستان مصور و گرافیک ناول",
-      "featuredImage": "@/assets/images/bookCat/9.png"
+      "featuredImage": "@/assets/images/bookCat/09.png"
     },
     {
       "id": 10,

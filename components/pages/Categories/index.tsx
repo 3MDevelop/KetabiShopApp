@@ -39,7 +39,12 @@ export default function Categories() {
         <View style={styles.categoriesGrid}>
           {genres.map((genre) => (
             <>
-              <PreList key={genre.id} label={genre.label} name={genre.name} fImage={genre.featuredImage} />
+              <PreList
+                key={genre.id}
+                label={genre.label}
+                fImage={require("@/assets/images/bookCat/04.png")}
+                listItemRatio={0.64}
+              />
             </>
           ))}
         </View>
