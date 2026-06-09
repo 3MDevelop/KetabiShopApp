@@ -1,14 +1,20 @@
-import React from "react";
-import { ScrollView, View } from "react-native";
+import React, { useRef } from "react";
+import { ScrollView, View, Animated } from "react-native";
 import styles from "./styles";
 import CustomText from "@/components/common/CustomText";
-
 import { useCat } from "@/context/CatContext";
-
 import PreList from "@/components/UI/PreList";
+import BackToTop from "@/components/UI/BackToTop";
 
 export default function Categories() {
   const { catList, isLoading, error } = useCat();
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const scrollViewRef = useRef<ScrollView>(null); // ✅ استفاده از ScrollView معمولی
+
+  const scrollToTop = () => {
+    console.info("اسکرول به بالا");
+    scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+  };
 
   if (isLoading) {
     return (
@@ -29,26 +35,33 @@ export default function Categories() {
   const genres = catList?.book_genres || [];
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.content}>
-        <CustomText style={styles.title}>دسته بندی کتاب‌ها</CustomText>
-        <CustomText style={styles.description}>
-          {genres.length} دسته بندی مختلف برای کشف کتاب‌های جدید
-        </CustomText>
-
-        <View style={styles.categoriesGrid}>
-          {genres.map((genre) => (
-            <>
+    <View style={styles.container}>
+      <Animated.ScrollView
+        ref={scrollViewRef as any} // ✅ type assertion
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: false },
+        )}
+        scrollEventThrottle={16}
+        showsVerticalScrollIndicator={true}
+        indicatorStyle="black"
+        persistentScrollbar={true}
+      >
+        <View style={styles.content}>
+          <CustomText style={styles.title}>دسته بندی کتاب‌ها</CustomText>
+          <View style={styles.categoriesGrid}>
+            {genres.map((genre) => (
               <PreList
                 key={genre.id}
                 label={genre.label}
                 fImage={require("@/assets/images/bookCat/04.png")}
                 listItemRatio={0.64}
               />
-            </>
-          ))}
+            ))}
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </Animated.ScrollView>
+      <BackToTop scrollY={scrollY} onPress={scrollToTop} />
+    </View>
   );
 }

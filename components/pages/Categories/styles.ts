@@ -15,8 +15,10 @@ export default StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     color: "#333",
-    marginBottom: 8,
+    marginTop:30,
+    marginBottom: 24,
     textAlign: "right",
+    alignSelf:"center"
   },
   description: {
     lineHeight: 24,

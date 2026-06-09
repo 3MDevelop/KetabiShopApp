@@ -66,7 +66,7 @@ export default function PreList({
           author: book.author_info,
           price: book.main_price,
           percent: book.percentFa,
-          discount:book.discountFa
+          discount: book.discountFa,
         }));
         setBooks(formattedBooks);
       } else {
@@ -86,8 +86,6 @@ export default function PreList({
   }, [listId]);
 
   const displayBooks = books;
-
- 
 
   const scrollRight = () => {
     const newX = scrollX.current + scrollStep;
@@ -152,19 +150,21 @@ export default function PreList({
           }}
         >
           {fImage && !isMobile && (
-            <View style={{
-              height:"100%",
-              marginStart: 10,
-              aspectRatio:listItemRatio,
-              borderRadius: 8,
-              overflow:"hidden"
-            }}>
+            <View
+              style={{
+                height: "100%",
+                marginStart: 10,
+                aspectRatio: listItemRatio,
+                borderRadius: 8,
+                overflow: "hidden",
+              }}
+            >
               <Image
                 source={fImage}
                 resizeMode="cover"
                 style={{
                   height: "100%",
-                  width:"100%",
+                  width: "100%",
                 }}
               />
             </View>
@@ -176,7 +176,7 @@ export default function PreList({
                 style={[styles.navButton, styles.prevButton]}
                 onPress={scrollLeft}
               >
-                <Ionicons name="chevron-back" size={24} color="#333" />
+                <Ionicons name="chevron-back-sharp" size={36} color="#fa1414" />
               </TouchableOpacity>
             )}
 
@@ -219,7 +219,7 @@ export default function PreList({
                 style={[styles.navButton, styles.nextButton]}
                 onPress={scrollRight}
               >
-                <Ionicons name="chevron-forward" size={24} color="#000000" />
+                <Ionicons name="chevron-forward" size={36} color="#fa1414" />
               </TouchableOpacity>
             )}
           </View>
@@ -258,8 +258,8 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "relative",
     height: "100%",
-    borderRadius:8,
-    overflow:"hidden",
+    borderRadius: 8,
+    overflow: "hidden",
   },
 
   scrollContent: {
