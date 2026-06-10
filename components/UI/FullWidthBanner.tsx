@@ -16,10 +16,11 @@ interface FullWidthBannerProps {
   text?: string;
   textColor?: string;
   fontSize?: number;
+  backImage?: any; // تغییر به any برای accept کردن require
 }
 
 export default function FullWidthBanner({
-  isInner = false,
+  isInner,
   url,
   imageSource,
   text = "Sample Text",
@@ -46,6 +47,9 @@ export default function FullWidthBanner({
     }
   };
 
+  // تصویر پیش‌فرض ثابت
+  const defaultImage = require("@/assets/images/fullWidthBanner.jpg");
+
   return (
     <View style={[styles.container, { height }]}>
       <TouchableOpacity
@@ -59,13 +63,11 @@ export default function FullWidthBanner({
             width: "100%",
             height: "100%",
             position: "absolute",
-            justifyContent: "center",
-            alignItems: "center",
           }}
         >
           <CustomText
             variant="h1"
-            style={{ color: textColor, fontSize: fontSize }}
+            style={{margin:"auto", color: textColor, fontSize: fontSize }}
             bold
             center
           >
@@ -73,7 +75,7 @@ export default function FullWidthBanner({
           </CustomText>
         </View>
         <ImageBackground
-          source={imageSource || require("@/assets/images/fullWidthBanner.jpg")}
+          source={imageSource || defaultImage}
           style={styles.imageBackground}
           resizeMode="cover"
           imageStyle={styles.imageStyle}

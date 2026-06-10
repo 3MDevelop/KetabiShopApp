@@ -1,9 +1,7 @@
 import React from "react";
 import { ScrollView, View } from "react-native";
 import styles from "./styles";
-import CustomText from "@/components/common/CustomText";
 
-/* Componnets */
 import FullWidthBanner from "@/components/UI/FullWidthBanner";
 import PreList from "@/components/UI/PreList";
 
@@ -11,16 +9,15 @@ export default function HomePage() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
-        <CustomText marginB={16} center bold variant="h2">
-          صفحه اصلی
-        </CustomText>
+        
         <FullWidthBanner
-          height={120}
-          fontSize={40}
+          height={100}
+          fontSize={35}
           text="Ketabika App"
-          textColor="#066959"
-          isInner={true}
-          url={"about"}
+          textColor="#06443a"
+          isInner
+          url="about"
+          imageSource={require("@/assets/images/fullWidthBanner.jpg")}
         />
 
         <PreList
