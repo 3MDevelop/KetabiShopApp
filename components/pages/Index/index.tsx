@@ -27,6 +27,7 @@ export default function HomePage() {
           label="رمانتیک"
           fImage={require("@/assets/images/bookCat/04.png")}
           listItemRatio={0.64}
+          apiUrl="https://ketabishop.com/api/getlist/"
         />
       </View>
     </ScrollView>

@@ -6,30 +6,34 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import CustomText from "@/components/common/CustomText";
 import BookThumb from "@/components/UI/BookThumb";
 import { useResponsive } from "@/hooks/useResponsive";
 
 interface PreListProps {
   label?: string;
+  apiUrl?: string;  // اصلاح: به جای apiURL
   apiDetail?: string;
   listHeight?: number;
   fImage?: any;
   listItemRatio?: number;
-  hasMore?: boolean;
-  bgColor?: any;
+  noMore?: boolean;
+  backColor?: string;
   listId?: string;
+  noBack?: boolean;
 }
 
 export default function PreList({
   label,
+  apiUrl,
   fImage,
   listHeight = 300,
   listItemRatio = 0.64,
-  hasMore = true,
-  bgColor = "#fff",
+  noMore,
+  backColor = "#fff",
   listId = "1",
+  noBack = false,
 }: PreListProps) {
   const scrollX = useRef(0);
   const scrollViewRef = useRef<ScrollView>(null);
@@ -40,50 +44,61 @@ export default function PreList({
   const containerWidth = useRef(0);
   const { isMobile } = useResponsive();
 
-  const api = "https://ketabishop.com/api/getlist/";
   const [books, setBooks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchBookListFromAPI = async (listIdParam: string = "1") => {
-    setLoading(true);
-    try {
-      const response = await fetch(api, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: `list_id=${encodeURIComponent(listIdParam)}`,
-      });
+   
 
-      const result = await response.json();
+// ... بقیه کدها
 
-      if (result.status === true && result.list) {
-        const formattedBooks = result.list.map((book: any, index: number) => ({
-          id: book.id,
-          name: book.book_title,
-          color: `hsl(${(index * 30) % 360}, 70%, 60%)`,
-          image: book.full_icon_address,
-          author: book.author_info,
-          price: book.main_price,
-          percent: book.percentFa,
-          discount: book.discountFa,
-        }));
-        setBooks(formattedBooks);
-      } else {
-        console.error("خطا در دریافت لیست:", result);
-        setBooks([]);
-      }
-    } catch (error) {
-      console.error("خطا در ارتباط با سرور:", error);
+const fetchBookListFromAPI = useCallback(async (listIdParam: string = "1") => {
+  if (!apiUrl) {
+    console.error("API URL is required");
+    setLoading(false);
+    return;
+  }
+
+  setLoading(true);
+  try {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `list_id=${encodeURIComponent(listIdParam)}`,
+    });
+
+    const result = await response.json();
+
+    if (result.status === true && result.list) {
+      const formattedBooks = result.list.map((book: any, index: number) => ({
+        id: book.id,
+        name: book.book_title,
+        color: `hsl(${(index * 30) % 360}, 70%, 60%)`,
+        image: book.full_icon_address,
+        author: book.author_info,
+        price: book.main_price,
+        percent: book.percentFa,
+        discount: book.discountFa,
+      }));
+      setBooks(formattedBooks);
+    } else {
+      console.error("خطا در دریافت لیست:", result);
       setBooks([]);
-    } finally {
-      setLoading(false);
     }
-  };
+  } catch (error) {
+    console.error("خطا در ارتباط با سرور:", error);
+    setBooks([]);
+  } finally {
+    setLoading(false);
+  }
+}, [apiUrl]); // وابستگی به apiUrl
 
-  useEffect(() => {
+useEffect(() => {
+  if (apiUrl) {
     fetchBookListFromAPI(listId);
-  }, [listId]);
+  }
+}, [listId, apiUrl, fetchBookListFromAPI]); // حالا این درست است
 
   const displayBooks = books;
 
@@ -108,7 +123,7 @@ export default function PreList({
         style={[
           styles.categoryCard,
           {
-            backgroundColor: bgColor,
+            backgroundColor: backColor,
             alignItems: "center",
             justifyContent: "center",
           },
@@ -125,7 +140,9 @@ export default function PreList({
 
   return (
     <View style={{ width: "100%" }}>
-      <View style={[styles.categoryCard, { backgroundColor: bgColor }]}>
+      <View
+        style={[styles.categoryCard, !noBack && { backgroundColor: backColor }]}
+      >
         <View style={styles.header}>
           <View style={styles.headerRow}>
             {label && (
@@ -133,7 +150,7 @@ export default function PreList({
                 {label}
               </CustomText>
             )}
-            {hasMore && (
+            {!noMore && (
               <TouchableOpacity>
                 <Ionicons name="arrow-back-sharp" size={22} color="gray" />
               </TouchableOpacity>
