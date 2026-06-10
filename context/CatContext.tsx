@@ -12,7 +12,8 @@ interface Genre {
   id: number;
   name: string;
   label: string;
-  featuredImage: "string";
+  featuredImage: string;
+  apiUrl: string;
 }
 
 interface CatListData {

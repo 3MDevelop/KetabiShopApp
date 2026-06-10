@@ -6,6 +6,7 @@ export default StyleSheet.create({
   },
 
   content: {
+    width:"100%",
     padding: 16,
     maxWidth: 950,
     alignSelf: "center",

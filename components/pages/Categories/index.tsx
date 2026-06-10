@@ -5,6 +5,7 @@ import CustomText from "@/components/common/CustomText";
 import { useCat } from "@/context/CatContext";
 import PreList from "@/components/UI/PreList";
 import BackToTop from "@/components/UI/BackToTop";
+import FullWidthBanner from "@/components/UI/FullWidthBanner";
 
 export default function Categories() {
   const { catList, isLoading, error } = useCat();
@@ -23,8 +24,6 @@ export default function Categories() {
       </View>
     );
   }
-
-  
 
   if (error) {
     return (
@@ -50,17 +49,26 @@ export default function Categories() {
         persistentScrollbar={true}
       >
         <View style={styles.content}>
-          <CustomText style={styles.title}>دسته بندی کتاب‌ها</CustomText>
-          <View style={styles.categoriesGrid}>
-            {genres.map((genre) => (
-              <PreList
-                key={genre.id}
-                label={genre.label}
-                fImage={require("@/assets/images/bookCat/04.png")}
-                listItemRatio={0.64}
-              />
-            ))}
-          </View>
+          <FullWidthBanner
+            height={100}
+            fontSize={35}
+            text="Ketabika App"
+            textColor="#06443a"
+            isInner
+            url="about"
+            imageSource={require("@/assets/images/fullWidthBanner.jpg")}
+          />
+         
+
+          {genres.map((genre) => (
+            <PreList
+            key={genre.id}
+            label={genre.label}
+            fImage={require("@/assets/images/bookCat/04.png")}
+            listItemRatio={0.64}
+            apiUrl={genre.apiUrl}
+          />
+          ))}
         </View>
       </Animated.ScrollView>
       <BackToTop scrollY={scrollY} onPress={scrollToTop} />
