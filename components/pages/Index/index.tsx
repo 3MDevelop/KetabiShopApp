@@ -14,14 +14,20 @@ export default function HomePage() {
         <CustomText marginB={16} center bold variant="h2">
           صفحه اصلی
         </CustomText>
+        <FullWidthBanner
+          height={120}
+          fontSize={40}
+          text="Ketabika App"
+          textColor="#066959"
+          isInner={true}
+          url={"about"}
+        />
 
         <PreList
           label="رمانتیک"
           fImage={require("@/assets/images/bookCat/04.png")}
           listItemRatio={0.64}
         />
-
-        <FullWidthBanner urlIsInner={true} url={"about"} />
       </View>
     </ScrollView>
   );

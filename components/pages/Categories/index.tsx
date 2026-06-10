@@ -9,7 +9,7 @@ import BackToTop from "@/components/UI/BackToTop";
 export default function Categories() {
   const { catList, isLoading, error } = useCat();
   const scrollY = useRef(new Animated.Value(0)).current;
-  const scrollViewRef = useRef<ScrollView>(null); // ✅ استفاده از ScrollView معمولی
+  const scrollViewRef = useRef<ScrollView>(null);
 
   const scrollToTop = () => {
     console.info("اسکرول به بالا");
@@ -24,6 +24,8 @@ export default function Categories() {
     );
   }
 
+  
+
   if (error) {
     return (
       <View style={styles.centerContainer}>
@@ -37,7 +39,7 @@ export default function Categories() {
   return (
     <View style={styles.container}>
       <Animated.ScrollView
-        ref={scrollViewRef as any} // ✅ type assertion
+        ref={scrollViewRef as any}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: scrollY } } }],
           { useNativeDriver: false },
