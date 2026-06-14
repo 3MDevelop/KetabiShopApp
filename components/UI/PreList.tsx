@@ -13,7 +13,7 @@ import { useResponsive } from "@/hooks/useResponsive";
 
 interface PreListProps {
   label?: string;
-  apiUrl?: string;  // اصلاح: به جای apiURL
+  apiUrl?: string;
   apiDetail?: string;
   listHeight?: number;
   fImage?: any;
@@ -46,59 +46,63 @@ export default function PreList({
 
   const [books, setBooks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-   
+  const fetchBookListFromAPI = useCallback(
+    async (listIdParam: string = "1") => {
+      if (!apiUrl) {
+        setError("آدرس API مشخص نشده است");
+        setLoading(false);
+        return;
+      }
 
-// ... بقیه کدها
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `list_id=${encodeURIComponent(listIdParam)}`,
+        });
 
-const fetchBookListFromAPI = useCallback(async (listIdParam: string = "1") => {
-  if (!apiUrl) {
-    console.error("API URL is required");
-    setLoading(false);
-    return;
-  }
+        const result = await response.json();
 
-  setLoading(true);
-  try {
-    const response = await fetch(apiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `list_id=${encodeURIComponent(listIdParam)}`,
-    });
+        if (result.status === true && result.list) {
+          const formattedBooks = result.list.map(
+            (book: any, index: number) => ({
+              id: book.id,
+              name: book.book_title,
+              color: `hsl(${(index * 30) % 360}, 70%, 60%)`,
+              image: book.full_icon_address,
+              author: book.author_info,
+              price: book.main_price,
+              percent: book.percentFa,
+              discount: book.discountFa,
+            }),
+          );
+          setBooks(formattedBooks);
+        } else {
+          setError("خطا در دریافت اطلاعات از سرور");
+          setBooks([]);
+        }
+      } catch (err) {
+        console.error("خطا در ارتباط با سرور:", err);
+        setError("مشکل در ارتباط با سرور");
+        setBooks([]);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [apiUrl],
+  );
 
-    const result = await response.json();
-
-    if (result.status === true && result.list) {
-      const formattedBooks = result.list.map((book: any, index: number) => ({
-        id: book.id,
-        name: book.book_title,
-        color: `hsl(${(index * 30) % 360}, 70%, 60%)`,
-        image: book.full_icon_address,
-        author: book.author_info,
-        price: book.main_price,
-        percent: book.percentFa,
-        discount: book.discountFa,
-      }));
-      setBooks(formattedBooks);
-    } else {
-      console.error("خطا در دریافت لیست:", result);
-      setBooks([]);
+  useEffect(() => {
+    if (apiUrl) {
+      fetchBookListFromAPI(listId);
     }
-  } catch (error) {
-    console.error("خطا در ارتباط با سرور:", error);
-    setBooks([]);
-  } finally {
-    setLoading(false);
-  }
-}, [apiUrl]); // وابستگی به apiUrl
-
-useEffect(() => {
-  if (apiUrl) {
-    fetchBookListFromAPI(listId);
-  }
-}, [listId, apiUrl, fetchBookListFromAPI]); // حالا این درست است
+  }, [listId, apiUrl, fetchBookListFromAPI]);
 
   const displayBooks = books;
 
@@ -117,12 +121,42 @@ useEffect(() => {
     });
   };
 
+  // حالت خطا
+  if (error) {
+    return (
+      <View
+        style={[
+          styles.categoryCard,
+          {
+            height: listHeight,
+            backgroundColor: backColor,
+            alignItems: "center",
+            justifyContent: "center",
+          },
+        ]}
+      >
+        <View style={styles.errorContainer}>
+          <Ionicons name="alert-circle-outline" size={48} color="#f44336" />
+          <CustomText style={styles.errorText}>{error}</CustomText>
+          <TouchableOpacity
+            style={styles.retryButton}
+            onPress={() => fetchBookListFromAPI(listId)}
+          >
+            <CustomText style={styles.retryText}>تلاش مجدد</CustomText>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+
+  // حالت بارگذاری
   if (loading) {
     return (
       <View
         style={[
           styles.categoryCard,
           {
+            height: listHeight,
             backgroundColor: backColor,
             alignItems: "center",
             justifyContent: "center",
@@ -135,7 +169,21 @@ useEffect(() => {
   }
 
   if (displayBooks.length === 0) {
-    return null;
+    return (
+      <View
+        style={[
+          styles.categoryCard,
+          {
+            height: listHeight,
+            backgroundColor: backColor,
+            alignItems: "center",
+            justifyContent: "center",
+          },
+        ]}
+      >
+        <CustomText>هیچ کتابی یافت نشد</CustomText>
+      </View>
+    );
   }
 
   return (
@@ -309,5 +357,32 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     shadowOpacity: 0.2,
     shadowOffset: { width: -8, height: 0 },
+  },
+
+  errorContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 20,
+  },
+
+  errorText: {
+    color: "#f44336",
+    fontSize: 14,
+    marginTop: 12,
+    textAlign: "center",
+  },
+
+  retryButton: {
+    marginTop: 16,
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    backgroundColor: "#007AFF",
+    borderRadius: 8,
+  },
+
+  retryText: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "600",
   },
 });

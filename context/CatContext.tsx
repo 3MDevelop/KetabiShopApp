@@ -48,7 +48,6 @@ export const CatProvider: React.FC<CatProviderProps> = ({ children }) => {
   useEffect(() => {
     const loadCatList = async () => {
       try {
-        // در React Native، فایل JSON را می‌توان مستقیماً import کرد
         const data = require("@/assets/data/catList.json");
         setCatList(data);
       } catch (err) {

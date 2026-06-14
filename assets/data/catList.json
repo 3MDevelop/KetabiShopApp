@@ -1,14 +1,14 @@
 {
   "book_genres": [
     {
-      "id": "01",
+      "id": 1,
       "name": "romance",
       "label": "رمانتیک",
       "featuredImage": "@/assets/images/bookCat/01.png",
       "apiUrl": "https://ketabishop.com/api/getlist/"
     },
     {
-      "id": "02",
+      "id": 2,
       "name": "thriller_mystery_suspense",
       "label": "هیجان‌انگیز و معمایی",
       "featuredImage": "@/assets/images/bookCat/02.png",

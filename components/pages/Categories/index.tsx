@@ -12,8 +12,68 @@ export default function Categories() {
   const scrollY = useRef(new Animated.Value(0)).current;
   const scrollViewRef = useRef<ScrollView>(null);
 
+  const getGenreImage = (id: number) => {
+    switch (id) {
+      case 1:
+        return require("@/assets/images/bookCat/01.png");
+      case 2:
+        return require("@/assets/images/bookCat/02.png");
+      case 3:
+        return require("@/assets/images/bookCat/03.png");
+      case 4:
+        return require("@/assets/images/bookCat/04.png");
+      case 5:
+        return require("@/assets/images/bookCat/05.png");
+      case 6:
+        return require("@/assets/images/bookCat/06.png");
+      case 7:
+        return require("@/assets/images/bookCat/07.png");
+      case 8:
+        return require("@/assets/images/bookCat/08.png");
+      case 9:
+        return require("@/assets/images/bookCat/09.png");
+      case 10:
+        return require("@/assets/images/bookCat/10.png");
+      case 11:
+        return require("@/assets/images/bookCat/11.png");
+      case 12:
+        return require("@/assets/images/bookCat/12.png");
+      case 13:
+        return require("@/assets/images/bookCat/13.png");
+      case 14:
+        return require("@/assets/images/bookCat/14.png");
+      case 15:
+        return require("@/assets/images/bookCat/15.png");
+      case 16:
+        return require("@/assets/images/bookCat/16.png");
+      case 17:
+        return require("@/assets/images/bookCat/17.png");
+      case 18:
+        return require("@/assets/images/bookCat/18.png");
+      case 19:
+        return require("@/assets/images/bookCat/19.png");
+      case 20:
+        return require("@/assets/images/bookCat/20.png");
+      case 21:
+        return require("@/assets/images/bookCat/21.png");
+      case 22:
+        return require("@/assets/images/bookCat/22.png");
+      case 23:
+        return require("@/assets/images/bookCat/23.png");
+      case 24:
+        return require("@/assets/images/bookCat/24.png");
+      case 25:
+        return require("@/assets/images/bookCat/25.png");
+      case 26:
+        return require("@/assets/images/bookCat/26.png");
+      case 27:
+        return require("@/assets/images/bookCat/27.png");
+      case 28:
+        return require("@/assets/images/bookCat/28.png");
+    }
+  };
+
   const scrollToTop = () => {
-    console.info("اسکرول به بالا");
     scrollViewRef.current?.scrollTo({ y: 0, animated: true });
   };
 
@@ -58,17 +118,19 @@ export default function Categories() {
             url="about"
             imageSource={require("@/assets/images/fullWidthBanner.jpg")}
           />
-         
 
-          {genres.map((genre) => (
-            <PreList
-            key={genre.id}
-            label={genre.label}
-            fImage={require("@/assets/images/bookCat/04.png")}
-            listItemRatio={0.64}
-            apiUrl={genre.apiUrl}
-          />
-          ))}
+          {genres.map((genre) => {
+            console.info(genre.id);
+            return (
+              <PreList
+                key={genre.id}
+                label={genre.label}
+                fImage={getGenreImage(genre.id)}
+                listItemRatio={0.64}
+                apiUrl={genre.apiUrl}
+              />
+            );
+          })}
         </View>
       </Animated.ScrollView>
       <BackToTop scrollY={scrollY} onPress={scrollToTop} />

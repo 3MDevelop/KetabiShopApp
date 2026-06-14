@@ -88,42 +88,42 @@ export default function Basket() {
           name: "book",
           color: "#007AFF",
           bgColor: "#007AFF15",
-          label: t("cart.physicalBook"),
+          label: t("common.product.physicalBook"),
         };
       case "ebook":
         return {
           name: "tablet-portrait",
           color: "#9C27B0",
           bgColor: "#9C27B015",
-          label: t("cart.ebook"),
+          label: t("common.product.ebook"),
         };
       case "audiobook":
         return {
           name: "headset",
           color: "#FF6B35",
           bgColor: "#FF6B3515",
-          label: t("cart.audiobook"),
+          label: t("common.product.audiobook"),
         };
       case "podcast":
         return {
           name: "mic",
           color: "#FF6B35",
           bgColor: "#FF6B3515",
-          label: t("cart.podcast"),
+          label: t("common.product.podcast"),
         };
       case "audio":
         return {
           name: "musical-notes",
           color: "#FF6B35",
           bgColor: "#FF6B3515",
-          label: t("cart.audio"),
+          label: t("common.product.audio"),
         };
       default:
         return {
           name: "document",
           color: "#007AFF",
           bgColor: "#007AFF15",
-          label: t("cart.product"),
+          label: t("common.cart.product"),
         };
     }
   };
@@ -180,12 +180,12 @@ export default function Basket() {
           <View style={styles.emptyCartContainer}>
             <Ionicons name="cart-outline" size={80} color="#ccc" />
             <CustomText style={styles.emptyCartTitle}>
-              {t("cart.emptyTitle")}
+              {t("common.cart.emptyTitle")}
             </CustomText>
             <CustomText style={styles.emptyCartText}>
-              {t("cart.emptyText")}
+              {t("common.cart.emptyText")}
               {"\n"}
-              {t("cart.emptyHint")}
+              {t("common.cart.emptyHint")}
             </CustomText>
 
             <TouchableOpacity
@@ -194,7 +194,7 @@ export default function Basket() {
             >
               <Ionicons name="book-outline" size={20} color="#fff" />
               <CustomText style={styles.shopButtonText}>
-                {t("cart.viewProducts")}
+                {t("common.cart.viewProducts")}
               </CustomText>
               <Ionicons
                 name={isRTL ? "arrow-back" : "arrow-forward"}
@@ -214,7 +214,7 @@ export default function Basket() {
         {/* هدر */}
         <View style={styles.header}>
           <Ionicons name="cart" size={28} color="#007AFF" />
-          <CustomText style={styles.title}>{t("cart.title")}</CustomText>
+          <CustomText style={styles.title}>{t("common.cart.title")}</CustomText>
           <View style={styles.badge}>
             <CustomText style={styles.badgeText}>{cartItems.length}</CustomText>
           </View>
@@ -278,7 +278,7 @@ export default function Basket() {
                           size={12}
                           color="#9C27B0"
                         />{" "}
-                        {t("cart.instantDownload")}
+                        {t("common.cart.instantDownload")}
                       </CustomText>
                     )}
                     {isDigital && item.type !== "ebook" && (
@@ -288,7 +288,7 @@ export default function Basket() {
                           size={12}
                           color="#FF6B35"
                         />{" "}
-                        {t("cart.onlinePlay")}
+                        {t("common.cart.onlinePlay")}
                       </CustomText>
                     )}
                     <CustomText
@@ -298,7 +298,7 @@ export default function Basket() {
                       ]}
                     >
                       {(item.price * item.quantity).toLocaleString()}{" "}
-                      {t("cart.currency")}
+                      {t("common.cart.currency")}
                     </CustomText>
                   </View>
                 </View>
@@ -344,13 +344,13 @@ export default function Basket() {
                         color="#28a745"
                       />
                       <CustomText style={styles.singleItemText}>
-                        {t("cart.singleItem")}
+                        {t("common.cart.singleItem")}
                       </CustomText>
                     </View>
                   )}
 
                   <CustomText style={styles.unitPrice}>
-                    {item.price.toLocaleString()} {t("cart.currency")}
+                    {item.price.toLocaleString()} {t("common.cart.currency")}
                   </CustomText>
 
                   <TouchableOpacity
@@ -367,9 +367,9 @@ export default function Basket() {
 
         <View style={styles.checkoutCard}>
           <View style={styles.totalRow}>
-            <CustomText style={styles.totalLabel}>{t("cart.total")}</CustomText>
+            <CustomText style={styles.totalLabel}>{t("common.cart.total")}</CustomText>
             <CustomText style={styles.totalPrice}>
-              {calculateTotal().toLocaleString()} {t("cart.currency")}
+              {calculateTotal().toLocaleString()} {t("common.cart.currency")}
             </CustomText>
           </View>
 
@@ -377,10 +377,10 @@ export default function Basket() {
 
           <View style={styles.totalRow}>
             <CustomText style={styles.finalLabel}>
-              {t("cart.finalAmount")}
+              {t("common.cart.finalAmount")}
             </CustomText>
             <CustomText style={styles.finalPrice}>
-              {calculateTotal().toLocaleString()} {t("cart.currency")}
+              {calculateTotal().toLocaleString()} {t("common.cart.currency")}
             </CustomText>
           </View>
 
@@ -390,13 +390,13 @@ export default function Basket() {
           >
             <Ionicons name="card-outline" size={22} color="#fff" />
             <CustomText style={styles.checkoutButtonText}>
-              {t("cart.checkout")}
+              {t("common.cart.checkout")}
             </CustomText>
           </TouchableOpacity>
 
           {!isLoggedIn && (
             <CustomText style={styles.loginHint}>
-              ⚠️ {t("cart.loginRequired")}
+              ⚠️ {t("common.cart.loginRequired")}
             </CustomText>
           )}
         </View>
@@ -411,7 +411,7 @@ export default function Basket() {
             color="#007AFF"
           />
           <CustomText style={styles.continueShoppingText}>
-            {t("cart.continueShopping")}
+            {t("common.cart.continueShopping")}
           </CustomText>
         </TouchableOpacity>
       </View>
