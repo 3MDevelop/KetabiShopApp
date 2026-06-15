@@ -7,7 +7,7 @@ export default StyleSheet.create({
 
   content: {
     width:"100%",
-    padding: 16,
+    padding: 20,
     maxWidth: 950,
     alignSelf: "center",
   },

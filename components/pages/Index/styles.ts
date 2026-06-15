@@ -9,7 +9,7 @@ export default StyleSheet.create({
   content: {
     padding: 20,
     width:"100%",
-    maxWidth:1000,
+    maxWidth:950,
     alignSelf:"center"
   },
   

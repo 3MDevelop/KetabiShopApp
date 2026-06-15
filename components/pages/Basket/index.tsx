@@ -190,7 +190,7 @@ export default function Basket() {
 
             <TouchableOpacity
               style={styles.shopButton}
-              onPress={() => router.push("/booklist")}
+              onPress={() => router.push("/")}
             >
               <Ionicons name="book-outline" size={20} color="#fff" />
               <CustomText style={styles.shopButtonText}>
@@ -403,7 +403,7 @@ export default function Basket() {
 
         <TouchableOpacity
           style={styles.continueShoppingButton}
-          onPress={() => router.push("/booklist")}
+          onPress={() => router.push("/")}
         >
           <Ionicons
             name={isRTL ? "arrow-back" : "arrow-forward"}

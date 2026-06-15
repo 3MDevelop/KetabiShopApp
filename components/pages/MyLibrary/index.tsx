@@ -65,8 +65,8 @@ export default function MyLibrary() {
               style={styles.suggestionButton}
               onPress={() =>
                 router.push({
-                  pathname: "/booklist",
-                  params: { q: "list_of_intrested" },
+                  pathname: "/list",
+                  params: { id: "list_of_intrested" },
                 })
               }
               activeOpacity={0.8}

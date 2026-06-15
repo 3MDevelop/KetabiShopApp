@@ -93,7 +93,7 @@ export default function MyLikes() {
 
             <TouchableOpacity
               style={styles.goToLibraryButton}
-              onPress={() => router.push("/booklist")}
+              onPress={() => router.push("/list")}
             >
               <Ionicons name="arrow-back" size={18} color="#fff" />
               <CustomText style={styles.goToLibraryButtonText}>
