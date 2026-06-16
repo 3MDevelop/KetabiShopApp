@@ -9,12 +9,22 @@ import CustomText from "@/components/common/CustomText";
 import styles from "./styles";
 
 export default function List() {
-  const { listID } = useLocalSearchParams<{ listID: string }>();
+  const params  = useLocalSearchParams();
   const scrollY = useRef(new Animated.Value(0)).current;
   const scrollViewRef = useRef<ScrollView>(null);
+  
   const scrollToTop = () => {
     scrollViewRef.current?.scrollTo({ y: 0, animated: true });
   };
+
+  const paramsList = Object.entries(params).map(([key, value]) => ({
+    key,
+    value: Array.isArray(value) ? value.join(", ") : String(value)
+  }));
+
+  const listID = paramsList[0].key
+
+  
 
   return (
     <View style={styles.container}>

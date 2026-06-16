@@ -10,29 +10,31 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import CustomText from "@/components/common/CustomText";
 import BookThumb from "@/components/UI/BookThumb";
 import { useResponsive } from "@/hooks/useResponsive";
+import { useRouter } from "expo-router";
+
+import { API } from "@/constants/api";
 
 interface PreListProps {
+  key?:any;
   label?: string;
-  apiUrl?: string;
   apiDetail?: string;
   listHeight?: number;
   fImage?: any;
   listItemRatio?: number;
   noMore?: boolean;
   backColor?: string;
-  listId?: string;
+  listId?: any;
   noBack?: boolean;
 }
 
 export default function PreList({
   label,
-  apiUrl,
   fImage,
   listHeight = 300,
   listItemRatio = 0.64,
   noMore,
   backColor = "#fff",
-  listId = "1",
+  listId,
   noBack = false,
 }: PreListProps) {
   const scrollX = useRef(0);
@@ -43,10 +45,13 @@ export default function PreList({
   const contentWidth = useRef(0);
   const containerWidth = useRef(0);
   const { isMobile } = useResponsive();
+  const router = useRouter();
 
   const [books, setBooks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const apiUrl = API.GET_LIST;
 
   const fetchBookListFromAPI = useCallback(
     async (listIdParam: string = "1") => {
@@ -121,7 +126,6 @@ export default function PreList({
     });
   };
 
-  // حالت خطا
   if (error) {
     return (
       <View
@@ -199,7 +203,14 @@ export default function PreList({
               </CustomText>
             )}
             {!noMore && (
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() =>
+                  router.push({
+                    pathname: "/list",
+                    /* params: { listId }, */
+                  })
+                }
+              >
                 <Ionicons name="arrow-back-sharp" size={22} color="gray" />
               </TouchableOpacity>
             )}

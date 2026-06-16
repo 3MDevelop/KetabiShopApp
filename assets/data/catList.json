@@ -2,199 +2,171 @@
   "book_genres": [
     {
       "id": 1,
-      "name": "romance",
-      "label": "رمانتیک",
-      "featuredImage": "@/assets/images/bookCat/01.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/01.png",
+      "listID": "romance",
+      "label": "رمانتیک"
     },
     {
       "id": 2,
-      "name": "thriller_mystery_suspense",
-      "label": "هیجان‌انگیز و معمایی",
-      "featuredImage": "@/assets/images/bookCat/02.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/02.png",
+      "listID": "thriller_mystery_suspense",
+      "label": "هیجان‌انگیز و معمایی"
     },
     {
       "id": 3,
-      "name": "sci_fi",
-      "label": "علمی-تخیلی",
-      "featuredImage": "@/assets/images/bookCat/03.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/03.png",
+      "listID": "sci_fi",
+      "label": "علمی-تخیلی"
     },
     {
       "id": 4,
-      "name": "fantasy",
-      "label": "فانتزی",
-      "featuredImage": "@/assets/images/bookCat/04.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/04.png",
+      "listID": "fantasy",
+      "label": "فانتزی"
     },
     {
       "id": 5,
-      "name": "horror",
-      "label": "وحشت",
-      "featuredImage": "@/assets/images/bookCat/05.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/05.png",
+      "listID": "horror",
+      "label": "وحشت"
     },
     {
       "id": 6,
-      "name": "literary_fiction",
-      "label": "ادبیات داستانی معاصر",
-      "featuredImage": "@/assets/images/bookCat/06.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/06.png",
+      "listID": "literary_fiction",
+      "label": "ادبیات داستانی معاصر"
     },
     {
       "id": 7,
-      "name": "historical_fiction",
-      "label": "تاریخی",
-      "featuredImage": "@/assets/images/bookCat/07.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/07.png",
+      "listID": "historical_fiction",
+      "label": "تاریخی"
     },
     {
       "id": 8,
-      "name": "realistic_fiction",
-      "label": "واقع‌گرا",
-      "featuredImage": "@/assets/images/bookCat/08.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/08.png",
+      "listID": "realistic_fiction",
+      "label": "واقع‌گرا"
     },
     {
       "id": 9,
-      "name": "graphic_novels_comics",
-      "label": "داستان مصور و گرافیک ناول",
-      "featuredImage": "@/assets/images/bookCat/09.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/09.png",
+      "listID": "graphic_novels_comics",
+      "label": "داستان مصور و گرافیک ناول"
     },
     {
       "id": 10,
-      "name": "biography_memoir",
-      "label": "بیوگرافی، زندگینامه و خاطرات",
-      "featuredImage": "@/assets/images/bookCat/10.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/10.png",
+      "listID": "biography_memoir",
+      "label": "بیوگرافی، زندگینامه و خاطرات"
     },
     {
       "id": 11,
-      "name": "self_help",
-      "label": "توسعه فردی و خودیاری",
-      "featuredImage": "@/assets/images/bookCat/11.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/11.png",
+      "listID": "self_help",
+      "label": "توسعه فردی و خودیاری"
     },
     {
       "id": 12,
-      "name": "history",
-      "label": "تاریخ",
-      "featuredImage": "@/assets/images/bookCat/12.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/12.png",
+      "listID": "history",
+      "label": "تاریخ"
     },
     {
       "id": 13,
-      "name": "science_technology",
-      "label": "علم و فناوری",
-      "featuredImage": "@/assets/images/bookCat/13.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/13.png",
+      "listID": "science_technology",
+      "label": "علم و فناوری"
     },
     {
       "id": 14,
-      "name": "philosophy",
-      "label": "فلسفه و اندیشه",
-      "featuredImage": "@/assets/images/bookCat/14.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/14.png",
+      "listID": "philosophy",
+      "label": "فلسفه و اندیشه"
     },
     {
       "id": 15,
-      "name": "business_economics",
-      "label": "کسب‌وکار و اقتصاد",
-      "featuredImage": "@/assets/images/bookCat/15.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/15.png",
+      "listID": "business_economics",
+      "label": "کسب‌وکار و اقتصاد"
     },
     {
       "id": 16,
-      "name": "health_fitness",
-      "label": "سلامت، ورزش و تندرستی",
-      "featuredImage": "@/assets/images/bookCat/16.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/16.png",
+      "listID": "health_fitness",
+      "label": "سلامت، ورزش و تندرستی"
     },
     {
       "id": 17,
-      "name": "arts_photography",
-      "label": "هنر، عکاسی و معماری",
-      "featuredImage": "@/assets/images/bookCat/17.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/17.png",
+      "listID": "arts_photography",
+      "label": "هنر، عکاسی و معماری"
     },
     {
       "id": 18,
-      "name": "food_cooking",
-      "label": "غذا و آشپزی",
-      "featuredImage": "@/assets/images/bookCat/18.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/18.png",
+      "listID": "food_cooking",
+      "label": "غذا و آشپزی"
     },
     {
       "id": 19,
-      "name": "travel_geography",
-      "label": "سفرنامه و جغرافیا",
-      "featuredImage": "@/assets/images/bookCat/19.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/19.png",
+      "listID": "travel_geography",
+      "label": "سفرنامه و جغرافیا"
     },
     {
       "id": 20,
-      "name": "religion_spirituality",
-      "label": "مذهب و معنویت",
-      "featuredImage": "@/assets/images/bookCat/20.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/20.png",
+      "listID": "religion_spirituality",
+      "label": "مذهب و معنویت"
     },
     {
       "id": 21,
-      "name": "psychology",
-      "label": "روانشناسی",
-      "featuredImage": "@/assets/images/bookCat/21.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/21.png",
+      "listID": "psychology",
+      "label": "روانشناسی"
     },
     {
       "id": 22,
-      "name": "young_adult",
-      "label": "ادبیات داستانی نوجوانان",
-      "featuredImage": "@/assets/images/bookCat/22.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/22.png",
+      "listID": "young_adult",
+      "label": "ادبیات داستانی نوجوانان"
     },
     {
       "id": 23,
-      "name": "children_literature",
-      "label": "ادبیات کودکان",
-      "featuredImage": "@/assets/images/bookCat/23.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/23.png",
+      "listID": "children_literature",
+      "label": "ادبیات کودکان"
     },
     {
       "id": 24,
-      "name": "new_adult",
-      "label": "ادبیات داستانی نوظهور",
-      "featuredImage": "@/assets/images/bookCat/24.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/24.png",
+      "listID": "new_adult",
+      "label": "ادبیات داستانی نوظهور"
     },
     {
       "id": 25,
-      "name": "humor_satire",
-      "label": "کمیک، طنز و هجو",
-      "featuredImage": "@/assets/images/bookCat/25.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/25.png",
+      "listID": "humor_satire",
+      "label": "کمیک، طنز و هجو"
     },
     {
       "id": 26,
-      "name": "short_stories",
-      "label": "داستان کوتاه مجموعه",
-      "featuredImage": "@/assets/images/bookCat/26.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/26.png",
+      "listID": "short_stories",
+      "label": "داستان کوتاه مجموعه"
     },
     {
       "id": 27,
-      "name": "classics",
-      "label": "ادبیات کلاسیک",
-      "featuredImage": "@/assets/images/bookCat/27.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/27.png",
+      "listID": "classics",
+      "label": "ادبیات کلاسیک"
     },
     {
       "id": 28,
-      "name": "dark_romance",
-      "label": "ادبیات داستانی ترسناک-عاشقانه",
-      "featuredImage": "@/assets/images/bookCat/28.png",
-      "apiUrl": "https://ketabishop.com/api/getlist/"
+      "featuredImage": "https://ketabishop.com/static/app/images/bookCat/28.png",
+      "listID": "dark_romance",
+      "label": "ادبیات داستانی ترسناک-عاشقانه"
     }
   ],
   "hobbits": [
