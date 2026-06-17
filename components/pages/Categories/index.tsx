@@ -58,14 +58,13 @@ export default function Categories() {
           />
 
           {genres.map((genre) => {
-            console.info(genre.id);
             return (
               <PreList
                 key={genre.id}
                 label={genre.label}
                 fImage={genre.featuredImage}
                 listItemRatio={0.64}
-                listId={genre.name}
+                listId={genre.listID}
               />
             );
           })}

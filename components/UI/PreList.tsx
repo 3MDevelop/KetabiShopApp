@@ -15,7 +15,7 @@ import { useRouter } from "expo-router";
 import { API } from "@/constants/api";
 
 interface PreListProps {
-  key?:any;
+  key?: any;
   label?: string;
   apiDetail?: string;
   listHeight?: number;
@@ -51,6 +51,7 @@ export default function PreList({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  console.info(listId)
   const apiUrl = API.GET_LIST;
 
   const fetchBookListFromAPI = useCallback(
@@ -204,12 +205,12 @@ export default function PreList({
             )}
             {!noMore && (
               <TouchableOpacity
-                onPress={() =>
+                onPress={() => {
                   router.push({
                     pathname: "/list",
-                    /* params: { listId }, */
-                  })
-                }
+                    params: { id:listId },
+                  });
+                }}
               >
                 <Ionicons name="arrow-back-sharp" size={22} color="gray" />
               </TouchableOpacity>

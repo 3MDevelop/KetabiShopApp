@@ -57,7 +57,7 @@ export default function BookDetail() {
       Toast.show({
         type: "error",
         text1: t("common.error"),
-        text2: t("book.invalidCode"),
+        text2: t("pages.Book.invalidCode"),
         position: "top",
         topOffset: 20,
         visibilityTime: 2000,
@@ -103,8 +103,8 @@ export default function BookDetail() {
   const addToCart = () => {
     Toast.show({
       type: "success",
-      text1: t("cart.added"),
-      text2: `${book?.title} ${t("cart.addedToCart")}`,
+      text1: t("common.cart.added"),
+      text2: `${book?.title} ${t("common.cart.addedToCart")}`,
       position: "top",
       topOffset: 20,
       visibilityTime: 2000,
@@ -117,8 +117,8 @@ export default function BookDetail() {
       type: "success",
       text1: wishlist ? t("common.removed") : t("common.added"),
       text2: wishlist
-        ? `${book?.title} ${t("book.removedFromWishlist")}`
-        : `${book?.title} ${t("book.addedToWishlist")}`,
+        ? `${book?.title} ${t("pages.Book.removedFromWishlist")}`
+        : `${book?.title} ${t("pages.Book.addedToWishlist")}`,
       position: "top",
       topOffset: 20,
       visibilityTime: 2000,
@@ -144,7 +144,7 @@ export default function BookDetail() {
         </View>
         <CustomText style={styles.errorTitle}>{t("book.notFound")}</CustomText>
         <CustomText style={styles.errorText}>
-          {t("book.notFoundDesc")}
+          {t("pages.Book.notFoundDesc")}
         </CustomText>
         <TouchableOpacity
           style={styles.errorBackButton}
@@ -186,7 +186,7 @@ export default function BookDetail() {
             />
           </TouchableOpacity>
           <CustomText style={styles.headerTitle}>
-            {t("book.details")}
+            {t("pages.Book.details")}
           </CustomText>
           <View style={{ width: 40 }} />
         </View>
@@ -209,7 +209,7 @@ export default function BookDetail() {
             {hasDiscount && (
               <View style={styles.discountBadge}>
                 <CustomText style={styles.discountBadgeText}>
-                  {book.percentFa}% {t("book.discount")}
+                  {book.percentFa}% {t("pages.Book.discount")}
                 </CustomText>
               </View>
             )}
@@ -221,7 +221,7 @@ export default function BookDetail() {
           <View style={styles.authorWrapper}>
             <Ionicons name="person-outline" size={18} color="#999" />
             <CustomText style={styles.bookAuthor}>
-              {book.author || t("book.unknownAuthor")}
+              {book.author || t("pages.Book.unknownAuthor")}
             </CustomText>
           </View>
         </View>
@@ -231,15 +231,15 @@ export default function BookDetail() {
             {hasDiscount ? (
               <>
                 <CustomText style={styles.oldPrice}>
-                  {Number(book.price).toLocaleString()} {t("cart.currency")}
+                  {Number(book.price).toLocaleString()} {t("common.cart.currency")}
                 </CustomText>
                 <CustomText style={styles.finalPrice}>
-                  {Number(finalPrice).toLocaleString()} {t("cart.currency")}
+                  {Number(finalPrice).toLocaleString()} {t("common.cart.currency")}
                 </CustomText>
               </>
             ) : (
               <CustomText style={styles.singlePrice}>
-                {Number(book.price).toLocaleString()} {t("cart.currency")}
+                {Number(book.price).toLocaleString()} {t("common.cart.currency")}
               </CustomText>
             )}
           </View>
@@ -252,7 +252,7 @@ export default function BookDetail() {
             >
               <Ionicons name="cart-outline" size={22} color="#fff" />
               <CustomText style={styles.cartButtonText}>
-                {isAvailable ? t("book.addToCart") : t("book.outOfStock")}
+                {isAvailable ? t("pages.Book.addToCart") : t("pages.Book.outOfStock")}
               </CustomText>
             </TouchableOpacity>
 
@@ -271,7 +271,7 @@ export default function BookDetail() {
 
         <View style={styles.infoCard}>
           <CustomText style={styles.cardTitle}>
-            {t("book.specifications")}
+            {t("pages.Book.specifications")}
           </CustomText>
 
           <View style={styles.infoGrid}>
@@ -281,7 +281,7 @@ export default function BookDetail() {
               </View>
               <View style={styles.infoText}>
                 <CustomText style={styles.infoLabel}>
-                  {t("book.publisher")}
+                  {t("pages.Book.publisher")}
                 </CustomText>
                 <CustomText style={styles.infoValue}>
                   {book.publisher || t("common.unknown")}
@@ -295,7 +295,7 @@ export default function BookDetail() {
               </View>
               <View style={styles.infoText}>
                 <CustomText style={styles.infoLabel}>
-                  {t("book.isbn")}
+                  {t("pages.Book.isbn")}
                 </CustomText>
                 <CustomText style={styles.infoValue}>
                   {book.isbn || t("common.unknown")}
@@ -313,11 +313,11 @@ export default function BookDetail() {
               </View>
               <View style={styles.infoText}>
                 <CustomText style={styles.infoLabel}>
-                  {t("book.pages")}
+                  {t("pages.Book.pages")}
                 </CustomText>
                 <CustomText style={styles.infoValue}>
                   {book.number_pages || t("common.unknown")}{" "}
-                  {t("book.pagesUnit")}
+                  {t("pages.Book.pagesUnit")}
                 </CustomText>
               </View>
             </View>
@@ -328,7 +328,7 @@ export default function BookDetail() {
               </View>
               <View style={styles.infoText}>
                 <CustomText style={styles.infoLabel}>
-                  {t("book.year")}
+                  {t("pages.Book.year")}
                 </CustomText>
                 <CustomText style={styles.infoValue}>
                   {book.publish_year || t("common.unknown")}
@@ -342,7 +342,7 @@ export default function BookDetail() {
               </View>
               <View style={styles.infoText}>
                 <CustomText style={styles.infoLabel}>
-                  {t("book.category")}
+                  {t("pages.Book.category")}
                 </CustomText>
                 <CustomText style={styles.infoValue}>
                   {book.main_category}{" "}
@@ -361,7 +361,7 @@ export default function BookDetail() {
               </View>
               <View style={styles.infoText}>
                 <CustomText style={styles.infoLabel}>
-                  {t("book.stock")}
+                  {t("pages.Book.stock")}
                 </CustomText>
                 <CustomText
                   style={[
@@ -369,7 +369,7 @@ export default function BookDetail() {
                     isAvailable ? styles.inStock : styles.outOfStock,
                   ]}
                 >
-                  {isAvailable ? t("book.inStock") : t("book.outOfStock")}
+                  {isAvailable ? t("pages.Book.inStock") : t("pages.Book.outOfStock")}
                 </CustomText>
               </View>
             </View>
@@ -379,7 +379,7 @@ export default function BookDetail() {
         {book.des_fa && (
           <View style={styles.descriptionCard}>
             <CustomText style={styles.cardTitle}>
-              📖 {t("book.description")}
+              📖 {t("pages.Book.description")}
             </CustomText>
             <CustomText style={styles.descriptionText}>
               {stripHtmlTags(book.des_fa)}

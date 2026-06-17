@@ -10,10 +10,9 @@ import { ActivityIndicator, View } from "react-native";
 // تعریف type صحیح برای داده‌های catList
 interface Genre {
   id: number;
-  name: string;
+  listID: string;
   label: string;
   featuredImage: string;
-  apiUrl: string;
 }
 
 interface CatListData {
