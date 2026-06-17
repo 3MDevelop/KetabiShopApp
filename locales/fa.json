@@ -47,8 +47,9 @@
       "loginRequired": "برای پرداخت، به حساب کاربری خود وارد شوید",
       "continueShopping": "ادامه خرید",
       "singleItem": "یک عدد",
-      "addedToCart": "به سبد خرید اضافه شد"
-      
+      "addedToCart": "به سبد خرید اضافه شد",
+      "added":"افزوده شد",
+      "removed": "حذف شد"
     }
   },
   "ui": {

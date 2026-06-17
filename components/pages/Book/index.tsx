@@ -79,6 +79,7 @@ export default function BookDetail() {
 
       if (result.status === true && result.data) {
         setBook(result.data);
+        console.info(result.data)
       }
     } catch (error) {
       console.error("Error fetching book details:", error);
@@ -103,8 +104,8 @@ export default function BookDetail() {
   const addToCart = () => {
     Toast.show({
       type: "success",
-      text1: t("cart.added"),
-      text2: `${book?.title} ${t("cart.addedToCart")}`,
+      text1: t("common.cart.added"),
+      text2: `${book?.title} ${t("common.cart.addedToCart")}`,
       position: "top",
       topOffset: 20,
       visibilityTime: 2000,
@@ -115,7 +116,7 @@ export default function BookDetail() {
     setWishlist(!wishlist);
     Toast.show({
       type: "success",
-      text1: wishlist ? t("common.removed") : t("common.added"),
+      text1: wishlist ? t("common.cart.removed") : t("common.cart.added"),
       text2: wishlist
         ? `${book?.title} ${t("pages.Book.removedFromWishlist")}`
         : `${book?.title} ${t("pages.Book.addedToWishlist")}`,
