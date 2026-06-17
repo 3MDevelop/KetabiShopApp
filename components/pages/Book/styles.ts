@@ -7,30 +7,39 @@ const isMobile = width < 768;
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f8f9fa",
   },
 
-  headerContainer:{
-    paddingHorizontal:20,
+  content: {
+    width: "100%",
+    padding: 20,
+    maxWidth: 950,
+    alignSelf: "center",
+  },
+
+  headerContainer: {
+    width: "100%",
+    alignSelf: "center",
+    maxWidth: 950,
+    paddingHorizontal: 20,
     backgroundColor: "#fff",
     borderBottomWidth: 1,
     borderBottomColor: "#f0f0f0",
+    borderBottomEndRadius: 12,
+    borderBottomStartRadius: 12,
   },
   scrollContent: {
     flexGrow: 1,
   },
-  // هدر
   header: {
-    width:"100%",
-    maxWidth:900,
-    alignSelf:"center",
+    width: "100%",
+    maxWidth: 900,
+    alignSelf: "center",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 16,
     paddingTop: 12,
     paddingBottom: 12,
-    
   },
   backButton: {
     width: 40,
@@ -45,13 +54,6 @@ export default StyleSheet.create({
     fontWeight: "600",
     color: "#333",
   },
-  content: {
-    padding: isMobile ? 16 : 24,
-    maxWidth: isMobile ? "100%" : 800,
-    alignSelf: "center",
-    width: "100%",
-  },
-  // بخش تصویر
   imageSection: {
     alignItems: "center",
     marginBottom: 24,
@@ -84,7 +86,6 @@ export default StyleSheet.create({
     fontSize: 12,
     fontWeight: "bold",
   },
-  // بخش عنوان
   titleSection: {
     alignItems: "center",
     marginBottom: 20,
@@ -106,7 +107,6 @@ export default StyleSheet.create({
     fontSize: 15,
     color: "#999",
   },
-  // بخش قیمت
   priceSection: {
     backgroundColor: "#fff",
     borderRadius: 16,
@@ -177,7 +177,6 @@ export default StyleSheet.create({
     backgroundColor: "#fff0f0",
     borderColor: "#f44336",
   },
-  // کارت اطلاعات
   infoCard: {
     backgroundColor: "#fff",
     borderRadius: 16,
@@ -234,7 +233,6 @@ export default StyleSheet.create({
   outOfStock: {
     color: "#f44336",
   },
-  // توضیحات
   descriptionCard: {
     backgroundColor: "#fff",
     borderRadius: 16,
@@ -252,7 +250,6 @@ export default StyleSheet.create({
     lineHeight: 24,
     textAlign: "justify",
   },
-  // حالت بارگذاری
   loadingContainer: {
     flex: 1,
     justifyContent: "center",

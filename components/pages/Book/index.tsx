@@ -56,7 +56,7 @@ export default function BookDetail() {
       setLoading(false);
       Toast.show({
         type: "error",
-        text1: t("common.error"),
+        text1: t("common.common.error"),
         text2: t("pages.Book.invalidCode"),
         position: "top",
         topOffset: 20,
@@ -103,8 +103,8 @@ export default function BookDetail() {
   const addToCart = () => {
     Toast.show({
       type: "success",
-      text1: t("common.cart.added"),
-      text2: `${book?.title} ${t("common.cart.addedToCart")}`,
+      text1: t("cart.added"),
+      text2: `${book?.title} ${t("cart.addedToCart")}`,
       position: "top",
       topOffset: 20,
       visibilityTime: 2000,
@@ -142,7 +142,7 @@ export default function BookDetail() {
         <View style={styles.errorIcon}>
           <Ionicons name="book-outline" size={80} color="#ccc" />
         </View>
-        <CustomText style={styles.errorTitle}>{t("book.notFound")}</CustomText>
+        <CustomText style={styles.errorTitle}>{t("pages.Book.notFound")}</CustomText>
         <CustomText style={styles.errorText}>
           {t("pages.Book.notFoundDesc")}
         </CustomText>
@@ -164,7 +164,6 @@ export default function BookDetail() {
   }
 
   const hasDiscount = book.discountFa && book.discountFa !== book.price;
-  const finalPrice = hasDiscount ? book.discountFa : book.price;
   const isAvailable = book.exist === "1";
 
   return (
@@ -173,6 +172,7 @@ export default function BookDetail() {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.scrollContent}
     >
+      
       <View style={styles.headerContainer}>
         <View style={styles.header}>
           <TouchableOpacity
@@ -231,10 +231,10 @@ export default function BookDetail() {
             {hasDiscount ? (
               <>
                 <CustomText style={styles.oldPrice}>
-                  {Number(book.price).toLocaleString()} {t("common.cart.currency")}
+                  {book.price} {t("common.cart.currency")}
                 </CustomText>
                 <CustomText style={styles.finalPrice}>
-                  {Number(finalPrice).toLocaleString()} {t("common.cart.currency")}
+                  {book.discountFa} {t("common.cart.currency")}
                 </CustomText>
               </>
             ) : (
@@ -284,7 +284,7 @@ export default function BookDetail() {
                   {t("pages.Book.publisher")}
                 </CustomText>
                 <CustomText style={styles.infoValue}>
-                  {book.publisher || t("common.unknown")}
+                  {book.publisher || t("common.common.unknown")}
                 </CustomText>
               </View>
             </View>
@@ -298,7 +298,7 @@ export default function BookDetail() {
                   {t("pages.Book.isbn")}
                 </CustomText>
                 <CustomText style={styles.infoValue}>
-                  {book.isbn || t("common.unknown")}
+                  {book.isbn || t("common.common.unknown")}
                 </CustomText>
               </View>
             </View>
@@ -331,7 +331,7 @@ export default function BookDetail() {
                   {t("pages.Book.year")}
                 </CustomText>
                 <CustomText style={styles.infoValue}>
-                  {book.publish_year || t("common.unknown")}
+                  {book.publish_year || t("common.common.unknown")}
                 </CustomText>
               </View>
             </View>
