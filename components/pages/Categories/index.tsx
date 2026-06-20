@@ -1,11 +1,11 @@
-import React, { useRef } from "react";
-import { ScrollView, View, Animated } from "react-native";
-import styles from "./styles";
+import FullWidthBanner from "@/components/Blocks/FullWidthBanner";
 import CustomText from "@/components/common/CustomText";
-import { useCat } from "@/context/CatContext";
-import PreList from "@/components/UI/PreList";
 import BackToTop from "@/components/UI/BackToTop";
-import FullWidthBanner from "@/components/UI/FullWidthBanner";
+import PreList from "@/components/UI/PreList";
+import { useCat } from "@/context/CatContext";
+import React, { useRe@/components/Blocks/PreList
+import { Animated, ScrollView, View } from "react-native";
+import styles from "./styles";
 
 export default function Categories() {
   const { catList, isLoading, error } = useCat();

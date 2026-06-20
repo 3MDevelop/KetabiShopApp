@@ -2,10 +2,17 @@ import React from "react";
 import { ScrollView, View } from "react-native";
 import styles from "./styles";
 
-import FullWidthBanner from "@/components/UI/FullWidthBanner";
-import PreList from "@/components/UI/PreList";
+import layoutData from "@/assets/data/index.json";
+import FullWidthBanner from "@/components/Blocks/FullWidthBanner";
+
 
 export default function HomePage() {
+  
+  
+  console.info(layoutData)
+
+
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
@@ -20,12 +27,9 @@ export default function HomePage() {
           imageSource={require("@/assets/images/fullWidthBanner.jpg")}
         />
 
-        <PreList
-          label="رمانتیک"
-          fImage={require("@/assets/images/bookCat/04.png")}
-          listItemRatio={0.64}
-          apiUrl="https://ketabishop.com/api/getlist/"
-        />
+        
+
+
       </View>
     </ScrollView>
   );

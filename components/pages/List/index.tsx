@@ -1,11 +1,11 @@
-import { View, Animated, ScrollView, ActivityIndicator } from "react-native";
-import { useLocalSearchParams } from "expo-router";
-import { useRef, useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { useLocalSearchParams } from "expo-router";
+import { useEffect, useRef, useState } from "react";
+import { ActivityIndicator, Animated, ScrollView, View } from "react-native";
 
-import BackToTop from "@/components/UI/BackToTop";
-import FullWidthBanner from "@/components/UI/FullWidthBanner";
+import FullWidthBanner from "@/components/Blocks/FullWidthBanner";
 import CustomText from "@/components/common/CustomText";
+import BackToTop from "@/components/UI/BackToTop";
 import BookThumb from "@/components/UI/BookThumb";
 
 import { API } from "@/constants/api";
