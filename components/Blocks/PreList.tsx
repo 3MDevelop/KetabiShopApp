@@ -6,13 +6,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useRef } from "react";
 import CustomText from "@/components/common/CustomText";
 import BookThumb from "@/components/UI/BookThumb";
 import { useResponsive } from "@/hooks/useResponsive";
 import { useRouter } from "expo-router";
-
-import { API } from "@/constants/api";
 
 interface PreListProps {
   key?: any;
@@ -25,6 +23,7 @@ interface PreListProps {
   backColor?: string;
   listId?: any;
   noBack?: boolean;
+  bookList?: any;
 }
 
 export default function PreList({
@@ -36,6 +35,7 @@ export default function PreList({
   backColor = "#fff",
   listId,
   noBack = false,
+  bookList,
 }: PreListProps) {
   const scrollX = useRef(0);
   const scrollViewRef = useRef<ScrollView>(null);
@@ -48,67 +48,8 @@ export default function PreList({
   const router = useRouter();
 
   const [books, setBooks] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
-  console.info(listId)
-  const apiUrl = API.GET_LIST;
-
-  const fetchBookListFromAPI = useCallback(
-    async (listIdParam: string = "1") => {
-      if (!apiUrl) {
-        setError("آدرس API مشخص نشده است");
-        setLoading(false);
-        return;
-      }
-
-      setLoading(true);
-      setError(null);
-      try {
-        const response = await fetch(apiUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: `list_id=${encodeURIComponent(listIdParam)}`,
-        });
-
-        const result = await response.json();
-
-        if (result.status === true && result.list) {
-          const formattedBooks = result.list.map(
-            (book: any, index: number) => ({
-              id: book.id,
-              name: book.book_title,
-              color: `hsl(${(index * 30) % 360}, 70%, 60%)`,
-              image: book.full_icon_address,
-              author: book.author_info,
-              price: book.main_price,
-              percent: book.percentFa,
-              discount: book.discountFa,
-            }),
-          );
-          setBooks(formattedBooks);
-        } else {
-          setError("خطا در دریافت اطلاعات از سرور");
-          setBooks([]);
-        }
-      } catch (err) {
-        console.error("خطا در ارتباط با سرور:", err);
-        setError("مشکل در ارتباط با سرور");
-        setBooks([]);
-      } finally {
-        setLoading(false);
-      }
-    },
-    [apiUrl],
-  );
-
-  useEffect(() => {
-    if (apiUrl) {
-      fetchBookListFromAPI(listId);
-    }
-  }, [listId, apiUrl, fetchBookListFromAPI]);
+  setBooks(bookList);
 
   const displayBooks = books;
 
@@ -126,52 +67,6 @@ export default function PreList({
       animated: true,
     });
   };
-
-  if (error) {
-    return (
-      <View
-        style={[
-          styles.categoryCard,
-          {
-            height: listHeight,
-            backgroundColor: backColor,
-            alignItems: "center",
-            justifyContent: "center",
-          },
-        ]}
-      >
-        <View style={styles.errorContainer}>
-          <Ionicons name="alert-circle-outline" size={48} color="#f44336" />
-          <CustomText style={styles.errorText}>{error}</CustomText>
-          <TouchableOpacity
-            style={styles.retryButton}
-            onPress={() => fetchBookListFromAPI(listId)}
-          >
-            <CustomText style={styles.retryText}>تلاش مجدد</CustomText>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  }
-
-  // حالت بارگذاری
-  if (loading) {
-    return (
-      <View
-        style={[
-          styles.categoryCard,
-          {
-            height: listHeight,
-            backgroundColor: backColor,
-            alignItems: "center",
-            justifyContent: "center",
-          },
-        ]}
-      >
-        <CustomText>در حال بارگذاری...</CustomText>
-      </View>
-    );
-  }
 
   if (displayBooks.length === 0) {
     return (
@@ -207,8 +102,8 @@ export default function PreList({
               <TouchableOpacity
                 onPress={() => {
                   router.push({
-                    pathname: "/list",
-                    params: { id:listId },
+                    pathname: "/bookList",
+                    params: { id: listId },
                   });
                 }}
               >

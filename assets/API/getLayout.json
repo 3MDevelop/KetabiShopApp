@@ -1,0 +1,15 @@
+[
+  {
+    "type": "fullWidthBanner",
+    "data": {
+      "isInner": true,
+      "url": "list",
+      "imageSource": "https://ketabishop.com/static/app/images/fullWidthBanner.jpg",
+      "height": "",
+      "text": "Ketabika App",
+      "textColor": "",
+      "fontSize": "",
+      "backImage": ""
+    }
+  }
+]

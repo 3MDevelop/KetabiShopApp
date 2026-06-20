@@ -1,4 +1,4 @@
-// components/DynamicRenderer.tsx
+// components/Blocks/DynamicRenderer.tsx
 import React from 'react';
 import { View } from 'react-native';
 import { componentRegistry, defaultComponent } from './registry';

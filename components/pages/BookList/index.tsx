@@ -3,7 +3,6 @@ import { useLocalSearchParams } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Animated, ScrollView, View } from "react-native";
 
-import FullWidthBanner from "@/components/Blocks/FullWidthBanner";
 import CustomText from "@/components/common/CustomText";
 import BackToTop from "@/components/UI/BackToTop";
 import BookThumb from "@/components/UI/BookThumb";
@@ -22,7 +21,7 @@ interface Book {
   discount?: number;
 }
 
-export default function List() {
+export default function BookList() {
   const params = useLocalSearchParams();
   const scrollY = useRef(new Animated.Value(0)).current;
   const scrollViewRef = useRef<ScrollView>(null);
@@ -34,11 +33,6 @@ export default function List() {
 
   const scrollToTop = () => {
     scrollViewRef.current?.scrollTo({ y: 0, animated: true });
-  };
-
-  const capitalizeFirstLetter = (str: string): string => {
-    if (!str) return "";
-    return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
   useEffect(() => {
@@ -90,7 +84,6 @@ export default function List() {
     fetchBooks();
   }, [listID]);
 
-  const displayText = listID ? capitalizeFirstLetter(listID as string) : "";
   const listItemRatio = 0.64;
 
   return (
@@ -107,19 +100,6 @@ export default function List() {
         persistentScrollbar={true}
       >
         <View style={styles.content}>
-          {listID && (
-            <FullWidthBanner
-              height={100}
-              fontSize={35}
-              text={displayText}
-              textColor="#06443a"
-              isInner
-              url="about"
-              imageSource={require("@/assets/images/fullWidthBanner.jpg")}
-            />
-          )}
-
-          {/* بارگذاری */}
           {loading && (
             <View style={styles.loadingContainer}>
               <ActivityIndicator size="large" color="#06443a" />

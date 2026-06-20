@@ -1,25 +1,19 @@
-/* genreAPI = "URL" */
-
 [
-
-    {
-        "lable":"genre 1",
-        "preList":[
-            ["bookName","bookAuther",15,45500,40500,"bookImageURL"],
-            ["bookName","bookAuther",15,45500,40500,"bookImageURL"],
-            ["bookName","bookAuther",15,45500,40500,"bookImageURL"],
-            ["bookName","bookAuther",15,45500,40500,"bookImageURL"],
-            ["bookName","bookAuther",15,45500,40500,"bookImageURL"],
-            ["bookName","bookAuther",15,45500,40500,"bookImageURL"],
-            ["bookName","bookAuther",15,45500,40500,"bookImageURL"],
-            ["bookName","bookAuther",15,45500,40500,"bookImageURL"],
-            ["bookName","bookAuther",15,45500,40500,"bookImageURL"],
-            ["bookName","bookAuther",15,45500,40500,"bookImageURL"]
-        ],
-        "listID":"genreID",
-        "gImage":"image url"
-    },
-    .
-    .
-    .
+  {
+    "lable": "genre 1",
+    "preList": [
+      ["bookName", "bookAuther", 15, 45500, 40500, "bookImageURL"],
+      ["bookName", "bookAuther", 15, 45500, 40500, "bookImageURL"],
+      ["bookName", "bookAuther", 15, 45500, 40500, "bookImageURL"],
+      ["bookName", "bookAuther", 15, 45500, 40500, "bookImageURL"],
+      ["bookName", "bookAuther", 15, 45500, 40500, "bookImageURL"],
+      ["bookName", "bookAuther", 15, 45500, 40500, "bookImageURL"],
+      ["bookName", "bookAuther", 15, 45500, 40500, "bookImageURL"],
+      ["bookName", "bookAuther", 15, 45500, 40500, "bookImageURL"],
+      ["bookName", "bookAuther", 15, 45500, 40500, "bookImageURL"],
+      ["bookName", "bookAuther", 15, 45500, 40500, "bookImageURL"]
+    ],
+    "listID": "genreID",
+    "gImage": "image url"
+  }
 ]

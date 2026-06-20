@@ -1,0 +1,20 @@
+pages
+  ├── Publisher book list   (getPulisherList , publisher )
+  ├── publisher list        (getPublisher    , null )
+  ├── book list             (getList         , listID)
+  ├── tag list              (getTag          , tagID)
+  ├── auth list             (getAuth         , authID)
+  ├── userCustomlist
+  |     ├── myFavorit       (getUserDataList  , myFavorit)
+  |     ├── myLibrary       (getUserDataList  , myLybrary)
+  |     └── myComment       (getUserDataList  , myComments)
+  └── defined list          (getList         , listID)
+
+
+
+Prelist
+  ├── single/more Image     (URL/URLs)
+  └── thumbList
+         ├── booklist
+         ├── publisher list
+         └── publisher book list
