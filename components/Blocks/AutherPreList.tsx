@@ -1,39 +1,36 @@
 import {
   View,
   StyleSheet,
-  Image,
   ScrollView,
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useState, useRef,useEffect } from "react";
 import CustomText from "@/components/common/CustomText";
-import BookThumb from "@/components/UI/BookThumb";
+import AutherThumb from "@/components/UI/AutherThumb";
 import { useResponsive } from "@/hooks/useResponsive";
 import { useRouter } from "expo-router";
 
 interface AutherPreListProps {
   label?: string;
-  fImage?: any;
   listHeight?: number;
   listItemRatio?: number;
   noMore?: boolean;
   backColor?: string;
   listId?: any;
   noBack?: boolean;
-  bookList?: any;
+  autherList?: any;
 }
 
 export default function AutherPreList({
   label,
-  fImage,
   listHeight = 300,
   listItemRatio = 0.64,
   noMore,
   backColor = "#fff",
   listId,
   noBack = false,
-  bookList,
+  autherList,
 }: AutherPreListProps) {
   const scrollX = useRef(0);
   const scrollViewRef = useRef<ScrollView>(null);
@@ -45,13 +42,13 @@ export default function AutherPreList({
   const { isMobile } = useResponsive();
   const router = useRouter();
 
-  const [books, setBooks] = useState<any[]>([]);
+  const [authers, setAuthers] = useState<any[]>([]);
 
   useEffect(() => {
-    setBooks(bookList);  
-  }, [bookList]);
+    setAuthers(autherList);  
+  }, [autherList]);
 
-  const displayBooks = books;
+  const displayAuther = authers;
 
   const scrollRight = () => {
     const newX = scrollX.current + scrollStep;
@@ -68,7 +65,7 @@ export default function AutherPreList({
     });
   };
 
-  if (displayBooks.length === 0) {
+  if (displayAuther.length === 0) {
     return (
       <View
         style={[
@@ -102,7 +99,7 @@ export default function AutherPreList({
               <TouchableOpacity
                 onPress={() => {
                   router.push({
-                    pathname: "/bookList",
+                    pathname: "/auther",
                     params: { id: listId },
                   });
                 }}
@@ -121,27 +118,6 @@ export default function AutherPreList({
             overflow: "hidden",
           }}
         >
-          {fImage && !isMobile && (
-            <View
-              style={{
-                height: "100%",
-                marginStart: 10,
-                aspectRatio: listItemRatio,
-                borderRadius: 8,
-                overflow: "hidden",
-              }}
-            >
-              <Image
-                source={fImage}
-                resizeMode="cover"
-                style={{
-                  height: "100%",
-                  width: "100%",
-                }}
-              />
-            </View>
-          )}
-
           <View style={styles.container}>
             {showLeftButton && !isMobile && (
               <TouchableOpacity
@@ -171,18 +147,16 @@ export default function AutherPreList({
               }}
               contentContainerStyle={styles.scrollContent}
             >
-              {displayBooks.map((book, index) => (
-                <BookThumb
-                  key={`${book.id}-${index}`}
-                  bookID={book.id}
-                  bookName={book.book_title}
-                  price={book.price}
-                  imageUrl={book.full_icon_address}
+              {displayAuther.map((auther, index) =>{ 
+                return(
+                <AutherThumb
+                  key={`${auther.id}-${index}`}
+                  autherID={auther.autherID}
+                  autherName={auther.name}
+                  imageUrl={auther.image}
                   ratio={listItemRatio}
-                  percent={book.percent}
-                  discount={book.discount}
                 />
-              ))}
+              )})}
             </ScrollView>
 
             {showRightButton && !isMobile && (
@@ -235,7 +209,7 @@ const styles = StyleSheet.create({
 
   scrollContent: {
     alignItems: "center",
-    gap: 10,
+    gap: 5,
   },
 
   navButton: {

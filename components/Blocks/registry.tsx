@@ -4,6 +4,7 @@ import FullWidthBanner from './FullWidthBanner';
 import BookPreList from './BookPreList';
 import AutherPreList from './AutherPreList';
 import PublisherPreList from './PublisherPreList';
+import TagPreList from './TagPreList';
 import { View, Text } from 'react-native';
 
 export const componentRegistry: Record<string, ComponentType<any>> = {
@@ -11,6 +12,7 @@ export const componentRegistry: Record<string, ComponentType<any>> = {
   'BookPreList': BookPreList,
   'AutherPreList': AutherPreList,
   'PublisherPreList': PublisherPreList,
+  'TagPreList':TagPreList,
 };
 
 export const defaultComponent = () => (
