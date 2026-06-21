@@ -1,42 +1,37 @@
 import {
   View,
   StyleSheet,
-  Image,
   ScrollView,
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useState, useRef } from "react";
+import { useState, useRef,useEffect } from "react";
 import CustomText from "@/components/common/CustomText";
-import BookThumb from "@/components/UI/BookThumb";
+import PublisherThumb from "@/components/UI/PublisherThumb";
 import { useResponsive } from "@/hooks/useResponsive";
 import { useRouter } from "expo-router";
 
-interface PreListProps {
-  key?: any;
+interface PublisherPreListProps {
   label?: string;
-  apiDetail?: string;
   listHeight?: number;
-  fImage?: any;
   listItemRatio?: number;
   noMore?: boolean;
   backColor?: string;
   listId?: any;
   noBack?: boolean;
-  bookList?: any;
+  pulisherList?: any;
 }
 
-export default function PreList({
+export default function PublisherPreList({
   label,
-  fImage,
   listHeight = 300,
   listItemRatio = 0.64,
   noMore,
   backColor = "#fff",
   listId,
   noBack = false,
-  bookList,
-}: PreListProps) {
+  pulisherList,
+}: PublisherPreListProps) {
   const scrollX = useRef(0);
   const scrollViewRef = useRef<ScrollView>(null);
   const [showLeftButton, setShowLeftButton] = useState(true);
@@ -47,11 +42,13 @@ export default function PreList({
   const { isMobile } = useResponsive();
   const router = useRouter();
 
-  const [books, setBooks] = useState<any[]>([]);
+  const [publishers, setPublishers] = useState<any[]>([]);
 
-  setBooks(bookList);
+  useEffect(() => {
+    setPublishers(pulisherList);  
+  }, [pulisherList]);
 
-  const displayBooks = books;
+  const displayPublisher = publishers;
 
   const scrollRight = () => {
     const newX = scrollX.current + scrollStep;
@@ -68,7 +65,7 @@ export default function PreList({
     });
   };
 
-  if (displayBooks.length === 0) {
+  if (displayPublisher.length === 0) {
     return (
       <View
         style={[
@@ -121,26 +118,7 @@ export default function PreList({
             overflow: "hidden",
           }}
         >
-          {fImage && !isMobile && (
-            <View
-              style={{
-                height: "100%",
-                marginStart: 10,
-                aspectRatio: listItemRatio,
-                borderRadius: 8,
-                overflow: "hidden",
-              }}
-            >
-              <Image
-                source={fImage}
-                resizeMode="cover"
-                style={{
-                  height: "100%",
-                  width: "100%",
-                }}
-              />
-            </View>
-          )}
+          
 
           <View style={styles.container}>
             {showLeftButton && !isMobile && (
@@ -171,19 +149,16 @@ export default function PreList({
               }}
               contentContainerStyle={styles.scrollContent}
             >
-              {displayBooks.map((book, index) => (
-                <BookThumb
-                  key={`${book.id}-${index}`}
-                  bookID={book.id}
-                  bookName={book.name}
-                  author={book.author}
-                  price={book.price}
-                  imageUrl={book.image}
+              {displayPublisher.map((publisher, index) =>{ 
+                return(
+                <PublisherThumb
+                  key={`${publisher.id}-${index}`}
+                  publisherID={publisher.publisherID}
+                  publisherName={publisher.name}
+                  imageUrl={publisher.fImage}
                   ratio={listItemRatio}
-                  percent={book.percent}
-                  discount={book.discount}
                 />
-              ))}
+              )})}
             </ScrollView>
 
             {showRightButton && !isMobile && (
@@ -236,7 +211,7 @@ const styles = StyleSheet.create({
 
   scrollContent: {
     alignItems: "center",
-    gap: 10,
+    gap: 5,
   },
 
   navButton: {

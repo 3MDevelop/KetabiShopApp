@@ -19,7 +19,6 @@ interface BookThumbProps {
 export default function BookThumb({
   bookID,
   bookName,
-  author,
   price,
   imageUrl,
   ratio,
@@ -114,13 +113,10 @@ export default function BookThumb({
           variant="caption"
           style={{ fontSize: 15, marginBottom: 8 }}
           center
-          singleLine
         >
           {bookName}
         </CustomText>
-        <CustomText singleLine variant="caption">
-          {author}{" "}
-        </CustomText>
+        
         {percent && (
           <View
             style={{

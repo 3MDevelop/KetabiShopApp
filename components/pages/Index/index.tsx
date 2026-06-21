@@ -29,7 +29,6 @@ export default function HomePage() {
         console.info(result)
 
         if (result.status === true && result.data) {
-          /* console.info("داده‌های layout دریافت شد:", result.data); */
           setLayoutData(result.data);
         } else {
           console.warn("پاسخ API موفقیت‌آمیز نبود:", result);

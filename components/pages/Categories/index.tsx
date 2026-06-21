@@ -1,7 +1,7 @@
 import FullWidthBanner from "@/components/Blocks/FullWidthBanner";
 import CustomText from "@/components/common/CustomText";
 import BackToTop from "@/components/UI/BackToTop";
-import PreList from "@/components/Blocks/PreList";
+import BookPreList from "@/components/Blocks/BookPreList";
 import { useCat } from "@/context/CatContext";
 import React ,{useRef} from "react";
 import { Animated, ScrollView, View } from "react-native";
@@ -60,7 +60,7 @@ export default function Categories() {
 
           {genres.map((genre) => {
             return (
-              <PreList
+              <BookPreList
                 key={genre.id}
                 label={genre.label}
                 fImage={genre.featuredImage}
