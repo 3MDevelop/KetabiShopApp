@@ -177,8 +177,7 @@ export default function AutherPreList({
 const styles = StyleSheet.create({
   categoryCard: {
     borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
+    padding: 8,
     width: "100%",
   },
 

@@ -1,29 +1,51 @@
-import { Ionicons } from "@expo/vector-icons";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import CustomText from "@/components/common/CustomText";
+import { useRouter } from "expo-router";
+
 
 interface TagBoxProps {
   height?: number;
   backColor?: string;
   tagText?: string;
   textColor?: string;
-  iconName?: keyof typeof Ionicons.glyphMap;
+  tagID?: string;
 }
 
 export default function TagBox({
   height = 30,
-  backColor = "#f0f0f0",
+  backColor = "#08a537",
   tagText = "Tag",
-  textColor = "#333",
-  iconName = "heart-half-sharp",
+  textColor = "#ffffff",
+  tagID
 }: TagBoxProps) {
+    const router = useRouter();
+  
   return (
-    <View style={[styles.container, { height, backgroundColor: backColor }]}>
-      <Ionicons name={iconName} size={16} color={textColor} />
-      <CustomText style={[styles.text, { color: textColor }]}>
+    <TouchableOpacity
+      onPress={() => {
+        router.push({
+          pathname: "/tag",
+          params: { id: tagID },
+        });
+      }}
+      style={[styles.container, { height, backgroundColor: backColor }]}
+    >
+      <View
+        style={{
+          backgroundColor: "white",
+          aspectRatio: 1,
+          width: 18,
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 6,
+        }}
+      >
+        <Text style={{ fontWeight: "bold", color: "green" }}>#</Text>
+      </View>
+      <CustomText style={[styles.text, { color: textColor, paddingTop: 3 }]}>
         {tagText}
       </CustomText>
-    </View>
+    </TouchableOpacity>
   );
 }
 
@@ -33,7 +55,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 12,
-    borderRadius: 8,
+    borderRadius: 6,
     gap: 6,
   },
   text: {

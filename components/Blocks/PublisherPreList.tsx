@@ -150,7 +150,7 @@ export default function PublisherPreList({
               contentContainerStyle={styles.scrollContent}
             >
               {displayPublisher.map((publisher, index) =>{ 
-                return(
+                return(<>
                 <PublisherThumb
                   key={`${publisher.id}-${index}`}
                   publisherID={publisher.publisherID}
@@ -158,6 +158,7 @@ export default function PublisherPreList({
                   imageUrl={publisher.fImage}
                   ratio={listItemRatio}
                 />
+                </>
               )})}
             </ScrollView>
 
@@ -179,8 +180,7 @@ export default function PublisherPreList({
 const styles = StyleSheet.create({
   categoryCard: {
     borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
+    padding: 8,
     width: "100%",
   },
 

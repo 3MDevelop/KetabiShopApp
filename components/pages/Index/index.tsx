@@ -26,7 +26,6 @@ export default function HomePage() {
 
         const result = await response.json();
 
-        console.info(result)
 
         if (result.status === true && result.data) {
           setLayoutData(result.data);
