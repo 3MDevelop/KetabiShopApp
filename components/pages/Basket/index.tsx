@@ -194,7 +194,7 @@ export default function Basket() {
             >
               <Ionicons name="book-outline" size={20} color="#fff" />
               <CustomText style={styles.shopButtonText}>
-                {t("common.cart.viewProducts")}
+                {t("common.product.viewProducts")}
               </CustomText>
               <Ionicons
                 name={isRTL ? "arrow-back" : "arrow-forward"}

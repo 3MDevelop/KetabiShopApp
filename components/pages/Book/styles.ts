@@ -1,31 +1,39 @@
 // app/book/styles.ts
-import { StyleSheet, Dimensions } from "react-native";
-
-const { width } = Dimensions.get("window");
-const isMobile = width < 768;
+import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
+    paddingBottom:30
   },
 
   content: {
     width: "100%",
-    padding: 20,
+    paddingHorizontal: 12,
+    paddingTop: 16,
     maxWidth: 950,
     alignSelf: "center",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    alignItems: "stretch",
   },
 
   headerContainer: {
     width: "100%",
+    flexDirection:"row",
+    justifyContent:"center",
+    alignItems:"center",
     alignSelf: "center",
     maxWidth: 950,
     paddingHorizontal: 20,
     backgroundColor: "#fff",
     borderBottomWidth: 1,
     borderBottomColor: "#f0f0f0",
-    borderBottomEndRadius: 12,
-    borderBottomStartRadius: 12,
+    borderBottomEndRadius: 8,
+    borderBottomStartRadius: 8,
+    paddingTop:20,
+    paddingBottom:12
   },
   scrollContent: {
     flexGrow: 1,
@@ -37,9 +45,6 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 16,
-    paddingTop: 12,
-    paddingBottom: 12,
   },
   backButton: {
     width: 40,
@@ -56,16 +61,16 @@ export default StyleSheet.create({
   },
   imageSection: {
     alignItems: "center",
-    marginBottom: 24,
+    marginBottom: 12,
+    
   },
   imageWrapper: {
     position: "relative",
+    
   },
   detailImage: {
-    width: isMobile ? 180 : 220,
-    height: isMobile ? 270 : 330,
-    borderRadius: 16,
-    backgroundColor: "#f0f0f0",
+    width: "100%",
+    height: "100%",
   },
   noImage: {
     justifyContent: "center",
@@ -74,8 +79,8 @@ export default StyleSheet.create({
   },
   discountBadge: {
     position: "absolute",
-    top: -10,
-    right: -10,
+    top: 10,
+    right: -15,
     backgroundColor: "#f44336",
     paddingHorizontal: 12,
     paddingVertical: 6,
@@ -88,15 +93,12 @@ export default StyleSheet.create({
   },
   titleSection: {
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 12,
   },
   bookTitle: {
-    fontSize: isMobile ? 22 : 26,
     fontWeight: "bold",
     color: "#1a1a1a",
     textAlign: "center",
-    lineHeight: isMobile ? 32 : 38,
-    marginBottom: 8,
   },
   authorWrapper: {
     flexDirection: "row",
@@ -109,9 +111,9 @@ export default StyleSheet.create({
   },
   priceSection: {
     backgroundColor: "#fff",
-    borderRadius: 16,
+    borderRadius: 8,
     padding: 16,
-    marginBottom: 16,
+    marginBottom: 12,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
@@ -120,7 +122,7 @@ export default StyleSheet.create({
   },
   priceWrapper: {
     alignItems: "center",
-    marginBottom: 16,
+    marginBottom: 12,
     paddingBottom: 16,
     borderBottomWidth: 1,
     borderBottomColor: "#f0f0f0",
@@ -150,7 +152,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "#4CAF50",
     paddingVertical: 14,
-    borderRadius: 12,
+    borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
@@ -166,7 +168,7 @@ export default StyleSheet.create({
   wishlistButton: {
     width: 52,
     height: 52,
-    borderRadius: 12,
+    borderRadius: 8,
     backgroundColor: "#f5f5f5",
     alignItems: "center",
     justifyContent: "center",
@@ -179,7 +181,7 @@ export default StyleSheet.create({
   },
   infoCard: {
     backgroundColor: "#fff",
-    borderRadius: 16,
+    borderRadius: 8,
     padding: 16,
     marginBottom: 16,
     shadowColor: "#000",
@@ -192,7 +194,7 @@ export default StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: "#333",
-    marginBottom: 16,
+    marginBottom: 12,
   },
   infoGrid: {
     flexDirection: "row",
@@ -201,10 +203,7 @@ export default StyleSheet.create({
   },
   infoItem: {
     flexDirection: "row",
-    width: isMobile ? "100%" : "48%",
     alignItems: "center",
-    gap: 12,
-    paddingVertical: 8,
   },
   infoIcon: {
     width: 36,
@@ -216,10 +215,13 @@ export default StyleSheet.create({
   },
   infoText: {
     flex: 1,
+    flexDirection: "row",
+    gap: 16,
   },
   infoLabel: {
     fontSize: 12,
     color: "#999",
+    marginRight:16,
     marginBottom: 2,
   },
   infoValue: {
@@ -235,7 +237,7 @@ export default StyleSheet.create({
   },
   descriptionCard: {
     backgroundColor: "#fff",
-    borderRadius: 16,
+    borderRadius: 8,
     padding: 16,
     marginBottom: 24,
     shadowColor: "#000",
@@ -243,6 +245,8 @@ export default StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 8,
     elevation: 3,
+    width:"100%"
+
   },
   descriptionText: {
     fontSize: 14,
