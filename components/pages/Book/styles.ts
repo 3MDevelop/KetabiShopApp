@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    paddingBottom:30
+    paddingBottom: 30,
   },
 
   content: {
@@ -21,9 +21,9 @@ export default StyleSheet.create({
 
   headerContainer: {
     width: "100%",
-    flexDirection:"row",
-    justifyContent:"center",
-    alignItems:"center",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     alignSelf: "center",
     maxWidth: 950,
     paddingHorizontal: 20,
@@ -32,8 +32,8 @@ export default StyleSheet.create({
     borderBottomColor: "#f0f0f0",
     borderBottomEndRadius: 8,
     borderBottomStartRadius: 8,
-    paddingTop:20,
-    paddingBottom:12
+    paddingTop: 20,
+    paddingBottom: 12,
   },
   scrollContent: {
     flexGrow: 1,
@@ -62,11 +62,11 @@ export default StyleSheet.create({
   imageSection: {
     alignItems: "center",
     marginBottom: 12,
-    
+    borderRadius: 8,
+    overflow: "hidden",
   },
   imageWrapper: {
     position: "relative",
-    
   },
   detailImage: {
     width: "100%",
@@ -79,12 +79,12 @@ export default StyleSheet.create({
   },
   discountBadge: {
     position: "absolute",
-    top: 10,
-    right: -15,
+    right: 0,
     backgroundColor: "#f44336",
-    paddingHorizontal: 12,
+    paddingHorizontal: 24,
     paddingVertical: 6,
-    borderRadius: 20,
+
+    borderBottomStartRadius: 20,
   },
   discountBadgeText: {
     color: "#fff",
@@ -221,7 +221,7 @@ export default StyleSheet.create({
   infoLabel: {
     fontSize: 12,
     color: "#999",
-    marginRight:16,
+    marginRight: 16,
     marginBottom: 2,
   },
   infoValue: {
@@ -245,8 +245,7 @@ export default StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 8,
     elevation: 3,
-    width:"100%"
-
+    width: "100%",
   },
   descriptionText: {
     fontSize: 14,
@@ -307,5 +306,31 @@ export default StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "600",
+  },
+  sectionNavbar: {
+    flexDirection: "row",
+    width: "100%",
+    borderBottomWidth: 2,
+    borderBottomColor: "#e2e2e2",
+    marginBottom: 12,
+  },
+  sectionNavbarItems: {
+    borderBottomColor: "orange",
+    borderBottomWidth: 2,
+    marginHorizontal: 8,
+    paddingHorizontal: 8,
+  },
+  commentsCard: {
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    overflow: "hidden",
+    marginBottom: 24,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.07,
+    shadowRadius: 8,
+    elevation: 3,
+    width: "100%",
+    flexWrap: "wrap",
   },
 });

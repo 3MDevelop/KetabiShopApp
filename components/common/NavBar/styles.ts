@@ -7,7 +7,6 @@ export default StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     justifyContent: "center",
-
     height: 120,
   },
   NavBar: {

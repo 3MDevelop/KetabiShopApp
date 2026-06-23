@@ -133,7 +133,7 @@ export default function BookPreList({
             >
               <Image
                 source={fImage}
-                resizeMode="cover"
+                resizeMode="contain"
                 style={{
                   height: "100%",
                   width: "100%",

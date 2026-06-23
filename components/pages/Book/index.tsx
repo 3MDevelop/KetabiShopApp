@@ -12,6 +12,7 @@ import {
   ScrollView,
   TouchableOpacity,
   View,
+  TextInput,
 } from "react-native";
 import Toast from "react-native-toast-message";
 import styles from "./styles";
@@ -21,6 +22,15 @@ import { useAuth } from "@/hooks/useAuth";
 import { LinearGradient } from "expo-linear-gradient";
 
 import BookPreList from "@/components/Blocks/BookPreList";
+import CommentBox from "@/components/UI/CommentBox";
+
+interface Comment {
+  id: string | number;
+  userName: string;
+  comment: string;
+  rating?: number;
+  date?: string;
+}
 
 interface BookData {
   id: string;
@@ -40,6 +50,13 @@ interface BookData {
   publish_year: string;
   exist: string;
 }
+
+const headerSection = [
+  "توضیحات کتاب",
+  "این انتشارات",
+  "این نویسنده",
+  "نظرات کاربران",
+];
 
 const stripHtmlTags = (html: string) => {
   if (!html) return "";
@@ -61,6 +78,45 @@ export default function BookDetail() {
   const router = useRouter();
   const { t } = useTranslate();
   const { isRTL } = useLanguage();
+
+  // Comment states
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [commentsLoading, setCommentsLoading] = useState(true);
+  const [newComment, setNewComment] = useState("");
+  const [commentRating, setCommentRating] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    const fetchCommentData = async () => {
+      try {
+        const response = await fetch("https://ketabishop.com/api/getstatic/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `name=getComments`,
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        if (result.status === true && result.data) {
+          setComments(result.data);
+        } else {
+          console.warn("پاسخ API موفقیت‌آمیز نبود:", result);
+        }
+      } catch (error) {
+        console.error("خطا در دریافت layout:", error);
+      } finally {
+        setCommentsLoading(false);
+      }
+    };
+
+    fetchCommentData();
+  }, []);
 
   const haveSound = true;
 
@@ -92,7 +148,8 @@ export default function BookDetail() {
 
       if (result.status === true && result.data) {
         setBook(result.data);
-        console.info(result.data);
+        /*         console.info(result.data);
+         */
       }
     } catch (error) {
       console.error("Error fetching book details:", error);
@@ -137,6 +194,87 @@ export default function BookDetail() {
       topOffset: 20,
       visibilityTime: 2000,
     });
+  };
+
+  // Rating Stars Component
+  const RatingStars = ({
+    rating,
+    onRate,
+  }: {
+    rating: number;
+    onRate: (value: number) => void;
+  }) => {
+    return (
+      <View style={{ flexDirection: "row", gap: 4, alignItems: "center" }}>
+        {[1, 2, 3, 4, 5].map((star) => (
+          <TouchableOpacity
+            key={star}
+            onPress={() => onRate(star)}
+            activeOpacity={0.7}
+          >
+            <Ionicons
+              name={star <= rating ? "star" : "star-outline"}
+              size={16}
+              color={star <= rating ? "#FFD700" : "#ccc"}
+            />
+          </TouchableOpacity>
+        ))}
+      </View>
+    );
+  };
+
+  // Submit Comment
+  const handleSubmitComment = async () => {
+    if (!newComment.trim()) {
+      Toast.show({
+        type: "error",
+        text1: "خطا",
+        text2: "لطفاً متن نظر را وارد کنید",
+      });
+      return;
+    }
+
+    if (!isLoggedIn) {
+      Toast.show({
+        type: "error",
+        text1: "نیاز به ورود",
+        text2: "برای ثبت نظر وارد حساب خود شوید",
+      });
+      router.push("/login");
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      // شبیه‌سازی ارسال به API
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      const newCommentObj: Comment = {
+        id: Date.now(),
+        userName: "کاربر فعلی",
+        comment: newComment,
+        rating: commentRating,
+        date: new Date().toLocaleDateString("fa-IR"),
+      };
+
+      setComments([newCommentObj, ...comments]);
+      setNewComment("");
+      setCommentRating(0);
+
+      Toast.show({
+        type: "success",
+        text1: "موفق",
+        text2: "نظر شما با موفقیت ثبت شد",
+      });
+    } catch {
+      Toast.show({
+        type: "error",
+        text1: "خطا",
+        text2: "مشکل در ثبت نظر",
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (loading) {
@@ -188,7 +326,7 @@ export default function BookDetail() {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.scrollContent}
     >
-      <View style={styles.headerContainer}>
+      <View style={[styles.headerContainer]}>
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.backButton}
@@ -225,7 +363,7 @@ export default function BookDetail() {
           {hasDiscount && (
             <View style={styles.discountBadge}>
               <CustomText style={styles.discountBadgeText}>
-                {book.percentFa}% {t("pages.Book.discount")}
+                {book.percentFa}%
               </CustomText>
             </View>
           )}
@@ -449,31 +587,14 @@ export default function BookDetail() {
           </View>
         </View>
 
-        <View
-          style={{
-            flexDirection: "row",
-            paddingVertical: 12,
-            width: "100%",
-            borderBottomWidth: 2,
-            borderBottomColor: "#cfcfcf",
-            marginBottom: 12,
-            height: 70,
-          }}
-        >
-          <View style={{ borderBottomColor: "orange", borderBottomWidth: 5 }}>
-            <CustomText variant="body" style={{ fontSize: 16 }}>
-              توضیحات کتاب
-            </CustomText>
-          </View>
-          <CustomText variant="body" style={{ fontSize: 16 }}>
-            از همین انتشارات
-          </CustomText>
-          <CustomText variant="body" style={{ fontSize: 16 }}>
-            همین نویسنده
-          </CustomText>
-          <CustomText variant="body" style={{ fontSize: 16 }}>
-            نظرات کاربران
-          </CustomText>
+        <View style={styles.sectionNavbar}>
+          {headerSection.map((title, index) => (
+            <View key={index} style={styles.sectionNavbarItems}>
+              <CustomText variant="discription" style={{ paddingVertical: 12 }}>
+                {title}
+              </CustomText>
+            </View>
+          ))}
         </View>
 
         {book.des_fa && (
@@ -552,6 +673,159 @@ export default function BookDetail() {
             noBack={false}
             bookList={BookListData}
           />
+        </View>
+
+        <View
+          style={[
+            styles.commentsCard,
+            {
+              flexDirection: isMobile ? "column" : "row",
+              backgroundColor: "#fcfcfc",
+              padding: 16,
+            },
+          ]}
+        >
+          {commentsLoading ? (
+            <View style={{ padding: 20, alignItems: "center", width: "100%" }}>
+              <ActivityIndicator size="large" color="#007AFF" />
+              <CustomText>در حال دریافت اطلاعات...</CustomText>
+            </View>
+          ) : (
+            <>
+              {/* فرم ثبت نظر */}
+              <View
+                style={{
+                  width: isMobile ? "100%" : "40%",
+                  paddingHorizontal: 8,
+                  marginBottom: isMobile ? 16 : 0,
+                  justifyContent: "space-between",
+                }}
+              >
+                <CustomText variant="h4" bold style={{ marginBottom: 12 }}>
+                  ثبت نظر
+                </CustomText>
+
+                {/* ریتینگ */}
+                <View
+                  style={{
+                    marginBottom: 12,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 12,
+                  }}
+                >
+                  <CustomText
+                    variant="caption"
+                    style={{ marginBottom: 4, color: "#666", paddingTop: 8 }}
+                  >
+                    امتیاز شما
+                  </CustomText>
+                  <RatingStars
+                    rating={commentRating}
+                    onRate={setCommentRating}
+                  />
+                </View>
+
+                {/* ورودی متن */}
+                <TextInput
+                  style={{
+                    borderWidth: 1,
+                    borderColor: "#ddd",
+                    borderRadius: 8,
+                    padding: 12,
+                    minHeight: 100,
+                    flexGrow: 1,
+                    textAlignVertical: "top",
+                    backgroundColor: "#fff",
+                  }}
+                  placeholder="نظر خود را بنویسید..."
+                  placeholderTextColor="#999"
+                  value={newComment}
+                  onChangeText={setNewComment}
+                  multiline
+                  numberOfLines={4}
+                />
+
+                {/* دکمه ارسال */}
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: newComment.trim() ? "#007AFF" : "#ccc",
+                    paddingVertical: 12,
+                    borderRadius: 8,
+                    marginTop: 12,
+                    alignItems: "center",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    gap: 8,
+                  }}
+                  onPress={handleSubmitComment}
+                  disabled={!newComment.trim() || submitting}
+                >
+                  {submitting ? (
+                    <ActivityIndicator size="small" color="#fff" />
+                  ) : (
+                    <>
+                      <Ionicons name="send-outline" size={20} color="#fff" />
+                      <CustomText style={{ color: "#fff", fontWeight: "bold" }}>
+                        ارسال نظر
+                      </CustomText>
+                    </>
+                  )}
+                </TouchableOpacity>
+
+                {/* هشدار ورود */}
+                {!isLoggedIn && (
+                  <TouchableOpacity
+                    style={{ marginTop: 8, alignItems: "center" }}
+                    onPress={() => router.push("/login")}
+                  >
+                    <CustomText variant="caption" style={{ color: "#007AFF" }}>
+                      برای ثبت نظر وارد حساب خود شوید
+                    </CustomText>
+                  </TouchableOpacity>
+                )}
+              </View>
+
+              {/* لیست نظرات */}
+              <ScrollView
+                style={{
+                  paddingHorizontal: 8,
+                  width: isMobile ? "100%" : "60%",
+                  maxHeight: 350,
+                }}
+              >
+                {comments.length > 0 ? (
+                  comments.map((comment, index) => (
+                    <CommentBox
+                      key={comment.id || index}
+                      userName={comment.userName}
+                      userComments={comment.comment}
+                      /* rating={comment.rating} */
+                    />
+                  ))
+                ) : (
+                  <View
+                    style={{
+                      minHeight: 100,
+                      width: "100%",
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Ionicons
+                      name="chatbox-ellipses-outline"
+                      size={32}
+                      color="#007AFF"
+                    />
+                    <CustomText variant="h4" style={{ marginHorizontal: 8 }}>
+                      هنوز نظری ثبت نشده
+                    </CustomText>
+                  </View>
+                )}
+              </ScrollView>
+            </>
+          )}
         </View>
       </View>
     </ScrollView>

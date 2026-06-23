@@ -57,17 +57,16 @@ export default function TagPreList({
   if (displayTag.length === 0) {
     return (
       <View
-        style={[
-          styles.categoryCard,
-          {
-            height: listHeight,
-            backgroundColor: backColor,
-            alignItems: "center",
-            justifyContent: "center",
-          },
-        ]}
+        style={{
+          width: "100%",
+          paddingHorizontal: 8,
+          height: listHeight,
+          backgroundColor: backColor,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
-        <CustomText>هیچ کتابی یافت نشد</CustomText>
+        <CustomText>noTag Found</CustomText>
       </View>
     );
   }
@@ -75,7 +74,10 @@ export default function TagPreList({
   return (
     <View style={{ width: "100%" }}>
       <View
-        style={[styles.categoryCard, !noBack && { backgroundColor: backColor }]}
+        style={[
+          
+          !noBack && { backgroundColor: backColor },
+        ]}
       >
         <View
           style={{
@@ -115,18 +117,16 @@ export default function TagPreList({
               contentContainerStyle={styles.scrollContent}
             >
               {displayTag.map((tag, index) => {
-                console.info(tag.text)
+                console.info(tag.text);
                 return (
-                  
-                    <TagBox
-                      key={`${tag.id}-${index}`}
-                      backColor={itemsBackColor}
-                      height={listHeight}
-                      tagText={tag.text}
-                      textColor={tagTextColor}
-                      tagID={tag.tagID}
-                    />
-                  
+                  <TagBox
+                    key={`${tag.id}-${index}`}
+                    /* backColor={itemsBackColor} */
+                    height={listHeight}
+                    tagText={tag.text}
+                    /* textColor={tagTextColor} */
+                    tagID={tag.tagID}
+                  />
                 );
               })}
             </ScrollView>
@@ -147,13 +147,6 @@ export default function TagPreList({
 }
 
 const styles = StyleSheet.create({
-  categoryCard: {
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
-    width: "100%",
-  },
-
   header: {
     width: "100%",
   },
@@ -181,7 +174,7 @@ const styles = StyleSheet.create({
 
   scrollContent: {
     alignItems: "center",
-    gap: 5,
+    gap: 18,
   },
 
   navButton: {

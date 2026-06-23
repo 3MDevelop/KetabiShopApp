@@ -1,7 +1,6 @@
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import CustomText from "@/components/common/CustomText";
 import { useRouter } from "expo-router";
-
 
 interface TagBoxProps {
   height?: number;
@@ -13,13 +12,13 @@ interface TagBoxProps {
 
 export default function TagBox({
   height = 30,
-  backColor = "#08a537",
+  backColor = "#d1d1d1",
   tagText = "Tag",
-  textColor = "#ffffff",
-  tagID
+  textColor = "#464646",
+  tagID,
 }: TagBoxProps) {
-    const router = useRouter();
-  
+  const router = useRouter();
+
   return (
     <TouchableOpacity
       onPress={() => {
@@ -30,20 +29,11 @@ export default function TagBox({
       }}
       style={[styles.container, { height, backgroundColor: backColor }]}
     >
-      <View
-        style={{
-          backgroundColor: "white",
-          aspectRatio: 1,
-          width: 18,
-          justifyContent: "center",
-          alignItems: "center",
-          borderRadius: 6,
-        }}
+      <CustomText
+        bold
+        style={[styles.text, { color: textColor, paddingTop: 3 }]}
       >
-        <Text style={{ fontWeight: "bold", color: "green" }}>#</Text>
-      </View>
-      <CustomText style={[styles.text, { color: textColor, paddingTop: 3 }]}>
-        {tagText}
+        {tagText} #
       </CustomText>
     </TouchableOpacity>
   );
@@ -54,9 +44,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 12,
-    borderRadius: 6,
+    paddingHorizontal: 16,
+    borderRadius: 50,
     gap: 6,
+    borderWidth: 0.5,
+    borderColor: "#7c7c7c",
   },
   text: {
     fontSize: 12,
