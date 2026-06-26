@@ -68,7 +68,7 @@ const stripHtmlTags = (html: string) => {
 
 export default function BookDetail() {
   const { isMobile } = useResponsive();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn,user } = useAuth();
   const [showMore, setShowMore] = useState(false);
 
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -319,6 +319,10 @@ export default function BookDetail() {
 
   const hasDiscount = book.discountFa && book.discountFa !== book.price;
   const isAvailable = book.exist === "1";
+
+
+console.info(user?.basket.length)
+
 
   return (
     <ScrollView

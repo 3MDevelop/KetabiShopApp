@@ -65,5 +65,32 @@
       "commentID": 987987
     }
   ],
+  "basketList":[
+    {
+      "bookID":112233,
+      "count":1,
+      "authConfig":321
+    },
+    {
+      "bookID":43563456,
+      "count":1,
+      "authConfig":321
+    },
+    {
+      "bookID":123123,
+      "count":1,
+      "authConfig":321
+    },
+    {
+      "bookID":967789,
+      "count":1,
+      "authConfig":321
+    },
+    {
+      "bookID":896785,
+      "count":1,
+      "authConfig":321
+    }
+  ],
   "paymentList": [3456, 3456, 3456, 3456]
 }

@@ -7,6 +7,7 @@ import { useRef } from "react";
 import { Image, TouchableOpacity, View } from "react-native";
 import CustomText from "@/components/common/CustomText";
 import { useTheme } from "@/context/ThemeContext";
+import { useAuth } from "@/hooks/useAuth";
 
 import styles from "./styles";
 
@@ -16,6 +17,8 @@ export default function NavBar({ Colors, appTheme }: any) {
   const router = useRouter();
   const { t } = useTranslate();
   const { theme } = useTheme();
+
+  const {user} = useAuth()
 
   return (
     <>
@@ -102,7 +105,11 @@ export default function NavBar({ Colors, appTheme }: any) {
                 style={[{ color: "#dbdbdb", marginBottom: 3 }]}
               />
               <View style={styles.basketBadge}>
-                <CustomText style={styles.badgeText}>99</CustomText>
+                <CustomText style={styles.badgeText}>
+                  
+
+                  {user?.basket.length}
+                </CustomText>
               </View>
             </View>
           </TouchableOpacity>
