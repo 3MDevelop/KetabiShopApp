@@ -47,7 +47,7 @@ export default function Login() {
         visibilityTime: 3000,
       });
     },
-    [t]
+    [t],
   );
 
   const getAuthCode = useCallback(async () => {
@@ -142,8 +142,33 @@ export default function Login() {
           }
         } catch {}
 
-        if (!userId) {
-          userId = Date.now();
+        let userDataFromApi: any = null;
+
+        try {
+          const apiResponse = await fetch(
+            "https://ketabishop.com/api/getstatic/",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+              body: `name=getUserInfo`,
+            },
+          );
+          if (!apiResponse.ok) {
+            throw new Error(`HTTP error! status: ${apiResponse.status}`);
+          }
+
+          const apiResult = await apiResponse.json();
+
+          if (apiResult.status === true && apiResult.data) {
+            userDataFromApi = apiResult.data;
+            /* console.info("اطلاعات کاربر از API:", userDataFromApi); */
+          } else {
+            console.warn("پاسخ API موفقیت‌آمیز نبود:", apiResult);
+          }
+        } catch (error) {
+          console.error("خطا در دریافت اطلاعات کاربر:", error);
         }
 
         const userData: User = {
@@ -154,25 +179,21 @@ export default function Login() {
           expire_token: userDataFromServer.expire_token,
           key: userDataFromServer.key || "Bearer",
           phone: phone,
-          name: "Mohammad",
-          nName: "3M Develop",
-          lName: "Moghaddam Maheri",
-          avatar: 3,
-          email: "3mdevelop@gmail.com",
-          bankCard: 6219861900741512,
-          bankShaba: "0099956564458966533256",
-          device_List: [],
-          interests: [1, 4, 6, 2, 8],
-          readList: [],
-          likedList: [],
-          commentList: [],
-          paymentList: ["12341234", "23452345", "34563456", "45675467"],
-          basket: ["321654", "987987", "654654", "321321", "9876574"],
-          addresses: [
-            "Tehran, Tehran, Shahran, Address 1",
-            "Tehran, Tehran, Shahran, Address 2",
-            "Tehran, Tehran, Shahran, Address 3",
-          ],
+          name: userDataFromApi?.name || "کاربر",
+          nName: userDataFromApi?.nName || "",
+          lName: userDataFromApi?.lName || "",
+          avatar: userDataFromApi?.avatar || 3,
+          email: userDataFromApi?.email || "",
+          bankCard: userDataFromApi?.bankCard,
+          bankShaba: userDataFromApi?.bankShaba,
+          device_List: userDataFromApi?.device_List || [],
+          interests: userDataFromApi?.interests || [],
+          readList: userDataFromApi?.readList || [],
+          likedList: userDataFromApi?.likedList || [],
+          commentList: userDataFromApi?.commentList || [],
+          paymentList: userDataFromApi?.paymentList || [],
+          basket: userDataFromApi?.basketList || [],
+          addresses: userDataFromApi?.addresses || [],
         };
 
         showToast(
@@ -203,7 +224,6 @@ export default function Login() {
     }
   }, [authCode, phone, showToast, t, login]);
 
-  // ✅ قابلیت Space برای تیک زدن چک‌باکس (با پشتیبانی از Numpad)
   useEffect(() => {
     if (Platform.OS === "web" && !showCodeInput) {
       const handleSpaceKey = (event: KeyboardEvent) => {
@@ -225,7 +245,6 @@ export default function Login() {
     }
   }, [showCodeInput]);
 
-  // ✅ قابلیت Enter برای ارسال فرم (با پشتیبانی از Numpad)
   useEffect(() => {
     if (Platform.OS === "web") {
       const handleEnterKey = (event: KeyboardEvent) => {
@@ -256,7 +275,15 @@ export default function Login() {
       window.addEventListener("keydown", handleEnterKey);
       return () => window.removeEventListener("keydown", handleEnterKey);
     }
-  }, [showCodeInput, isLoadingCode, isAccepted, phone, authCode, getAuthCode, verifyCode]);
+  }, [
+    showCodeInput,
+    isLoadingCode,
+    isAccepted,
+    phone,
+    authCode,
+    getAuthCode,
+    verifyCode,
+  ]);
 
   if (isLoading) {
     return (

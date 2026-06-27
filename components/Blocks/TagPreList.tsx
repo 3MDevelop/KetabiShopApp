@@ -73,12 +73,7 @@ export default function TagPreList({
 
   return (
     <View style={{ width: "100%" }}>
-      <View
-        style={[
-          
-          !noBack && { backgroundColor: backColor },
-        ]}
-      >
+      <View style={[!noBack && { backgroundColor: backColor }]}>
         <View
           style={{
             flexDirection: "row",
@@ -117,7 +112,7 @@ export default function TagPreList({
               contentContainerStyle={styles.scrollContent}
             >
               {displayTag.map((tag, index) => {
-                console.info(tag.text);
+                /* console.info(tag.text); */
                 return (
                   <TagBox
                     key={`${tag.id}-${index}`}

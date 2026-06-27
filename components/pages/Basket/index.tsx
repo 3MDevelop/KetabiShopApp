@@ -16,14 +16,17 @@ type ProductType =
   | "audio";
 
 interface CartItem {
-  id: number;
-  title: string;
-  author: string;
-  price: number;
-  quantity: number;
-  type: ProductType;
-  duration?: string;
-  maxQuantity?: number;
+  id: string; 
+  quantity: number; 
+  book_title: string; 
+  author: string; 
+  full_icon_address?: string;
+  discount?: number; 
+  percent?: number; 
+  price: number; 
+  maxQuantity?: number; 
+  type: ProductType; 
+  duration?: string; 
 }
 
 export default function Basket() {
@@ -32,8 +35,8 @@ export default function Basket() {
   const { isLoggedIn } = useAuth();
   const [cartItems, setCartItems] = useState<CartItem[]>([
     {
-      id: 1,
-      title: "کتاب فیزیکی اول",
+      id: "1",
+      book_title: "کتاب فیزیکی اول",
       author: "نویسنده اول",
       price: 120000,
       quantity: 2,
@@ -41,8 +44,8 @@ export default function Basket() {
       maxQuantity: 10,
     },
     {
-      id: 2,
-      title: "کتاب الکترونیک دوم",
+      id: "2",
+      book_title: "کتاب الکترونیک دوم",
       author: "نویسنده دوم",
       price: 65000,
       quantity: 1,
@@ -50,8 +53,8 @@ export default function Basket() {
       maxQuantity: 1,
     },
     {
-      id: 3,
-      title: "کتاب صوتی سوم",
+      id: "3",
+      book_title: "کتاب صوتی سوم",
       author: "گوینده سوم",
       price: 85000,
       quantity: 1,
@@ -60,8 +63,8 @@ export default function Basket() {
       maxQuantity: 1,
     },
     {
-      id: 4,
-      title: "پادکست چهارم",
+      id: "4",
+      book_title: "پادکست چهارم",
       author: "مجری چهارم",
       price: 45000,
       quantity: 1,
@@ -70,8 +73,8 @@ export default function Basket() {
       maxQuantity: 1,
     },
     {
-      id: 5,
-      title: "فایل صوتی پنجم",
+      id: "5",
+      book_title: "فایل صوتی پنجم",
       author: "هنرمند پنجم",
       price: 35000,
       quantity: 1,
@@ -146,7 +149,7 @@ export default function Basket() {
     return cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   };
 
-  const updateQuantity = (id: number, newQuantity: number) => {
+  const updateQuantity = (id: string, newQuantity: number) => {
     const item = cartItems.find((i) => i.id === id);
     if (!item) return;
 
@@ -160,7 +163,7 @@ export default function Basket() {
     );
   };
 
-  const removeFromCart = (id: number) => {
+  const removeFromCart = (id: string) => {
     setCartItems((prev) => prev.filter((item) => item.id !== id));
   };
 
@@ -244,7 +247,7 @@ export default function Basket() {
                   <View style={styles.cartItemDetails}>
                     <View style={styles.productHeader}>
                       <CustomText style={styles.cartItemTitle}>
-                        {item.title}
+                        {item.book_title}
                       </CustomText>
                       <View
                         style={[
@@ -367,7 +370,9 @@ export default function Basket() {
 
         <View style={styles.checkoutCard}>
           <View style={styles.totalRow}>
-            <CustomText style={styles.totalLabel}>{t("common.cart.total")}</CustomText>
+            <CustomText style={styles.totalLabel}>
+              {t("common.cart.total")}
+            </CustomText>
             <CustomText style={styles.totalPrice}>
               {calculateTotal().toLocaleString()} {t("common.cart.currency")}
             </CustomText>

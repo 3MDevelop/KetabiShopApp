@@ -194,7 +194,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         logout,
         clearError,
         updateUser,
-        isAuthenticated,
+        isAuthenticated
       }}
     >
       {children}

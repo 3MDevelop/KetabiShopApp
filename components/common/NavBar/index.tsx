@@ -8,6 +8,7 @@ import { Image, TouchableOpacity, View } from "react-native";
 import CustomText from "@/components/common/CustomText";
 import { useTheme } from "@/context/ThemeContext";
 import { useAuth } from "@/hooks/useAuth";
+import Toast from "react-native-toast-message";
 
 import styles from "./styles";
 
@@ -18,7 +19,7 @@ export default function NavBar({ Colors, appTheme }: any) {
   const { t } = useTranslate();
   const { theme } = useTheme();
 
-  const {user} = useAuth()
+  const { user, isLoggedIn } = useAuth();
 
   return (
     <>
@@ -52,9 +53,7 @@ export default function NavBar({ Colors, appTheme }: any) {
                   size={24}
                   style={[{ color: "#dbdbdb" }]}
                 />
-                <CustomText bold
-                  style={{ marginEnd: 10, color: "white" }}
-                >
+                <CustomText bold style={{ marginEnd: 10, color: "white" }}>
                   {t("common.navbar.categories")}
                 </CustomText>
               </TouchableOpacity>
@@ -95,6 +94,16 @@ export default function NavBar({ Colors, appTheme }: any) {
 
           <TouchableOpacity
             onPress={() => {
+              if (!isLoggedIn) {
+                Toast.show({
+                  type: "error",
+                  text1: "برای مشاهده این بخش ابتدا به حساب کاربری وارد شوید",
+                  position: "top",
+                  topOffset: 20,
+                  visibilityTime: 3000,
+                });
+                return;
+              }
               router.push("/basket");
             }}
           >
@@ -102,15 +111,15 @@ export default function NavBar({ Colors, appTheme }: any) {
               <Ionicons
                 name="basket"
                 size={24}
-                style={[{ color: "#dbdbdb", marginBottom: 3 }]}
+                style={[{ color: isLoggedIn? "#dbdbdb" : "#dbdbdb9a", marginBottom: 3 }]}
               />
-              <View style={styles.basketBadge}>
-                <CustomText style={styles.badgeText}>
-                  
-
-                  {user?.basket.length}
-                </CustomText>
-              </View>
+              {isLoggedIn && (
+                <View style={styles.basketBadge}>
+                  <CustomText style={styles.badgeText}>
+                    {user?.basket.length}
+                  </CustomText>
+                </View>
+              )}
             </View>
           </TouchableOpacity>
 
