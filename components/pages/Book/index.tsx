@@ -1,11 +1,4 @@
-// app/book/[id].tsx
-import { useLanguage } from "@/context/LanguageContext";
-import { useTranslate } from "@/hooks/useTranslation";
-import { Ionicons } from "@expo/vector-icons";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import React, { useCallback, useEffect, useState } from "react";
-import { BookListData } from "./BookListData";
-
+// app/book.tsx
 import {
   ActivityIndicator,
   Image,
@@ -14,15 +7,21 @@ import {
   View,
   TextInput,
 } from "react-native";
+import { useLanguage } from "@/context/LanguageContext";
+import { useTranslate } from "@/hooks/useTranslation";
+import { Ionicons } from "@expo/vector-icons";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import React, { useCallback, useEffect, useState } from "react";
+import { BookListData } from "./BookListData";
 import Toast from "react-native-toast-message";
 import styles from "./styles";
 import CustomText from "@/components/common/CustomText";
 import { useResponsive } from "@/hooks/useResponsive";
 import { useAuth } from "@/hooks/useAuth";
 import { LinearGradient } from "expo-linear-gradient";
-
 import BookPreList from "@/components/Blocks/BookPreList";
 import CommentBox from "@/components/UI/CommentBox";
+
 
 interface Comment {
   id: string | number;
@@ -66,26 +65,24 @@ const stripHtmlTags = (html: string) => {
     .trim();
 };
 
-export default function BookDetail() {
+export default function Book() {
   const { isMobile } = useResponsive();
-  const { isLoggedIn,user } = useAuth();
+  const { isLoggedIn, user } = useAuth();
   const [showMore, setShowMore] = useState(false);
-
   const { id } = useLocalSearchParams<{ id: string }>();
   const [book, setBook] = useState<BookData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [wishlist, setWishlist] = useState(false);
   const router = useRouter();
   const { t } = useTranslate();
   const { isRTL } = useLanguage();
-
+  const [isLiked, setIsLiked] = useState(false);
   // Comment states
   const [comments, setComments] = useState<Comment[]>([]);
   const [commentsLoading, setCommentsLoading] = useState(true);
   const [newComment, setNewComment] = useState("");
   const [commentRating, setCommentRating] = useState(0);
-  const [submitting, setSubmitting] = useState(false);
 
+  /* fake comment catch */
   useEffect(() => {
     const fetchCommentData = async () => {
       try {
@@ -106,19 +103,16 @@ export default function BookDetail() {
         if (result.status === true && result.data) {
           setComments(result.data);
         } else {
-          console.warn("پاسخ API موفقیت‌آمیز نبود:", result);
+          console.warn(result);
         }
       } catch (error) {
-        console.error("خطا در دریافت layout:", error);
+        console.error(error);
       } finally {
         setCommentsLoading(false);
       }
     };
-
     fetchCommentData();
   }, []);
-
-  const haveSound = true;
 
   const fetchBookDetails = useCallback(async () => {
     if (!id) {
@@ -182,12 +176,20 @@ export default function BookDetail() {
     });
   };
 
+  const playAudio = () => {
+    console.info("play Sound");
+  };
+
+  const showCommentSection = () => {
+    console.info("goto Commnet Section");
+  };
+
   const toggleWishlist = () => {
-    setWishlist(!wishlist);
+    setIsLiked(!isLiked);
     Toast.show({
       type: "success",
-      text1: wishlist ? t("common.cart.removed") : t("common.cart.added"),
-      text2: wishlist
+      text1: isLiked ? t("common.cart.removed") : t("common.cart.added"),
+      text2: isLiked
         ? `${book?.title} ${t("pages.Book.removedFromWishlist")}`
         : `${book?.title} ${t("pages.Book.addedToWishlist")}`,
       position: "top",
@@ -196,7 +198,6 @@ export default function BookDetail() {
     });
   };
 
-  // Rating Stars Component
   const RatingStars = ({
     rating,
     onRate,
@@ -223,7 +224,6 @@ export default function BookDetail() {
     );
   };
 
-  // Submit Comment
   const handleSubmitComment = async () => {
     if (!newComment.trim()) {
       Toast.show({
@@ -244,14 +244,12 @@ export default function BookDetail() {
       return;
     }
 
-    setSubmitting(true);
     try {
-      // شبیه‌سازی ارسال به API
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       const newCommentObj: Comment = {
         id: Date.now(),
-        userName: "کاربر فعلی",
+        userName: user?.nName as string,
         comment: newComment,
         rating: commentRating,
         date: new Date().toLocaleDateString("fa-IR"),
@@ -273,7 +271,6 @@ export default function BookDetail() {
         text2: "مشکل در ثبت نظر",
       });
     } finally {
-      setSubmitting(false);
     }
   };
 
@@ -317,12 +314,8 @@ export default function BookDetail() {
     );
   }
 
-  const hasDiscount = book.discountFa && book.discountFa !== book.price;
+  const hasDiscount = book.discountFa;
   const isAvailable = book.exist === "1";
-
-
-console.info(user?.basket.length)
-
 
   return (
     <ScrollView
@@ -418,36 +411,37 @@ console.info(user?.basket.length)
               <TouchableOpacity
                 style={[
                   styles.wishlistButton,
-                  wishlist && styles.wishlistActive,
+                  isLiked && styles.wishlistActive,
                 ]}
                 onPress={toggleWishlist}
               >
                 <Ionicons
-                  name={wishlist ? "heart" : "heart-outline"}
+                  name={isLiked ? "heart" : "heart-outline"}
                   size={24}
-                  color={wishlist ? "#f44336" : "#666"}
+                  color={isLiked ? "#f44336" : "#666"}
                 />
               </TouchableOpacity>
 
-              {isLoggedIn && (
-                <TouchableOpacity
-                  style={[
-                    styles.wishlistButton,
-                    wishlist && styles.wishlistActive,
-                  ]}
-                >
-                  <Ionicons name="chatbubbles" size={24} color="#189deb" />
-                </TouchableOpacity>
-              )}
+              <TouchableOpacity
+                style={[
+                  styles.wishlistButton,
+                  true && styles.commentlistActive,
+                ]}
+                onPress={showCommentSection}
+              >
+                <Ionicons
+                  name={true ? "chatbubbles" : "chatbubbles-outline"}
+                  size={24}
+                  color="#189deb"
+                />
+              </TouchableOpacity>
 
-              {haveSound && (
+              {true && (
                 <TouchableOpacity
-                  style={[
-                    styles.wishlistButton,
-                    wishlist && styles.wishlistActive,
-                  ]}
+                  style={[styles.audioButton]}
+                  onPress={playAudio}
                 >
-                  <Ionicons name="headset" size={24} color="#ec520b" />
+                  <Ionicons name="headset" size={24} color="#9C27B0" />
                 </TouchableOpacity>
               )}
             </View>
@@ -763,9 +757,9 @@ console.info(user?.basket.length)
                     gap: 8,
                   }}
                   onPress={handleSubmitComment}
-                  disabled={!newComment.trim() || submitting}
+                  disabled={!newComment.trim()}
                 >
-                  {submitting ? (
+                  {isLoggedIn ? (
                     <ActivityIndicator size="small" color="#fff" />
                   ) : (
                     <>

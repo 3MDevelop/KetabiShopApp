@@ -175,9 +175,22 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: "#e8e8e8",
   },
+  audioButton: {
+    width: 52,
+    height: 52,
+    borderRadius: 8,
+    backgroundColor: "#f5f5f5",
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "#9C27B0",
+  },
   wishlistActive: {
     backgroundColor: "#fff0f0",
     borderColor: "#f44336",
+  },
+  commentlistActive: {
+    borderColor: "#189deb",
   },
   infoCard: {
     backgroundColor: "#fff",
