@@ -7,6 +7,10 @@ export default StyleSheet.create({
     paddingBottom: 30,
   },
 
+  scrollContainer: {
+    flex: 1,
+  },
+
   content: {
     width: "100%",
     paddingHorizontal: 12,
@@ -219,8 +223,8 @@ export default StyleSheet.create({
     alignItems: "center",
   },
   infoIcon: {
-    width: 36,
-    height: 36,
+    width: 32,
+    height: 32,
     borderRadius: 18,
     backgroundColor: "#f0f8f0",
     alignItems: "center",

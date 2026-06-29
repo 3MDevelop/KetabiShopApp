@@ -22,13 +22,16 @@ import { LinearGradient } from "expo-linear-gradient";
 import BookPreList from "@/components/Blocks/BookPreList";
 import CommentBox from "@/components/UI/CommentBox";
 
-
 interface Comment {
   id: string | number;
   userName: string;
   comment: string;
   rating?: number;
   date?: string;
+}
+
+interface ProvidersData {
+  book_size: string;
 }
 
 interface BookData {
@@ -47,7 +50,10 @@ interface BookData {
   main_category: string;
   sub_category: string;
   publish_year: string;
+  publish_year_fa: string;
   exist: string;
+  size: string;
+  providers: ProvidersData[];
 }
 
 const headerSection = [
@@ -317,12 +323,10 @@ export default function Book() {
   const hasDiscount = book.discountFa;
   const isAvailable = book.exist === "1";
 
+  console.info(book.providers[0]);
+
   return (
-    <ScrollView
-      style={styles.container}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.scrollContent}
-    >
+    <View style={styles.container}>
       <View style={[styles.headerContainer]}>
         <View style={styles.header}>
           <TouchableOpacity
@@ -335,497 +339,515 @@ export default function Book() {
               color="#333"
             />
           </TouchableOpacity>
-          <CustomText bold variant="h4" style={styles.bookTitle}>
+          <CustomText
+            bold
+            variant="h4"
+            style={styles.bookTitle}
+            numberOfLines={1}
+          >
             {book.title}
           </CustomText>
           <View style={{ width: 40 }} />
         </View>
       </View>
 
-      <View style={styles.content}>
-        <View
-          style={[styles.imageSection, { width: isMobile ? "100%" : "38%" }]}
-        >
-          {book.pic ? (
-            <Image
-              source={{ uri: book.pic }}
-              style={styles.detailImage}
-              resizeMode="cover"
-            />
-          ) : (
-            <View style={[styles.detailImage, styles.noImage]}>
-              <Ionicons name="book-outline" size={80} color="#ccc" />
-            </View>
-          )}
-          {hasDiscount && (
-            <View style={styles.discountBadge}>
-              <CustomText style={styles.discountBadgeText}>
-                {book.percentFa}%
-              </CustomText>
-            </View>
-          )}
-        </View>
-
-        <View
-          style={{
-            width: isMobile ? "100%" : "60%",
-            flexDirection: !isMobile ? "column-reverse" : "column",
-          }}
-        >
-          <View style={styles.priceSection}>
-            <View style={styles.priceWrapper}>
-              {hasDiscount ? (
-                <>
-                  <CustomText style={styles.oldPrice}>
-                    {book.price} {t("common.cart.currency")}
-                  </CustomText>
-                  <CustomText style={styles.finalPrice}>
-                    {book.discountFa} {t("common.cart.currency")}
-                  </CustomText>
-                </>
-              ) : (
-                <CustomText style={styles.singlePrice}>
-                  {Number(book.price).toLocaleString()}{" "}
-                  {t("common.cart.currency")}
+      <ScrollView
+        style={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+      >
+        <View style={styles.content}>
+          <View
+            style={[styles.imageSection, { width: isMobile ? "100%" : "38%" }]}
+          >
+            {book.pic ? (
+              <Image
+                source={{ uri: book.pic }}
+                style={styles.detailImage}
+                resizeMode="cover"
+              />
+            ) : (
+              <View style={[styles.detailImage, styles.noImage]}>
+                <Ionicons name="book-outline" size={80} color="#ccc" />
+              </View>
+            )}
+            {hasDiscount && (
+              <View style={styles.discountBadge}>
+                <CustomText style={styles.discountBadgeText}>
+                  {book.percentFa}%
                 </CustomText>
-              )}
-            </View>
-
-            <View style={styles.actionButtons}>
-              <TouchableOpacity
-                style={[
-                  styles.cartButton,
-                  !isAvailable && styles.disabledButton,
-                ]}
-                onPress={addToCart}
-                disabled={!isAvailable}
-              >
-                <Ionicons name="cart-outline" size={22} color="#fff" />
-                <CustomText style={styles.cartButtonText}>
-                  {isAvailable
-                    ? t("pages.Book.addToCart")
-                    : t("pages.Book.outOfStock")}
-                </CustomText>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={[
-                  styles.wishlistButton,
-                  isLiked && styles.wishlistActive,
-                ]}
-                onPress={toggleWishlist}
-              >
-                <Ionicons
-                  name={isLiked ? "heart" : "heart-outline"}
-                  size={24}
-                  color={isLiked ? "#f44336" : "#666"}
-                />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={[
-                  styles.wishlistButton,
-                  true && styles.commentlistActive,
-                ]}
-                onPress={showCommentSection}
-              >
-                <Ionicons
-                  name={true ? "chatbubbles" : "chatbubbles-outline"}
-                  size={24}
-                  color="#189deb"
-                />
-              </TouchableOpacity>
-
-              {true && (
-                <TouchableOpacity
-                  style={[styles.audioButton]}
-                  onPress={playAudio}
-                >
-                  <Ionicons name="headset" size={24} color="#9C27B0" />
-                </TouchableOpacity>
-              )}
-            </View>
+              </View>
+            )}
           </View>
 
-          <View style={styles.infoCard}>
-            <CustomText style={styles.cardTitle}>
-              {t("pages.Book.specifications")}
-            </CustomText>
-
-            <View style={styles.infoGrid}>
-              <View
-                style={[styles.infoItem, { width: isMobile ? "100%" : "45%" }]}
-              >
-                <View style={styles.infoIcon}>
-                  <Ionicons name="book-outline" size={20} color="#4CAF50" />
+          <View
+            style={{
+              width: isMobile ? "100%" : "60%",
+              
+              flexDirection: "column",
+            }}
+          >
+            <View style={[styles.infoCard, { marginTop:"auto" }]}>
+              <View style={[styles.infoGrid,{flexDirection:"column"}]}>
+                <View style={[styles.infoItem]}>
+                  <View style={styles.infoIcon}>
+                    <Ionicons name="person-outline" size={18} color="#4CAF50" />
+                  </View>
+                  <View style={styles.infoText}>
+                    <CustomText variant="discription"
+                      bold
+                      style={[styles.infoLabel, { fontSize: 16 }]}>
+                      {t("pages.Book.auther")}
+                    </CustomText>
+                    <CustomText variant="discription" bold style={[styles.infoValue,, { fontSize: 18 }]}>
+                      {book.author || t("pages.Book.unknownAuthor")}
+                    </CustomText>
+                  </View>
                 </View>
-                <View style={styles.infoText}>
-                  <CustomText style={styles.infoLabel}>
-                    {t("pages.Book.publisher")}
-                  </CustomText>
-                  <CustomText style={styles.infoValue}>
-                    {book.publisher || t("common.common.unknown")}
-                  </CustomText>
+
+                <View style={[styles.infoItem]}>
+                  <View style={styles.infoIcon}>
+                    <Ionicons name="book-outline" size={18} color="#4CAF50" />
+                  </View>
+                  <View style={styles.infoText}>
+                    <CustomText
+                      variant="discription"
+                      bold
+                      style={[styles.infoLabel, { fontSize: 16 }]}
+                    >
+                      {t("pages.Book.publisher")}
+                    </CustomText>
+                    <CustomText variant="discription" bold style={[styles.infoValue,, { fontSize: 18 }]}>
+                      {book.publisher || t("common.common.unknown")}
+                    </CustomText>
+                  </View>
                 </View>
               </View>
+            </View>
 
-              <View
-                style={[styles.infoItem, { width: isMobile ? "100%" : "45%" }]}
-              >
-                <View style={styles.infoIcon}>
-                  <Ionicons name="person-outline" size={20} color="#4CAF50" />
-                </View>
-                <View style={styles.infoText}>
-                  <CustomText style={styles.infoLabel}>
-                    {t("pages.Book.auther")}
+            <View style={styles.priceSection}>
+              <View style={styles.priceWrapper}>
+                {hasDiscount ? (
+                  <>
+                    <CustomText style={styles.oldPrice}>
+                      {book.price} {t("common.cart.currency")}
+                    </CustomText>
+                    <CustomText style={styles.finalPrice}>
+                      {book.discountFa} {t("common.cart.currency")}
+                    </CustomText>
+                  </>
+                ) : (
+                  <CustomText style={styles.singlePrice}>
+                    {Number(book.price).toLocaleString()}{" "}
+                    {t("common.cart.currency")}
                   </CustomText>
-                  <CustomText style={styles.infoValue}>
-                    {book.author || t("pages.Book.unknownAuthor")}
-                  </CustomText>
-                </View>
+                )}
               </View>
 
-              <View
-                style={[styles.infoItem, { width: isMobile ? "100%" : "45%" }]}
-              >
-                <View style={styles.infoIcon}>
-                  <Ionicons name="barcode-outline" size={20} color="#4CAF50" />
-                </View>
-                <View style={styles.infoText}>
-                  <CustomText style={styles.infoLabel}>
-                    {t("pages.Book.isbn")}
-                  </CustomText>
-                  <CustomText style={styles.infoValue}>
-                    {book.isbn || t("common.common.unknown")}
-                  </CustomText>
-                </View>
-              </View>
-
-              <View
-                style={[styles.infoItem, { width: isMobile ? "100%" : "45%" }]}
-              >
-                <View style={styles.infoIcon}>
-                  <Ionicons
-                    name="document-text-outline"
-                    size={20}
-                    color="#4CAF50"
-                  />
-                </View>
-                <View style={styles.infoText}>
-                  <CustomText style={styles.infoLabel}>
-                    {t("pages.Book.pages")}
-                  </CustomText>
-                  <CustomText style={styles.infoValue}>
-                    {book.number_pages || t("common.unknown")}{" "}
-                    {t("pages.Book.pagesUnit")}
-                  </CustomText>
-                </View>
-              </View>
-
-              <View
-                style={[styles.infoItem, { width: isMobile ? "100%" : "45%" }]}
-              >
-                <View style={styles.infoIcon}>
-                  <Ionicons name="calendar-outline" size={20} color="#4CAF50" />
-                </View>
-                <View style={styles.infoText}>
-                  <CustomText style={styles.infoLabel}>
-                    {t("pages.Book.year")}
-                  </CustomText>
-                  <CustomText style={styles.infoValue}>
-                    {book.publish_year || t("common.common.unknown")}
-                  </CustomText>
-                </View>
-              </View>
-
-              <View
-                style={[styles.infoItem, { width: isMobile ? "100%" : "45%" }]}
-              >
-                <View style={styles.infoIcon}>
-                  <Ionicons name="layers-outline" size={20} color="#4CAF50" />
-                </View>
-                <View style={styles.infoText}>
-                  <CustomText style={styles.infoLabel}>
-                    {t("pages.Book.category")}
-                  </CustomText>
-                  <CustomText style={styles.infoValue}>
-                    {book.main_category}{" "}
-                    {book.sub_category ? `- ${book.sub_category}` : ""}
-                  </CustomText>
-                </View>
-              </View>
-
-              <View
-                style={[styles.infoItem, { width: isMobile ? "100%" : "45%" }]}
-              >
-                <View style={styles.infoIcon}>
-                  <Ionicons
-                    name="checkmark-circle-outline"
-                    size={20}
-                    color={isAvailable ? "#4CAF50" : "#f44336"}
-                  />
-                </View>
-                <View style={styles.infoText}>
-                  <CustomText style={styles.infoLabel}>
-                    {t("pages.Book.stock")}
-                  </CustomText>
-                  <CustomText
-                    style={[
-                      styles.infoValue,
-                      isAvailable ? styles.inStock : styles.outOfStock,
-                    ]}
-                  >
+              <View style={styles.actionButtons}>
+                <TouchableOpacity
+                  style={[
+                    styles.cartButton,
+                    !isAvailable && styles.disabledButton,
+                  ]}
+                  onPress={addToCart}
+                  disabled={!isAvailable}
+                >
+                  <Ionicons name="cart-outline" size={22} color="#fff" />
+                  <CustomText style={styles.cartButtonText}>
                     {isAvailable
-                      ? t("pages.Book.inStock")
+                      ? t("pages.Book.addToCart")
                       : t("pages.Book.outOfStock")}
                   </CustomText>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.sectionNavbar}>
-          {headerSection.map((title, index) => (
-            <View key={index} style={styles.sectionNavbarItems}>
-              <CustomText variant="discription" style={{ paddingVertical: 12 }}>
-                {title}
-              </CustomText>
-            </View>
-          ))}
-        </View>
-
-        {book.des_fa && (
-          <View
-            style={[
-              styles.descriptionCard,
-              {
-                height: !showMore ? 200 : "auto",
-                overflow: "hidden",
-                paddingBottom: !showMore ? 30 : "auto",
-              },
-            ]}
-          >
-            <CustomText style={styles.cardTitle}>
-              📖 {t("pages.Book.description")}
-            </CustomText>
-            <CustomText style={styles.descriptionText}>
-              {stripHtmlTags(book.des_fa)}
-            </CustomText>
-            <TouchableOpacity
-              onPress={() => setShowMore(!showMore)}
-              style={{
-                position: "absolute",
-                bottom: 0,
-                right: 0,
-                width: "100%",
-              }}
-            >
-              <LinearGradient
-                colors={["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 1)"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 0, y: 1 }}
-                style={{
-                  position: "absolute",
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  height: 50,
-                  pointerEvents: "none",
-                }}
-              />
-              <Ionicons
-                name="chevron-down"
-                size={24}
-                color="#505050"
-                style={{
-                  alignSelf: "center",
-                  transform: [{ rotate: showMore ? "180deg" : "0deg" }],
-                }}
-              />
-            </TouchableOpacity>
-          </View>
-        )}
-        <View style={{ marginTop: 20, width: "100%" }}>
-          <BookPreList
-            label={"از همین انتشارات"}
-            listId={"listID"}
-            listHeight={350}
-            fImage="https://ketabishop.com/static/app/images/publisher/384.png"
-            listItemRatio={0.6}
-            noMore={false}
-            backColor={""}
-            noBack={false}
-            bookList={BookListData}
-          />
-        </View>
-        <View style={{ marginTop: 20, width: "100%" }}>
-          <BookPreList
-            label={"از همین نویسنده"}
-            listId={"listID"}
-            listHeight={350}
-            fImage="https://ketabishop.com/static/app/images/auther/453.png"
-            listItemRatio={0.6}
-            noMore={false}
-            backColor={""}
-            noBack={false}
-            bookList={BookListData}
-          />
-        </View>
-
-        <View
-          style={[
-            styles.commentsCard,
-            {
-              flexDirection: isMobile ? "column" : "row",
-              backgroundColor: "#fcfcfc",
-              padding: 16,
-            },
-          ]}
-        >
-          {commentsLoading ? (
-            <View style={{ padding: 20, alignItems: "center", width: "100%" }}>
-              <ActivityIndicator size="large" color="#007AFF" />
-              <CustomText>در حال دریافت اطلاعات...</CustomText>
-            </View>
-          ) : (
-            <>
-              {/* فرم ثبت نظر */}
-              <View
-                style={{
-                  width: isMobile ? "100%" : "40%",
-                  paddingHorizontal: 8,
-                  marginBottom: isMobile ? 16 : 0,
-                  justifyContent: "space-between",
-                }}
-              >
-                <CustomText variant="h4" bold style={{ marginBottom: 12 }}>
-                  ثبت نظر
-                </CustomText>
-
-                {/* ریتینگ */}
-                <View
-                  style={{
-                    marginBottom: 12,
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 12,
-                  }}
-                >
-                  <CustomText
-                    variant="caption"
-                    style={{ marginBottom: 4, color: "#666", paddingTop: 8 }}
-                  >
-                    امتیاز شما
-                  </CustomText>
-                  <RatingStars
-                    rating={commentRating}
-                    onRate={setCommentRating}
-                  />
-                </View>
-
-                {/* ورودی متن */}
-                <TextInput
-                  style={{
-                    borderWidth: 1,
-                    borderColor: "#ddd",
-                    borderRadius: 8,
-                    padding: 12,
-                    minHeight: 100,
-                    flexGrow: 1,
-                    textAlignVertical: "top",
-                    backgroundColor: "#fff",
-                  }}
-                  placeholder="نظر خود را بنویسید..."
-                  placeholderTextColor="#999"
-                  value={newComment}
-                  onChangeText={setNewComment}
-                  multiline
-                  numberOfLines={4}
-                />
-
-                {/* دکمه ارسال */}
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: newComment.trim() ? "#007AFF" : "#ccc",
-                    paddingVertical: 12,
-                    borderRadius: 8,
-                    marginTop: 12,
-                    alignItems: "center",
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    gap: 8,
-                  }}
-                  onPress={handleSubmitComment}
-                  disabled={!newComment.trim()}
-                >
-                  {isLoggedIn ? (
-                    <ActivityIndicator size="small" color="#fff" />
-                  ) : (
-                    <>
-                      <Ionicons name="send-outline" size={20} color="#fff" />
-                      <CustomText style={{ color: "#fff", fontWeight: "bold" }}>
-                        ارسال نظر
-                      </CustomText>
-                    </>
-                  )}
                 </TouchableOpacity>
 
-                {/* هشدار ورود */}
-                {!isLoggedIn && (
+                <TouchableOpacity
+                  style={[
+                    styles.wishlistButton,
+                    isLiked && styles.wishlistActive,
+                  ]}
+                  onPress={toggleWishlist}
+                >
+                  <Ionicons
+                    name={isLiked ? "heart" : "heart-outline"}
+                    size={24}
+                    color={isLiked ? "#f44336" : "#666"}
+                  />
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[
+                    styles.wishlistButton,
+                    true && styles.commentlistActive,
+                  ]}
+                  onPress={showCommentSection}
+                >
+                  <Ionicons
+                    name={true ? "chatbubbles" : "chatbubbles-outline"}
+                    size={24}
+                    color="#189deb"
+                  />
+                </TouchableOpacity>
+
+                {true && (
                   <TouchableOpacity
-                    style={{ marginTop: 8, alignItems: "center" }}
-                    onPress={() => router.push("/login")}
+                    style={[styles.audioButton]}
+                    onPress={playAudio}
                   >
-                    <CustomText variant="caption" style={{ color: "#007AFF" }}>
-                      برای ثبت نظر وارد حساب خود شوید
-                    </CustomText>
+                    <Ionicons name="headset" size={24} color="#9C27B0" />
                   </TouchableOpacity>
                 )}
               </View>
+            </View>
 
-              {/* لیست نظرات */}
-              <ScrollView
-                style={{
-                  paddingHorizontal: 8,
-                  width: isMobile ? "100%" : "60%",
-                  maxHeight: 350,
-                }}
-              >
-                {comments.length > 0 ? (
-                  comments.map((comment, index) => (
-                    <CommentBox
-                      key={comment.id || index}
-                      userName={comment.userName}
-                      userComments={comment.comment}
-                      /* rating={comment.rating} */
-                    />
-                  ))
-                ) : (
-                  <View
-                    style={{
-                      minHeight: 100,
-                      width: "100%",
-                      flexDirection: "row",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
+            <View style={styles.infoCard}>
+              <View style={styles.infoGrid}>
+                <View
+                  style={[
+                    styles.infoItem,
+                    { width: isMobile ? "100%" : "45%" },
+                  ]}
+                >
+                  <View style={styles.infoIcon}>
                     <Ionicons
-                      name="chatbox-ellipses-outline"
-                      size={32}
-                      color="#007AFF"
+                      name="barcode-outline"
+                      size={20}
+                      color="#4CAF50"
                     />
-                    <CustomText variant="h4" style={{ marginHorizontal: 8 }}>
-                      هنوز نظری ثبت نشده
+                  </View>
+                  <View style={styles.infoText}>
+                    <CustomText style={styles.infoLabel}>
+                      {t("pages.Book.isbn")}
+                    </CustomText>
+                    <CustomText style={styles.infoValue}>
+                      {book.isbn || t("common.common.unknown")}
                     </CustomText>
                   </View>
-                )}
-              </ScrollView>
-            </>
+                </View>
+
+                <View
+                  style={[
+                    styles.infoItem,
+                    { width: isMobile ? "100%" : "45%" },
+                  ]}
+                >
+                  <View style={styles.infoIcon}>
+                    <Ionicons
+                      name="document-text-outline"
+                      size={20}
+                      color="#4CAF50"
+                    />
+                  </View>
+                  <View style={styles.infoText}>
+                    <CustomText style={styles.infoLabel}>
+                      {t("pages.Book.pages")}
+                    </CustomText>
+                    <CustomText style={styles.infoValue}>
+                      {book.number_pages || t("common.unknown")}{" "}
+                      {t("pages.Book.pagesUnit")}
+                    </CustomText>
+                  </View>
+                </View>
+
+                <View
+                  style={[
+                    styles.infoItem,
+                    { width: isMobile ? "100%" : "45%" },
+                  ]}
+                >
+                  <View style={styles.infoIcon}>
+                    <Ionicons
+                      name="calendar-outline"
+                      size={20}
+                      color="#4CAF50"
+                    />
+                  </View>
+                  <View style={styles.infoText}>
+                    <CustomText style={styles.infoLabel}>
+                      {t("pages.Book.year")}
+                    </CustomText>
+                    <CustomText style={styles.infoValue}>
+                      {!isRTL
+                        ? book.publish_year
+                        : book.publish_year_fa || t("common.common.unknown")}
+                    </CustomText>
+                  </View>
+                </View>
+
+                <View
+                  style={[
+                    styles.infoItem,
+                    { width: isMobile ? "100%" : "45%" },
+                  ]}
+                >
+                  <View style={styles.infoIcon}>
+                    <Ionicons name="layers-outline" size={20} color="#4CAF50" />
+                  </View>
+                  <View style={styles.infoText}>
+                    <CustomText style={styles.infoLabel}>
+                      {t("pages.Book.size")}
+                    </CustomText>
+                    <CustomText style={styles.infoValue}>
+                      {book.providers[0].book_size}
+                    </CustomText>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.sectionNavbar}>
+            {headerSection.map((title, index) => (
+              <View key={index} style={styles.sectionNavbarItems}>
+                <CustomText
+                  variant="discription"
+                  style={{ paddingVertical: 12 }}
+                >
+                  {title}
+                </CustomText>
+              </View>
+            ))}
+          </View>
+
+          {book.des_fa && (
+            <View
+              style={[
+                styles.descriptionCard,
+                {
+                  height: !showMore ? 200 : "auto",
+                  overflow: "hidden",
+                  paddingBottom: !showMore ? 30 : "auto",
+                },
+              ]}
+            >
+              <CustomText style={styles.cardTitle}>
+                📖 {t("pages.Book.description")}
+              </CustomText>
+              <CustomText style={styles.descriptionText}>
+                {stripHtmlTags(book.des_fa)}
+              </CustomText>
+              <TouchableOpacity
+                onPress={() => setShowMore(!showMore)}
+                style={{
+                  position: "absolute",
+                  bottom: 0,
+                  right: 0,
+                  width: "100%",
+                }}
+              >
+                <LinearGradient
+                  colors={["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 1)"]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 0, y: 1 }}
+                  style={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: 50,
+                    pointerEvents: "none",
+                  }}
+                />
+                <Ionicons
+                  name="chevron-down"
+                  size={24}
+                  color="#505050"
+                  style={{
+                    alignSelf: "center",
+                    transform: [{ rotate: showMore ? "180deg" : "0deg" }],
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
           )}
+          <View style={{ marginTop: 20, width: "100%" }}>
+            <BookPreList
+              label={"از همین انتشارات"}
+              listId={"listID"}
+              listHeight={350}
+              fImage="https://ketabishop.com/static/app/images/publisher/384.png"
+              listItemRatio={0.6}
+              noMore={false}
+              backColor={""}
+              noBack={false}
+              bookList={BookListData}
+            />
+          </View>
+          <View style={{ marginTop: 20, width: "100%" }}>
+            <BookPreList
+              label={"از همین نویسنده"}
+              listId={"listID"}
+              listHeight={350}
+              fImage="https://ketabishop.com/static/app/images/auther/453.png"
+              listItemRatio={0.6}
+              noMore={false}
+              backColor={""}
+              noBack={false}
+              bookList={BookListData}
+            />
+          </View>
+
+          <View
+            style={[
+              styles.commentsCard,
+              {
+                flexDirection: isMobile ? "column" : "row",
+                backgroundColor: "#fcfcfc",
+                padding: 16,
+              },
+            ]}
+          >
+            {commentsLoading ? (
+              <View
+                style={{ padding: 20, alignItems: "center", width: "100%" }}
+              >
+                <ActivityIndicator size="large" color="#007AFF" />
+                <CustomText>در حال دریافت اطلاعات...</CustomText>
+              </View>
+            ) : (
+              <>
+                {/* فرم ثبت نظر */}
+                <View
+                  style={{
+                    width: isMobile ? "100%" : "40%",
+                    paddingHorizontal: 8,
+                    marginBottom: isMobile ? 16 : 0,
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <CustomText variant="h4" bold style={{ marginBottom: 12 }}>
+                    ثبت نظر
+                  </CustomText>
+
+                  {/* ریتینگ */}
+                  <View
+                    style={{
+                      marginBottom: 12,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: 12,
+                    }}
+                  >
+                    <CustomText
+                      variant="caption"
+                      style={{ marginBottom: 4, color: "#666", paddingTop: 8 }}
+                    >
+                      امتیاز شما
+                    </CustomText>
+                    <RatingStars
+                      rating={commentRating}
+                      onRate={setCommentRating}
+                    />
+                  </View>
+
+                  {/* ورودی متن */}
+                  <TextInput
+                    style={{
+                      borderWidth: 1,
+                      borderColor: "#ddd",
+                      borderRadius: 8,
+                      padding: 12,
+                      minHeight: 100,
+                      flexGrow: 1,
+                      textAlignVertical: "top",
+                      backgroundColor: "#fff",
+                    }}
+                    placeholder="نظر خود را بنویسید..."
+                    placeholderTextColor="#999"
+                    value={newComment}
+                    onChangeText={setNewComment}
+                    multiline
+                    numberOfLines={4}
+                  />
+
+                  {/* دکمه ارسال */}
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: newComment.trim() ? "#007AFF" : "#ccc",
+                      paddingVertical: 12,
+                      borderRadius: 8,
+                      marginTop: 12,
+                      alignItems: "center",
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      gap: 8,
+                    }}
+                    onPress={handleSubmitComment}
+                    disabled={!newComment.trim()}
+                  >
+                    {isLoggedIn ? (
+                      <ActivityIndicator size="small" color="#fff" />
+                    ) : (
+                      <>
+                        <Ionicons name="send-outline" size={20} color="#fff" />
+                        <CustomText
+                          style={{ color: "#fff", fontWeight: "bold" }}
+                        >
+                          ارسال نظر
+                        </CustomText>
+                      </>
+                    )}
+                  </TouchableOpacity>
+
+                  {/* هشدار ورود */}
+                  {!isLoggedIn && (
+                    <TouchableOpacity
+                      style={{ marginTop: 8, alignItems: "center" }}
+                      onPress={() => router.push("/login")}
+                    >
+                      <CustomText
+                        variant="caption"
+                        style={{ color: "#007AFF" }}
+                      >
+                        برای ثبت نظر وارد حساب خود شوید
+                      </CustomText>
+                    </TouchableOpacity>
+                  )}
+                </View>
+
+                {/* لیست نظرات */}
+                <ScrollView
+                  style={{
+                    paddingHorizontal: 8,
+                    width: isMobile ? "100%" : "60%",
+                    maxHeight: 350,
+                  }}
+                >
+                  {comments.length > 0 ? (
+                    comments.map((comment, index) => (
+                      <CommentBox
+                        key={comment.id || index}
+                        userName={comment.userName}
+                        userComments={comment.comment}
+                        /* rating={comment.rating} */
+                      />
+                    ))
+                  ) : (
+                    <View
+                      style={{
+                        minHeight: 100,
+                        width: "100%",
+                        flexDirection: "row",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Ionicons
+                        name="chatbox-ellipses-outline"
+                        size={32}
+                        color="#007AFF"
+                      />
+                      <CustomText variant="h4" style={{ marginHorizontal: 8 }}>
+                        هنوز نظری ثبت نشده
+                      </CustomText>
+                    </View>
+                  )}
+                </ScrollView>
+              </>
+            )}
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
