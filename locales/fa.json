@@ -159,7 +159,8 @@
       "stock": "موجودی",
       "description": "توضیحات کتاب",
       "addedToWishlist": "به لیست علاقه‌مندی‌ها اضافه شد",
-      "removedFromWishlist": "از لیست علاقه‌مندی‌ها حذف شد"
+      "removedFromWishlist": "از لیست علاقه‌مندی‌ها حذف شد",
+      "shareSuccessMassage" : "لینک کتاب کپی شد"
     }
   }
 }

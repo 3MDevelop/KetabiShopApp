@@ -151,6 +151,17 @@ export default StyleSheet.create({
     flexDirection: "row",
     gap: 12,
   },
+
+  actionButton: {
+    width: 42,
+    height: 42,
+    borderRadius: 8,
+    backgroundColor: "#f5f5f5",
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor:"#929292"
+  },
   cartButton: {
     flex: 1,
     flexDirection: "row",
@@ -170,6 +181,9 @@ export default StyleSheet.create({
     backgroundColor: "#ccc",
   },
   wishlistButton: {
+    borderColor: "#f44336",
+  },
+  shareButton: {
     width: 52,
     height: 52,
     borderRadius: 8,
@@ -177,21 +191,28 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 1,
-    borderColor: "#e8e8e8",
+    borderColor: "#7e7e7e",
   },
   audioButton: {
     width: 52,
     height: 52,
     borderRadius: 8,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#4CAF50",
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: 1,
-    borderColor: "#9C27B0",
+    /* borderWidth: 1, */
+    /* borderColor: "#FF6B35", */
+  },
+  eButton: {
+    width: 52,
+    height: 52,
+    borderRadius: 8,
+    backgroundColor: "#4CAF50",
+    alignItems: "center",
+    justifyContent: "center",
   },
   wishlistActive: {
     backgroundColor: "#fff0f0",
-    borderColor: "#f44336",
   },
   commentlistActive: {
     borderColor: "#189deb",
@@ -227,6 +248,14 @@ export default StyleSheet.create({
     height: 32,
     borderRadius: 18,
     backgroundColor: "#f0f8f0",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  autherInfoIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: "#4CAF50",
     alignItems: "center",
     justifyContent: "center",
   },

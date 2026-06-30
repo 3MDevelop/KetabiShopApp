@@ -204,6 +204,17 @@ export default function Book() {
     });
   };
 
+  const shareAction = () => {
+    Toast.show({
+      type: "success",
+      text1: t("pages.Book.shareSuccessMassage"),
+      position: "top",
+      topOffset: 20,
+      visibilityTime: 2000,
+      text1Style: { textAlign: "center" },
+    });
+  };
+
   const RatingStars = ({
     rating,
     onRate,
@@ -383,123 +394,159 @@ export default function Book() {
           <View
             style={{
               width: isMobile ? "100%" : "60%",
-              
+
               flexDirection: "column",
             }}
           >
-            <View style={[styles.infoCard, { marginTop:"auto" }]}>
-              <View style={[styles.infoGrid,{flexDirection:"column"}]}>
-                <View style={[styles.infoItem]}>
-                  <View style={styles.infoIcon}>
-                    <Ionicons name="person-outline" size={18} color="#4CAF50" />
-                  </View>
-                  <View style={styles.infoText}>
-                    <CustomText variant="discription"
-                      bold
-                      style={[styles.infoLabel, { fontSize: 16 }]}>
-                      {t("pages.Book.auther")}
-                    </CustomText>
-                    <CustomText variant="discription" bold style={[styles.infoValue,, { fontSize: 18 }]}>
-                      {book.author || t("pages.Book.unknownAuthor")}
-                    </CustomText>
-                  </View>
+            {/* author card */}
+            <View style={[{ marginTop: 32, marginBottom: 50, marginEnd: 8 }]}>
+              <View style={[styles.infoItem, { marginBottom: 16 }]}>
+                <View style={styles.autherInfoIcon}>
+                  <Ionicons name="person-outline" size={20} color="#fff" />
                 </View>
-
-                <View style={[styles.infoItem]}>
-                  <View style={styles.infoIcon}>
-                    <Ionicons name="book-outline" size={18} color="#4CAF50" />
-                  </View>
-                  <View style={styles.infoText}>
-                    <CustomText
-                      variant="discription"
-                      bold
-                      style={[styles.infoLabel, { fontSize: 16 }]}
-                    >
-                      {t("pages.Book.publisher")}
-                    </CustomText>
-                    <CustomText variant="discription" bold style={[styles.infoValue,, { fontSize: 18 }]}>
-                      {book.publisher || t("common.common.unknown")}
-                    </CustomText>
-                  </View>
+                <View style={styles.infoText}>
+                  <CustomText
+                    variant="discription"
+                    bold
+                    style={[styles.infoLabel, { fontSize: 16 }]}
+                  >
+                    {t("pages.Book.auther")}
+                  </CustomText>
+                  <CustomText
+                    variant="discription"
+                    bold
+                    style={[styles.infoValue, , { fontSize: 18 }]}
+                  >
+                    {book.author || t("pages.Book.unknownAuthor")}
+                  </CustomText>
+                </View>
+              </View>
+              <View style={[styles.infoItem]}>
+                <View style={styles.autherInfoIcon}>
+                  <Ionicons name="book-outline" size={20} color="#fff" />
+                </View>
+                <View style={styles.infoText}>
+                  <CustomText
+                    variant="discription"
+                    bold
+                    style={[styles.infoLabel, { fontSize: 16 }]}
+                  >
+                    {t("pages.Book.publisher")}
+                  </CustomText>
+                  <CustomText
+                    variant="discription"
+                    bold
+                    style={[styles.infoValue, , { fontSize: 18 }]}
+                  >
+                    {book.publisher || t("common.common.unknown")}
+                  </CustomText>
                 </View>
               </View>
             </View>
 
-            <View style={styles.priceSection}>
-              <View style={styles.priceWrapper}>
-                {hasDiscount ? (
-                  <>
-                    <CustomText style={styles.oldPrice}>
-                      {book.price} {t("common.cart.currency")}
+            <View
+              style={{
+                flexDirection: "row",
+                gap: 12,
+                justifyContent: "flex-end",
+                marginBottom: 16,
+              }}
+            >
+              <TouchableOpacity
+                style={[styles.actionButton, isLiked && styles.wishlistActive]}
+                onPress={toggleWishlist}
+              >
+                <Ionicons
+                  name={isLiked ? "heart" : "heart-outline"}
+                  size={24}
+                  color={isLiked ? "#f44336" : "#666"}
+                />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[styles.actionButton, true && styles.commentlistActive]}
+                onPress={showCommentSection}
+              >
+                <Ionicons
+                  name={true ? "chatbubbles" : "chatbubbles-outline"}
+                  size={24}
+                  color="#189deb"
+                />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[styles.actionButton]}
+                onPress={shareAction}
+              >
+                <Ionicons name="share-social" size={24} color="#929292" />
+              </TouchableOpacity>
+            </View>
+
+            {/* price card */}
+            <View
+              style={[
+                styles.priceSection,
+                { flexDirection: "row-reverse", alignItems: "flex-end" },
+              ]}
+            >
+              <View style={{ flex: 1 }}>
+                <View style={styles.priceWrapper}>
+                  {hasDiscount ? (
+                    <>
+                      <CustomText style={styles.oldPrice}>
+                        {book.price} {t("common.cart.currency")}
+                      </CustomText>
+                      <CustomText style={styles.finalPrice}>
+                        {book.discountFa} {t("common.cart.currency")}
+                      </CustomText>
+                    </>
+                  ) : (
+                    <CustomText style={styles.singlePrice}>
+                      {Number(book.price).toLocaleString()}{" "}
+                      {t("common.cart.currency")}
                     </CustomText>
-                    <CustomText style={styles.finalPrice}>
-                      {book.discountFa} {t("common.cart.currency")}
+                  )}
+                </View>
+
+                <View style={{ flexDirection: "row", gap: 12 }}>
+                  <TouchableOpacity
+                    style={[
+                      styles.cartButton,
+                      !isAvailable && styles.disabledButton,
+                    ]}
+                    onPress={addToCart}
+                    disabled={!isAvailable}
+                  >
+                    <Ionicons name="book" size={22} color="#fff" />
+                    <CustomText style={styles.cartButtonText}>
+                      {isAvailable
+                        ? t("pages.Book.addToCart")
+                        : t("pages.Book.outOfStock")}
                     </CustomText>
-                  </>
-                ) : (
-                  <CustomText style={styles.singlePrice}>
-                    {Number(book.price).toLocaleString()}{" "}
-                    {t("common.cart.currency")}
-                  </CustomText>
-                )}
-              </View>
+                  </TouchableOpacity>
 
-              <View style={styles.actionButtons}>
-                <TouchableOpacity
-                  style={[
-                    styles.cartButton,
-                    !isAvailable && styles.disabledButton,
-                  ]}
-                  onPress={addToCart}
-                  disabled={!isAvailable}
-                >
-                  <Ionicons name="cart-outline" size={22} color="#fff" />
-                  <CustomText style={styles.cartButtonText}>
-                    {isAvailable
-                      ? t("pages.Book.addToCart")
-                      : t("pages.Book.outOfStock")}
-                  </CustomText>
-                </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.eButton]}
+                    onPress={playAudio}
+                  >
+                    <Ionicons name="reader-outline" size={28} color="white" />
+                  </TouchableOpacity>
 
-                <TouchableOpacity
-                  style={[
-                    styles.wishlistButton,
-                    isLiked && styles.wishlistActive,
-                  ]}
-                  onPress={toggleWishlist}
-                >
-                  <Ionicons
-                    name={isLiked ? "heart" : "heart-outline"}
-                    size={24}
-                    color={isLiked ? "#f44336" : "#666"}
-                  />
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={[
-                    styles.wishlistButton,
-                    true && styles.commentlistActive,
-                  ]}
-                  onPress={showCommentSection}
-                >
-                  <Ionicons
-                    name={true ? "chatbubbles" : "chatbubbles-outline"}
-                    size={24}
-                    color="#189deb"
-                  />
-                </TouchableOpacity>
-
-                {true && (
                   <TouchableOpacity
                     style={[styles.audioButton]}
                     onPress={playAudio}
                   >
-                    <Ionicons name="headset" size={24} color="#9C27B0" />
+                    <Ionicons
+                      name="headset"
+                      size={28}
+                      color="white" /* "#FF6B35" */
+                    />
                   </TouchableOpacity>
-                )}
+                </View>
               </View>
             </View>
 
+            {/* book detail card */}
             <View style={styles.infoCard}>
               <View style={styles.infoGrid}>
                 <View
