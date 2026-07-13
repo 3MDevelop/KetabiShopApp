@@ -21,6 +21,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { LinearGradient } from "expo-linear-gradient";
 import BookPreList from "@/components/Blocks/BookPreList";
 import CommentBox from "@/components/UI/CommentBox";
+import { API } from "@/constants/api";
 
 interface Comment {
   id: string | number;
@@ -83,6 +84,7 @@ export default function Book() {
   const { isRTL } = useLanguage();
   const [isLiked, setIsLiked] = useState(false);
   // Comment states
+  const [commented, /* setCommented */] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
   const [commentsLoading, setCommentsLoading] = useState(true);
   const [newComment, setNewComment] = useState("");
@@ -136,7 +138,7 @@ export default function Book() {
 
     setLoading(true);
     try {
-      const response = await fetch("https://ketabishop.com/api/getproduct/", {
+      const response = await fetch(API.GET_PRODUCT, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -468,9 +470,9 @@ export default function Book() {
                 onPress={showCommentSection}
               >
                 <Ionicons
-                  name={true ? "chatbubbles" : "chatbubbles-outline"}
+                  name={commented ? "chatbubbles" : "chatbubbles-outline"}
                   size={24}
-                  color="#189deb"
+                  color="#929292"
                 />
               </TouchableOpacity>
 
@@ -822,8 +824,15 @@ export default function Book() {
                     onPress={handleSubmitComment}
                     disabled={!newComment.trim()}
                   >
-                    {isLoggedIn ? (
-                      <ActivityIndicator size="small" color="#fff" />
+                    {!isLoggedIn ? (
+                      
+                      <CustomText
+                        variant="caption"
+                        style={{ color: "#fff" }}
+                      >
+                        برای ثبت نظر وارد حساب خود شوید
+                      </CustomText>
+                   
                     ) : (
                       <>
                         <Ionicons name="send-outline" size={20} color="#fff" />
@@ -837,19 +846,7 @@ export default function Book() {
                   </TouchableOpacity>
 
                   {/* هشدار ورود */}
-                  {!isLoggedIn && (
-                    <TouchableOpacity
-                      style={{ marginTop: 8, alignItems: "center" }}
-                      onPress={() => router.push("/login")}
-                    >
-                      <CustomText
-                        variant="caption"
-                        style={{ color: "#007AFF" }}
-                      >
-                        برای ثبت نظر وارد حساب خود شوید
-                      </CustomText>
-                    </TouchableOpacity>
-                  )}
+                  
                 </View>
 
                 {/* لیست نظرات */}
