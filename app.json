@@ -45,7 +45,11 @@
       "reactCompiler": true
     },
     "extra": {
-      "proxy": "http://ketabika.com"
+      "proxy": "http://ketabika.com",
+      "router": {},
+      "eas": {
+        "projectId": "4e0916ff-23c8-43e4-84fe-59a3376a73f4"
+      }
     }
   }
 }
