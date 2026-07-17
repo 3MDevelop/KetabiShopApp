@@ -5,6 +5,7 @@ import BookPreList from './BookPreList';
 import AutherPreList from './AutherPreList';
 import PublisherPreList from './PublisherPreList';
 import TagPreList from './TagPreList';
+import GlobalPrelist from './GlobalPrelist';
 import { View, Text } from 'react-native';
 
 export const componentRegistry: Record<string, ComponentType<any>> = {
@@ -13,10 +14,11 @@ export const componentRegistry: Record<string, ComponentType<any>> = {
   'AutherPreList': AutherPreList,
   'PublisherPreList': PublisherPreList,
   'TagPreList':TagPreList,
+  'globalPrelist':GlobalPrelist,
 };
 
 export const defaultComponent = () => (
   <View style={{ padding: 20 }}>
-    <Text>کامپوننت یافت نشد</Text>
+    <Text>component not defined</Text>
   </View>
 );

@@ -1,11 +1,17 @@
 import CustomText from "@/components/common/CustomText";
 import { ScrollView, View, StyleSheet } from "react-native";
+import { useLocalSearchParams } from "expo-router";
 
-export default function Publisher() {
+export default function Auther() {
+
+
+
+  const { id } = useLocalSearchParams<{ id: string }>();
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
-        <CustomText>Publisher list</CustomText>
+        <CustomText>Book list with PublisherID : {id}</CustomText>
       </View>
     </ScrollView>
   );

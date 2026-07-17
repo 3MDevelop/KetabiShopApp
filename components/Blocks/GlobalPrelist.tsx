@@ -1,59 +1,79 @@
 import {
   View,
   StyleSheet,
-  Image,
   ScrollView,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useState, useRef, useEffect } from "react";
 import CustomText from "@/components/common/CustomText";
-import BookThumb from "@/components/UI/BookThumb";
+/* import BookThumb from "@/components/UI/BookThumb"; */
 import { useResponsive } from "@/hooks/useResponsive";
 import { useRouter } from "expo-router";
 
 interface BookPreListProps {
   label?: string;
-  discription?:string;
-  fImage?: any;
-  listHeight?: number;
-  listItemRatio?: number;
-  noMore?: boolean;
+  discription?: string;
+  itemWidth?: number;
+  itemHeight?: number;
+  itemList?: any;
+  moreUrl?: string;
+  moreID?: number;
   backColor?: string;
-  listId?: any;
-  noBack?: boolean;
-  bookList?: any;
+  itemGap?: number;
+  listView?: boolean;
+  itemDefBackColor?: string;
+  itemBoarderRadius?: number;
 }
 
-export default function BookPreList({
+export default function GlobalPreList({
   label,
   discription,
-  fImage,
-  listHeight = 300,
-  listItemRatio = 0.64,
-  noMore,
-  backColor = "#fff",
-  listId,
-  noBack = false,
-  bookList,
+  itemWidth = 10,
+  itemHeight,
+  backColor,
+  itemList,
+  moreUrl,
+  moreID,
+  itemGap = 10,
+  listView,
+  itemDefBackColor,
+  itemBoarderRadius,
 }: BookPreListProps) {
   const scrollX = useRef(0);
   const scrollViewRef = useRef<ScrollView>(null);
   const [showLeftButton, setShowLeftButton] = useState(true);
   const [showRightButton, setShowRightButton] = useState(false);
+  const [lessItem, setLessItem] = useState(false);
   const scrollStep = 150;
   const contentWidth = useRef(0);
   const containerWidth = useRef(0);
   const { isMobile } = useResponsive();
   const router = useRouter();
 
-  const [books, setBooks] = useState<any[]>([]);
+  const [items, setItems] = useState<any[]>([]);
 
   useEffect(() => {
-    setBooks(bookList);
-  }, [bookList]);
+    setItems(itemList);
+  }, [itemList]);
 
-  const displayBooks = books;
+  const displayList = items;
+
+  const updateScrollButtonsVisibility = () => {
+    const hasOverflow = contentWidth.current > containerWidth.current;
+
+    if (!hasOverflow) {
+      setShowLeftButton(false);
+      setShowRightButton(false);
+      setLessItem(true);
+      return;
+    }
+
+    const maxScroll = contentWidth.current - containerWidth.current;
+    setShowRightButton(scrollX.current * -1 > 5);
+    setShowLeftButton(scrollX.current * -1 < maxScroll - 5);
+  };
 
   const scrollRight = () => {
     const newX = scrollX.current + scrollStep;
@@ -70,49 +90,47 @@ export default function BookPreList({
     });
   };
 
-  if (displayBooks.length === 0) {
+  if (displayList.length === 0) {
     return (
       <View
         style={[
           styles.categoryCard,
           {
-            height: listHeight,
-            backgroundColor: backColor,
+            backgroundColor: "lightgray",
             alignItems: "center",
             justifyContent: "center",
           },
         ]}
       >
-        <CustomText>هیچ کتابی یافت نشد</CustomText>
+        <CustomText>List notFound</CustomText>
       </View>
     );
   }
 
   return (
     <View style={{ width: "100%" }}>
-      <View
-        style={[styles.categoryCard, !noBack && { backgroundColor: backColor }]}
-      >
+      <View style={[styles.categoryCard]}>
         <View style={styles.header}>
           <View style={styles.headerRow}>
             <View style={{marginStart:"auto"}}>
-            {label && (
-              <CustomText bold variant="h4" style={styles.categoryName}>
-                {label}
-              </CustomText>
-            )}
-            {discription && (
-              <CustomText bold variant="discription" style={{marginEnd:25}}>
-                {discription}
-              </CustomText>
-            )}
+              {label && (
+                <CustomText bold variant="h4" style={styles.categoryName}>
+                  {label}
+                </CustomText>
+              )}
+
+              {discription && (
+                <CustomText bold variant="discription" style={{marginEnd:25,marginTop:8}}>
+                  {discription}
+                </CustomText>
+              )}
             </View>
-            {!noMore && (
+            {moreUrl && (
               <TouchableOpacity
                 onPress={() => {
                   router.push({
-                    pathname: "/bookList",
-                    params: { id: listId },
+                    pathname: moreUrl as any,
+                    params: moreID ? { id: String(moreID) } : {},
                   });
                 }}
               >
@@ -126,32 +144,10 @@ export default function BookPreList({
           style={{
             flexDirection: "row",
             alignItems: "center",
-            height: listHeight,
             overflow: "hidden",
           }}
         >
-          {fImage && !isMobile && (
-            <View
-              style={{
-                height: "100%",
-                marginStart: 10,
-                aspectRatio: listItemRatio,
-                borderRadius: 8,
-                overflow: "hidden",
-              }}
-            >
-              <Image
-                source={fImage}
-                resizeMode="contain"
-                style={{
-                  height: "100%",
-                  width: "100%",
-                }}
-              />
-            </View>
-          )}
-
-          <View style={styles.container}>
+          <View style={[styles.container, { backgroundColor: backColor }]}>
             {showLeftButton && !isMobile && (
               <View style={[styles.navButton, { left: 0 }]}>
                 <TouchableOpacity
@@ -181,29 +177,69 @@ export default function BookPreList({
               scrollEventThrottle={16}
               onContentSizeChange={(width) => {
                 contentWidth.current = width;
+                updateScrollButtonsVisibility();
               }}
               onLayout={(e) => {
                 containerWidth.current = e.nativeEvent.layout.width;
+                updateScrollButtonsVisibility();
               }}
               onScroll={(e) => {
                 scrollX.current = e.nativeEvent.contentOffset.x;
-                const maxScroll = contentWidth.current - containerWidth.current;
-                setShowRightButton(scrollX.current * -1 > 5);
-                setShowLeftButton(scrollX.current * -1 < maxScroll - 5);
+                updateScrollButtonsVisibility();
               }}
-              contentContainerStyle={styles.scrollContent}
+              contentContainerStyle={[
+                styles.scrollContent,
+                {
+                  gap: itemGap,
+                  alignItems: "stretch",
+                },
+                lessItem
+                  ? {
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "space-around",
+                    }
+                  : null,
+                !listView
+                  ? {
+                      width: "100%",
+                      flexWrap: "wrap",
+                    }
+                  : null,
+              ]}
             >
-              {displayBooks.map((book, index) => (
-                <BookThumb
-                  key={`${book.id}-${index}`}
-                  bookID={book.id}
-                  bookName={book.book_title}
-                  price={book.price}
-                  imageUrl={book.full_icon_address}
-                  ratio={listItemRatio}
-                  percent={book.percent}
-                  discount={book.discount}
-                />
+              {displayList.map((data, index) => (
+                <TouchableOpacity
+                  key={`${data.id}-${index}`}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                    backgroundColor: data.backColor || itemDefBackColor,
+                    borderRadius: itemBoarderRadius,
+                    overflow: "hidden",
+                  }}
+                  onPress={() => {
+                    router.push({
+                      pathname: data.url as any,
+                      params: data.id ? { id: String(data.id) } : {},
+                    });
+                  }}
+                >
+                  <Image
+                    style={{ width: itemWidth, height: itemHeight }}
+                    resizeMode="cover"
+                    source={{ uri: data.image }}
+                  />
+                  <CustomText
+                    variant="text"
+                    center
+                    style={{ width: itemWidth, padding: 8 }}
+                  >
+                    {data.lable}
+                  </CustomText>
+                </TouchableOpacity>
               ))}
             </ScrollView>
 
@@ -246,7 +282,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "center",
-    marginBottom: 8,
   },
 
   categoryName: {
@@ -264,8 +299,8 @@ const styles = StyleSheet.create({
   },
 
   scrollContent: {
+    padding: 8,
     alignItems: "center",
-    gap: 10,
   },
 
   navButton: {
@@ -275,22 +310,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     zIndex: 999,
     elevation: 20,
-  },
-
-  prevButton: {
-    left: 0,
-    shadowColor: "#ffffff",
-    shadowRadius: 10,
-    shadowOpacity: 0.2,
-    shadowOffset: { width: 8, height: 0 },
-  },
-
-  nextButton: {
-    right: 0,
-    shadowColor: "#ffffff",
-    shadowRadius: 10,
-    shadowOpacity: 0.2,
-    shadowOffset: { width: -8, height: 0 },
   },
 
   errorContainer: {
