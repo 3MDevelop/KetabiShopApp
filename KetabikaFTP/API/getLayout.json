@@ -19,7 +19,6 @@
       "type": "BookPreList",
       "data": {
         "label": "فهرست کتاب",
-        
         "discription": "از بهترین کتابها",
         "listId": "listID",
         "listHeight": 350,
