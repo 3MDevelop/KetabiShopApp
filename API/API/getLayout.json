@@ -1,19 +1,7 @@
 {
   "status": true,
   "data": [
-    {
-      "type": "fullWidthBanner",
-      "data": {
-        "isInner": true,
-        "url": "about",
-        "imageSource": "https://ketabishop.com/static/app/images/fullWidthBanner.jpg",
-        "height": 230,
-        "text": "Ketabika App",
-        "textColor": "#06443a",
-        "fontSize": 35,
-        "backImage": ""
-      }
-    },
+    
     {
       "type": "fullWidthBanner",
       "data": {
@@ -31,7 +19,8 @@
       "type": "BookPreList",
       "data": {
         "label": "فهرست کتاب",
-        "discription": " 7777   از بهترین کتابها",
+        
+        "discription": "از بهترین کتابها",
         "listId": "listID",
         "listHeight": 350,
         "fImage": "https://ketabishop.com/static/app/images/bookCat/02.png",
@@ -139,45 +128,45 @@
         "moreID": 654654654,
         "itemList": [
           {
-            "backColor":"",
+            "backColor": "",
             "lable": "",
             "image": "https://ketabishop.com/static/app/images/publisher/384.png",
-            "url":"publisher",
+            "url": "publisher",
             "id": 196209
           },
           {
-            "backColor":"",
+            "backColor": "",
             "lable": "",
             "image": "https://ketabishop.com/static/app/images/publisher/385.png",
-            "url":"publisher",
+            "url": "publisher",
             "id": 196221
           },
           {
-            "backColor":"",
+            "backColor": "",
             "lable": "",
             "image": "https://ketabishop.com/static/app/images/publisher/386.png",
-            "url":"publisher",
+            "url": "publisher",
             "id": 194778
           },
           {
-            "backColor":"",
+            "backColor": "",
             "lable": "",
             "image": "https://ketabishop.com/static/app/images/publisher/387.png",
-            "url":"publisher",
+            "url": "publisher",
             "id": 194989
           },
           {
-            "backColor":"",
+            "backColor": "",
             "lable": "",
             "image": "https://ketabishop.com/static/app/images/publisher/387.png",
-            "url":"publisher",
+            "url": "publisher",
             "id": 194742
           },
           {
-            "backColor":"",
+            "backColor": "",
             "lable": "",
             "image": "https://ketabishop.com/static/app/images/publisher/389.png",
-            "url":"publisher",
+            "url": "publisher",
             "id": 196289
           }
         ]
@@ -195,7 +184,6 @@
         "itemDefBackColor": "",
         "itemBoarderRadius": 8,
         "itemGap": 15,
-        "moreUrl": "auther",
         "moreUrl": "auther",
         "moreID": 654654654,
         "itemList": [
