@@ -23,6 +23,8 @@ import BookPreList from "@/components/Blocks/BookPreList";
 import CommentBox from "@/components/UI/CommentBox";
 import { API } from "@/constants/api";
 
+import { isFavorite, toggleFavorite, FavoriteItem } from "@/utils/favorites";
+
 interface Comment {
   id: string | number;
   userName: string;
@@ -84,11 +86,12 @@ export default function Book() {
   const { isRTL } = useLanguage();
   const [isLiked, setIsLiked] = useState(false);
   // Comment states
-  const [commented, /* setCommented */] = useState(false);
+  const [commented /* setCommented */] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
   const [commentsLoading, setCommentsLoading] = useState(true);
   const [newComment, setNewComment] = useState("");
   const [commentRating, setCommentRating] = useState(0);
+
 
   /* fake comment catch */
   useEffect(() => {
@@ -121,6 +124,17 @@ export default function Book() {
     };
     fetchCommentData();
   }, []);
+
+  useEffect(() => {
+    const checkFavoriteStatus = async () => {
+      if (book) {
+        const favStatus = await isFavorite(book.id);
+        setIsLiked(favStatus);
+      }
+    };
+
+    checkFavoriteStatus();
+  }, [book]);
 
   const fetchBookDetails = useCallback(async () => {
     if (!id) {
@@ -192,14 +206,27 @@ export default function Book() {
     console.info("goto Commnet Section");
   };
 
-  const toggleWishlist = () => {
-    setIsLiked(!isLiked);
+  const toggleWishlist = async () => {
+    if (!book) return;
+
+    const favoriteItem: FavoriteItem = {
+      id: book.id,
+      book_title: book.title,
+      full_icon_address: book.pic,
+      price: Number(book.price.replace(/,/g, "")),
+      discount: Number(book.discountFa?.replace(/,/g, "")) || 0,
+      percent: Number(book.percentFa) || 0,
+    };
+
+    const newStatus = await toggleFavorite(favoriteItem);
+    setIsLiked(newStatus);
+
     Toast.show({
       type: "success",
-      text1: isLiked ? t("common.cart.removed") : t("common.cart.added"),
-      text2: isLiked
-        ? `${book?.title} ${t("pages.Book.removedFromWishlist")}`
-        : `${book?.title} ${t("pages.Book.addedToWishlist")}`,
+      text1: newStatus ? t("common.cart.added") : t("common.cart.removed"),
+      text2: newStatus
+        ? `${book.title} ${t("pages.Book.addedToWishlist")}`
+        : `${book.title} ${t("pages.Book.removedFromWishlist")}`,
       position: "top",
       topOffset: 20,
       visibilityTime: 2000,
@@ -825,14 +852,9 @@ export default function Book() {
                     disabled={!newComment.trim()}
                   >
                     {!isLoggedIn ? (
-                      
-                      <CustomText
-                        variant="caption"
-                        style={{ color: "#fff" }}
-                      >
+                      <CustomText variant="caption" style={{ color: "#fff" }}>
                         برای ثبت نظر وارد حساب خود شوید
                       </CustomText>
-                   
                     ) : (
                       <>
                         <Ionicons name="send-outline" size={20} color="#fff" />
@@ -846,7 +868,6 @@ export default function Book() {
                   </TouchableOpacity>
 
                   {/* هشدار ورود */}
-                  
                 </View>
 
                 {/* لیست نظرات */}

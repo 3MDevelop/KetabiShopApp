@@ -161,6 +161,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     await AsyncStorage.removeItem("@user");
     await AsyncStorage.removeItem("@auth_token");
     await AsyncStorage.removeItem("@refresh_token");
+    await AsyncStorage.removeItem('@favorites');
     dispatch({ type: "LOGOUT" });
   };
 

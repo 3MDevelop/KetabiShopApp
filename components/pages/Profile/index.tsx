@@ -145,7 +145,7 @@ export default function Profile() {
 
               <ProfileItems
                 itemLable={t("pages.Profile.myFavorites")}
-                itemAddress={"./myFavorites"}
+                itemAddress={"./myInterests"}
                 itemLogo={"star-sharp"}
               />
             </>
