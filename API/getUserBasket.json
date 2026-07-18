@@ -1,0 +1,48 @@
+{
+  "status": true,
+  "data": [
+    {
+      "id": "533752",
+      "book_title": "ریاضی سوم رشادت مبتکران جلد اول",
+      "full_icon_address": "https://ketabika.ir/public/files/books/2025/09/3XRO6K1QSB/icon/9789640724897381676.png",
+      "price": 550000,
+      "discount": 4675000,
+      "percent": 15,
+      "quentity":3,
+      "bookType":1
+      
+    },
+    {
+      "id": "533745",
+      "book_title": "کتاب کار فارسی پنجم خیلی سبز",
+      "full_icon_address": "https://ketabika.ir/public/files/books/2025/09/HO7PKVLM39/icon/9786004120289916619.png",
+      "discount": 2975000,
+      "percent": 15,
+      "price": 350000
+    },
+    {
+      "id": "533744",
+      "book_title": "فارسی دوم کارپوچینو گاج",
+      "full_icon_address": "https://ketabika.ir/public/files/books/2025/09/Q8ZOYTW8GJ/icon/9786003595729345142.png",
+      "discount": 3485000,
+      "percent": 15,
+      "price": 410000
+    },
+    {
+      "id": "533743",
+      "book_title": "کتاب کار آمادگی برای نوشتن پیش دبستانی خیلی سبز",
+      "full_icon_address": "https://ketabika.ir/public/files/books/2025/09/ZQLATUWTP5/icon/9786004124454284494.png",
+      "discount": 1275000,
+      "percent": 15,
+      "price": 150000
+    },
+    {
+      "id": "533758",
+      "book_title": "ریاضی پنجم پیشتاز خیلی سبز",
+      "full_icon_address": "https://ketabika.ir/public/files/books/2025/09/U5FI6LR1ND/icon/9786222303136654223.png",
+      "discount": 4420000,
+      "percent": 15,
+      "price": 520000
+    }
+  ]
+}

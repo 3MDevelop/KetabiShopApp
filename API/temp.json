@@ -1,0 +1,103 @@
+{
+  "statu": true,
+  "list": [
+    {
+      "id": "534597",
+      "publisher": "گاج",
+      "book_title": "علوم چهارم کارپوچینو گاج",
+      "full_icon_address": "https://ketabika.ir/public/files/books/2025/09/OLZBIETHAP/icon/9786003595248345589.png",
+      "author_info": "فاطمه حسینی رباط",
+      "discount": 3357500,
+      "percent": "15",
+      "main_price_en": "395,000"
+    },
+    {
+      "id": "534590",
+      "publisher": "مبتکران",
+      "book_title": "علوم سوم رشادت مبتکران",
+      "full_icon_address": "https://ketabika.ir/public/files/books/2025/09/Q3NZUHIXUV/icon/9789640723487379943.png",
+      "author_info": "رقیه اربابی فر",
+      "discount": 3910000,
+      "percent": "15",
+      "main_price_en": "460,000"
+    },
+    {
+      "id": "534624",
+      "publisher": "مهروماه",
+      "book_title": "درس پک راهنمای گام به گام دروس ششم مهروماه",
+      "full_icon_address": "https://ketabika.ir/public/files/books/2025/09/PNLIY6MR1X/icon/9786003173453161931.png",
+      "author_info": "گروه مولفان",
+      "main_price_en": "490,000"
+    },
+    {
+      "id": "534603",
+      "publisher": "خیلی سبز",
+      "book_title": "ریاضی ششم تیزهوشان خیلی سبز جلد 2 (پاسخ)",
+      "full_icon_address": "https://ketabika.ir/public/files/books/2025/09/CIZXOAM42E/icon/9786004122689188154.png",
+      "author_info": "بهنام بناپور, سعید هادیان",
+      "discount": 6247500,
+      "percent": "15",
+      "main_price_en": "735,000"
+    },
+    {
+      "id": "534600",
+      "publisher": "گاج",
+      "book_title": "علوم چهارم سیر تا پیاز گاج",
+      "full_icon_address": "https://ketabika.ir/public/files/books/2025/09/2MO7X6IYP3/icon/9786003597013315857.png",
+      "author_info": "مرضیه غلامی",
+      "discount": 3187500,
+      "percent": "15",
+      "main_price_en": "375,000"
+    },
+    {
+      "id": "534642",
+      "publisher": "مبتکران",
+      "book_title": "ریاضی پنجم مرشد مبتکران جلد 2 (پاسخنامه)",
+      "full_icon_address": "https://ketabika.ir/public/files/books/2025/09/56PB6OXUVJ/icon/9789640723685459161.png",
+      "author_info": "هادی عزیززاده",
+      "discount": 5525000,
+      "percent": "15",
+      "main_price_en": "650,000"
+    },
+    {
+      "id": "534641",
+      "publisher": "مبتکران",
+      "book_title": "کار و تمرین ریاضی ششم مبتکران",
+      "full_icon_address": "https://ketabika.ir/public/files/books/2025/09/5ORZ32ECZA/icon/9789640728581386993.png",
+      "author_info": "فاطمه حاجی‌محمودی",
+      "discount": 5100000,
+      "percent": "15",
+      "main_price_en": "600,000"
+    },
+    {
+      "id": "534649",
+      "publisher": "گاج",
+      "book_title": "مطالعات اجتماعی چهارم کارپوچینو گاج",
+      "full_icon_address": "https://ketabika.ir/public/files/books/2025/09/SBAQ6FUMBI/icon/9786003595514969991.png",
+      "author_info": "افشان مافی",
+      "discount": 2125000,
+      "percent": "15",
+      "main_price_en": "250,000"
+    },
+    {
+      "id": "534648",
+      "publisher": "گاج",
+      "book_title": "زبان انگلیسی پیش دبستانی کارپوچینو گاج",
+      "full_icon_address": "https://ketabika.ir/public/files/books/2025/09/CJHIXIGMTO/icon/9786003595644615379.png",
+      "author_info": "پرستو محمود عربی",
+      "discount": 2040000,
+      "percent": "15",
+      "main_price_en": "240,000"
+    },
+    {
+      "id": "534653",
+      "publisher": "خیلی سبز",
+      "book_title": "پیک هفتگی پنجم خیلی سبز",
+      "full_icon_address": "https://ketabika.ir/public/files/books/2025/09/PQ14OLMPA4/icon/9786004125819396653.png",
+      "author_info": "زهرا شریف پور",
+      "discount": 2975000,
+      "percent": "15",
+      "main_price_en": "350,000"
+    }
+  ]
+}
