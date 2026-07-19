@@ -20,7 +20,7 @@ import { useResponsive } from "@/hooks/useResponsive";
 import { useAuth } from "@/hooks/useAuth";
 import { LinearGradient } from "expo-linear-gradient";
 import BookPreList from "@/components/Blocks/BookPreList";
-import CommentBox from "@/components/UI/CommentBox";
+import CommentsList from "@/components/UI/CommentsList";
 import { API } from "@/constants/api";
 
 import { isFavorite, toggleFavorite, FavoriteItem } from "@/utils/favorites";
@@ -880,7 +880,7 @@ export default function Book() {
                 >
                   {comments.length > 0 ? (
                     comments.map((comment, index) => (
-                      <CommentBox
+                      <CommentsList
                         key={comment.id || index}
                         userName={comment.userName}
                         userComments={comment.comment}

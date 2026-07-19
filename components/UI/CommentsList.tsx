@@ -8,7 +8,7 @@ interface CommentBoxProps {
   rating?: number;
 }
 
-export default function CommentBox({
+export default function CommentsList({
   userName,
   userComments,
   rating = 0,
