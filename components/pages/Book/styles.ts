@@ -23,46 +23,12 @@ export default StyleSheet.create({
     alignItems: "stretch",
   },
 
-  headerContainer: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-    maxWidth: 950,
-    paddingHorizontal: 20,
-    backgroundColor: "#fff",
-    borderBottomWidth: 1,
-    borderBottomColor: "#f0f0f0",
-    borderBottomEndRadius: 8,
-    borderBottomStartRadius: 8,
-    paddingTop: 20,
-    paddingBottom: 12,
-  },
+  
   scrollContent: {
     flexGrow: 1,
   },
-  header: {
-    width: "100%",
-    maxWidth: 900,
-    alignSelf: "center",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#f5f5f5",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#333",
-  },
+  
+  
   imageSection: {
     alignItems: "center",
     marginBottom: 12,
@@ -228,12 +194,7 @@ export default StyleSheet.create({
     shadowRadius: 8,
     elevation: 3,
   },
-  cardTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: 12,
-  },
+  
   infoGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -281,24 +242,8 @@ export default StyleSheet.create({
   outOfStock: {
     color: "#f44336",
   },
-  descriptionCard: {
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 24,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 3,
-    width: "100%",
-  },
-  descriptionText: {
-    fontSize: 14,
-    color: "#555",
-    lineHeight: 24,
-    textAlign: "justify",
-  },
+  
+  
   loadingContainer: {
     flex: 1,
     justifyContent: "center",
@@ -366,17 +311,5 @@ export default StyleSheet.create({
     marginHorizontal: 8,
     paddingHorizontal: 8,
   },
-  commentsCard: {
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    overflow: "hidden",
-    marginBottom: 24,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.07,
-    shadowRadius: 8,
-    elevation: 3,
-    width: "100%",
-    flexWrap: "wrap",
-  },
+  
 });

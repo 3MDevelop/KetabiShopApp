@@ -5,33 +5,23 @@ import {
   ScrollView,
   TouchableOpacity,
   View,
-  TextInput,
 } from "react-native";
-import { useLanguage } from "@/context/LanguageContext";
-import { useTranslate } from "@/hooks/useTranslation";
-import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useCallback, useEffect, useState } from "react";
-import { BookListData } from "./BookListData";
 import Toast from "react-native-toast-message";
-import styles from "./styles";
-import CustomText from "@/components/common/CustomText";
-import { useResponsive } from "@/hooks/useResponsive";
-import { useAuth } from "@/hooks/useAuth";
-import { LinearGradient } from "expo-linear-gradient";
-import BookPreList from "@/components/Blocks/BookPreList";
-import CommentsList from "@/components/UI/CommentsList";
+import { Ionicons } from "@expo/vector-icons";
+import { useTranslate } from "@/hooks/useTranslation";
+import { useLanguage } from "@/context/LanguageContext";
 import { API } from "@/constants/api";
-
+import { useResponsive } from "@/hooks/useResponsive";
+import CustomText from "@/components/common/CustomText";
+import BookPreList from "@/components/Blocks/BookPreList";
+import PageHeader from "@/components/UI/PageHeader";
+import styles from "./styles";
 import { isFavorite, toggleFavorite, FavoriteItem } from "@/utils/favorites";
+import BookDiscription from "@/components/UI/BookDiscription";
+import CommentsCard from "@/components/UI/CommentsCard";
 
-interface Comment {
-  id: string | number;
-  userName: string;
-  comment: string;
-  rating?: number;
-  date?: string;
-}
 
 interface ProvidersData {
   book_size: string;
@@ -57,6 +47,9 @@ interface BookData {
   exist: string;
   size: string;
   providers: ProvidersData[];
+  publisherbooklist:BookData[];
+  authorbooklist:BookData[];
+  relatedbooklist:BookData[];
 }
 
 const headerSection = [
@@ -66,18 +59,8 @@ const headerSection = [
   "نظرات کاربران",
 ];
 
-const stripHtmlTags = (html: string) => {
-  if (!html) return "";
-  return html
-    .replace(/<[^>]*>/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-};
-
 export default function Book() {
   const { isMobile } = useResponsive();
-  const { isLoggedIn, user } = useAuth();
-  const [showMore, setShowMore] = useState(false);
   const { id } = useLocalSearchParams<{ id: string }>();
   const [book, setBook] = useState<BookData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -85,46 +68,9 @@ export default function Book() {
   const { t } = useTranslate();
   const { isRTL } = useLanguage();
   const [isLiked, setIsLiked] = useState(false);
-  // Comment states
   const [commented /* setCommented */] = useState(false);
-  const [comments, setComments] = useState<Comment[]>([]);
-  const [commentsLoading, setCommentsLoading] = useState(true);
-  const [newComment, setNewComment] = useState("");
-  const [commentRating, setCommentRating] = useState(0);
 
-
-  /* fake comment catch */
-  useEffect(() => {
-    const fetchCommentData = async () => {
-      try {
-        const response = await fetch("https://ketabishop.com/api/getstatic/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: `name=getComments`,
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const result = await response.json();
-
-        if (result.status === true && result.data) {
-          setComments(result.data);
-        } else {
-          console.warn(result);
-        }
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setCommentsLoading(false);
-      }
-    };
-    fetchCommentData();
-  }, []);
-
+  // بررسی وضعیت علاقه‌مندی
   useEffect(() => {
     const checkFavoriteStatus = async () => {
       if (book) {
@@ -132,10 +78,10 @@ export default function Book() {
         setIsLiked(favStatus);
       }
     };
-
     checkFavoriteStatus();
   }, [book]);
 
+  // دریافت اطلاعات کتاب
   const fetchBookDetails = useCallback(async () => {
     if (!id) {
       setLoading(false);
@@ -164,9 +110,8 @@ export default function Book() {
 
       if (result.status === true && result.data) {
         setBook(result.data);
-        /*         console.info(result.data);
-         */
       }
+      
     } catch (error) {
       console.error("Error fetching book details:", error);
       Toast.show({
@@ -187,6 +132,7 @@ export default function Book() {
     fetchBookDetails();
   }, [fetchBookDetails]);
 
+
   const addToCart = () => {
     Toast.show({
       type: "success",
@@ -203,7 +149,7 @@ export default function Book() {
   };
 
   const showCommentSection = () => {
-    console.info("goto Commnet Section");
+    console.info("goto Comment Section");
   };
 
   const toggleWishlist = async () => {
@@ -242,82 +188,6 @@ export default function Book() {
       visibilityTime: 2000,
       text1Style: { textAlign: "center" },
     });
-  };
-
-  const RatingStars = ({
-    rating,
-    onRate,
-  }: {
-    rating: number;
-    onRate: (value: number) => void;
-  }) => {
-    return (
-      <View style={{ flexDirection: "row", gap: 4, alignItems: "center" }}>
-        {[1, 2, 3, 4, 5].map((star) => (
-          <TouchableOpacity
-            key={star}
-            onPress={() => onRate(star)}
-            activeOpacity={0.7}
-          >
-            <Ionicons
-              name={star <= rating ? "star" : "star-outline"}
-              size={16}
-              color={star <= rating ? "#FFD700" : "#ccc"}
-            />
-          </TouchableOpacity>
-        ))}
-      </View>
-    );
-  };
-
-  const handleSubmitComment = async () => {
-    if (!newComment.trim()) {
-      Toast.show({
-        type: "error",
-        text1: "خطا",
-        text2: "لطفاً متن نظر را وارد کنید",
-      });
-      return;
-    }
-
-    if (!isLoggedIn) {
-      Toast.show({
-        type: "error",
-        text1: "نیاز به ورود",
-        text2: "برای ثبت نظر وارد حساب خود شوید",
-      });
-      router.push("/login");
-      return;
-    }
-
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      const newCommentObj: Comment = {
-        id: Date.now(),
-        userName: user?.nName as string,
-        comment: newComment,
-        rating: commentRating,
-        date: new Date().toLocaleDateString("fa-IR"),
-      };
-
-      setComments([newCommentObj, ...comments]);
-      setNewComment("");
-      setCommentRating(0);
-
-      Toast.show({
-        type: "success",
-        text1: "موفق",
-        text2: "نظر شما با موفقیت ثبت شد",
-      });
-    } catch {
-      Toast.show({
-        type: "error",
-        text1: "خطا",
-        text2: "مشکل در ثبت نظر",
-      });
-    } finally {
-    }
   };
 
   if (loading) {
@@ -363,34 +233,9 @@ export default function Book() {
   const hasDiscount = book.discountFa;
   const isAvailable = book.exist === "1";
 
-  console.info(book.providers[0]);
-
   return (
     <View style={styles.container}>
-      {/* page header */}
-      <View style={[styles.headerContainer]}>
-        <View style={styles.header}>
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => router.back()}
-          >
-            <Ionicons
-              name={isRTL ? "arrow-forward" : "arrow-back"}
-              size={24}
-              color="#333"
-            />
-          </TouchableOpacity>
-          <CustomText
-            bold
-            variant="h4"
-            style={styles.bookTitle}
-            numberOfLines={1}
-          >
-            {book.title}
-          </CustomText>
-          <View style={{ width: 40 }} />
-        </View>
-      </View>
+      <PageHeader title={book.title} />
 
       <ScrollView
         style={styles.scrollContainer}
@@ -398,8 +243,6 @@ export default function Book() {
         contentContainerStyle={styles.scrollContent}
       >
         <View style={styles.content}>
-
-
           {/* book image section */}
           <View
             style={[styles.imageSection, { width: isMobile ? "100%" : "38%" }]}
@@ -423,7 +266,6 @@ export default function Book() {
               </View>
             )}
           </View>
-
 
           {/* book info cards */}
           <View
@@ -449,7 +291,7 @@ export default function Book() {
                   <CustomText
                     variant="discription"
                     bold
-                    style={[styles.infoValue, , { fontSize: 18 }]}
+                    style={[styles.infoValue, { fontSize: 18 }]}
                   >
                     {book.author || t("pages.Book.unknownAuthor")}
                   </CustomText>
@@ -470,7 +312,7 @@ export default function Book() {
                   <CustomText
                     variant="discription"
                     bold
-                    style={[styles.infoValue, , { fontSize: 18 }]}
+                    style={[styles.infoValue, { fontSize: 18 }]}
                   >
                     {book.publisher || t("common.common.unknown")}
                   </CustomText>
@@ -478,7 +320,7 @@ export default function Book() {
               </View>
             </View>
 
-            {/* action botton */}
+            {/* action buttons */}
             <View
               style={{
                 flexDirection: "row",
@@ -571,11 +413,7 @@ export default function Book() {
                     style={[styles.audioButton]}
                     onPress={playAudio}
                   >
-                    <Ionicons
-                      name="headset"
-                      size={28}
-                      color="white" /* "#FF6B35" */
-                    />
+                    <Ionicons name="headset" size={28} color="white" />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -670,7 +508,7 @@ export default function Book() {
                       {t("pages.Book.size")}
                     </CustomText>
                     <CustomText style={styles.infoValue}>
-                      {book.providers[0].book_size}
+                      {book.providers[0]?.book_size || t("common.unknown")}
                     </CustomText>
                   </View>
                 </View>
@@ -678,9 +516,7 @@ export default function Book() {
             </View>
           </View>
 
-
           {/* book info navbar */}
-
           <View style={styles.sectionNavbar}>
             {headerSection.map((title, index) => (
               <View key={index} style={styles.sectionNavbarItems}>
@@ -694,242 +530,53 @@ export default function Book() {
             ))}
           </View>
 
-
           {/* book description */}
-
-          {book.des_fa && (
-            <View
-              style={[
-                styles.descriptionCard,
-                {
-                  height: !showMore ? 200 : "auto",
-                  overflow: "hidden",
-                  paddingBottom: !showMore ? 30 : "auto",
-                },
-              ]}
-            >
-              <CustomText style={styles.cardTitle}>
-                📖 {t("pages.Book.description")}
-              </CustomText>
-              <CustomText style={styles.descriptionText}>
-                {stripHtmlTags(book.des_fa)}
-              </CustomText>
-              <TouchableOpacity
-                onPress={() => setShowMore(!showMore)}
-                style={{
-                  position: "absolute",
-                  bottom: 0,
-                  right: 0,
-                  width: "100%",
-                }}
-              >
-                <LinearGradient
-                  colors={["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 1)"]}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 0, y: 1 }}
-                  style={{
-                    position: "absolute",
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    height: 50,
-                    pointerEvents: "none",
-                  }}
-                />
-                <Ionicons
-                  name="chevron-down"
-                  size={24}
-                  color="#505050"
-                  style={{
-                    alignSelf: "center",
-                    transform: [{ rotate: showMore ? "180deg" : "0deg" }],
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-          )}
-
+          {book.des_fa && <BookDiscription desText={book.des_fa} />}
 
           {/* from this publisher */}
           <View style={{ marginTop: 20, width: "100%" }}>
             <BookPreList
-              label={"از همین انتشارات"}
+              label={t("pages.Book.samePublisher")}
               listId={"listID"}
               listHeight={350}
-              fImage="https://ketabishop.com/static/app/images/publisher/384.png"
               listItemRatio={0.6}
               noMore={false}
               backColor={""}
               noBack={false}
-              bookList={BookListData}
+              bookList={book?.publisherbooklist}
             />
           </View>
 
           {/* from this auther */}
           <View style={{ marginTop: 20, width: "100%" }}>
             <BookPreList
-              label={"از همین نویسنده"}
+              label={t("pages.Book.sameAuther")}
               listId={"listID"}
               listHeight={350}
-              fImage="https://ketabishop.com/static/app/images/auther/453.png"
               listItemRatio={0.6}
               noMore={false}
               backColor={""}
               noBack={false}
-              bookList={BookListData}
+              bookList={book?.authorbooklist}
             />
           </View>
 
-
-          {/* copmments section */}
-          <View
-            style={[
-              styles.commentsCard,
-              {
-                flexDirection: isMobile ? "column" : "row",
-                backgroundColor: "#fcfcfc",
-                padding: 16,
-              },
-            ]}
-          >
-            {commentsLoading ? (
-              <View
-                style={{ padding: 20, alignItems: "center", width: "100%" }}
-              >
-                <ActivityIndicator size="large" color="#007AFF" />
-                <CustomText>در حال دریافت اطلاعات...</CustomText>
-              </View>
-            ) : (
-              <>
-                {/* فرم ثبت نظر */}
-                <View
-                  style={{
-                    width: isMobile ? "100%" : "40%",
-                    paddingHorizontal: 8,
-                    marginBottom: isMobile ? 16 : 0,
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <CustomText variant="h4" bold style={{ marginBottom: 12 }}>
-                    ثبت نظر
-                  </CustomText>
-
-                  {/* ریتینگ */}
-                  <View
-                    style={{
-                      marginBottom: 12,
-                      flexDirection: "row",
-                      alignItems: "center",
-                      gap: 12,
-                    }}
-                  >
-                    <CustomText
-                      variant="caption"
-                      style={{ marginBottom: 4, color: "#666", paddingTop: 8 }}
-                    >
-                      امتیاز شما
-                    </CustomText>
-                    <RatingStars
-                      rating={commentRating}
-                      onRate={setCommentRating}
-                    />
-                  </View>
-
-                  {/* ورودی متن */}
-                  <TextInput
-                    style={{
-                      borderWidth: 1,
-                      borderColor: "#ddd",
-                      borderRadius: 8,
-                      padding: 12,
-                      minHeight: 100,
-                      flexGrow: 1,
-                      textAlignVertical: "top",
-                      backgroundColor: "#fff",
-                    }}
-                    placeholder="نظر خود را بنویسید..."
-                    placeholderTextColor="#999"
-                    value={newComment}
-                    onChangeText={setNewComment}
-                    multiline
-                    numberOfLines={4}
-                  />
-
-                  {/* دکمه ارسال */}
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: newComment.trim() ? "#007AFF" : "#ccc",
-                      paddingVertical: 12,
-                      borderRadius: 8,
-                      marginTop: 12,
-                      alignItems: "center",
-                      flexDirection: "row",
-                      justifyContent: "center",
-                      gap: 8,
-                    }}
-                    onPress={handleSubmitComment}
-                    disabled={!newComment.trim()}
-                  >
-                    {!isLoggedIn ? (
-                      <CustomText variant="caption" style={{ color: "#fff" }}>
-                        برای ثبت نظر وارد حساب خود شوید
-                      </CustomText>
-                    ) : (
-                      <>
-                        <Ionicons name="send-outline" size={20} color="#fff" />
-                        <CustomText
-                          style={{ color: "#fff", fontWeight: "bold" }}
-                        >
-                          ارسال نظر
-                        </CustomText>
-                      </>
-                    )}
-                  </TouchableOpacity>
-
-                  {/* هشدار ورود */}
-                </View>
-
-                {/* لیست نظرات */}
-                <ScrollView
-                  style={{
-                    paddingHorizontal: 8,
-                    width: isMobile ? "100%" : "60%",
-                    maxHeight: 350,
-                  }}
-                >
-                  {comments.length > 0 ? (
-                    comments.map((comment, index) => (
-                      <CommentsList
-                        key={comment.id || index}
-                        userName={comment.userName}
-                        userComments={comment.comment}
-                        /* rating={comment.rating} */
-                      />
-                    ))
-                  ) : (
-                    <View
-                      style={{
-                        minHeight: 100,
-                        width: "100%",
-                        flexDirection: "row",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Ionicons
-                        name="chatbox-ellipses-outline"
-                        size={32}
-                        color="#007AFF"
-                      />
-                      <CustomText variant="h4" style={{ marginHorizontal: 8 }}>
-                        هنوز نظری ثبت نشده
-                      </CustomText>
-                    </View>
-                  )}
-                </ScrollView>
-              </>
-            )}
+          {/* related book list */}
+          <View style={{ marginTop: 20, width: "100%" }}>
+            <BookPreList
+             label={t("pages.Book.relatedBooks")}
+              listId={"listID"}
+              listHeight={350}
+              listItemRatio={0.6}
+              noMore={false}
+              backColor={""}
+              noBack={false}
+              bookList={book?.relatedbooklist}
+            />
           </View>
+
+          {/* comments section */}
+         <CommentsCard />
         </View>
       </ScrollView>
     </View>

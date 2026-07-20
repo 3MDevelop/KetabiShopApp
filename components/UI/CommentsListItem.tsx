@@ -11,9 +11,8 @@ interface CommentBoxProps {
 export default function CommentsList({
   userName,
   userComments,
-  rating = 0,
+  rating,
 }: CommentBoxProps) {
- const randomRating = Math.floor(Math.random() * 6);
   return (
     <View
       style={{
@@ -40,7 +39,7 @@ export default function CommentsList({
           {userName}
         </CustomText>
         <View style={{ marginHorizontal: 8, flexDirection: "row" }}>
-          {Array(randomRating)
+          {Array(rating)
             .fill(0)
             .map((_, index) => (
               <Ionicons
