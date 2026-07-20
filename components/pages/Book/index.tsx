@@ -367,6 +367,7 @@ export default function Book() {
 
   return (
     <View style={styles.container}>
+      {/* page header */}
       <View style={[styles.headerContainer]}>
         <View style={styles.header}>
           <TouchableOpacity
@@ -397,6 +398,9 @@ export default function Book() {
         contentContainerStyle={styles.scrollContent}
       >
         <View style={styles.content}>
+
+
+          {/* book image section */}
           <View
             style={[styles.imageSection, { width: isMobile ? "100%" : "38%" }]}
           >
@@ -420,10 +424,11 @@ export default function Book() {
             )}
           </View>
 
+
+          {/* book info cards */}
           <View
             style={{
               width: isMobile ? "100%" : "60%",
-
               flexDirection: "column",
             }}
           >
@@ -473,6 +478,7 @@ export default function Book() {
               </View>
             </View>
 
+            {/* action botton */}
             <View
               style={{
                 flexDirection: "row",
@@ -672,6 +678,9 @@ export default function Book() {
             </View>
           </View>
 
+
+          {/* book info navbar */}
+
           <View style={styles.sectionNavbar}>
             {headerSection.map((title, index) => (
               <View key={index} style={styles.sectionNavbarItems}>
@@ -684,6 +693,9 @@ export default function Book() {
               </View>
             ))}
           </View>
+
+
+          {/* book description */}
 
           {book.des_fa && (
             <View
@@ -736,6 +748,9 @@ export default function Book() {
               </TouchableOpacity>
             </View>
           )}
+
+
+          {/* from this publisher */}
           <View style={{ marginTop: 20, width: "100%" }}>
             <BookPreList
               label={"از همین انتشارات"}
@@ -749,6 +764,8 @@ export default function Book() {
               bookList={BookListData}
             />
           </View>
+
+          {/* from this auther */}
           <View style={{ marginTop: 20, width: "100%" }}>
             <BookPreList
               label={"از همین نویسنده"}
@@ -763,6 +780,8 @@ export default function Book() {
             />
           </View>
 
+
+          {/* copmments section */}
           <View
             style={[
               styles.commentsCard,
