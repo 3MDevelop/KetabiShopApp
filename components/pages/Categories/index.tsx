@@ -55,7 +55,7 @@ export default function Categories() {
             textColor="#06443a"
             isInner
             url="about"
-            imageSource={require("@/assets/images/fullWidthBanner.jpg")}
+            imageSource="https://ketabishop.com/static/app/images/fullWidthBanner.jpg"
           />
 
           {genres.map((genre) => {

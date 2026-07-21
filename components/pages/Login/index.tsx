@@ -192,7 +192,7 @@ export default function Login() {
           likedList: userDataFromApi?.likedList || [],
           commentList: userDataFromApi?.commentList || [],
           paymentList: userDataFromApi?.paymentList || [],
-          basket: userDataFromApi?.basketList || [],
+          basket: userDataFromApi?.basket || [],
           addresses: userDataFromApi?.addresses || [],
         };
 
