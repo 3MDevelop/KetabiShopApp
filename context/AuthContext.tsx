@@ -10,10 +10,9 @@ type Device = {
   [key: string]: any;
 };
 
-type Interest = {
-  id: number;
-  name: string;
-  [key: string]: any;
+type BasketItem = {
+  codeConfig: number;
+  count: number;
 };
 
 type Book = {
@@ -49,10 +48,10 @@ export type User = {
   device_List: string[];
   interests: number[];
   readList: Book[];
-  likedList: Book[];
+  likedList: number[];
   commentList: Comment[];
   paymentList: string[];
-  basket: string[];
+  basket: BasketItem[];
   addresses: string[];
 };
 
@@ -161,7 +160,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     await AsyncStorage.removeItem("@user");
     await AsyncStorage.removeItem("@auth_token");
     await AsyncStorage.removeItem("@refresh_token");
-    await AsyncStorage.removeItem('@favorites');
+    await AsyncStorage.removeItem("@favorites");
     dispatch({ type: "LOGOUT" });
   };
 
@@ -195,7 +194,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         logout,
         clearError,
         updateUser,
-        isAuthenticated
+        isAuthenticated,
       }}
     >
       {children}

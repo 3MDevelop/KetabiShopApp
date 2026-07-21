@@ -52,13 +52,6 @@ interface BookData {
   relatedbooklist:BookData[];
 }
 
-const headerSection = [
-  "توضیحات کتاب",
-  "این انتشارات",
-  "این نویسنده",
-  "نظرات کاربران",
-];
-
 export default function Book() {
   const { isMobile } = useResponsive();
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -514,20 +507,6 @@ export default function Book() {
                 </View>
               </View>
             </View>
-          </View>
-
-          {/* book info navbar */}
-          <View style={styles.sectionNavbar}>
-            {headerSection.map((title, index) => (
-              <View key={index} style={styles.sectionNavbarItems}>
-                <CustomText
-                  variant="discription"
-                  style={{ paddingVertical: 12 }}
-                >
-                  {title}
-                </CustomText>
-              </View>
-            ))}
           </View>
 
           {/* book description */}

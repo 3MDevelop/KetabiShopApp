@@ -2,11 +2,32 @@
   "status": true,
   "data": {
     "name": "Mohammad",
-    "id": 4403693,
     "nName": "3M Develop",
     "lName": "Moghaddam Maher",
     "avatar": 5,
     "email": "3mdevelop@gmail.com",
-    "basketCount": 3
+    "basket": [
+      {
+        "codeConfig": 12341234,
+        "count": 2
+      },
+      {
+        "codeConfig": 12341234,
+        "count": 2
+      },
+      {
+        "codeConfig": 12341234,
+        "count": 2
+      },
+      {
+        "codeConfig": 12341234,
+        "count": 2
+      },
+      {
+        "codeConfig": 12341234,
+        "count": 2
+      }
+    ],
+    "likedList": [1234, 1234, 1234, 1234]
   }
 }
