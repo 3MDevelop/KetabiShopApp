@@ -17,7 +17,13 @@ export default function PageHeader({ title }: PageHeaderProps) {
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.backButton}
-          onPress={() => router.back()}
+          onPress={() => {
+            if (router.canGoBack()) {
+              router.back();
+            } else {
+              router.replace("/");
+            }
+          }}
         >
           <Ionicons
             name={isRTL ? "arrow-forward" : "arrow-back"}
@@ -76,5 +82,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "600",
     color: "#333",
-  }
+  },
 });

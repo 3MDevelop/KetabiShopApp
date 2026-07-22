@@ -29,37 +29,13 @@ export default StyleSheet.create({
   },
   
   
-  imageSection: {
-    alignItems: "center",
-    marginBottom: 12,
-    borderRadius: 8,
-    overflow: "hidden",
-  },
   imageWrapper: {
     position: "relative",
-  },
-  detailImage: {
-    width: "100%",
-    height: "100%",
   },
   noImage: {
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#f5f5f5",
-  },
-  discountBadge: {
-    position: "absolute",
-    right: 0,
-    backgroundColor: "#f44336",
-    paddingHorizontal: 24,
-    paddingVertical: 6,
-
-    borderBottomStartRadius: 20,
-  },
-  discountBadgeText: {
-    color: "#fff",
-    fontSize: 12,
-    fontWeight: "bold",
   },
   titleSection: {
     alignItems: "center",
@@ -79,73 +55,8 @@ export default StyleSheet.create({
     fontSize: 15,
     color: "#999",
   },
-  priceSection: {
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 12,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 3,
-  },
-  priceWrapper: {
-    alignItems: "center",
-    marginBottom: 12,
-    paddingBottom: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#f0f0f0",
-  },
-  oldPrice: {
-    fontSize: 14,
-    color: "#999",
-    textDecorationLine: "line-through",
-    marginBottom: 4,
-  },
-  finalPrice: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#4CAF50",
-  },
-  singlePrice: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#333",
-  },
-  actionButtons: {
-    flexDirection: "row",
-    gap: 12,
-  },
-
-  actionButton: {
-    width: 42,
-    height: 42,
-    borderRadius: 8,
-    backgroundColor: "#f5f5f5",
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor:"#929292"
-  },
-  cartButton: {
-    flex: 1,
-    flexDirection: "row",
-    backgroundColor: "#4CAF50",
-    paddingVertical: 14,
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-  },
-  cartButtonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  disabledButton: {
-    backgroundColor: "#ccc",
-  },
+  
+  
   wishlistButton: {
     borderColor: "#f44336",
   },
@@ -159,83 +70,10 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: "#7e7e7e",
   },
-  audioButton: {
-    width: 52,
-    height: 52,
-    borderRadius: 8,
-    backgroundColor: "#4CAF50",
-    alignItems: "center",
-    justifyContent: "center",
-    /* borderWidth: 1, */
-    /* borderColor: "#FF6B35", */
-  },
-  eButton: {
-    width: 52,
-    height: 52,
-    borderRadius: 8,
-    backgroundColor: "#4CAF50",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  wishlistActive: {
-    backgroundColor: "#fff0f0",
-  },
-  commentlistActive: {
-    borderColor: "#189deb",
-  },
-  infoCard: {
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 3,
-  },
   
-  infoGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 16,
-  },
-  infoItem: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  infoIcon: {
-    width: 32,
-    height: 32,
-    borderRadius: 18,
-    backgroundColor: "#f0f8f0",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  autherInfoIcon: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: "#4CAF50",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  infoText: {
-    flex: 1,
-    flexDirection: "row",
-    gap: 16,
-  },
-  infoLabel: {
-    fontSize: 12,
-    color: "#999",
-    marginRight: 16,
-    marginBottom: 2,
-  },
-  infoValue: {
-    fontSize: 14,
-    color: "#333",
-    fontWeight: "500",
-  },
+  
+  
+  
   inStock: {
     color: "#4CAF50",
   },
