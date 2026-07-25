@@ -16,7 +16,6 @@ export default function DynamicRenderer({ blocks }: DynamicRendererProps) {
   return (
     <View style={{ flex: 1 }}>
       {blocks.map((block, index) => {
-        // دریافت کامپوننت از رجیستری
         const Component = componentRegistry[block.type] || defaultComponent;
         
         return (

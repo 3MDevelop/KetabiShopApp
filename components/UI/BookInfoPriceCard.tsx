@@ -3,6 +3,7 @@ import CustomText from "@/components/common/CustomText";
 import { Ionicons } from "@expo/vector-icons";
 import { useTranslate } from "@/hooks/useTranslation";
 import Toast from "react-native-toast-message";
+import { usePlayer } from "@/context/PlayerContext";
 
 interface BookInfoPriceCardProps {
   book?: any;
@@ -10,6 +11,7 @@ interface BookInfoPriceCardProps {
 
 export default function BookInfoPriceCard({ book }: BookInfoPriceCardProps) {
   const { t } = useTranslate();
+  const { playAudio } = usePlayer();
 
   const addToCart = () => {
     Toast.show({
@@ -22,8 +24,19 @@ export default function BookInfoPriceCard({ book }: BookInfoPriceCardProps) {
     });
   };
 
-  const playAudio = () => {
-    console.info("play Sound");
+  const handlePlayAudio = () => {
+    if (!book) return;
+
+    // آدرس فایل صوتی - باید از API یا داده‌های کتاب گرفته شود
+    const audioUrl = book.audio_url || "https://dl.biamusic.ir/Tak/Aiva/Aiva%20-%20Ghorbati.mp3";
+
+    playAudio({
+      id: book.id,
+      title: book.title,
+      author: book.author || "نویسنده نامشخص",
+      image: book.pic,
+      audioUrl: audioUrl,
+    });
   };
 
   const hasDiscount = book?.discountFa;
@@ -67,11 +80,14 @@ export default function BookInfoPriceCard({ book }: BookInfoPriceCardProps) {
             </CustomText>
           </TouchableOpacity>
 
-          <TouchableOpacity style={[styles.eButton]} onPress={playAudio}>
+          <TouchableOpacity style={[styles.eButton]} onPress={handlePlayAudio}>
             <Ionicons name="reader-outline" size={28} color="white" />
           </TouchableOpacity>
 
-          <TouchableOpacity style={[styles.audioButton]} onPress={playAudio}>
+          <TouchableOpacity
+            style={[styles.audioButton]}
+            onPress={handlePlayAudio}
+          >
             <Ionicons name="headset" size={28} color="white" />
           </TouchableOpacity>
         </View>
