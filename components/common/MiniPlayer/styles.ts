@@ -3,22 +3,23 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    height: 60,
+    height: 86,
     borderTopWidth: 1,
-    borderTopColor: "#e0e0e0",
+    borderTopColor: "#575757",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 5,
-
     position: "absolute",
-    bottom: 60,
+    bottom: 0,
     left: 0,
     right: 0,
     zIndex: 100,
+    alignItems:"center"
   },
   content: {
+    width:"100%",
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
@@ -30,9 +31,7 @@ export default StyleSheet.create({
     height: 44,
     borderRadius: 4,
   },
-  info: {
-    flex: 1,
-  },
+  
   title: {
     fontSize: 14,
   },
@@ -41,9 +40,12 @@ export default StyleSheet.create({
     color: "#999",
   },
   controls: {
+    height:"100%",
     flexDirection: "row",
+    justifyContent:"flex-end",
     alignItems: "center",
     gap: 8,
+    
   },
   controlButton: {
     padding: 4,

@@ -27,6 +27,7 @@ export const Colors = {
     surface: "#5c5c5c",
     itemBack: "#f8f9fa",
     iconColor: "#3996e8",
+    miniPlayerBack:"#d1d1d1",
   },
   dark: {
     background: "#000000",

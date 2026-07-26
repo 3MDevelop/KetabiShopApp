@@ -38,7 +38,7 @@ export default function CommentsList({
         >
           {userName}
         </CustomText>
-        <View style={{ marginHorizontal: 8, flexDirection: "row" }}>
+        <View style={{ marginHorizontal: 8, flexDirection: "row",flex:1 }}>
           {Array(rating)
             .fill(0)
             .map((_, index) => (

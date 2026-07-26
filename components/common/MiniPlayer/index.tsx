@@ -1,10 +1,5 @@
 // components/common/MiniPlayer.tsx
-import {
-  View,
-  TouchableOpacity,
-  Image,
-  ActivityIndicator,
-} from "react-native";
+import { View, TouchableOpacity, Image, ActivityIndicator } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import CustomText from "@/components/common/CustomText";
 import { usePlayer } from "@/context/PlayerContext";
@@ -35,15 +30,13 @@ export default function MiniPlayer() {
     <View
       style={[
         styles.container,
-        { backgroundColor: theme.colors.surface || "#fff" },
+        { backgroundColor: theme.colors.miniPlayerBack || "#fff" },
       ]}
     >
-      <View style={styles.content}>
-        {/* تصویر */}
+      <View style={[styles.content,{maxWidth:1000,height:"100%"}]}>
         <Image source={{ uri: currentTrack.image }} style={styles.image} />
 
-        {/* اطلاعات */}
-        <View style={styles.info}>
+        <View style={{marginStart:32}}>
           <CustomText bold numberOfLines={1} style={styles.title}>
             {currentTrack.title}
           </CustomText>
@@ -52,8 +45,9 @@ export default function MiniPlayer() {
           </CustomText>
         </View>
 
-        {/* دکمه‌های کنترل */}
-        <View style={styles.controls}>
+        <View style={[styles.controls,{backgroundColor:"red",flexGrow:1}]}>
+          
+          <View style={{backgroundColor:"white",flex:1,alignItems:"center",justifyContent:"center", flexGrow:1,height:"100%"}}>
           {isLoading ? (
             <ActivityIndicator
               size="small"
@@ -72,6 +66,9 @@ export default function MiniPlayer() {
             </TouchableOpacity>
           )}
 
+          </View>
+          
+
           <TouchableOpacity onPress={closePlayer} style={styles.controlButton}>
             <Ionicons name="close" size={20} color="#999" />
           </TouchableOpacity>
@@ -80,4 +77,3 @@ export default function MiniPlayer() {
     </View>
   );
 }
-
