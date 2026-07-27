@@ -1,53 +1,54 @@
+// components/common/MiniPlayer/styles.ts
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
-    height: 86,
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 80,
     borderTopWidth: 1,
-    borderTopColor: "#575757",
+    borderTopColor: "#e0e0e0",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 5,
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
     zIndex: 100,
-    alignItems:"center"
+    alignItems: "center",
+    justifyContent: "center",
   },
   content: {
-    width:"100%",
+    width: "100%",
+    maxWidth: 1000,
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 12,
+    paddingHorizontal: 16,
     gap: 12,
   },
   image: {
-    width: 44,
-    height: 44,
+    width: 50,
+    height: 50,
     borderRadius: 4,
+    backgroundColor: "#f0f0f0",
   },
-  
   title: {
     fontSize: 14,
+    fontWeight: "600",
+    flex: 1,
   },
   author: {
-    fontSize: 11,
+    fontSize: 12,
     color: "#999",
   },
   controls: {
-    height:"100%",
+    flex: 1,
     flexDirection: "row",
-    justifyContent:"flex-end",
+    justifyContent: "flex-end",
     alignItems: "center",
     gap: 8,
-    
-  },
-  controlButton: {
-    padding: 4,
+    height: "100%",
   },
 });

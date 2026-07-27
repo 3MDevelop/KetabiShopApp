@@ -26,10 +26,7 @@ export default function BookInfoPriceCard({ book }: BookInfoPriceCardProps) {
 
   const handlePlayAudio = () => {
     if (!book) return;
-
-    // آدرس فایل صوتی - باید از API یا داده‌های کتاب گرفته شود
-    const audioUrl = book.audio_url || "https://dl.biamusic.ir/Tak/Aiva/Aiva%20-%20Ghorbati.mp3";
-
+    const audioUrl = book.audio_url || "https://ketabishop.com/static/app/sound/sampleSound.mp3";
     playAudio({
       id: book.id,
       title: book.title,
