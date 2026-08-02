@@ -4,6 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useTranslate } from "@/hooks/useTranslation";
 import Toast from "react-native-toast-message";
 import { usePlayer } from "@/context/PlayerContext";
+import { useRouter } from "expo-router";
 
 interface BookInfoPriceCardProps {
   book?: any;
@@ -12,6 +13,7 @@ interface BookInfoPriceCardProps {
 export default function BookInfoPriceCard({ book }: BookInfoPriceCardProps) {
   const { t } = useTranslate();
   const { playAudio } = usePlayer();
+  const  router  = useRouter();
 
   const addToCart = () => {
     Toast.show({
@@ -24,9 +26,19 @@ export default function BookInfoPriceCard({ book }: BookInfoPriceCardProps) {
     });
   };
 
+  const handleReader = () => {
+    if (!book) return;
+    router.push({
+      pathname: "/reader",
+      params: { id: book.id },
+    });
+  };
+
   const handlePlayAudio = () => {
     if (!book) return;
-    const audioUrl = book.audio_url || "https://ketabishop.com/static/app/sound/sampleSound.mp3";
+    const audioUrl =
+      book.audio_url ||
+      "https://ketabishop.com/static/app/sound/sampleSound.mp3";
     playAudio({
       id: book.id,
       title: book.title,
@@ -77,7 +89,7 @@ export default function BookInfoPriceCard({ book }: BookInfoPriceCardProps) {
             </CustomText>
           </TouchableOpacity>
 
-          <TouchableOpacity style={[styles.eButton]} onPress={handlePlayAudio}>
+          <TouchableOpacity style={[styles.eButton]} onPress={handleReader}>
             <Ionicons name="reader-outline" size={28} color="white" />
           </TouchableOpacity>
 
