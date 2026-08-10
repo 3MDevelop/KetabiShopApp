@@ -4,15 +4,17 @@ import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
-    ActivityIndicator,
-    Image,
-    ScrollView,
-    TouchableOpacity,
-    View,TextInput
+  ActivityIndicator,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  View,
+  TextInput,
 } from "react-native";
 import Toast from "react-native-toast-message";
 import styles from "./styles";
 import CustomText from "@/components/common/CustomText";
+import { API } from "@/constants/api";
 
 interface BookInfo {
   title: string;
@@ -81,7 +83,7 @@ export default function BookFinder() {
 
     setLoading(true);
     try {
-      const response = await fetch("https://ketabishop.com/api/getproduct/", {
+      const response = await fetch(API.getProduct, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",

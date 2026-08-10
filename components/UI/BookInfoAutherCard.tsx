@@ -51,7 +51,7 @@ export default function BookInfoAutherCard({
           <CustomText
             variant="discription"
             bold
-            style={[styles.infoValue, { fontSize: 18 }]}
+            style={[styles.infoValue, { fontSize: 16 }]}
           >
             {publisher || t("common.common.unknown")}
           </CustomText>

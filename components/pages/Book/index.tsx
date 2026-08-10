@@ -75,7 +75,7 @@ export default function Book() {
 
     setLoading(true);
     try {
-      const response = await fetch(API.GET_PRODUCT, {
+      const response = await fetch(API.getProduct, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -158,7 +158,6 @@ export default function Book() {
         contentContainerStyle={styles.scrollContent}
       >
         <View style={styles.content}>
-          
           {/* book image section */}
           <BookImage
             url={book.pic}

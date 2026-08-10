@@ -1,32 +1,48 @@
 {
   "status": true,
   "data": [
-    
     {
       "type": "fullWidthBanner",
-      "data": [
-			{
-        "isInner": true,
-        "url": "about",
-        "imageSource": "https://ketabishop.com/static/app/images/fullWidthBanner.jpg",
-        "height": 230,
-        "text": "Ketabika App",
-        "textColor": "#06443a",
-        "fontSize": 35,
-        "backImage": ""
-      },
-	  {
-        "isInner": true,
-        "url": "about",
-        "imageSource": "https://ketabishop.com/static/app/images/fullWidthBanner.jpg",
-        "height": 230,
-        "text": "Ketabika App",
-        "textColor": "#06443a",
-        "fontSize": 35,
-        "backImage": ""
+      "data": {
+        "height": 350,
+        "hasBtn": true,
+        "delay": 5000,
+        "bannerWidth": "100%",
+        "slides": [
+          {
+            "url": "/book?id=533752",
+            "isInner": "true",
+            "imageSource": "https://ketabika.ir//files/images/slide/14.jpg",
+            "text": "این روزها",
+            "textColor": "",
+            "fontSize": 35
+          },
+          {
+            "url": "",
+            "isInner": "false",
+            "imageSource": "https://ketabika.ir//files/images/slide/15.jpg",
+            "text": "این روزها1",
+            "textColor": "",
+            "fontSize": 35
+          },
+          {
+            "url": "/book?id=533257",
+            "isInner": "false",
+            "imageSource": "https://ketabika.ir//files/images/slide/16.jpg",
+            "text": "این روزها2",
+            "textColor": "",
+            "fontSize": 35
+          },
+          {
+            "url": "/book?id=533264",
+            "isInner": "false",
+            "imageSource": "https://ketabika.ir//files/images/slide/17.png",
+            "text": "شیرازه",
+            "textColor": "",
+            "fontSize": 35
+          }
+        ]
       }
-	  
-	  ]
     },
     {
       "type": "BookPreList",
@@ -125,6 +141,25 @@
       }
     },
     {
+      "type": "fullWidthBanner",
+      "data": {
+        "height": 350,
+        "hasBtn": true,
+        "delay": 2000,
+        "bannerWidth": "100%",
+        "slides": [
+          {
+            "url": "/categories",
+            "isInner": "true",
+            "imageSource": "https://ketabika.ir//files/images/slide/10.png",
+            "text": "کمک درسی",
+            "textColor": "",
+            "fontSize": 35
+          }
+        ]
+      }
+    },
+    {
       "type": "globalPrelist",
       "data": {
         "label": "فهرست ناشرین",
@@ -160,6 +195,45 @@
             "url": "publisher",
             "id": 194778
           },
+          {
+            "backColor": "",
+            "lable": "",
+            "image": "https://ketabishop.com/static/app/images/publisher/387.png",
+            "url": "publisher",
+            "id": 194989
+          },
+          {
+            "backColor": "",
+            "lable": "",
+            "image": "https://ketabishop.com/static/app/images/publisher/387.png",
+            "url": "publisher",
+            "id": 194742
+          },
+          {
+            "backColor": "",
+            "lable": "",
+            "image": "https://ketabishop.com/static/app/images/publisher/389.png",
+            "url": "publisher",
+            "id": 196289
+          }
+        ]
+      }
+    },
+    {
+      "type": "globalPrelist",
+      "data": {
+        "label": "فهرست ناشرین",
+        "discription": "فهرستی از برترین ناشرین",
+        "backColor": "",
+        "listView": true,
+        "itemWidth": 130,
+        "itemHeight": 130,
+        "itemDefBackColor": "",
+        "itemBoarderRadius": 8,
+        "itemGap": 5,
+        "moreUrl": "publisher",
+        "moreID": 654654654,
+        "itemList": [
           {
             "backColor": "",
             "lable": "",
@@ -307,6 +381,51 @@
             "url": "tag",
             "id": 195145
           },
+          {
+            "backColor": "",
+            "lable": " علی صفایی حایری",
+            "image": "",
+            "url": "tag",
+            "id": 195145
+          },
+          {
+            "backColor": "",
+            "lable": " علی صفایی حایری",
+            "image": "",
+            "url": "tag",
+            "id": 195145
+          },
+          {
+            "backColor": "",
+            "lable": " علی صفایی حایری",
+            "image": "",
+            "url": "tag",
+            "id": 195145
+          },
+          {
+            "backColor": "",
+            "lable": " علی صفایی حایری",
+            "image": "",
+            "url": "tag",
+            "id": 195145
+          }
+        ]
+      }
+    },
+    {
+      "type": "globalPrelist",
+      "data": {
+        "label": "",
+        "backColor": "",
+        "listView": true,
+        "itemWidth": null,
+        "itemHeight": null,
+        "itemDefBackColor": "lightgray",
+        "itemBoarderRadius": 8,
+        "itemGap": 5,
+        "moreUrl": "",
+        "moreID": null,
+        "itemList": [
           {
             "backColor": "",
             "lable": " علی صفایی حایری",

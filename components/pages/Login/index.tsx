@@ -18,6 +18,7 @@ import { useTranslate } from "@/hooks/useTranslation";
 import Toast from "react-native-toast-message";
 import styles from "./styles";
 import CustomText from "@/components/common/CustomText";
+import { API } from "@/constants/api";
 
 type ToastType = "success" | "error" | "info" | "warning";
 
@@ -73,7 +74,7 @@ export default function Login() {
     setIsLoadingCode(true);
 
     try {
-      const response = await fetch("https://ketabika.com/v1/otp/", {
+      const response = await fetch(API.OTP, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -120,7 +121,7 @@ export default function Login() {
     setIsLoadingCode(true);
 
     try {
-      const response = await fetch("https://ketabika.com/v1/verify/", {
+      const response = await fetch(API.VERIFY, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -145,16 +146,13 @@ export default function Login() {
         let userDataFromApi: any = null;
 
         try {
-          const apiResponse = await fetch(
-            "https://ketabishop.com/api/getstatic/",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-              },
-              body: `name=getUserInfo`,
+          const apiResponse = await fetch(API.getstatic, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
             },
-          );
+            body: `name=getUserInfo`,
+          });
           if (!apiResponse.ok) {
             throw new Error(`HTTP error! status: ${apiResponse.status}`);
           }

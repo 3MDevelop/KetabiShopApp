@@ -4,6 +4,7 @@ import { ScrollView, View, ActivityIndicator } from "react-native";
 import styles from "./styles";
 import CustomText from "@/components/common/CustomText";
 import DynamicRenderer from "@/components/Blocks/DynamicRenderer";
+import { API } from "@/constants/api";
 
 export default function HomePage() {
   const [layoutData, setLayoutData] = useState<any[]>([]);
@@ -12,7 +13,8 @@ export default function HomePage() {
   useEffect(() => {
     const fetchLayoutData = async () => {
       try {
-        const response = await fetch("https://ketabishop.com/api/getstatic/", {
+        const response = await fetch(API.getstatic, {
+        /* const response = await fetch(API.getHome, { */
           method: "POST",
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",

@@ -6,6 +6,7 @@ import { ActivityIndicator, Animated, ScrollView, View } from "react-native";
 import CustomText from "@/components/common/CustomText";
 import BackToTop from "@/components/UI/BackToTop";
 import BookThumb from "@/components/UI/BookThumb";
+import PageHeader from "@/components/UI/PageHeader";
 
 import { API } from "@/constants/api";
 
@@ -46,8 +47,8 @@ export default function BookList() {
       try {
         setLoading(true);
         setError(null);
-
-        const response = await fetch(API.GET_LIST, {
+console.info(`Fetching books for list ID: ${listID}`);
+        const response = await fetch(API.getList, {
           method: "POST",
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -99,6 +100,7 @@ export default function BookList() {
         indicatorStyle="black"
         persistentScrollbar={true}
       >
+        <PageHeader title={"sample list title"} />
         <View style={styles.content}>
           {loading && (
             <View style={styles.loadingContainer}>

@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 import CommentForm from "./CommentForm";
 import CommentList from "./CommentList";
 import { useResponsive } from "@/hooks/useResponsive";
+import { API } from "@/constants/api";
 
 interface Comment {
   id: string | number;
@@ -26,7 +27,7 @@ export default function CommentsCard({ prodID }: CommentsCardProps) {
   useEffect(() => {
     const fetchCommentData = async () => {
       try {
-        const response = await fetch("https://ketabishop.com/api/getstatic/", {
+        const response = await fetch(API.getstatic, {
           method: "POST",
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
