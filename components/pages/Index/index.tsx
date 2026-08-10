@@ -1,6 +1,11 @@
 // components/pages/Index/index.tsx
 import { useEffect, useState } from "react";
-import { ScrollView, View, ActivityIndicator } from "react-native";
+import {
+  ScrollView,
+  View,
+  ActivityIndicator,
+  ImageBackground,
+} from "react-native";
 import styles from "./styles";
 import CustomText from "@/components/common/CustomText";
 import DynamicRenderer from "@/components/Blocks/DynamicRenderer";
@@ -14,7 +19,7 @@ export default function HomePage() {
     const fetchLayoutData = async () => {
       try {
         const response = await fetch(API.getstatic, {
-        /* const response = await fetch(API.getHome, { */
+          /* const response = await fetch(API.getHome, { */
           method: "POST",
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -27,7 +32,6 @@ export default function HomePage() {
         }
 
         const result = await response.json();
-
 
         if (result.status === true && result.data) {
           setLayoutData(result.data);
@@ -56,6 +60,73 @@ export default function HomePage() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            marginBottom: 20,
+            height: 250,
+            gap: 10,
+          }}
+        >
+          <View
+            style={{
+              flex: 1,
+              height: "100%",
+              overflow: "hidden",
+              borderRadius: 8,
+            }}
+          >
+            <ImageBackground
+              source={{ uri: "https://ketabika.ir//files/images/slide/14.jpg" }}
+              resizeMode="cover"
+              style={{ width: "100%", height: "100%" }}
+            />
+          </View>
+          <View
+            style={{
+              flex: 1,
+              height: "100%",
+              overflow: "hidden",
+              borderRadius: 8,
+            }}
+          >
+            <ImageBackground
+              source={{ uri: "https://ketabika.ir//files/images/slide/15.jpg" }}
+              resizeMode="cover"
+              style={{ width: "100%", height: "100%" }}
+            />
+          </View>
+          <View
+            style={{
+              flex: 1,
+              height: "100%",
+              overflow: "hidden",
+              borderRadius: 8,
+            }}
+          >
+            <ImageBackground
+              source={{ uri: "https://ketabika.ir//files/images/slide/16.jpg" }}
+              resizeMode="cover"
+              style={{ width: "100%", height: "100%" }}
+            />
+          </View>
+          <View
+            style={{
+              flex: 1,
+              height: "100%",
+              overflow: "hidden",
+              borderRadius: 8,
+            }}
+          >
+            <ImageBackground
+              source={{ uri: "https://ketabika.ir//files/images/slide/17.png" }}
+              resizeMode="cover"
+              style={{ width: "100%", height: "100%" }}
+            />
+          </View>
+        </View>
         {layoutData.length > 0 ? (
           <DynamicRenderer blocks={layoutData} />
         ) : (
