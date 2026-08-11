@@ -110,10 +110,7 @@ export default function BookPreList({
             {!noMore && (
               <TouchableOpacity
                 onPress={() => {
-                  router.push({
-                    pathname: "/bookList",
-                    params: { id: listId },
-                  });
+                  router.push(`/bookList/${listId}`);
                 }}
               >
                 <Ionicons name="arrow-back-sharp" size={22} color="gray" />

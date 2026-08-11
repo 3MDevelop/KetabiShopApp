@@ -19,7 +19,6 @@ interface BookPreListProps {
   itemHeight?: number;
   itemList?: any;
   moreUrl?: string;
-  moreID?: number;
   backColor?: string;
   itemGap?: number;
   listView?: boolean;
@@ -35,7 +34,6 @@ export default function GlobalPreList({
   backColor,
   itemList,
   moreUrl,
-  moreID,
   itemGap = 10,
   listView,
   itemDefBackColor,
@@ -112,7 +110,7 @@ export default function GlobalPreList({
       <View style={[styles.categoryCard]}>
         <View style={styles.header}>
           <View style={styles.headerRow}>
-            <View style={{marginStart:"auto"}}>
+            <View style={{ marginStart: "auto" }}>
               {label && (
                 <CustomText bold variant="h4" style={styles.categoryName}>
                   {label}
@@ -120,7 +118,11 @@ export default function GlobalPreList({
               )}
 
               {discription && (
-                <CustomText bold variant="discription" style={{marginEnd:25,marginTop:8}}>
+                <CustomText
+                  bold
+                  variant="discription"
+                  style={{ marginEnd: 25, marginTop: 8 }}
+                >
                   {discription}
                 </CustomText>
               )}
@@ -128,10 +130,7 @@ export default function GlobalPreList({
             {moreUrl && (
               <TouchableOpacity
                 onPress={() => {
-                  router.push({
-                    pathname: moreUrl as any,
-                    params: moreID ? { id: String(moreID) } : {},
-                  });
+                  router.push(moreUrl as any);
                 }}
               >
                 <Ionicons name="arrow-back-sharp" size={22} color="gray" />

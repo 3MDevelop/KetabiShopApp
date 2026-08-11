@@ -1,11 +1,6 @@
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useState, useRef,useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import CustomText from "@/components/common/CustomText";
 import AutherThumb from "@/components/UI/AutherThumb";
 import { useResponsive } from "@/hooks/useResponsive";
@@ -45,7 +40,7 @@ export default function AutherPreList({
   const [authers, setAuthers] = useState<any[]>([]);
 
   useEffect(() => {
-    setAuthers(autherList);  
+    setAuthers(autherList);
   }, [autherList]);
 
   const displayAuther = authers;
@@ -98,10 +93,7 @@ export default function AutherPreList({
             {!noMore && (
               <TouchableOpacity
                 onPress={() => {
-                  router.push({
-                    pathname: "/auther",
-                    params: { id: listId },
-                  });
+                  router.push(`/auther/${listId}`);
                 }}
               >
                 <Ionicons name="arrow-back-sharp" size={22} color="gray" />
@@ -147,16 +139,17 @@ export default function AutherPreList({
               }}
               contentContainerStyle={styles.scrollContent}
             >
-              {displayAuther.map((auther, index) =>{ 
-                return(
-                <AutherThumb
-                  key={`${auther.id}-${index}`}
-                  autherID={auther.autherID}
-                  autherName={auther.name}
-                  imageUrl={auther.image}
-                  ratio={listItemRatio}
-                />
-              )})}
+              {displayAuther.map((auther, index) => {
+                return (
+                  <AutherThumb
+                    key={`${auther.id}-${index}`}
+                    autherID={auther.autherID}
+                    autherName={auther.name}
+                    imageUrl={auther.image}
+                    ratio={listItemRatio}
+                  />
+                );
+              })}
             </ScrollView>
 
             {showRightButton && !isMobile && (

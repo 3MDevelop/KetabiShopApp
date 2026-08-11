@@ -10,7 +10,7 @@
         "bannerWidth": "100%",
         "slides": [
           {
-            "url": "/book?id=533752",
+            "url": "/book/533752",
             "isInner": "true",
             "imageSource": "https://ketabika.ir//files/images/slide/14.jpg",
             "text": "این روزها",
@@ -26,7 +26,7 @@
             "fontSize": 35
           },
           {
-            "url": "/book?id=533257",
+            "url": "/book/533257",
             "isInner": "false",
             "imageSource": "https://ketabika.ir//files/images/slide/16.jpg",
             "text": "این روزها2",
@@ -34,12 +34,31 @@
             "fontSize": 35
           },
           {
-            "url": "/book?id=533264",
+            "url": "/book/533264",
             "isInner": "false",
             "imageSource": "https://ketabika.ir//files/images/slide/17.png",
             "text": "شیرازه",
             "textColor": "",
             "fontSize": 35
+          }
+        ]
+      }
+    },
+    {
+      "type": "MultiPartBanner",
+      "data": {
+        "height": 200,
+        "gap": 10,
+        "curve": 8,
+        "width": "100%",
+        "sections": [
+          {
+            "imageSource": "https://ketabika.ir//files/images/slide/14.jpg",
+            "url": "/book/533752"
+          },
+          {
+            "imageSource": "https://ketabika.ir//files/images/slide/15.jpg",
+            "url": "/book/533752"
           }
         ]
       }
@@ -171,8 +190,7 @@
         "itemDefBackColor": "",
         "itemBoarderRadius": 8,
         "itemGap": 5,
-        "moreUrl": "publisher",
-        "moreID": 654654654,
+        "moreUrl": "publisher/654654654",
         "itemList": [
           {
             "backColor": "",
@@ -231,8 +249,7 @@
         "itemDefBackColor": "",
         "itemBoarderRadius": 8,
         "itemGap": 5,
-        "moreUrl": "publisher",
-        "moreID": 654654654,
+        "moreUrl": "publisher/654654654",
         "itemList": [
           {
             "backColor": "",
@@ -270,8 +287,7 @@
         "itemDefBackColor": "",
         "itemBoarderRadius": 8,
         "itemGap": 15,
-        "moreUrl": "auther",
-        "moreID": 654654654,
+        "moreUrl": "auther/654654654",
         "itemList": [
           {
             "backColor": "",
@@ -330,7 +346,6 @@
         "itemBoarderRadius": 8,
         "itemGap": 5,
         "moreUrl": "",
-        "moreID": null,
         "itemList": [
           {
             "backColor": "orange",
@@ -424,7 +439,6 @@
         "itemBoarderRadius": 8,
         "itemGap": 5,
         "moreUrl": "",
-        "moreID": null,
         "itemList": [
           {
             "backColor": "",

@@ -1,39 +1,50 @@
-import { View, ImageBackground, TouchableOpacity, StyleSheet } from "react-native";
-import { Route } from "expo-router";
-
-
+import {
+  View,
+  ImageBackground,
+  TouchableOpacity,
+  StyleSheet,
+  Linking,
+} from "react-native";
+import { router } from "expo-router";
 
 interface SectionProps {
   imageSource?: string;
   url?: string;
-  isInner?: boolean;
-  text?: string;
 }
 
 interface MultiPartBannerProps {
   height?: number;
   gap?: number;
+  curve?: number;
   width?: string;
+  extendable?: boolean;
   sections?: SectionProps[];
-  onPress?: (url?: string, isInner?: boolean) => void;
 }
 
 export default function MultiPartBanner({
-  height = 250,
-  gap = 10,
-  width = "100%",
+  height,
+  gap,
+  curve,
+  width,
   sections = [],
-  onPress,
 }: MultiPartBannerProps) {
+
   if (sections.length === 0) {
     return null;
   }
 
+  console.info("MultiPartBanner sections:", sections);
+
   const handlePress = (section: SectionProps) => {
-    if (onPress) {
-      onPress(section.url, section.isInner);
-    } else {
-      console.info("pressed !!", section);
+    if (
+      !section.url?.startsWith("http://") &&
+      !section.url?.startsWith("https://")
+    ) {
+      Linking.openURL(section.url as any).catch((err) => {
+        console.error("Failed to open URL:", err);
+      });
+    } else{
+      router.push(section.url as any);
     }
   };
 
@@ -51,15 +62,18 @@ export default function MultiPartBanner({
       {sections.map((section, index) => (
         <TouchableOpacity
           key={index}
-          style={styles.section}
+          style={[styles.section, { borderRadius: curve }]}
           onPress={() => handlePress(section)}
           activeOpacity={0.7}
         >
           <ImageBackground
-            source={{ uri: section.imageSource || "https://via.placeholder.com/400x400/cccccc/ffffff?text=No+Image" }}
+            source={{
+              uri:
+                section.imageSource ||
+                "https://via.placeholder.com/400x400/cccccc/ffffff?text=No+Image",
+            }}
             resizeMode="cover"
             style={styles.image}
-            imageStyle={styles.imageStyle}
           />
         </TouchableOpacity>
       ))}
@@ -73,18 +87,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
+    alignSelf: "center",
   },
   section: {
     flex: 1,
     height: "100%",
     overflow: "hidden",
-    borderRadius: 8,
   },
   image: {
     width: "100%",
     height: "100%",
-  },
-  imageStyle: {
-    borderRadius: 8,
   },
 });
