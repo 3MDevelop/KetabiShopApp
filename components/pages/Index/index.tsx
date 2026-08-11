@@ -4,7 +4,6 @@ import {
   ScrollView,
   View,
   ActivityIndicator,
-  ImageBackground,
 } from "react-native";
 import styles from "./styles";
 import CustomText from "@/components/common/CustomText";
@@ -18,8 +17,8 @@ export default function HomePage() {
   useEffect(() => {
     const fetchLayoutData = async () => {
       try {
-        const response = await fetch(API.getstatic, {
-          /* const response = await fetch(API.getHome, { */
+        /* const response = await fetch(API.getstatic, { */
+          const response = await fetch(API.getHome, {
           method: "POST",
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",

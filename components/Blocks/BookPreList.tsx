@@ -197,7 +197,7 @@ export default function BookPreList({
                   bookName={book.book_title}
                   price={book.price}
                   imageUrl={book.full_icon_address}
-                  ratio={listItemRatio}
+                  itemWidth={ listHeight * listItemRatio}
                   percent={book.percent}
                   discount={book.discount}
                 />

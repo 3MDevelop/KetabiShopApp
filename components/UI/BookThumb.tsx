@@ -10,7 +10,7 @@ interface BookThumbProps {
   author?: string;
   price?: number;
   imageUrl?: string;
-  ratio?: number;
+  itemWidth?: number;
   percent?: number;
   discount?: number;
   color?: string;
@@ -21,7 +21,7 @@ export default function BookThumb({
   bookName,
   price,
   imageUrl,
-  ratio,
+  itemWidth,
   percent,
   discount,
 }: BookThumbProps) {
@@ -43,7 +43,7 @@ export default function BookThumb({
         minWidth: 100,
         flex: 1,
         alignSelf: "center",
-        aspectRatio: ratio,
+        width:itemWidth,
       }}
     >
       {percent && (

@@ -88,6 +88,7 @@ export default function Book() {
       if (result.status === true && result.data) {
         setBook(result.data);
       }
+      
     } catch (error) {
       console.error("Error fetching book details:", error);
       Toast.show({
@@ -107,6 +108,9 @@ export default function Book() {
   useEffect(() => {
     fetchBookDetails();
   }, [fetchBookDetails]);
+
+
+  console.info("Book Data:", book?.des_fa);
 
   if (loading) {
     return (

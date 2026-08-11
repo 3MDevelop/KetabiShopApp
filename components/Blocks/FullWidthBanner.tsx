@@ -37,7 +37,7 @@ export default function FullWidthBanner({
   height = 250,
   hasBtn = true,
   delay = 3000,
-  bannerWidth ,
+  bannerWidth="100%" ,
   slides = [],
 }: FullWidthBannerProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
