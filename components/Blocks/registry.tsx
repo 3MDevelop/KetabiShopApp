@@ -3,9 +3,6 @@ import React, { ComponentType } from 'react';
 import FullWidthBanner from './FullWidthBanner';
 import MultiPartBanner from './MultiPartBanner';
 import BookPreList from './BookPreList';
-import AutherPreList from './AutherPreList';
-import PublisherPreList from './PublisherPreList';
-import TagPreList from './TagPreList';
 import GlobalPrelist from './GlobalPrelist';
 import { View, Text } from 'react-native';
 
@@ -13,9 +10,6 @@ export const componentRegistry: Record<string, ComponentType<any>> = {
   'fullWidthBanner': FullWidthBanner, 
   'BookPreList': BookPreList,
   'MultiPartBanner': MultiPartBanner,
-  'AutherPreList': AutherPreList,
-  'PublisherPreList': PublisherPreList,
-  'TagPreList':TagPreList,
   'globalPrelist':GlobalPrelist,
 };
 
