@@ -88,13 +88,13 @@ export default function Book() {
       if (result.status === true && result.data) {
         setBook(result.data);
       }
-      
+
     } catch (error) {
       console.error("Error fetching book details:", error);
       Toast.show({
         type: "error",
-        text1: t("common.error"),
-        text2: t("common.connectionError"),
+        text1: t("common.commom.error"),
+        text2: t("common.common.connectionError"),
         position: "top",
         topOffset: 20,
         visibilityTime: 2000,
@@ -142,10 +142,10 @@ export default function Book() {
           <Ionicons
             name={isRTL ? "arrow-forward" : "arrow-back"}
             size={20}
-            color="#fff"
+            color="white"
           />
           <CustomText style={styles.errorBackText}>
-            {t("common.back")}
+            {t("common.common.back")}
           </CustomText>
         </TouchableOpacity>
       </View>
@@ -176,7 +176,7 @@ export default function Book() {
           {book.des_fa && <BookDiscription desText={book.des_fa} />}
 
           {/* from this publisher */}
-          <View style={{ marginTop: 20, width: "100%" }}>
+          {book?.publisherbooklist && <View style={{ marginTop: 20, width: "100%" }}>
             <BookPreList
               label={t("pages.Book.samePublisher")}
               listId={"listID"}
@@ -187,10 +187,10 @@ export default function Book() {
               noBack={false}
               bookList={book?.publisherbooklist}
             />
-          </View>
+          </View>}
 
           {/* from this auther */}
-          <View style={{ marginTop: 20, width: "100%" }}>
+          {book?.authorbooklist && <View style={{ marginTop: 20, width: "100%" }}>
             <BookPreList
               label={t("pages.Book.sameAuther")}
               listId={"listID"}
@@ -201,10 +201,10 @@ export default function Book() {
               noBack={false}
               bookList={book?.authorbooklist}
             />
-          </View>
+          </View>}
 
           {/* related book list */}
-          <View style={{ marginTop: 20, width: "100%" }}>
+          {book?.relatedbooklist && <View style={{ marginTop: 20, width: "100%" }}>
             <BookPreList
               label={t("pages.Book.relatedBooks")}
               listId={"listID"}
@@ -215,7 +215,7 @@ export default function Book() {
               noBack={false}
               bookList={book?.relatedbooklist}
             />
-          </View>
+          </View>}
 
           {/* comments section */}
           <CommentsCard />

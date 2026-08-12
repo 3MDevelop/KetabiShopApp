@@ -77,7 +77,6 @@
     "Contact": {},
     "Index": {},
     "Invitation": {},
-
     "Login": {
       "common": {
         "loading": "در حال اتصال...",
@@ -142,6 +141,7 @@
     "Basket": {},
     "Book": {
       "details": "جزئیات کتاب",
+      "notFound" :"کتابی یافت نشد",
       "notFoundDesc": "کتاب مورد نظر موجود نیست یا حذف شده است",
       "unknownAuthor": "نویسنده نامشخص",
       "addToCart": "افزودن به سبد خرید",
