@@ -30,10 +30,7 @@ export default function BookThumb({
   return (
     <TouchableOpacity
       onPress={() =>
-        router.push({
-          pathname: "/book",
-          params: { id: bookID },
-        })
+        router.push(`/book/${bookID}`)
       }
       activeOpacity={0.7}
       style={{
@@ -43,7 +40,7 @@ export default function BookThumb({
         minWidth: 100,
         flex: 1,
         alignSelf: "center",
-        width:itemWidth,
+        width: itemWidth,
       }}
     >
       {percent && (
@@ -116,7 +113,7 @@ export default function BookThumb({
         >
           {bookName}
         </CustomText>
-        
+
         {percent && (
           <View
             style={{
