@@ -5,6 +5,7 @@ import { useTranslate } from "@/hooks/useTranslation";
 import Toast from "react-native-toast-message";
 import { usePlayer } from "@/context/PlayerContext";
 import { useRouter } from "expo-router";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface BookInfoPriceCardProps {
   book?: any;
@@ -12,8 +13,9 @@ interface BookInfoPriceCardProps {
 
 export default function BookInfoPriceCard({ book }: BookInfoPriceCardProps) {
   const { t } = useTranslate();
+  const { isRTL } = useLanguage()
   const { playAudio } = usePlayer();
-  const  router  = useRouter();
+  const router = useRouter();
 
   const addToCart = () => {
     Toast.show({
@@ -62,16 +64,19 @@ export default function BookInfoPriceCard({ book }: BookInfoPriceCardProps) {
           {hasDiscount ? (
             <>
               <CustomText style={styles.oldPrice}>
-                {book.price} {t("common.cart.currency")}
+                {isRTL ? book?.priceFa : book?.price} {t("common.cart.currency")}
               </CustomText>
               <CustomText style={styles.finalPrice}>
                 {book.discountFa} {t("common.cart.currency")}
               </CustomText>
             </>
           ) : (
-            <CustomText style={styles.singlePrice}>
-              {Number(book?.price).toLocaleString()} {t("common.cart.currency")}
-            </CustomText>
+            <View style={{ flexDirection: "row" }}>
+              <CustomText style={styles.singlePrice}>
+                {isRTL ? book?.priceFa : book?.price} {t("common.cart.currency")}
+              </CustomText>
+
+            </View>
           )}
         </View>
 

@@ -1,19 +1,12 @@
 // utils/favorites.ts
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// ✅ export کردن interface
 export interface FavoriteItem {
   id: string;
-  book_title: string;
-  full_icon_address: string;
-  price: number;
-  discount: number;
-  percent: number;
 }
 
 const FAVORITES_KEY = '@favorites';
 
-// دریافت لیست علاقه‌مندی‌ها
 export const getFavorites = async (): Promise<FavoriteItem[]> => {
   try {
     const data = await AsyncStorage.getItem(FAVORITES_KEY);
@@ -24,13 +17,11 @@ export const getFavorites = async (): Promise<FavoriteItem[]> => {
   }
 };
 
-// بررسی اینکه کتاب در لیست علاقه‌مندی‌ها هست یا نه
 export const isFavorite = async (bookId: string): Promise<boolean> => {
   const favorites = await getFavorites();
   return favorites.some(item => item.id === bookId);
 };
 
-// اضافه کردن کتاب به لیست علاقه‌مندی‌ها
 export const addToFavorites = async (book: FavoriteItem): Promise<void> => {
   try {
     const favorites = await getFavorites();

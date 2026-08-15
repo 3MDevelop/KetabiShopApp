@@ -109,9 +109,6 @@ export default function Book() {
     fetchBookDetails();
   }, [fetchBookDetails]);
 
-
-  console.info("Book Data:", book?.des_fa);
-
   if (loading) {
     return (
       <View style={styles.loadingContainer}>

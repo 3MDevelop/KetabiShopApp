@@ -34,20 +34,11 @@ export default function BookInfoActionButtons({
   };
 
   const toggleWishlist = async () => {
-    if (!book) return;
-
     const favoriteItem: FavoriteItem = {
       id: book.id,
-      book_title: book.title,
-      full_icon_address: book.pic,
-      price: Number(book.price.replace(/,/g, "")),
-      discount: Number(book.discountFa?.replace(/,/g, "")) || 0,
-      percent: Number(book.percentFa) || 0,
     };
-
     const newStatus = await toggleFavorite(favoriteItem);
-    setIsLiked(newStatus);
-
+    setIsLiked(newStatus);  
     Toast.show({
       type: "success",
       text1: newStatus ? t("common.cart.added") : t("common.cart.removed"),

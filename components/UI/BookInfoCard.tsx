@@ -36,7 +36,6 @@ interface BookData {
 
 interface BookInfoCardProps {
   book?: BookData;
-  commented?: boolean;
 }
 
 export default function BookInfoCard({ book }: BookInfoCardProps) {
@@ -49,7 +48,7 @@ export default function BookInfoCard({ book }: BookInfoCardProps) {
         flexDirection: "column",
       }}
     >
-      <BookInfoAutherCard publisher={book?.publisher} auther={book?.author} />
+      {book?.publisher && book?.author && <BookInfoAutherCard publisher={book?.publisher} auther={book?.author} />}
       <BookInfoActionButtons book={book} />
       <BookInfoPriceCard book={book} />
       <BookInfoDetail book={book} />
