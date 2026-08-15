@@ -8,22 +8,22 @@
     "email": "3mdevelop@gmail.com",
     "basket": [
       {
-        "codeConfig": 12341234,
-        "count": 2
+        "id":540610,
+        "codeConfig": 123,
+        "count": 1
       },
       {
-        "codeConfig": 12341234,
-        "count": 2
+        "id":540611,
+        "codeConfig": 123,
+        "count": 4
       },
       {
-        "codeConfig": 12341234,
-        "count": 2
-      },
-      {
-        "codeConfig": 12341234,
+        "id":540612,
+        "codeConfig": 123,
         "count": 2
       }
     ],
-    "likedList": [1234, 1234, 1234, 1234]
+    "likedList": [540610, 540611, 540612, 540613, 540614],
+    "commentedList": [540610, 540611, 540612]
   }
 }

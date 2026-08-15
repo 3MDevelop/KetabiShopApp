@@ -88,6 +88,7 @@ export default function Book() {
       if (result.status === true && result.data) {
         setBook(result.data);
       }
+    console.info("Book data fetched successfully:", result.data);
 
     } catch (error) {
       console.error("Error fetching book details:", error);

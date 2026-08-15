@@ -83,6 +83,7 @@ export default function Login() {
       });
 
       const result = await response.json();
+      console.info("Response from OTP API:", result);
       if (response.ok) {
         showToast(
           "success",
@@ -158,10 +159,10 @@ export default function Login() {
           }
 
           const apiResult = await apiResponse.json();
+          console.info("Response from getstatic API:", apiResult);
 
           if (apiResult.status === true && apiResult.data) {
             userDataFromApi = apiResult.data;
-            /* console.info("اطلاعات کاربر از API:", userDataFromApi); */
           } else {
             console.warn("پاسخ API موفقیت‌آمیز نبود:", apiResult);
           }
@@ -358,7 +359,7 @@ export default function Login() {
 
             {!showCodeInput && (
               <TextInput
-                style={[styles.input, { textAlign: isRTL ? "right" : "left" }]}
+                style={[styles.input, { textAlign: "center" }]}
                 placeholder={t("pages.Login.auth.phonePlaceholder")}
                 placeholderTextColor="#999"
                 value={phone}

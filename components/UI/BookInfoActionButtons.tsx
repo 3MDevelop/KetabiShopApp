@@ -7,17 +7,14 @@ import Toast from "react-native-toast-message";
 import * as Clipboard from "expo-clipboard";
 
 interface BookInfoActionButtonsProps {
-  data?: number;
-  isLiked?: boolean;
-  commented?: boolean;
   book?: any;
 }
 
 export default function BookInfoActionButtons({
-  commented,
   book,
 }: BookInfoActionButtonsProps) {
   const [isLiked, setIsLiked] = useState(false);
+  const [commented, setCommented] = useState(true);
   const { t } = useTranslate();
   useEffect(() => {
     const checkFavoriteStatus = async () => {
@@ -38,6 +35,7 @@ export default function BookInfoActionButtons({
       id: book.id,
     };
     const newStatus = await toggleFavorite(favoriteItem);
+    console.info("newStatus", newStatus);
     setIsLiked(newStatus);  
     Toast.show({
       type: "success",
@@ -98,17 +96,18 @@ export default function BookInfoActionButtons({
           name={isLiked ? "heart" : "heart-outline"}
           size={24}
           color={isLiked ? "#f44336" : "#666"}
-        />
+          />
       </TouchableOpacity>
 
       <TouchableOpacity
         style={[styles.actionButton, true && styles.commentlistActive]}
         onPress={showCommentSection}
-      >
+        >
         <Ionicons
           name={commented ? "chatbubbles" : "chatbubbles-outline"}
           size={24}
-          color="#929292"
+          color={commented ? "#189deb" : "#666"}
+          
         />
       </TouchableOpacity>
 

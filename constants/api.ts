@@ -13,8 +13,8 @@ export const API = {
   getProduct: "https://ketabishop.com/api/getproduct/",
 
   /* login */
-  OTP: "https://ketabishop.com/api/otp/",
-  VERIFY: "https://ketabishop.com/api/verify/",
+  OTP: "https://ketabika.com/v1/otp/",
+  VERIFY: "https://ketabika.com/v1/verify/",
 
   /* from local json */
   getstatic: "https://ketabishop.com/api/getstatic/",
