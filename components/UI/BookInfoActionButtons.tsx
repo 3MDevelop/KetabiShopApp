@@ -7,24 +7,27 @@ import Toast from "react-native-toast-message";
 import * as Clipboard from "expo-clipboard";
 
 interface BookInfoActionButtonsProps {
-  book?: any;
+  bookID?: any;
 }
 
 export default function BookInfoActionButtons({
-  book,
+  bookID,
 }: BookInfoActionButtonsProps) {
-  const [isLiked, setIsLiked] = useState(false);
-  const [commented, setCommented] = useState(true);
+
+
+  const [isLiked, setIsLiked] = useState(true);
+  const [commented] = useState(true);
+
   const { t } = useTranslate();
   useEffect(() => {
     const checkFavoriteStatus = async () => {
-      if (book) {
-        const favStatus = await isFavorite(book.id);
+      if (bookID) {
+        const favStatus = await isFavorite(bookID);
         setIsLiked(favStatus);
       }
     };
     checkFavoriteStatus();
-  }, [book]);
+  }, [bookID]);
 
   const showCommentSection = () => {
     console.info("goto Comment Section");
@@ -32,17 +35,17 @@ export default function BookInfoActionButtons({
 
   const toggleWishlist = async () => {
     const favoriteItem: FavoriteItem = {
-      id: book.id,
+      id: bookID
     };
     const newStatus = await toggleFavorite(favoriteItem);
     console.info("newStatus", newStatus);
-    setIsLiked(newStatus);  
+    setIsLiked(newStatus);
     Toast.show({
       type: "success",
       text1: newStatus ? t("common.cart.added") : t("common.cart.removed"),
       text2: newStatus
-        ? `${book.title} ${t("pages.Book.addedToWishlist")}`
-        : `${book.title} ${t("pages.Book.removedFromWishlist")}`,
+        ? t("pages.Book.addedToWishlist")
+        : t("pages.Book.removedFromWishlist"),
       position: "top",
       topOffset: 20,
       visibilityTime: 2000,
@@ -55,7 +58,7 @@ export default function BookInfoActionButtons({
       if (Platform.OS === "web") {
         url = window.location.href;
       } else {
-        url = `https://ketabishop.com/book/${book.id}`; // آدرس دلخواه
+        url = `https://ketabishop.com/book/${bookID}`; // آدرس دلخواه
       }
       await Clipboard.setStringAsync(url);
       Toast.show({
@@ -96,18 +99,17 @@ export default function BookInfoActionButtons({
           name={isLiked ? "heart" : "heart-outline"}
           size={24}
           color={isLiked ? "#f44336" : "#666"}
-          />
+        />
       </TouchableOpacity>
 
       <TouchableOpacity
         style={[styles.actionButton, true && styles.commentlistActive]}
         onPress={showCommentSection}
-        >
+      >
         <Ionicons
           name={commented ? "chatbubbles" : "chatbubbles-outline"}
           size={24}
           color={commented ? "#189deb" : "#666"}
-          
         />
       </TouchableOpacity>
 

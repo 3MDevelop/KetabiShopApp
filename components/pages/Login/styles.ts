@@ -16,7 +16,6 @@ export default StyleSheet.create({
     marginHorizontal: "auto",
     width: "100%",
     maxWidth: 1000,
-
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
@@ -33,7 +32,7 @@ export default StyleSheet.create({
     borderRadius: 10,
     padding: 12,
     paddingHorizontal: 18,
-    marginBottom: 15,
+    
     fontSize: 12,
     borderWidth: 1,
     borderColor: "#ddd",
@@ -91,7 +90,6 @@ export default StyleSheet.create({
     opacity: 0.7,
   },
 
-  // استایل‌های اضافه شده از Login.tsx
   mainContainer: {
     flex: 1,
     justifyContent: "center",
@@ -113,24 +111,10 @@ export default StyleSheet.create({
     shadowRadius: 4,
   },
 
-  cardContainerLoggedIn: {
-    backgroundColor: "#ececec22",
-    width: 300,
-    height: 300,
-    borderRadius: 8,
-    padding: 16,
-    justifyContent: "space-around",
-    alignContent: "center",
-    shadowColor: "#000000",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-  },
-
   avatarContainer: {
-    width: "30%",
-    aspectRatio: 1,
-    marginTop: 35,
+    height: 86,
+    width:86,
+    marginTop: 16,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#dadada",

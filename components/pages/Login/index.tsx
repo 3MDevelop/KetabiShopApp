@@ -189,7 +189,7 @@ export default function Login() {
           interests: userDataFromApi?.interests || [],
           readList: userDataFromApi?.readList || [],
           likedList: userDataFromApi?.likedList || [],
-          commentList: userDataFromApi?.commentList || [],
+          commentedList: userDataFromApi?.commentedList || [],
           paymentList: userDataFromApi?.paymentList || [],
           basket: userDataFromApi?.basket || [],
           addresses: userDataFromApi?.addresses || [],
@@ -297,198 +297,196 @@ export default function Login() {
 
   return (
     <View style={styles.mainContainer}>
-      {isLoggedIn ? (
-        <View style={styles.container}>
-          <View style={styles.cardContainerLoggedIn}>
-            <View style={styles.avatarContainerLoggedIn}>
-              <Ionicons name="person" size={45} color={theme.colors.primary} />
-            </View>
-            <CustomText style={styles.welcomeText}>
-              {t("pages.Login.auth.alreadyLoggedIn")}
-            </CustomText>
-
-            <TouchableOpacity
-              onPress={() => router.push("./")}
-              style={{ alignSelf: "center" }}
-            >
-              <View
-                style={{
-                  backgroundColor: theme.colors.primary,
-                  padding: 8,
-                  paddingHorizontal: 20,
-                  borderRadius: 4,
-                }}
-              >
-                <CustomText bold style={{ color: "white", fontSize: 12 }}>
-                  {t("pages.Login.common.backToHome")}
-                </CustomText>
+      <View style={styles.container}>
+        <View style={styles.cardContainer}>
+          {isLoggedIn ? (
+            <>
+              <View style={styles.avatarContainerLoggedIn}>
+                <Ionicons
+                  name="person"
+                  size={45}
+                  color={theme.colors.primary}
+                />
               </View>
-            </TouchableOpacity>
-            {(() => {
-              router.back();
-            })()}
-          </View>
-        </View>
-      ) : (
-        <View style={styles.container}>
-          <View
-            style={
-              showCodeInput
-                ? styles.cardContainerWithCode
-                : styles.cardContainer
-            }
-          >
-            <TouchableOpacity
-              onPress={() => router.back()}
-              style={{ display: "flex", flexDirection: "row" }}
-            >
-              <Ionicons
-                name={isRTL ? "arrow-forward" : "arrow-back"}
-                size={18}
-                color={"#6b6b6b"}
-              />
-            </TouchableOpacity>
-            <View style={styles.avatarContainer}>
-              <Ionicons name="person" size={45} color={"#6b6b6b"} />
-            </View>
-            <CustomText style={styles.titleWithMargin}>
-              {!showCodeInput
-                ? t("pages.Login.auth.login")
-                : t("pages.Login.auth.verifyCode")}
-            </CustomText>
+              <CustomText style={styles.welcomeText}>
+                {t("pages.Login.auth.alreadyLoggedIn")}
+              </CustomText>
+              <TouchableOpacity
+                onPress={() => router.push("./")}
+                style={{ alignSelf: "center" }}
+              >
+                <View
+                  style={{
+                    backgroundColor: theme.colors.primary,
+                    padding: 8,
+                    paddingHorizontal: 20,
+                    borderRadius: 4,
+                  }}
+                >
+                  <CustomText bold style={{ color: "white", fontSize: 12 }}>
+                    {t("pages.Login.common.backToHome")}
+                  </CustomText>
+                </View>
+              </TouchableOpacity>
+              {(() => {
+                router.back();
+              })()}
+            </>
+          ) : (
+            <>
+              <TouchableOpacity
+                onPress={() => router.back()}
+                style={{ display: "flex", flexDirection: "row" }}
+              >
+                <Ionicons
+                  name={isRTL ? "arrow-forward" : "arrow-back"}
+                  size={18}
+                  color={"#6b6b6b"}
+                />
+              </TouchableOpacity>
+              <View style={styles.avatarContainer}>
+                <Ionicons name="person" size={45} color={"#6b6b6b"} />
+              </View>
+              <CustomText style={styles.titleWithMargin}>
+                {!showCodeInput
+                  ? t("pages.Login.auth.login")
+                  : t("pages.Login.auth.verifyCode")}
+              </CustomText>
 
-            {!showCodeInput && (
-              <TextInput
-                style={[styles.input, { textAlign: "center" }]}
-                placeholder={t("pages.Login.auth.phonePlaceholder")}
-                placeholderTextColor="#999"
-                value={phone}
-                onChangeText={setPhone}
-                autoCapitalize="none"
-                keyboardType="phone-pad"
-                editable={!isLoadingCode}
-              />
-            )}
-
-            {showCodeInput && (
-              <View style={styles.codeInputContainer}>
+              {!showCodeInput ? (
                 <TextInput
                   style={[
                     styles.input,
-                    { textAlign: isRTL ? "right" : "left" },
-                  ]}
-                  placeholder={t("pages.Login.auth.codePlaceholder")}
-                  placeholderTextColor="#999"
-                  value={authCode}
-                  onChangeText={setAuthCode}
-                  autoCapitalize="none"
-                  keyboardType="number-pad"
-                  maxLength={5}
-                  editable={!isLoading}
-                />
-              </View>
-            )}
-
-            {!showCodeInput && (
-              <View style={styles.checkboxContainer}>
-                <TouchableOpacity
-                  onPress={() => setIsAccepted(!isAccepted)}
-                  activeOpacity={0.7}
-                >
-                  <View
-                    style={[
-                      styles.checkbox,
-                      isAccepted && styles.checkboxChecked,
-                    ]}
-                  >
-                    {isAccepted && (
-                      <CustomText style={styles.checkboxText}>✓</CustomText>
-                    )}
-                  </View>
-                </TouchableOpacity>
-
-                <View
-                  style={[
-                    styles.rulesContainer,
                     {
-                      justifyContent: "center",
-                      alignItems: "center",
+                      textAlign: "center",
+                      marginBottom: showCodeInput ? "auto" : 50,
                     },
                   ]}
-                >
-                  {isRTL ? (
-                    <>
-                      <CustomText style={styles.rulesText}>
-                        {t("pages.Login.auth.acceptRulesStart")}
-                      </CustomText>
-                      <TouchableOpacity onPress={() => router.push("/rules")}>
-                        <CustomText style={styles.rulesLink}>
-                          {t("pages.Login.auth.rules")}
-                        </CustomText>
-                      </TouchableOpacity>
-                      <CustomText style={styles.rulesText}>
-                        {t("pages.Login.auth.acceptRulesEnd")}
-                      </CustomText>
-                    </>
-                  ) : (
-                    <>
-                      <CustomText style={styles.rulesText}>
-                        {t("pages.Login.auth.acceptRulesStart")}
-                      </CustomText>
-                      <TouchableOpacity onPress={() => router.push("/rules")}>
-                        <CustomText style={styles.rulesLink}>
-                          {t("pages.Login.auth.rules")}
-                        </CustomText>
-                      </TouchableOpacity>
-                    </>
-                  )}
-                </View>
-              </View>
-            )}
-
-            <TouchableOpacity
-              style={[
-                styles.loginButton,
-                (!showCodeInput
-                  ? isLoadingCode || !isAccepted || !phone
-                  : !authCode) && styles.disabledButton,
-                styles.buttonWithMargin,
-              ]}
-              onPress={!showCodeInput ? getAuthCode : verifyCode}
-              disabled={
-                !showCodeInput
-                  ? isLoadingCode || !isAccepted || !phone
-                  : !authCode
-              }
-            >
-              {isLoadingCode || isLoading ? (
-                <ActivityIndicator color="white" />
+                  placeholder={t("pages.Login.auth.phonePlaceholder")}
+                  placeholderTextColor="#999"
+                  value={phone}
+                  onChangeText={setPhone}
+                  autoCapitalize="none"
+                  keyboardType="phone-pad"
+                  editable={!isLoadingCode}
+                />
               ) : (
-                <CustomText style={styles.buttonText}>
-                  {!showCodeInput
-                    ? t("pages.Login.auth.getCode")
-                    : t("pages.Login.auth.login")}
-                </CustomText>
+                <>
+                  <TextInput
+                    style={[
+                      styles.input,
+                      { textAlign: isRTL ? "right" : "left" },
+                    ]}
+                    placeholder={t("pages.Login.auth.codePlaceholder")}
+                    placeholderTextColor="#999"
+                    value={authCode}
+                    onChangeText={setAuthCode}
+                    autoCapitalize="none"
+                    keyboardType="number-pad"
+                    maxLength={5}
+                    editable={!isLoading}
+                  />
+                  <TouchableOpacity
+                    onPress={() => {
+                      setShowCodeInput(false);
+                      setAuthCode("");
+                    }}
+                    style={{ marginBottom: "auto", marginTop: 10 }}
+                  >
+                    <CustomText style={styles.backButtonText}>
+                      {isRTL ? "← " : "→ "}
+                      {t("pages.Login.auth.editPhone")}
+                    </CustomText>
+                  </TouchableOpacity>
+                </>
               )}
-            </TouchableOpacity>
 
-            {showCodeInput && (
+              {!showCodeInput && (
+                <View style={styles.checkboxContainer}>
+                  <TouchableOpacity
+                    onPress={() => setIsAccepted(!isAccepted)}
+                    activeOpacity={0.7}
+                  >
+                    <View
+                      style={[
+                        styles.checkbox,
+                        isAccepted && styles.checkboxChecked,
+                      ]}
+                    >
+                      {isAccepted && (
+                        <CustomText style={styles.checkboxText}>✓</CustomText>
+                      )}
+                    </View>
+                  </TouchableOpacity>
+
+                  <View
+                    style={[
+                      styles.rulesContainer,
+                      {
+                        justifyContent: "center",
+                        alignItems: "center",
+                      },
+                    ]}
+                  >
+                    {isRTL ? (
+                      <>
+                        <CustomText style={styles.rulesText}>
+                          {t("pages.Login.auth.acceptRulesStart")}
+                        </CustomText>
+                        <TouchableOpacity onPress={() => router.push("/rules")}>
+                          <CustomText style={styles.rulesLink}>
+                            {t("pages.Login.auth.rules")}
+                          </CustomText>
+                        </TouchableOpacity>
+                        <CustomText style={styles.rulesText}>
+                          {t("pages.Login.auth.acceptRulesEnd")}
+                        </CustomText>
+                      </>
+                    ) : (
+                      <>
+                        <CustomText style={styles.rulesText}>
+                          {t("pages.Login.auth.acceptRulesStart")}
+                        </CustomText>
+                        <TouchableOpacity onPress={() => router.push("/rules")}>
+                          <CustomText style={styles.rulesLink}>
+                            {t("pages.Login.auth.rules")}
+                          </CustomText>
+                        </TouchableOpacity>
+                      </>
+                    )}
+                  </View>
+                </View>
+              )}
+
               <TouchableOpacity
-                onPress={() => {
-                  setShowCodeInput(false);
-                  setAuthCode("");
-                }}
-                style={styles.backButton}
+                style={[
+                  styles.loginButton,
+                  (!showCodeInput
+                    ? isLoadingCode || !isAccepted || !phone
+                    : !authCode) && styles.disabledButton,
+                  styles.buttonWithMargin,
+                ]}
+                onPress={!showCodeInput ? getAuthCode : verifyCode}
+                disabled={
+                  !showCodeInput
+                    ? isLoadingCode || !isAccepted || !phone
+                    : !authCode
+                }
               >
-                <CustomText style={styles.backButtonText}>
-                  {isRTL ? "← " : "→ "}
-                  {t("pages.Login.auth.editPhone")}
-                </CustomText>
+                {isLoadingCode || isLoading ? (
+                  <ActivityIndicator color="white" />
+                ) : (
+                  <CustomText style={styles.buttonText}>
+                    {!showCodeInput
+                      ? t("pages.Login.auth.getCode")
+                      : t("pages.Login.auth.login")}
+                  </CustomText>
+                )}
               </TouchableOpacity>
-            )}
-          </View>
+            </>
+          )}
         </View>
-      )}
+      </View>
     </View>
   );
 }

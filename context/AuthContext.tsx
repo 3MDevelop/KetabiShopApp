@@ -49,7 +49,7 @@ export type User = {
   interests: number[];
   readList: Book[];
   likedList: number[];
-  commentList: Comment[];
+  commentedList: Comment[];
   paymentList: string[];
   basket: BasketItem[];
   addresses: string[];

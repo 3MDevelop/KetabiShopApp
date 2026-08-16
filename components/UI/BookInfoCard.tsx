@@ -49,7 +49,7 @@ export default function BookInfoCard({ book }: BookInfoCardProps) {
       }}
     >
       {book?.publisher && book?.author && <BookInfoAutherCard publisher={book?.publisher} auther={book?.author} />}
-      <BookInfoActionButtons book={book} />
+      <BookInfoActionButtons bookID={book?.id} />
       <BookInfoPriceCard book={book} />
       <BookInfoDetail book={book} />
     </View>
