@@ -1,4 +1,4 @@
-// styles.ts
+// components/pages/login/styles.ts
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
@@ -32,19 +32,19 @@ export default StyleSheet.create({
     borderRadius: 10,
     padding: 12,
     paddingHorizontal: 18,
-    
-    fontSize: 12,
+    textAlign: "center",
+    fontSize: 14,
     borderWidth: 1,
     borderColor: "#ddd",
     paddingVertical: 10,
     color: "#333",
-    textAlign: "auto",
+    fontWeight: "500",
+    letterSpacing: 1.5,
   },
   loginButton: {
     backgroundColor: "#007AFF",
     borderRadius: 10,
     padding: 8,
-    
     alignItems: "center",
     marginBottom: 8,
   },
@@ -99,26 +99,27 @@ export default StyleSheet.create({
 
   cardContainer: {
     backgroundColor: "#ececec22",
-    width: 300,
-    height: 500,
-    borderRadius: 8,
-    padding: 16,
+    width: 340,
+    minHeight: 520,
+    borderRadius: 16,
+    padding: 24,
     justifyContent: "space-around",
     alignContent: "center",
     shadowColor: "#000000",
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 4,
   },
 
   avatarContainer: {
     height: 86,
-    width:86,
+    width: 86,
     marginTop: 16,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#dadada",
-    borderRadius: "50%",
+    borderRadius: 43,
     marginHorizontal: "auto",
     padding: 12,
   },
@@ -130,7 +131,7 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#dadada",
-    borderRadius: "50%",
+    borderRadius: 999,
     marginHorizontal: "auto",
     padding: 12,
   },
@@ -206,9 +207,11 @@ export default StyleSheet.create({
     marginTop: 10,
   },
 
-  backButtonText: {
-    color: "#2196f3",
-    fontSize: 14,
+  editPhoneButton: {
+    marginTop: 16,
+    paddingHorizontal: 10,
+    marginBottom: "auto",
+    alignSelf: "flex-end",
   },
 
   loadingContainer: {

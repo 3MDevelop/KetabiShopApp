@@ -19,6 +19,7 @@ import Toast from "react-native-toast-message";
 import styles from "./styles";
 import CustomText from "@/components/common/CustomText";
 import { API } from "@/constants/api";
+import OTPInput from "@/components/UI/OTPInput";
 
 type ToastType = "success" | "error" | "info" | "warning";
 
@@ -88,7 +89,7 @@ export default function Login() {
         showToast(
           "success",
           t("pages.Login.auth.codeSent"),
-          result.meta_data.content,
+          result.meta_data?.content,
         );
         setShowCodeInput(true);
       } else {
@@ -312,7 +313,13 @@ export default function Login() {
                 {t("pages.Login.auth.alreadyLoggedIn")}
               </CustomText>
               <TouchableOpacity
-                onPress={() => router.push("./")}
+                onPress={() => {
+                  if (router.canGoBack()) {
+                    router.back();
+                  } else {
+                    router.replace("/");
+                  }
+                }}
                 style={{ alignSelf: "center" }}
               >
                 <View
@@ -328,14 +335,17 @@ export default function Login() {
                   </CustomText>
                 </View>
               </TouchableOpacity>
-              {(() => {
-                router.back();
-              })()}
             </>
           ) : (
             <>
               <TouchableOpacity
-                onPress={() => router.back()}
+                onPress={() => {
+                  if (router.canGoBack()) {
+                    router.back();
+                  } else {
+                    router.replace("/");
+                  }
+                }}
                 style={{ display: "flex", flexDirection: "row" }}
               >
                 <Ionicons
@@ -355,13 +365,7 @@ export default function Login() {
 
               {!showCodeInput ? (
                 <TextInput
-                  style={[
-                    styles.input,
-                    {
-                      textAlign: "center",
-                      marginBottom: showCodeInput ? "auto" : 50,
-                    },
-                  ]}
+                  style={styles.input}
                   placeholder={t("pages.Login.auth.phonePlaceholder")}
                   placeholderTextColor="#999"
                   value={phone}
@@ -372,29 +376,23 @@ export default function Login() {
                 />
               ) : (
                 <>
-                  <TextInput
-                    style={[
-                      styles.input,
-                      { textAlign: isRTL ? "right" : "left" },
-                    ]}
-                    placeholder={t("pages.Login.auth.codePlaceholder")}
-                    placeholderTextColor="#999"
-                    value={authCode}
-                    onChangeText={setAuthCode}
-                    autoCapitalize="none"
-                    keyboardType="number-pad"
-                    maxLength={5}
-                    editable={!isLoading}
+                  <OTPInput
+                    length={5}
+                    onComplete={(code) => {
+                      setAuthCode(code);
+                      verifyCode();
+                    }}
+                    autoFocus={true}
+                    disabled={isLoading}
                   />
                   <TouchableOpacity
                     onPress={() => {
                       setShowCodeInput(false);
                       setAuthCode("");
                     }}
-                    style={{ marginBottom: "auto", marginTop: 10 }}
+                    style={styles.editPhoneButton}
                   >
-                    <CustomText style={styles.backButtonText}>
-                      {isRTL ? "← " : "→ "}
+                    <CustomText variant="discription">
                       {t("pages.Login.auth.editPhone")}
                     </CustomText>
                   </TouchableOpacity>
