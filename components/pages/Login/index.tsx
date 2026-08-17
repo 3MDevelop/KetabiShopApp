@@ -202,7 +202,13 @@ export default function Login() {
           t("pages.Login.auth.loginSuccess"),
         );
         await login(userData);
-        router.back();
+        if (router.canGoBack()) {
+          router.back();
+        } else {
+          router.replace("/");
+        }
+
+        console.info("user system info:" , Platform.OS , Platform.Version);
       } else {
         showToast(
           "error",
