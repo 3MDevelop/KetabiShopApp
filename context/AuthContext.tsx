@@ -42,17 +42,6 @@ export type User = {
   nName: string;
   lName: string;
   avatar: number;
-  email: string;
-  bankCard: number;
-  bankShaba: string;
-  device_List: string[];
-  interests: number[];
-  readList: Book[];
-  likedList: number[];
-  commentedList: Comment[];
-  paymentList: string[];
-  basket: BasketItem[];
-  addresses: string[];
 };
 
 type AuthState = {

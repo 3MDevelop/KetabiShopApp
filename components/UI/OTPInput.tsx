@@ -17,7 +17,6 @@ export default function OTPInput({
 }: OTPInputProps) {
   const [otp, setOtp] = useState<string[]>(Array(length).fill(""));
   const inputsRef = useRef<(TextInput | null)[]>([]);
-  const lastFilledIndex = useRef(-1);
 
   useEffect(() => {
     if (autoFocus && !disabled) {
@@ -44,9 +43,7 @@ export default function OTPInput({
     if (code.length === length && newOtp.every((d) => d !== "")) {
       // ✅ فقط اگر آخرین باکس پر شده باشد
       if (index === length - 1 && digit) {
-        setTimeout(() => {
-          onComplete?.(code);
-        }, 150);
+        onComplete?.(code);
       }
     }
   };

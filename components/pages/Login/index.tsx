@@ -84,7 +84,7 @@ export default function Login() {
       });
 
       const result = await response.json();
-      console.info("Response from OTP API:", result);
+
       if (response.ok) {
         showToast(
           "success",
@@ -110,126 +110,107 @@ export default function Login() {
     }
   }, [phone, isAccepted, showToast, t]);
 
-  const verifyCode = useCallback(async () => {
-    // ✅ بررسی authCode
-    if (!authCode || authCode.length !== 5) {
-      showToast(
-        "error",
-        t("pages.Login.auth.invalidCode"),
-        t("pages.Login.auth.codeLengthHint"),
-      );
-      return;
-    }
+  const verifyCode = useCallback(
+    async (codeOverride?: string) => {
+      const code = codeOverride ?? authCode;
+      setIsLoadingCode(true);
 
-    setIsLoadingCode(true);
+      try {
+        const response = await fetch(API.VERIFY, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `phone=${encodeURIComponent(phone)}&code=${encodeURIComponent(code)}`,
+        });
 
-    try {
-      const response = await fetch(API.VERIFY, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: `phone=${encodeURIComponent(phone)}&code=${encodeURIComponent(authCode)}`,
-      });
+        const result = await response.json();
 
-      const result = await response.json();
+        if (response.ok && result.data) {
+          const userDataFromServer = result.data;
+          console.info("verify response : ", response);
+          console.info("verify result : ", result);
+          let userId = null;
+          try {
+            const tokenParts = userDataFromServer.token.split(".");
+            if (tokenParts.length === 3) {
+              const payload = JSON.parse(atob(tokenParts[1]));
+              userId = payload.user_id || payload.id;
+            }
+          } catch {}
 
-      if (response.ok && result.data) {
-        const userDataFromServer = result.data;
+          let userDataFromApi: any = null;
 
-        let userId = null;
-        try {
-          const tokenParts = userDataFromServer.token.split(".");
-          if (tokenParts.length === 3) {
-            const payload = JSON.parse(atob(tokenParts[1]));
-            userId = payload.user_id || payload.id;
+          try {
+            const apiResponse = await fetch(API.getstatic, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+              body: `name=getUserInfo`,
+            });
+            if (!apiResponse.ok) {
+              throw new Error(`HTTP error! status: ${apiResponse.status}`);
+            }
+
+            const apiResult = await apiResponse.json();
+
+            if (apiResult.status === true && apiResult.data) {
+              userDataFromApi = apiResult.data;
+            } else {
+              console.warn("پاسخ API موفقیت‌آمیز نبود:", apiResult);
+            }
+          } catch (error) {
+            console.error("خطا در دریافت اطلاعات کاربر:", error);
           }
-        } catch {}
 
-        let userDataFromApi: any = null;
+          const userData: User = {
+            ID: userId,
+            token: userDataFromServer.token,
+            refresh_token: userDataFromServer.refresh_token,
+            expire_refresh_token: userDataFromServer.expire_refresh_token,
+            expire_token: userDataFromServer.expire_token,
+            key: userDataFromServer.key || "Bearer",
+            phone: phone,
+            name: userDataFromApi?.name || "کاربر",
+            nName: userDataFromApi?.nName || "",
+            lName: userDataFromApi?.lName || "",
+            avatar: userDataFromApi?.avatar || 0,
+          };
 
-        try {
-          const apiResponse = await fetch(API.getstatic, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
-            body: `name=getUserInfo`,
-          });
-          if (!apiResponse.ok) {
-            throw new Error(`HTTP error! status: ${apiResponse.status}`);
-          }
-
-          const apiResult = await apiResponse.json();
-          console.info("Response from getstatic API:", apiResult);
-
-          if (apiResult.status === true && apiResult.data) {
-            userDataFromApi = apiResult.data;
+          showToast(
+            "success",
+            t("pages.Login.common.success"),
+            t("pages.Login.auth.loginSuccess"),
+          );
+          await login(userData);
+          if (router.canGoBack()) {
+            router.back();
           } else {
-            console.warn("پاسخ API موفقیت‌آمیز نبود:", apiResult);
+            router.replace("/");
           }
-        } catch (error) {
-          console.error("خطا در دریافت اطلاعات کاربر:", error);
-        }
-
-        const userData: User = {
-          ID: userId,
-          token: userDataFromServer.token,
-          refresh_token: userDataFromServer.refresh_token,
-          expire_refresh_token: userDataFromServer.expire_refresh_token,
-          expire_token: userDataFromServer.expire_token,
-          key: userDataFromServer.key || "Bearer",
-          phone: phone,
-          name: userDataFromApi?.name || "کاربر",
-          nName: userDataFromApi?.nName || "",
-          lName: userDataFromApi?.lName || "",
-          avatar: userDataFromApi?.avatar || 3,
-          email: userDataFromApi?.email || "",
-          bankCard: userDataFromApi?.bankCard,
-          bankShaba: userDataFromApi?.bankShaba,
-          device_List: userDataFromApi?.device_List || [],
-          interests: userDataFromApi?.interests || [],
-          readList: userDataFromApi?.readList || [],
-          likedList: userDataFromApi?.likedList || [],
-          commentedList: userDataFromApi?.commentedList || [],
-          paymentList: userDataFromApi?.paymentList || [],
-          basket: userDataFromApi?.basket || [],
-          addresses: userDataFromApi?.addresses || [],
-        };
-
-        showToast(
-          "success",
-          t("pages.Login.common.success"),
-          t("pages.Login.auth.loginSuccess"),
-        );
-        await login(userData);
-        if (router.canGoBack()) {
-          router.back();
         } else {
-          router.replace("/");
+          showToast(
+            "error",
+            t("common.error"),
+            result.message ||
+              result.meta_data?.message ||
+              t("pages.Login.auth.invalidCode"),
+          );
+          setAuthCode("");
         }
-
-        console.info("user system info:", Platform.OS, Platform.Version);
-      } else {
+      } catch {
         showToast(
           "error",
-          t("common.error"),
-          result.message ||
-            result.meta_data?.message ||
-            t("pages.Login.auth.invalidCode"),
+          t("pages.Login.common.error"),
+          t("pages.Login.common.connectionError"),
         );
-        setAuthCode("");
+      } finally {
+        setIsLoadingCode(false);
       }
-    } catch {
-      showToast(
-        "error",
-        t("pages.Login.common.error"),
-        t("pages.Login.common.connectionError"),
-      );
-    } finally {
-      setIsLoadingCode(false);
-    }
-  }, [authCode, phone, showToast, t, login]);
+    },
+    [authCode, phone, showToast, t, login],
+  );
 
   useEffect(() => {
     if (Platform.OS === "web" && !showCodeInput) {
@@ -387,10 +368,7 @@ export default function Login() {
                     length={5}
                     onComplete={(code) => {
                       setAuthCode(code);
-                      // ✅ تاخیر برای اطمینان از به‌روزرسانی authCode
-                      setTimeout(() => {
-                        verifyCode();
-                      }, 300);
+                      verifyCode(code);
                     }}
                     autoFocus={true}
                     disabled={isLoading}
@@ -475,7 +453,7 @@ export default function Login() {
                     : !authCode) && styles.disabledButton,
                   styles.buttonWithMargin,
                 ]}
-                onPress={!showCodeInput ? getAuthCode : verifyCode}
+                onPress={!showCodeInput ? getAuthCode : () => verifyCode()}
                 disabled={
                   !showCodeInput
                     ? isLoadingCode || !isAccepted || !phone
