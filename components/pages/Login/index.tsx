@@ -111,6 +111,7 @@ export default function Login() {
   }, [phone, isAccepted, showToast, t]);
 
   const verifyCode = useCallback(async () => {
+    // ✅ بررسی authCode
     if (!authCode || authCode.length !== 5) {
       showToast(
         "error",
@@ -208,7 +209,7 @@ export default function Login() {
           router.replace("/");
         }
 
-        console.info("user system info:" , Platform.OS , Platform.Version);
+        console.info("user system info:", Platform.OS, Platform.Version);
       } else {
         showToast(
           "error",
@@ -386,7 +387,10 @@ export default function Login() {
                     length={5}
                     onComplete={(code) => {
                       setAuthCode(code);
-                      verifyCode();
+                      // ✅ تاخیر برای اطمینان از به‌روزرسانی authCode
+                      setTimeout(() => {
+                        verifyCode();
+                      }, 300);
                     }}
                     autoFocus={true}
                     disabled={isLoading}
@@ -399,6 +403,7 @@ export default function Login() {
                     style={styles.editPhoneButton}
                   >
                     <CustomText variant="discription">
+                      {isRTL ? "← " : "→ "}
                       {t("pages.Login.auth.editPhone")}
                     </CustomText>
                   </TouchableOpacity>

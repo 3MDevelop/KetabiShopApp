@@ -17,36 +17,36 @@ export default function OTPInput({
 }: OTPInputProps) {
   const [otp, setOtp] = useState<string[]>(Array(length).fill(""));
   const inputsRef = useRef<(TextInput | null)[]>([]);
+  const lastFilledIndex = useRef(-1);
 
-  // فوکوس خودکار روی باکس اول
   useEffect(() => {
     if (autoFocus && !disabled) {
       setTimeout(() => {
         inputsRef.current[0]?.focus();
-      }, 100);
+      }, 300);
     }
   }, [autoFocus, disabled]);
 
   const handleChange = (text: string, index: number) => {
     if (disabled) return;
 
-    // فقط یک رقم مجاز است
     const digit = text.replace(/[^0-9]/g, "").slice(-1);
-    
     const newOtp = [...otp];
     newOtp[index] = digit;
     setOtp(newOtp);
 
-    // اگر رقم وارد شد، برو به باکس بعدی
     if (digit && index < length - 1) {
       inputsRef.current[index + 1]?.focus();
     }
 
-    // ✅ اگر همه ارقام پر شد، خودکار تایید کن
-    if (digit && index === length - 1) {
-      const code = newOtp.join("");
-      if (code.length === length) {
-        onComplete?.(code);
+    // ✅ بررسی کامل بودن کد
+    const code = newOtp.join("");
+    if (code.length === length && newOtp.every((d) => d !== "")) {
+      // ✅ فقط اگر آخرین باکس پر شده باشد
+      if (index === length - 1 && digit) {
+        setTimeout(() => {
+          onComplete?.(code);
+        }, 150);
       }
     }
   };
@@ -54,21 +54,18 @@ export default function OTPInput({
   const handleKeyPress = (event: any, index: number) => {
     if (disabled) return;
 
-    // اگر کلید Backspace زده شد و باکس خالی بود، برو به باکس قبلی
     if (event.nativeEvent.key === "Backspace" && !otp[index] && index > 0) {
       inputsRef.current[index - 1]?.focus();
     }
 
-    // ✅ اگر Enter زده شد و همه باکس‌ها پر هستند، تایید کن
     if (event.nativeEvent.key === "Enter") {
       const code = otp.join("");
-      if (code.length === length) {
+      if (code.length === length && otp.every((d) => d !== "")) {
         onComplete?.(code);
       }
     }
   };
 
-  // تابع جداگانه برای paste در وب
   const handlePasteWeb = (event: any) => {
     const pastedText = event.nativeEvent?.clipboardData?.getData("text");
     if (pastedText) {
@@ -77,7 +74,10 @@ export default function OTPInput({
         const newOtp = digits.split("");
         setOtp(newOtp);
         inputsRef.current[length - 1]?.focus();
-        onComplete?.(digits);
+        // ✅ تاخیر بیشتر برای paste
+        setTimeout(() => {
+          onComplete?.(digits);
+        }, 200);
       }
     }
   };
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     gap: 12,
-    
+    marginVertical: 16,
   },
   input: {
     width: 48,
