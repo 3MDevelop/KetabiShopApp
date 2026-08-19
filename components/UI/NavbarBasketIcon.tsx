@@ -4,10 +4,17 @@ import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import CustomText from "../common/CustomText";
+import { isBasket, toggleBasket, BasketItem } from "@/utils/basket";
+
 
 export default function NavbarBasketIcon() {
+
   const { isLoggedIn } = useAuth();
   const router = useRouter();
+
+
+  console.info(isBasket)
+  console.info(toggleBasket)
 
   return (
     <TouchableOpacity
@@ -39,7 +46,7 @@ export default function NavbarBasketIcon() {
         {isLoggedIn && (
           <View style={styles.basketBadge}>
             <CustomText style={styles.badgeText}>
-              3{/* {user?.basket.length} */}
+              3 {/* item count on @basket on local storage */}
             </CustomText>
           </View>
         )}
