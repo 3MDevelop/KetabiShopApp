@@ -28,7 +28,6 @@ export default function BottomNavigation({
   };
 
   const { isLoggedIn } = useAuth();
-
   const menuItems = useMemo(
     () => [
       { href: "/", icon: "home" as const, label: labels.home, target: "home" },
@@ -79,7 +78,6 @@ export default function BottomNavigation({
 
   const isActive = useCallback(
     (target: string) => {
-      // بررسی برای myLibrary
       if (target === "myLibrary") {
         return pathname === "/myLibrary";
       }
