@@ -1,52 +1,39 @@
 import { View, TouchableOpacity, StyleSheet } from "react-native";
-import Toast from "react-native-toast-message";
-import { useAuth } from "@/hooks/useAuth";
+import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import CustomText from "../common/CustomText";
-import { isBasket, toggleBasket, BasketItem } from "@/utils/basket";
-
+import { getBasketCount, subscribeBasket } from "@/utils/basket";
 
 export default function NavbarBasketIcon() {
-
-  const { isLoggedIn } = useAuth();
   const router = useRouter();
+  const [count, setCount] = useState(0);
 
+  useEffect(() => {
+    const refreshCount = async () => {
+      const nextCount = await getBasketCount();
+      setCount(nextCount);
+    };
 
-  console.info(isBasket)
-  console.info(toggleBasket)
+    refreshCount();
+    return subscribeBasket(refreshCount);
+  }, []);
 
   return (
-    <TouchableOpacity
-      onPress={() => {
-        if (!isLoggedIn) {
-          Toast.show({
-            type: "error",
-            text1: "برای مشاهده این بخش ابتدا به حساب کاربری وارد شوید",
-            position: "top",
-            topOffset: 20,
-            visibilityTime: 3000,
-          });
-          return;
-        }
-        router.push("/basket");
-      }}
-    >
+    <TouchableOpacity onPress={() => router.push("/basket")}>
       <View style={[{ marginLeft: 10 }]}>
         <Ionicons
           name="basket"
           size={24}
-          style={[
-            {
-              color: isLoggedIn ? "#dbdbdb" : "#dbdbdb9a",
-              marginBottom: 3,
-            },
-          ]}
+          style={{
+            color: "#dbdbdb",
+            marginBottom: 3,
+          }}
         />
-        {isLoggedIn && (
+        {count > 0 && (
           <View style={styles.basketBadge}>
             <CustomText style={styles.badgeText}>
-              3 {/* item count on @basket on local storage */}
+              {count > 99 ? "99+" : count}
             </CustomText>
           </View>
         )}
@@ -64,6 +51,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     minWidth: 16,
     height: 16,
+    paddingHorizontal: 3,
     alignItems: "center",
     justifyContent: "center",
   },

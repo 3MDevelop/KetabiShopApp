@@ -49,7 +49,9 @@
       "singleItem": "یک عدد",
       "addedToCart": "به سبد خرید اضافه شد",
       "added":"افزوده شد",
-      "removed": "حذف شد"
+      "removed": "حذف شد",
+      "inYourCart": "در سبد شما",
+      "viewCart": "مشاهده"
     }
   },
   "ui": {

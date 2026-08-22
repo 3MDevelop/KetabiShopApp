@@ -3,86 +3,61 @@ import { useAuth } from "@/hooks/useAuth";
 import { useTranslate } from "@/hooks/useTranslation";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import React, { useState } from "react";
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { ActivityIndicator, Image, ScrollView, TouchableOpacity, View } from "react-native";
 import styles from "./styles";
 import CustomText from "@/components/common/CustomText";
-
-type ProductType =
-  | "physical_book"
-  | "ebook"
-  | "audiobook"
-  | "podcast"
-  | "audio";
-
-interface CartItem {
-  id: string; 
-  quantity: number; 
-  book_title: string; 
-  author: string; 
-  full_icon_address?: string;
-  discount?: number; 
-  percent?: number; 
-  price: number; 
-  maxQuantity?: number; 
-  type: ProductType; 
-  duration?: string; 
-}
+import {
+  BasketProduct,
+  ProductType,
+  clearBasket,
+  getBasket,
+  getBasketProducts,
+  removeFromBasket,
+  subscribeBasket,
+  updateBasketQuantity,
+} from "@/utils/basket";
 
 export default function Basket() {
   const { t } = useTranslate();
   const { isRTL } = useLanguage();
   const { isLoggedIn } = useAuth();
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    {
-      id: "1",
-      book_title: "کتاب فیزیکی اول",
-      author: "نویسنده اول",
-      price: 120000,
-      quantity: 2,
-      type: "physical_book",
-      maxQuantity: 10,
-    },
-    {
-      id: "2",
-      book_title: "کتاب الکترونیک دوم",
-      author: "نویسنده دوم",
-      price: 65000,
-      quantity: 1,
-      type: "ebook",
-      maxQuantity: 1,
-    },
-    {
-      id: "3",
-      book_title: "کتاب صوتی سوم",
-      author: "گوینده سوم",
-      price: 85000,
-      quantity: 1,
-      type: "audiobook",
-      duration: "3:45:00",
-      maxQuantity: 1,
-    },
-    {
-      id: "4",
-      book_title: "پادکست چهارم",
-      author: "مجری چهارم",
-      price: 45000,
-      quantity: 1,
-      type: "podcast",
-      duration: "45:00",
-      maxQuantity: 1,
-    },
-    {
-      id: "5",
-      book_title: "فایل صوتی پنجم",
-      author: "هنرمند پنجم",
-      price: 35000,
-      quantity: 1,
-      type: "audio",
-      duration: "15:30",
-      maxQuantity: 1,
-    },
-  ]);
+  const [cartItems, setCartItems] = useState<BasketProduct[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const cartItemsRef = useRef<BasketProduct[]>([]);
+  cartItemsRef.current = cartItems;
+
+  const loadBasket = useCallback(async () => {
+    const items = await getBasketProducts();
+    setCartItems(items);
+    setIsLoading(false);
+  }, []);
+
+  useEffect(() => {
+    loadBasket();
+
+    return subscribeBasket(async () => {
+      const entries = await getBasket();
+      const prev = cartItemsRef.current;
+      const sameIds =
+        prev.length === entries.length &&
+        prev.every((item) => entries.some((entry) => entry.id === item.id));
+
+      if (!sameIds) {
+        await loadBasket();
+        return;
+      }
+
+      setCartItems(
+        prev.map((item) => ({
+          ...item,
+          quantity:
+            entries.find((entry) => entry.id === item.id)?.quantity ??
+            item.quantity,
+        })),
+      );
+    });
+  }, [loadBasket]);
 
   const getProductStyle = (type: ProductType) => {
     switch (type) {
@@ -131,14 +106,14 @@ export default function Basket() {
     }
   };
 
-  const canIncreaseQuantity = (item: CartItem) => {
+  const canIncreaseQuantity = (item: BasketProduct) => {
     if (item.type === "physical_book") {
       return item.quantity < (item.maxQuantity || 99);
     }
     return false;
   };
 
-  const canDecreaseQuantity = (item: CartItem) => {
+  const canDecreaseQuantity = (item: BasketProduct) => {
     if (item.type === "physical_book") {
       return item.quantity > 1;
     }
@@ -149,32 +124,31 @@ export default function Basket() {
     return cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   };
 
-  const updateQuantity = (id: string, newQuantity: number) => {
-    const item = cartItems.find((i) => i.id === id);
-    if (!item) return;
-
-    if (newQuantity < 1) {
-      removeFromCart(id);
-      return;
-    }
-
-    setCartItems((prev) =>
-      prev.map((i) => (i.id === id ? { ...i, quantity: newQuantity } : i)),
-    );
+  const updateQuantity = async (id: string, newQuantity: number) => {
+    await updateBasketQuantity(id, newQuantity);
   };
 
-  const removeFromCart = (id: string) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
+  const removeFromCart = async (id: string) => {
+    await removeFromBasket(id);
   };
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     if (!isLoggedIn) {
       router.push("/login");
-    } else {
-      setCartItems([]);
-      router.push("/");
+      return;
     }
+    await clearBasket();
+    setCartItems([]);
+    router.push("/");
   };
+
+  if (isLoading) {
+    return (
+      <View style={[styles.container, { justifyContent: "center", alignItems: "center" }]}>
+        <ActivityIndicator size="large" color="#007AFF" />
+      </View>
+    );
+  }
 
   if (cartItems.length === 0) {
     return (
@@ -232,22 +206,29 @@ export default function Basket() {
             return (
               <View key={item.id} style={styles.cartCard}>
                 <View style={styles.cartItemInfo}>
-                  <View
-                    style={[
-                      styles.productIcon,
-                      { backgroundColor: productStyle.bgColor },
-                    ]}
-                  >
-                    <Ionicons
-                      name={productStyle.name as any}
-                      size={24}
-                      color={productStyle.color}
+                  {item.full_icon_address ? (
+                    <Image
+                      source={{ uri: item.full_icon_address }}
+                      style={styles.productIcon}
                     />
-                  </View>
+                  ) : (
+                    <View
+                      style={[
+                        styles.productIcon,
+                        { backgroundColor: productStyle.bgColor },
+                      ]}
+                    >
+                      <Ionicons
+                        name={productStyle.name as any}
+                        size={24}
+                        color={productStyle.color}
+                      />
+                    </View>
+                  )}
                   <View style={styles.cartItemDetails}>
                     <View style={styles.productHeader}>
                       <CustomText style={styles.cartItemTitle}>
-                        {item.book_title}
+                        {item.book_title || t("pages.Book.notFound")}
                       </CustomText>
                       <View
                         style={[

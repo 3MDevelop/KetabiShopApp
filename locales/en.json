@@ -47,7 +47,11 @@
       "loginRequired": "Please login to your account to proceed",
       "continueShopping": "Continue Shopping",
       "singleItem": "Single item",
-      "addedToCart": "Added to cart"
+      "addedToCart": "Added to cart",
+      "added": "Added",
+      "removed": "Removed",
+      "inYourCart": "In your cart",
+      "viewCart": "View"
     }
   },
   "ui": {
