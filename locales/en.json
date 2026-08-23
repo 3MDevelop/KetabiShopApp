@@ -51,7 +51,11 @@
       "added": "Added",
       "removed": "Removed",
       "inYourCart": "In your cart",
-      "viewCart": "View"
+      "viewCart": "View",
+      "removeConfirmTitle": "Remove from cart",
+      "removeConfirmMessage": "Are you sure you want to remove this book from your cart?",
+      "removeConfirm": "Remove",
+      "removeCancel": "Cancel"
     }
   },
   "ui": {

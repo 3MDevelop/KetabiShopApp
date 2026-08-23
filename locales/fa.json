@@ -51,7 +51,11 @@
       "added":"افزوده شد",
       "removed": "حذف شد",
       "inYourCart": "در سبد شما",
-      "viewCart": "مشاهده"
+      "viewCart": "مشاهده",
+      "removeConfirmTitle": "حذف از سبد خرید",
+      "removeConfirmMessage": "آیا از حذف این کتاب از سبد خرید مطمئن هستید؟",
+      "removeConfirm": "حذف",
+      "removeCancel": "انصراف"
     }
   },
   "ui": {

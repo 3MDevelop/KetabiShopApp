@@ -7,6 +7,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Image, ScrollView, TouchableOpacity, View } from "react-native";
 import styles from "./styles";
 import CustomText from "@/components/common/CustomText";
+import { showAlert } from "@/utils/alert";
 import {
   BasketProduct,
   ProductType,
@@ -128,8 +129,24 @@ export default function Basket() {
     await updateBasketQuantity(id, newQuantity);
   };
 
-  const removeFromCart = async (id: string) => {
-    await removeFromBasket(id);
+  const removeFromCart = (id: string) => {
+    showAlert(
+      t("common.cart.removeConfirmTitle"),
+      t("common.cart.removeConfirmMessage"),
+      [
+        {
+          text: t("common.cart.removeCancel"),
+          style: "cancel",
+        },
+        {
+          text: t("common.cart.removeConfirm"),
+          style: "destructive",
+          onPress: () => {
+            void removeFromBasket(id);
+          },
+        },
+      ],
+    );
   };
 
   const handleCheckout = async () => {

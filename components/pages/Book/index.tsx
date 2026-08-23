@@ -173,7 +173,7 @@ export default function Book() {
           {book.des_fa && <BookDiscription desText={book.des_fa} />}
 
           {/* from this publisher */}
-          {book?.publisherbooklist && <View style={{ marginTop: 20, width: "100%" }}>
+          {book?.publisherbooklist.length > 0 && <View style={{ marginTop: 20, width: "100%" }}>
             <BookPreList
               label={t("pages.Book.samePublisher")}
               listId={"listID"}
@@ -187,7 +187,7 @@ export default function Book() {
           </View>}
 
           {/* from this auther */}
-          {book?.authorbooklist && <View style={{ marginTop: 20, width: "100%" }}>
+          {book?.authorbooklist.length > 0 && <View style={{ marginTop: 20, width: "100%" }}>
             <BookPreList
               label={t("pages.Book.sameAuther")}
               listId={"listID"}
@@ -201,7 +201,7 @@ export default function Book() {
           </View>}
 
           {/* related book list */}
-          {book?.relatedbooklist && <View style={{ marginTop: 20, width: "100%" }}>
+          {book?.relatedbooklist.length > 0 && <View style={{ marginTop: 20, width: "100%" }}>
             <BookPreList
               label={t("pages.Book.relatedBooks")}
               listId={"listID"}

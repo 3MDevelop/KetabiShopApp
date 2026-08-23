@@ -7,6 +7,7 @@ import { usePlayer } from "@/context/PlayerContext";
 import { useRouter } from "expo-router";
 import { useLanguage } from "@/context/LanguageContext";
 import { useCallback, useEffect, useState } from "react";
+import { showAlert } from "@/utils/alert";
 import {
   addToBasket,
   BasketEntry,
@@ -84,16 +85,28 @@ export default function BookInfoPriceCard({ book }: BookInfoPriceCardProps) {
     }
   };
 
-  const removeFromCart = async () => {
+  const removeFromCart = () => {
     if (!book?.id) {
       return;
     }
 
-    try {
-      await removeFromBasket(String(book.id));
-    } catch {
-      showError();
-    }
+    showAlert(
+      t("common.cart.removeConfirmTitle"),
+      t("common.cart.removeConfirmMessage"),
+      [
+        {
+          text: t("common.cart.removeCancel"),
+          style: "cancel",
+        },
+        {
+          text: t("common.cart.removeConfirm"),
+          style: "destructive",
+          onPress: () => {
+            void removeFromBasket(String(book.id)).catch(showError);
+          },
+        },
+      ],
+    );
   };
 
   const handleReader = () => {
