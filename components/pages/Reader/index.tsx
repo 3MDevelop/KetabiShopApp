@@ -14,7 +14,7 @@ export default function Reader() {
   // TODO (بعداً): وقتی هر کتاب فایل مخصوص خودشو رو سرور داشت، آدرس رو از
   // روی id بساز، مثلاً: `https://ketabishop.com/static/app/pdf/${id}.pdf`
   // فعلاً همه‌ی /reader?id=... همین فایل نمونه رو نشون می‌ده.
-  const pdfUrl = "https://ketabishop.com/static/app/pdf/sample.pdf";
+  const pdfUrl = "https://ketabishop.com/static/app/pdf/sample 3.pdf";
 
   // WebView اندروید خودش نمی‌تونه PDF رو نمایش بده، پس از Google Docs Viewer
   // رد می‌کنیم. iOS مستقیم و بدون مشکل PDF رو نشون می‌ده.
@@ -26,9 +26,6 @@ export default function Reader() {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <CustomText bold variant="h4">
-          EPub Reader
-        </CustomText>
 
         <View style={styles.pdfContainer}>
           {isLoading && (
