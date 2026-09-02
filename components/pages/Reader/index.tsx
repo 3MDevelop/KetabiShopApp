@@ -2,7 +2,6 @@ import { View, ActivityIndicator, Platform } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { WebView } from "react-native-webview";
 import { useState } from "react";
-import CustomText from "@/components/common/CustomText";
 import { useTheme } from "@/context/ThemeContext";
 import styles from "./styles";
 
