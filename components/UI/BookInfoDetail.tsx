@@ -39,7 +39,7 @@ export default function BookInfoDetail({ book }: BookInfoDetailProps) {
               {t("pages.Book.pages")}
             </CustomText>
             <CustomText style={styles.infoValue}>
-              {book?.number_pages || t("common.unknown")}{" "}
+              {book?.number_pages || t("common.common.unknown")}{" "}
               {t("pages.Book.pagesUnit")}
             </CustomText>
           </View>
@@ -70,7 +70,7 @@ export default function BookInfoDetail({ book }: BookInfoDetailProps) {
               {t("pages.Book.size")}
             </CustomText>
             <CustomText style={styles.infoValue}>
-              {book?.providers[0]?.book_size || t("common.unknown")}
+              {book?.providers?.[0]?.book_size || t("common.common.unknown")}
             </CustomText>
           </View>
         </View>

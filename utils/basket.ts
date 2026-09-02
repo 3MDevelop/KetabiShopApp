@@ -239,7 +239,7 @@ export const productFromApi = (
   quantity: number,
 ): BasketProduct => {
   const type: ProductType = isProductType(book?.type)
-    ? book.type
+     ? book.type
     : "physical_book";
 
   return {

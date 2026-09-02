@@ -1,0 +1,218 @@
+import { StyleSheet } from "react-native";
+
+export default StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  content: {
+    padding: 20,
+    width: "100%",
+    maxWidth: 1000,
+    marginHorizontal: "auto",
+  },
+  layout: {
+    flexDirection: "row",
+    direction: "ltr",
+    alignItems: "flex-start",
+    gap: 16,
+  },
+  layoutMobile: {
+    flexDirection: "column",
+  },
+  listCard: {
+    flex: 1,
+    minWidth: 0,
+    backgroundColor: "#fff",
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+    overflow: "hidden",
+  },
+  sidebar: {
+    width: 340,
+    flexShrink: 0,
+    position: "sticky",
+    top: 20,
+    alignSelf: "flex-start",
+  },
+  sidebarMobile: {
+    width: "100%",
+  },
+  listHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#f0f0f0",
+    gap: 12,
+  },
+  listTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  addButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#007AFF",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
+    gap: 6,
+  },
+  addButtonText: {
+    color: "#fff",
+    fontSize: 13,
+    fontWeight: "600",
+  },
+  addressCard: {
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#f0f0f0",
+  },
+  addressCardSelected: {
+    backgroundColor: "#f0f7ff",
+  },
+  addressHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 8,
+  },
+  addressTitle: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "#333",
+    flex: 1,
+  },
+  addressText: {
+    fontSize: 13,
+    color: "#555",
+    lineHeight: 22,
+    marginBottom: 6,
+  },
+  addressMeta: {
+    fontSize: 12,
+    color: "#999",
+    marginBottom: 2,
+  },
+  emptyText: {
+    padding: 24,
+    textAlign: "center",
+    color: "#999",
+    fontSize: 14,
+  },
+  summaryCard: {
+    backgroundColor: "#fff",
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+    padding: 20,
+  },
+  summaryTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 18,
+  },
+  totalRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 14,
+  },
+  totalLabel: {
+    fontSize: 15,
+    color: "#999",
+  },
+  totalPrice: {
+    fontSize: 15,
+    color: "#666",
+  },
+  finalLabel: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  finalPrice: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#007AFF",
+  },
+  continueButton: {
+    backgroundColor: "#28a745",
+    paddingVertical: 16,
+    borderRadius: 12,
+    alignItems: "center",
+    marginTop: 8,
+  },
+  continueButtonDisabled: {
+    opacity: 0.5,
+  },
+  continueButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  modalBackdrop: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.4)",
+    justifyContent: "center",
+    padding: 20,
+  },
+  modalCard: {
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    padding: 20,
+    maxWidth: 520,
+    width: "100%",
+    alignSelf: "center",
+    maxHeight: "90%",
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 16,
+    textAlign: "center",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 14,
+    color: "#333",
+    marginBottom: 10,
+    backgroundColor: "#fff",
+  },
+  modalActions: {
+    flexDirection: "row",
+    gap: 10,
+    marginTop: 8,
+  },
+  modalButton: {
+    flex: 1,
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  cancelButton: {
+    backgroundColor: "#f0f0f0",
+  },
+  saveButton: {
+    backgroundColor: "#007AFF",
+  },
+  cancelButtonText: {
+    color: "#333",
+    fontWeight: "600",
+  },
+  saveButtonText: {
+    color: "#fff",
+    fontWeight: "600",
+  },
+});

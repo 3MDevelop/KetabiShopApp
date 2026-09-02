@@ -18,6 +18,8 @@ export const API = {
 
   /* from local json */
   getstatic: "https://ketabishop.com/api/getstatic/",
+  getAddress: "https://ketabishop.com/api/getstatic/",
+  getShippingPrice: "https://ketabishop.com/api/getstatic/",
 
   
 } as const;

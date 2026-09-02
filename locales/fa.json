@@ -55,7 +55,31 @@
       "removeConfirmTitle": "حذف از سبد خرید",
       "removeConfirmMessage": "آیا از حذف این کتاب از سبد خرید مطمئن هستید؟",
       "removeConfirm": "حذف",
-      "removeCancel": "انصراف"
+      "removeCancel": "انصراف",
+      "itemsCount": "{{count}} کالا",
+      "paymentDetails": "جزئیات پرداخت",
+      "itemsTotal": "مجموع قیمت کالاها",
+      "basketTotal": "مجموع سبد خرید",
+      "placeOrder": "ثبت سفارش",
+      "checkoutNote": "سفارش شما هنوز ثبت نشده و موجودی کالاها رزرو نشده است. برای نهایی شدن، پرداخت را تکمیل کنید."
+    },
+    "shipping": {
+      "title": "ارسال سفارش",
+      "selectAddress": "انتخاب آدرس",
+      "addAddress": "افزودن آدرس جدید",
+      "newAddress": "آدرس جدید",
+      "addressTitle": "عنوان آدرس",
+      "address": "آدرس",
+      "state": "استان",
+      "city": "شهر",
+      "postalCode": "کد پستی",
+      "mobileNumber": "شماره موبایل",
+      "saveAddress": "ثبت آدرس",
+      "noAddress": "هنوز آدرسی ثبت نشده است.",
+      "shippingCost": "هزینه ارسال",
+      "continue": "ادامه سفارش",
+      "selectAddressHint": "لطفاً یک آدرس را انتخاب کنید",
+      "fillRequired": "لطفاً همه فیلدها را کامل کنید"
     }
   },
   "ui": {
@@ -145,6 +169,7 @@
     "User": {},
     "About": { "about_label": "درباره ما" },
     "Basket": {},
+    "Shipping": {},
     "Book": {
       "details": "جزئیات کتاب",
       "notFound" :"کتابی یافت نشد",

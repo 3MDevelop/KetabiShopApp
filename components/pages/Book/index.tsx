@@ -93,7 +93,7 @@ export default function Book() {
       console.error("Error fetching book details:", error);
       Toast.show({
         type: "error",
-        text1: t("common.commom.error"),
+        text1: t("common.common.error"),
         text2: t("common.common.connectionError"),
         position: "top",
         topOffset: 20,
@@ -173,7 +173,7 @@ export default function Book() {
           {book.des_fa && <BookDiscription desText={book.des_fa} />}
 
           {/* from this publisher */}
-          {book?.publisherbooklist.length > 0 && <View style={{ marginTop: 20, width: "100%" }}>
+          {book?.publisherbooklist?.length > 0 && <View style={{ marginTop: 20, width: "100%" }}>
             <BookPreList
               label={t("pages.Book.samePublisher")}
               listId={"listID"}
@@ -187,7 +187,7 @@ export default function Book() {
           </View>}
 
           {/* from this auther */}
-          {book?.authorbooklist.length > 0 && <View style={{ marginTop: 20, width: "100%" }}>
+          {book?.authorbooklist?.length > 0 && <View style={{ marginTop: 20, width: "100%" }}>
             <BookPreList
               label={t("pages.Book.sameAuther")}
               listId={"listID"}
@@ -201,7 +201,7 @@ export default function Book() {
           </View>}
 
           {/* related book list */}
-          {book?.relatedbooklist.length > 0 && <View style={{ marginTop: 20, width: "100%" }}>
+          {book?.relatedbooklist?.length > 0 && <View style={{ marginTop: 20, width: "100%" }}>
             <BookPreList
               label={t("pages.Book.relatedBooks")}
               listId={"listID"}

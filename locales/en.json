@@ -55,7 +55,31 @@
       "removeConfirmTitle": "Remove from cart",
       "removeConfirmMessage": "Are you sure you want to remove this book from your cart?",
       "removeConfirm": "Remove",
-      "removeCancel": "Cancel"
+      "removeCancel": "Cancel",
+      "itemsCount": "{{count}} items",
+      "paymentDetails": "Payment details",
+      "itemsTotal": "Items total",
+      "basketTotal": "Basket total",
+      "placeOrder": "Place order",
+      "checkoutNote": "Your order is not placed yet and items are not reserved. Complete payment to finalize."
+    },
+    "shipping": {
+      "title": "Shipping",
+      "selectAddress": "Select address",
+      "addAddress": "Add new address",
+      "newAddress": "New address",
+      "addressTitle": "Address title",
+      "address": "Address",
+      "state": "Province",
+      "city": "City",
+      "postalCode": "Postal code",
+      "mobileNumber": "Mobile number",
+      "saveAddress": "Save address",
+      "noAddress": "No address has been added yet.",
+      "shippingCost": "Shipping cost",
+      "continue": "Continue",
+      "selectAddressHint": "Please select an address",
+      "fillRequired": "Please fill in all fields"
     }
   },
   "ui": {
@@ -145,6 +169,7 @@
     "User": {},
     "About": { "about_label": "About Us" },
     "Basket": {},
+    "Shipping": {},
     "Book": {
       "details": "Book Details",
       "notFoundDesc": "The book you're looking for does not exist or has been removed",

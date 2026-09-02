@@ -50,10 +50,10 @@ export default function BookPreList({
   const [books, setBooks] = useState<any[]>([]);
 
   useEffect(() => {
-    setBooks(bookList);
+    setBooks(Array.isArray(bookList) ? bookList : []);
   }, [bookList]);
 
-  const displayBooks = books;
+  const displayBooks = Array.isArray(books) ? books : [];
 
   const scrollRight = () => {
     const newX = scrollX.current + scrollStep;
@@ -194,9 +194,9 @@ export default function BookPreList({
                 <BookThumb
                   key={`${book.id}-${index}`}
                   bookID={book.id}
-                  bookName={book.book_title}
-                  price={book.price}
-                  imageUrl={book.full_icon_address}
+                  bookName={book.book_title || book.title}
+                  price={book.price_physical_new || book.price || book.main_price}
+                  imageUrl={book.full_icon_address || book.pic}
                   itemWidth={ listHeight * listItemRatio}
                   percent={book.percent}
                   discount={book.discount}
