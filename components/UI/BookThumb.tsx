@@ -1,5 +1,6 @@
 // components/UI/BookThumb.tsx
 
+import { useState } from "react";
 import { TouchableOpacity, View, Image } from "react-native";
 import CustomText from "@/components/common/CustomText";
 import { Ionicons } from "@expo/vector-icons";
@@ -26,6 +27,13 @@ export default function BookThumb({
   discount,
 }: BookThumbProps) {
   const router = useRouter();
+  const [priceBoxWidth, setPriceBoxWidth] = useState(0);
+  const [discountRowWidth, setDiscountRowWidth] = useState(0);
+  const canShowDiscount =
+    Boolean(percent) &&
+    (priceBoxWidth === 0 ||
+      discountRowWidth === 0 ||
+      discountRowWidth <= priceBoxWidth);
 
   return (
     <TouchableOpacity
@@ -108,43 +116,92 @@ export default function BookThumb({
         <CustomText
           bold
           variant="caption"
-          style={{ fontSize: 15, marginBottom: 8 }}
-          center
+          style={[
+            {
+              fontSize: 15,
+              marginBottom: 8,
+              paddingHorizontal:5,
+              textAlign: "right",
+              width: "100%",
+            },
+            {
+              wordBreak: "keep-all",
+              overflowWrap: "normal",
+            } as object,
+          ]}
+          numberOfLines={2}
+          ellipsizeMode="tail"
+          textBreakStrategy="simple"
         >
           {bookName}
         </CustomText>
 
-        {percent && (
-          <View
-            style={{
-              marginTop: 5,
-              flexDirection: "row-reverse",
-              gap: 8,
-              alignItems: "center",
-            }}
-          >
+        <View
+          onLayout={(event) =>
+            setPriceBoxWidth(event.nativeEvent.layout.width)
+          }
+          style={{ overflow: "hidden" }}
+        >
+          {percent ? (
+            <View
+              onLayout={(event) =>
+                setDiscountRowWidth(event.nativeEvent.layout.width)
+              }
+              style={{
+                position: "absolute",
+                opacity: 0,
+                flexDirection: "row-reverse",
+                gap: 8,
+                alignItems: "center",
+              }}
+            >
+              <CustomText variant="caption">{price}</CustomText>
+              <CustomText variant="caption">{discount}</CustomText>
+              <CustomText variant="caption">تومان</CustomText>
+            </View>
+          ) : null}
+
+          {canShowDiscount ? (
+            <View
+              style={{
+                marginTop: 5,
+                flexDirection: "row-reverse",
+                gap: 8,
+                alignItems: "center",
+              }}
+            >
+              <CustomText
+                variant="caption"
+                style={{ textDecorationLine: "line-through", color: "#999" }}
+              >
+                {price}
+              </CustomText>
+              <CustomText
+                variant="caption"
+                style={{ color: "#4CAF50", fontWeight: "bold" }}
+              >
+                {discount}
+              </CustomText>
+              <CustomText
+                variant="caption"
+                style={{ color: "#4CAF50", fontWeight: "bold" }}
+              >
+                تومان
+              </CustomText>
+            </View>
+          ) : (
             <CustomText
               variant="caption"
-              style={{ textDecorationLine: "line-through", color: "#999" }}
+              style={
+                percent
+                  ? { color: "#4CAF50", fontWeight: "bold" }
+                  : undefined
+              }
             >
-              {price}
+              {(discount ?? price)} تومان
             </CustomText>
-            <CustomText
-              variant="caption"
-              style={{ color: "#4CAF50", fontWeight: "bold" }}
-            >
-              {discount}
-            </CustomText>
-            <CustomText
-              variant="caption"
-              style={{ color: "#4CAF50", fontWeight: "bold" }}
-            >
-              تومان
-            </CustomText>
-          </View>
-        )}
-        {!percent && <CustomText variant="caption">{price} تومان</CustomText>}
-        {!percent && <CustomText variant="caption">{price}</CustomText>}
+          )}
+        </View>
       </View>
     </TouchableOpacity>
   );

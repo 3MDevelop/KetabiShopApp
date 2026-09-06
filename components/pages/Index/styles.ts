@@ -5,6 +5,7 @@ export default StyleSheet.create({
     flex: 1,
     marginHorizontal:'auto',
     width:'100%',
+    alignSelf:"center"
   },
   content: {
     padding: 20,

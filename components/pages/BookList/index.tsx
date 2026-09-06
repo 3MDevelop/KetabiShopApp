@@ -135,7 +135,7 @@ console.info(`Fetching books for list ID: ${listID}`);
                     author={book.author}
                     price={book.price}
                     imageUrl={book.image}
-                    ratio={listItemRatio}
+                    itemWidth={300 * 0.64}
                     percent={book.percent}
                     discount={book.discount}
                   />

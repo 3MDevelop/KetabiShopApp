@@ -49,9 +49,9 @@ export default function HomePage() {
 
   if (loading) {
     return (
-      <View style={[styles.container]}>
+      <View style={[styles.container,{marginTop:50}]}>
         <ActivityIndicator size="large" color="#007AFF" />
-        <CustomText>در حال بارگذاری...</CustomText>
+        <CustomText center >در حال بارگذاری...</CustomText>
       </View>
     );
   }
