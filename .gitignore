@@ -6,3 +6,7 @@ expo-env.d.ts
 # @end expo-cli
 node_modules
 .expo/types/router.d.ts
+
+# local / large sample assets
+bash.exe.stackdump
+KetabikaFTP/pdf/sample 2.pdf
