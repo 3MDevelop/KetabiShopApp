@@ -16,10 +16,11 @@ interface Book {
   id: number;
   name: string;
   author: string;
-  price: number;
+  price: number | string;
   image: string;
-  percent?: number;
-  discount?: number;
+  percent?: number | string;
+  discount?: number | string;
+  exist?: number | string;
 }
 
 export default function BookList() {
@@ -63,10 +64,15 @@ console.info(`Fetching books for list ID: ${listID}`);
             id: book.id,
             name: book.book_title,
             author: book.author_info,
-            price: book.main_price,
+            price:
+              book.priceFa ||
+              book.price_physical_new ||
+              book.price ||
+              book.main_price,
             image: book.full_icon_address,
-            percent: book.percentFa,
-            discount: book.discountFa,
+            percent: book.percentFa ?? book.percent,
+            discount: book.discountFa || book.discount,
+            exist: book.exist,
           }));
           setBooks(formattedBooks);
         } else {
@@ -138,6 +144,7 @@ console.info(`Fetching books for list ID: ${listID}`);
                     itemWidth={300 * 0.64}
                     percent={book.percent}
                     discount={book.discount}
+                    exist={book.exist}
                   />
                 </View>
               ))}

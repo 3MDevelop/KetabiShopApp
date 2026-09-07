@@ -46,7 +46,7 @@ export default function UpdateUserDataBtn({
               textAlign: "center",
             }}
           >
-            {t("commob.common.userUpdateBtn")}
+            {t("common.common.userUpdateBtn")}
           </CustomText>
         )}
       </TouchableOpacity>

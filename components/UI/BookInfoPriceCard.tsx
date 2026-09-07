@@ -2,11 +2,12 @@ import { StyleSheet, View, TouchableOpacity } from "react-native";
 import CustomText from "@/components/common/CustomText";
 import { Ionicons } from "@expo/vector-icons";
 import { useTranslate } from "@/hooks/useTranslation";
+import { useAuth } from "@/hooks/useAuth";
 import Toast from "react-native-toast-message";
 import { usePlayer } from "@/context/PlayerContext";
 import { useRouter } from "expo-router";
 import { useLanguage } from "@/context/LanguageContext";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { showAlert } from "@/utils/alert";
 import {
   addToBasket,
@@ -16,6 +17,13 @@ import {
   subscribeBasket,
   updateBasketQuantity,
 } from "@/utils/basket";
+import {
+  addStockReminder,
+  clearPendingStockReminder,
+  getPendingStockReminder,
+  isBookOutOfStock,
+  setPendingStockReminder,
+} from "@/utils/stock";
 
 interface BookInfoPriceCardProps {
   book?: any;
@@ -24,9 +32,12 @@ interface BookInfoPriceCardProps {
 export default function BookInfoPriceCard({ book }: BookInfoPriceCardProps) {
   const { t } = useTranslate();
   const { isRTL } = useLanguage()
+  const { isLoggedIn } = useAuth();
   const { playAudio } = usePlayer();
   const router = useRouter();
   const [basketItem, setBasketItem] = useState<BasketEntry | undefined>();
+  const notifyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const appliedPendingRef = useRef(false);
 
   const refreshBasketItem = useCallback(async () => {
     if (!book?.id) {
@@ -41,6 +52,49 @@ export default function BookInfoPriceCard({ book }: BookInfoPriceCardProps) {
     refreshBasketItem();
     return subscribeBasket(refreshBasketItem);
   }, [refreshBasketItem]);
+
+  const registerStockReminder = useCallback(async () => {
+    if (!book?.id) {
+      return;
+    }
+    await addStockReminder(String(book.id));
+    Toast.show({
+      type: "success",
+      text1: t("pages.Book.notifyRegistered"),
+      position: "top",
+      topOffset: 20,
+      visibilityTime: 2000,
+    });
+  }, [book?.id, t]);
+
+  useEffect(() => {
+    if (!isLoggedIn || !book?.id) {
+      return;
+    }
+
+    const applyPendingReminder = async () => {
+      if (appliedPendingRef.current) {
+        return;
+      }
+      const pendingId = await getPendingStockReminder();
+      if (pendingId !== String(book.id)) {
+        return;
+      }
+      appliedPendingRef.current = true;
+      await clearPendingStockReminder();
+      await registerStockReminder();
+    };
+
+    void applyPendingReminder();
+  }, [isLoggedIn, book?.id, registerStockReminder]);
+
+  useEffect(() => {
+    return () => {
+      if (notifyTimerRef.current) {
+        clearTimeout(notifyTimerRef.current);
+      }
+    };
+  }, []);
 
   const showError = () => {
     Toast.show({
@@ -71,6 +125,36 @@ export default function BookInfoPriceCard({ book }: BookInfoPriceCardProps) {
     } catch {
       showError();
     }
+  };
+
+  const notifyWhenAvailable = async () => {
+    if (!book?.id) {
+      return;
+    }
+
+    if (isLoggedIn) {
+      await registerStockReminder();
+      return;
+    }
+
+    await setPendingStockReminder(String(book.id));
+    Toast.show({
+      type: "info",
+      text1: t("pages.Book.notifyLoginRequired"),
+      position: "top",
+      topOffset: 20,
+      visibilityTime: 2000,
+    });
+
+    if (notifyTimerRef.current) {
+      clearTimeout(notifyTimerRef.current);
+    }
+    notifyTimerRef.current = setTimeout(() => {
+      router.push({
+        pathname: "/login",
+        params: { redirect: `/book/${book.id}` },
+      });
+    }, 2000);
   };
 
   const changeQuantity = async (nextQuantity: number) => {
@@ -132,7 +216,7 @@ export default function BookInfoPriceCard({ book }: BookInfoPriceCardProps) {
   };
 
   const hasDiscount = book?.discountFa;
-  const isAvailable = book?.exist === "1";
+  const isAvailable = !isBookOutOfStock(book?.exist, book?.price ?? book?.priceFa);
   const isPhysicalBook = !book?.type || book?.type === "physical_book";
   return (
     <View
@@ -143,13 +227,17 @@ export default function BookInfoPriceCard({ book }: BookInfoPriceCardProps) {
     >
       <View style={{ flex: 1 }}>
         <View style={styles.priceWrapper}>
-          {hasDiscount ? (
+          {!isAvailable ? (
+            <CustomText bold style={styles.unavailablePrice}>
+              {t("pages.Book.soldOut")}
+            </CustomText>
+          ) : hasDiscount ? (
             <>
               <CustomText style={styles.oldPrice}>
                 {isRTL ? book?.priceFa : book?.price} {t("common.cart.currency")}
               </CustomText>
               <CustomText style={styles.finalPrice}>
-                {book.discountFa} {t("common.cart.currency")}
+                {isRTL ? book.discountFa : book.discount} {t("common.cart.currency")}
               </CustomText>
             </>
           ) : (
@@ -157,7 +245,6 @@ export default function BookInfoPriceCard({ book }: BookInfoPriceCardProps) {
               <CustomText style={styles.singlePrice}>
                 {isRTL ? book?.priceFa : book?.price} {t("common.cart.currency")}
               </CustomText>
-
             </View>
           )}
         </View>
@@ -228,15 +315,13 @@ export default function BookInfoPriceCard({ book }: BookInfoPriceCardProps) {
             </View>
           ) : (
             <TouchableOpacity
-              style={[styles.cartButton, !isAvailable && styles.disabledButton]}
-              onPress={addToCart}
-              disabled={!isAvailable}
+              style={[styles.cartButton, !isAvailable && styles.notifyButton]}
+              onPress={isAvailable ? addToCart : notifyWhenAvailable}
             >
-              <Ionicons name="book" size={22} color="#fff" />
               <CustomText style={styles.cartButtonText}>
                 {isAvailable
                   ? t("pages.Book.addToCart")
-                  : t("pages.Book.outOfStock")}
+                  : t("pages.Book.notifyWhenAvailable")}
               </CustomText>
             </TouchableOpacity>
           )}
@@ -280,6 +365,11 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: "bold",
     color: "#333",
+  },
+  unavailablePrice: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#999999",
   },
   priceSection: {
     backgroundColor: "#fff",
@@ -355,6 +445,9 @@ const styles = StyleSheet.create({
   },
   removeButton: {
     padding: 8,
+  },
+  notifyButton: {
+    backgroundColor: "#FF9800",
   },
   disabledButton: {
     backgroundColor: "#ccc",

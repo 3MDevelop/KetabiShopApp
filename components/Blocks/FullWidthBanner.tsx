@@ -8,7 +8,7 @@ import {
   ImageSourcePropType,
 } from "react-native";
 import { router } from "expo-router";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import CustomText from "../common/CustomText";
 
 interface SlidesProps {
@@ -42,60 +42,63 @@ export default function FullWidthBanner({
 }: FullWidthBannerProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progress, setProgress] = useState(0);
-  const intervalRef = useRef<any>(null);
-  const progressIntervalRef = useRef<any>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const startedAtRef = useRef(Date.now());
 
   const currentSlide = slides[currentIndex] || null;
+  const slideCount = slides.length;
+  const safeDelay = Math.max(Number(delay) || 3000, 300);
 
-  const clearAllIntervals = useCallback(() => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-    if (progressIntervalRef.current) {
-      clearInterval(progressIntervalRef.current);
-      progressIntervalRef.current = null;
-    }
+  const restartTimer = useCallback(() => {
+    startedAtRef.current = Date.now();
+    setProgress(0);
   }, []);
 
   const goToNextSlide = useCallback(() => {
-    if (slides.length === 0) return;
-    setCurrentIndex((prev) => (prev + 1) % slides.length);
-    setProgress(0);
-  }, [slides.length]);
+    if (slideCount === 0) return;
+    setCurrentIndex((prev) => (prev + 1) % slideCount);
+    restartTimer();
+  }, [slideCount, restartTimer]);
 
   const goToPrevSlide = useCallback(() => {
-    if (slides.length === 0) return;
-    setCurrentIndex((prev) => (prev - 1 + slides.length) % slides.length);
-    setProgress(0);
-  }, [slides.length]);
+    if (slideCount === 0) return;
+    setCurrentIndex((prev) => (prev - 1 + slideCount) % slideCount);
+    restartTimer();
+  }, [slideCount, restartTimer]);
 
   useEffect(() => {
-    if (slides.length <= 1) return;
+    if (slideCount <= 1) return;
 
-    clearAllIntervals();
+    restartTimer();
 
-    const safeDelay = delay || 3000;
+    timerRef.current = setInterval(() => {
+      const elapsed = Date.now() - startedAtRef.current;
+      setProgress(Math.min(100, (elapsed / safeDelay) * 100));
 
-    progressIntervalRef.current = setInterval(() => {
-      setProgress((prev) => {
-        const newProgress = prev + 100 / (safeDelay / 50);
-        return newProgress >= 100 ? 100 : newProgress;
-      });
+      if (elapsed >= safeDelay) {
+        startedAtRef.current = Date.now();
+        setProgress(0);
+        setCurrentIndex((prev) => (prev + 1) % slideCount);
+      }
     }, 50);
 
-    intervalRef.current = setInterval(() => {
-      goToNextSlide();
-    }, safeDelay);
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+  }, [slideCount, safeDelay, restartTimer]);
 
-    return () => clearAllIntervals();
-  }, [slides.length, delay, goToNextSlide, clearAllIntervals]);
+  const imageSource = currentSlide?.imageSource;
+  const imageSourceFinal: ImageSourcePropType = useMemo(
+    () => (imageSource ? { uri: imageSource } : DEFAULT_IMAGE),
+    [imageSource]
+  );
 
   if (slides.length === 0 || !currentSlide) {
     return null;
   }
-
-  const { imageSource } = currentSlide;
 
   const handlePress = () => {
     if (!currentSlide?.url) {
@@ -117,10 +120,6 @@ export default function FullWidthBanner({
       });
     }
   };
-
-  const imageSourceFinal: ImageSourcePropType = imageSource
-    ? { uri: imageSource }
-    : DEFAULT_IMAGE;
 
   return (
     <View style={[styles.container, { height, width: bannerWidth as any }]}>
@@ -146,7 +145,7 @@ export default function FullWidthBanner({
               style={[styles.dot, currentIndex === index && styles.dotActive]}
               onPress={() => {
                 setCurrentIndex(index);
-                setProgress(0);
+                restartTimer();
               }}
             />
           ))}

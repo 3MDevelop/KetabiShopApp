@@ -20,6 +20,7 @@ export const API = {
   getstatic: "https://ketabishop.com/api/getstatic/",
   getAddress: "https://ketabishop.com/api/getstatic/",
   getShippingPrice: "https://ketabishop.com/api/getstatic/",
+  getUserBasket: "https://ketabishop.com/api/getstatic/",
 
   
 } as const;

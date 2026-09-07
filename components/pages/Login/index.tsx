@@ -3,7 +3,7 @@
 import { User } from "@/context/AuthContext";
 import { useAuth } from "@/hooks/useAuth";
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useState, useEffect, useCallback } from "react";
 import {
   ActivityIndicator,
@@ -33,6 +33,20 @@ export default function Login() {
   const { theme } = useTheme();
   const { isRTL } = useLanguage();
   const { t } = useTranslate();
+  const { redirect } = useLocalSearchParams<{ redirect?: string | string[] }>();
+
+  const goAfterLogin = useCallback(() => {
+    const target = Array.isArray(redirect) ? redirect[0] : redirect;
+    if (target && target.startsWith("/") && !target.startsWith("//")) {
+      router.replace(target as any);
+      return;
+    }
+    if (router.canGoBack()) {
+      router.back();
+      return;
+    }
+    router.replace("/");
+  }, [redirect]);
 
   const showToast = useCallback(
     (type: ToastType, message: string, description?: string) => {
@@ -175,6 +189,7 @@ export default function Login() {
             name: userDataFromApi?.name || "کاربر",
             nName: userDataFromApi?.nName || "",
             lName: userDataFromApi?.lName || "",
+            email: userDataFromApi?.email || "",
             avatar: userDataFromApi?.avatar || 0,
           };
 
@@ -184,11 +199,7 @@ export default function Login() {
             t("pages.Login.auth.loginSuccess"),
           );
           await login(userData);
-          if (router.canGoBack()) {
-            router.back();
-          } else {
-            router.replace("/");
-          }
+          goAfterLogin();
         } else {
           showToast(
             "error",
@@ -209,7 +220,7 @@ export default function Login() {
         setIsLoadingCode(false);
       }
     },
-    [authCode, phone, showToast, t, login],
+    [authCode, phone, showToast, t, login, goAfterLogin],
   );
 
   useEffect(() => {
@@ -301,13 +312,7 @@ export default function Login() {
                 {t("pages.Login.auth.alreadyLoggedIn")}
               </CustomText>
               <TouchableOpacity
-                onPress={() => {
-                  if (router.canGoBack()) {
-                    router.back();
-                  } else {
-                    router.replace("/");
-                  }
-                }}
+                onPress={goAfterLogin}
                 style={{ alignSelf: "center" }}
               >
                 <View

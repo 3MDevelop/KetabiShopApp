@@ -1,5 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API } from "@/constants/api";
+import { parseMoney } from "@/utils/money";
+
+export { parseMoney } from "@/utils/money";
 
 export type ProductType =
   | "physical_book"
@@ -41,17 +44,6 @@ export const subscribeBasket = (listener: BasketListener) => {
 
 const notifyBasket = () => {
   listeners.forEach((listener) => listener());
-};
-
-export const parseMoney = (value: unknown): number => {
-  if (typeof value === "number" && Number.isFinite(value)) {
-    return value;
-  }
-  if (typeof value === "string") {
-    const n = Number(value.replace(/[^\d.-]/g, ""));
-    return Number.isFinite(n) ? n : 0;
-  }
-  return 0;
 };
 
 const isProductType = (value: unknown): value is ProductType =>
@@ -224,6 +216,55 @@ export const toggleBasket = async (bookId: string): Promise<boolean> => {
 
 export const clearBasket = async (): Promise<void> => {
   await persistBasket([]);
+};
+
+export const syncBasketFromServer = async (): Promise<BasketEntry[]> => {
+  const local = await getBasket();
+
+  try {
+    const response = await fetch(API.getUserBasket, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: "name=getUserBasket",
+    });
+    const result = await response.json();
+
+    if (result?.status !== true || !Array.isArray(result.data)) {
+      return local;
+    }
+
+    const merged = new Map<string, BasketEntry>();
+    for (const item of local) {
+      merged.set(item.id, { id: item.id, quantity: item.quantity });
+    }
+
+    for (const raw of result.data) {
+      const entry = normalizeEntry({
+        id: raw?.id,
+        quantity: raw?.quantity ?? raw?.count ?? 1,
+      });
+      if (!entry) {
+        continue;
+      }
+      const existing = merged.get(entry.id);
+      merged.set(entry.id, {
+        id: entry.id,
+        quantity: Math.min(
+          MAX_QUANTITY,
+          Math.max(existing?.quantity ?? 0, entry.quantity),
+        ),
+      });
+    }
+
+    const next = Array.from(merged.values());
+    await persistBasket(next);
+    return next;
+  } catch (error) {
+    console.error("Error syncing basket from server:", error);
+    return local;
+  }
 };
 
 const currentPriceFromProduct = (book: Record<string, any>): number => {

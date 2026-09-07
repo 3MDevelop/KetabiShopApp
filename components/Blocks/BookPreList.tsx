@@ -71,21 +71,7 @@ export default function BookPreList({
   };
 
   if (displayBooks.length === 0) {
-    return (
-      <View
-        style={[
-          styles.categoryCard,
-          {
-            height: listHeight,
-            backgroundColor: backColor,
-            alignItems: "center",
-            justifyContent: "center",
-          },
-        ]}
-      >
-        <CustomText>هیچ کتابی یافت نشد</CustomText>
-      </View>
-    );
+    return null;
   }
 
   return (
@@ -195,11 +181,17 @@ export default function BookPreList({
                   key={`${book.id}-${index}`}
                   bookID={book.id}
                   bookName={book.book_title || book.title}
-                  price={book.price_physical_new || book.price || book.main_price}
+                  price={
+                    book.priceFa ||
+                    book.price_physical_new ||
+                    book.price ||
+                    book.main_price
+                  }
                   imageUrl={book.full_icon_address || book.pic}
                   itemWidth={ listHeight * listItemRatio}
-                  percent={book.percent}
-                  discount={book.discount}
+                  percent={book.percentFa ?? book.percent}
+                  discount={book.discountFa || book.discount}
+                  exist={book.exist}
                 />
               ))}
             </ScrollView>
@@ -288,32 +280,5 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     shadowOpacity: 0.2,
     shadowOffset: { width: -8, height: 0 },
-  },
-
-  errorContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
-  },
-
-  errorText: {
-    color: "#f44336",
-    fontSize: 14,
-    marginTop: 12,
-    textAlign: "center",
-  },
-
-  retryButton: {
-    marginTop: 16,
-    paddingHorizontal: 20,
-    paddingVertical: 8,
-    backgroundColor: "#007AFF",
-    borderRadius: 8,
-  },
-
-  retryText: {
-    color: "#fff",
-    fontSize: 14,
-    fontWeight: "600",
   },
 });

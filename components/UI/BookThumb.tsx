@@ -5,17 +5,54 @@ import { TouchableOpacity, View, Image } from "react-native";
 import CustomText from "@/components/common/CustomText";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useLanguage } from "@/context/LanguageContext";
+import { useTranslate } from "@/hooks/useTranslation";
+import {
+  formatNumber,
+  normalizePricePair,
+  parseMoney,
+} from "@/utils/money";
+import { isBookOutOfStock } from "@/utils/stock";
+
 interface BookThumbProps {
   bookID?: number;
   bookName?: string;
   author?: string;
-  price?: number;
+  price?: number | string;
   imageUrl?: string;
   itemWidth?: number;
-  percent?: number;
-  discount?: number;
+  percent?: number | string;
+  discount?: number | string;
+  exist?: number | string;
   color?: string;
 }
+
+const priceRowStyle = {
+  marginTop: 5,
+  flexDirection: "row-reverse" as const,
+  gap: 8,
+  alignItems: "center" as const,
+  alignSelf: "flex-start" as const,
+};
+
+const strikethroughPriceStyle = {
+  fontSize: 14,
+  lineHeight: 20,
+  textDecorationLine: "line-through" as const,
+  color: "#999",
+};
+
+const finalPriceStyle = {
+  fontSize: 14,
+  lineHeight: 20,
+  color: "#4CAF50",
+};
+
+const soldOutStyle = {
+  fontSize: 16,
+  lineHeight: 20,
+  color: "#999999",
+};
 
 export default function BookThumb({
   bookID,
@@ -25,15 +62,33 @@ export default function BookThumb({
   itemWidth,
   percent,
   discount,
+  exist,
 }: BookThumbProps) {
   const router = useRouter();
+  const { language } = useLanguage();
+  const { t } = useTranslate();
   const [priceBoxWidth, setPriceBoxWidth] = useState(0);
   const [discountRowWidth, setDiscountRowWidth] = useState(0);
+
+  const { price: priceValue, discount: discountValue } = normalizePricePair(
+    price,
+    discount,
+  );
+  const percentValue = parseMoney(percent);
+  const hasDiscount = percentValue > 0 && discountValue > 0;
+  const formattedPrice = formatNumber(priceValue, language);
+  const formattedDiscount = formatNumber(discountValue, language);
+  const formattedPercent = formatNumber(percentValue, language);
+  const currency = t("common.cart.currency");
   const canShowDiscount =
-    Boolean(percent) &&
+    hasDiscount &&
     (priceBoxWidth === 0 ||
       discountRowWidth === 0 ||
       discountRowWidth <= priceBoxWidth);
+  const visibleAmount = canShowDiscount
+    ? formattedDiscount
+    : formattedDiscount || formattedPrice;
+  const soldOut = isBookOutOfStock(exist, price);
 
   return (
     <TouchableOpacity
@@ -51,7 +106,7 @@ export default function BookThumb({
         width: itemWidth,
       }}
     >
-      {percent && (
+      {hasDiscount && !soldOut && (
         <View
           style={{
             position: "absolute",
@@ -80,7 +135,7 @@ export default function BookThumb({
                 alignSelf: "center",
               }}
             >
-              {percent + "%"}
+              {formattedPercent}%
             </CustomText>
           </View>
         </View>
@@ -140,96 +195,63 @@ export default function BookThumb({
           onLayout={(event) =>
             setPriceBoxWidth(event.nativeEvent.layout.width)
           }
-          style={{ overflow: "hidden" }}
+          style={{
+            overflow: "hidden",
+            width: "100%",
+            alignItems: "flex-start",
+            direction: "ltr",
+          }}
         >
-          {percent ? (
-            <View
-              onLayout={(event) =>
-                setDiscountRowWidth(event.nativeEvent.layout.width)
-              }
-              style={{
-                position: "absolute",
-                opacity: 0,
-                flexDirection: "row-reverse",
-                gap: 8,
-                alignItems: "center",
-              }}
-            >
-              <CustomText variant="caption">{price}</CustomText>
-              <CustomText variant="caption">{discount}</CustomText>
-              <CustomText variant="caption">تومان</CustomText>
-            </View>
-          ) : null}
-
-          {canShowDiscount ? (
-            <View
-              style={{
-                marginTop: 5,
-                flexDirection: "row-reverse",
-                gap: 8,
-                alignItems: "center",
-              }}
-            >
-              <CustomText
-                variant="caption"
-                style={{ textDecorationLine: "line-through", color: "#999" }}
-              >
-                {price}
-              </CustomText>
-              <CustomText
-                variant="caption"
-                style={{ color: "#4CAF50", fontWeight: "bold" }}
-              >
-                {discount}
-              </CustomText>
-              <CustomText
-                variant="caption"
-                style={{ color: "#4CAF50", fontWeight: "bold" }}
-              >
-                تومان
-              </CustomText>
-            </View>
-          ) : (
-            <CustomText
-              variant="caption"
-              style={
-                percent
-                  ? { color: "#4CAF50", fontWeight: "bold" }
-                  : undefined
-              }
-            >
-              {(discount ?? price)} تومان
+          {soldOut ? (
+            <CustomText bold style={soldOutStyle}>
+              {t("pages.Book.soldOut")}
             </CustomText>
+          ) : (
+            <>
+              {hasDiscount ? (
+                <View
+                  onLayout={(event) =>
+                    setDiscountRowWidth(event.nativeEvent.layout.width)
+                  }
+                  style={{
+                    position: "absolute",
+                    opacity: 0,
+                    flexDirection: "row-reverse",
+                    gap: 8,
+                    alignItems: "center",
+                  }}
+                >
+                  <CustomText style={strikethroughPriceStyle}>
+                    {formattedPrice}
+                  </CustomText>
+                  <CustomText bold style={finalPriceStyle}>
+                    {formattedDiscount}
+                  </CustomText>
+                  <CustomText bold style={finalPriceStyle}>
+                    {currency}
+                  </CustomText>
+                </View>
+              ) : null}
+
+              {visibleAmount ? (
+                <View style={priceRowStyle}>
+                  {canShowDiscount ? (
+                    <CustomText style={strikethroughPriceStyle}>
+                      {formattedPrice}
+                    </CustomText>
+                  ) : null}
+                  <CustomText bold style={finalPriceStyle}>
+                    {visibleAmount}
+                  </CustomText>
+                  <CustomText bold style={finalPriceStyle}>
+                    {currency}
+                  </CustomText>
+                </View>
+              ) : null}
+            </>
           )}
         </View>
       </View>
     </TouchableOpacity>
   );
 }
-
-/* const styles = StyleSheet.create({
-  container: {
-    padding: 12,
-    paddingBottom: 40,
-    height: "100%",
-    backgroundColor: "orange",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
-    overflow: "hidden",
-  },
-  label: {
-    color: "#fff",
-    fontWeight: "600",
-    fontSize: 14,
-  },
-  bookImage: {
-    backgroundColor: "#f0f0f0",
-  },
-});
- */
