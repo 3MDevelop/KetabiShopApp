@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { shadow } from "@/utils/shadow";
 
 export default StyleSheet.create({
   container: {
@@ -27,11 +28,7 @@ export default StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 12,
     padding: 20,
-    shadowColor: "#000",
-    shadowOpacity: 0.07,
-    shadowRadius: 5,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 3,
+    ...shadow("#000", { width: 0, height: 2 }, 0.07, 5, 3),
   },
   doubleSize: {
     flex: 2,

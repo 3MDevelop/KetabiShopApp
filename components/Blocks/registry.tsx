@@ -15,6 +15,6 @@ export const componentRegistry: Record<string, ComponentType<any>> = {
 
 export const defaultComponent = () => (
   <View style={{ padding: 20 }}>
-    <Text>component not defined</Text>
+    <Text selectable={false}>component not defined</Text>
   </View>
 );

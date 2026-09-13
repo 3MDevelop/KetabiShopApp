@@ -1,5 +1,6 @@
 // backToTop.tsx
 import { Animated, TouchableOpacity, StyleSheet } from "react-native";
+import { shadow } from "@/utils/shadow";
 import { Ionicons } from "@expo/vector-icons";
 
 interface BackToTopProps {
@@ -62,10 +63,6 @@ const styles = StyleSheet.create({
     borderRadius: 21,
     justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 8,
+    ...shadow("#000", { width: 0, height: 4 }, 0.3, 6, 8),
   },
 });

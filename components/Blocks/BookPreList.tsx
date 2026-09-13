@@ -5,6 +5,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
+import { shadow } from "@/utils/shadow";
 import { Ionicons } from "@expo/vector-icons";
 import { useState, useRef, useEffect } from "react";
 import CustomText from "@/components/common/CustomText";
@@ -268,17 +269,11 @@ const styles = StyleSheet.create({
 
   prevButton: {
     left: 0,
-    shadowColor: "#ffffff",
-    shadowRadius: 10,
-    shadowOpacity: 0.2,
-    shadowOffset: { width: 8, height: 0 },
+    ...shadow("#ffffff", { width: 8, height: 0 }, 0.2, 10),
   },
 
   nextButton: {
     right: 0,
-    shadowColor: "#ffffff",
-    shadowRadius: 10,
-    shadowOpacity: 0.2,
-    shadowOffset: { width: -8, height: 0 },
+    ...shadow("#ffffff", { width: -8, height: 0 }, 0.2, 10),
   },
 });

@@ -1,4 +1,5 @@
 import { View,StyleSheet } from "react-native";
+import { shadow } from "@/utils/shadow";
 import { useTheme } from "@/context/ThemeContext";
 import NavbarSeachIcon from "@/components/UI/NavbarSearchIcon";
 import NavbarBasketIcon from "@/components/UI/NavbarBasketIcon";
@@ -41,8 +42,7 @@ const styles = StyleSheet.create({
   NavBar: {
     width: "100%",
     maxWidth: 950,
-    shadowColor: "#000",
-    elevation: 5,
+    ...shadow("#000", { width: 0, height: 2 }, 0.1, 4, 5),
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end",

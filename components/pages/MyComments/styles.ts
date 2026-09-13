@@ -1,6 +1,7 @@
 // components/pages/MyComments/styles.ts
 
 import { StyleSheet } from "react-native";
+import { shadow } from "@/utils/shadow";
 
 export default StyleSheet.create({
   container: {
@@ -89,11 +90,7 @@ export default StyleSheet.create({
     borderRadius: 12,
     padding: 15,
     marginBottom: 12,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 5,
-    elevation: 2,
+    ...shadow("#000", { width: 0, height: 1 }, 0.05, 5, 2),
   },
   commentHeader: {
     flexDirection: "row",
@@ -160,11 +157,7 @@ export default StyleSheet.create({
     justifyContent: "center",
     gap: 8,
     marginBottom: 12,
-    shadowColor: "#007AFF",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 4,
+    ...shadow("#007AFF", { width: 0, height: 4 }, 0.2, 8, 4),
   },
   goToLibraryButtonText: {
     color: "#fff",

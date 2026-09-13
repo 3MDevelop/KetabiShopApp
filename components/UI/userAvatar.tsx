@@ -46,6 +46,7 @@ export default function UserAvatar({
           ]}
         >
           <Text
+            selectable={false}
             style={[
               Styles.userIconText,
               { fontSize, paddingBottom: fontPadding },

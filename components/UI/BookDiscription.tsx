@@ -1,4 +1,5 @@
 import { StyleSheet, View, TouchableOpacity, useWindowDimensions } from "react-native";
+import { shadow } from "@/utils/shadow";
 import CustomText from "@/components/common/CustomText";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
@@ -112,8 +113,10 @@ export default function BookDiscription({ desText }: BookDiscriptionProps) {
         }}
         tagsStyles={tagsStyles}
         defaultTextProps={{
+          selectable: false,
           style: {
             fontFamily: fontFamily,
+            userSelect: "none",
           },
         }}
       />
@@ -151,11 +154,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 16,
     marginBottom: 24,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 3,
+    ...shadow("#000", { width: 0, height: 2 }, 0.05, 8, 3),
     width: "100%",
     position: "relative",
   },

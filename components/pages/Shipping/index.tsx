@@ -19,6 +19,7 @@ import PageHeader from "@/components/UI/PageHeader";
 import Toast from "react-native-toast-message";
 import { API } from "@/constants/api";
 import { getBasketProducts } from "@/utils/basket";
+import { withDir } from "@/utils/dir";
 
 export interface AddressItem {
   id: string;
@@ -170,7 +171,7 @@ export default function Shipping() {
 
   const summaryCard = (
     <View style={[styles.sidebar, isMobile && styles.sidebarMobile]}>
-      <View style={[styles.summaryCard, { direction: contentDirection }]}>
+      <View {...withDir(contentDirection, styles.summaryCard)}>
         <CustomText
           style={[
             styles.summaryTitle,
@@ -220,7 +221,7 @@ export default function Shipping() {
   );
 
   const addressList = (
-    <View style={[styles.listCard, { direction: contentDirection }]}>
+    <View {...withDir(contentDirection, styles.listCard)}>
       <View style={styles.listHeader}>
         <CustomText style={styles.listTitle}>
           {t("common.shipping.selectAddress")}
@@ -284,7 +285,7 @@ export default function Shipping() {
       <PageHeader title={t("common.shipping.title")} />
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View style={styles.content}>
-          <View style={[styles.layout, isMobile && styles.layoutMobile]}>
+          <View {...withDir("ltr", [styles.layout, isMobile && styles.layoutMobile])}>
             {addressList}
             {summaryCard}
           </View>

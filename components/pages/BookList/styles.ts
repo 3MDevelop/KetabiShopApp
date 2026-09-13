@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { shadow } from "@/utils/shadow";
 
 const styles = StyleSheet.create({
   container: {
@@ -20,11 +21,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,0.9)",
     borderRadius: 30,
     padding: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    ...shadow("#000", { width: 0, height: 2 }, 0.1, 4, 3),
   },
   booksGrid: {
     flexDirection: "row",

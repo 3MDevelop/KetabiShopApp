@@ -12,7 +12,6 @@ export default StyleSheet.create({
   },
   layout: {
     flexDirection: "row",
-    direction: "ltr",
     alignItems: "flex-start",
     gap: 16,
   },

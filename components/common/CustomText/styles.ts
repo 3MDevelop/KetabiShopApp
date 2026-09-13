@@ -5,6 +5,7 @@ export default StyleSheet.create({
   text: {
     fontSize: 14,
     color: '#333',
+    userSelect: 'none',
   },
   h1: {
     fontSize: 32,

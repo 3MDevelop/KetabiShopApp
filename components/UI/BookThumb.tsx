@@ -13,6 +13,7 @@ import {
   parseMoney,
 } from "@/utils/money";
 import { isBookOutOfStock } from "@/utils/stock";
+import { withDir } from "@/utils/dir";
 
 interface BookThumbProps {
   bookID?: number;
@@ -195,12 +196,11 @@ export default function BookThumb({
           onLayout={(event) =>
             setPriceBoxWidth(event.nativeEvent.layout.width)
           }
-          style={{
+          {...withDir("ltr", {
             overflow: "hidden",
             width: "100%",
             alignItems: "flex-start",
-            direction: "ltr",
-          }}
+          })}
         >
           {soldOut ? (
             <CustomText bold style={soldOutStyle}>

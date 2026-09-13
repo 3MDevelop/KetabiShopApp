@@ -1,6 +1,7 @@
 /* @/components/ui/CommentsCard */
 
 import { View, StyleSheet, ActivityIndicator } from "react-native";
+import { shadow } from "@/utils/shadow";
 import CustomText from "../common/CustomText";
 import React, { useState, useEffect } from "react";
 import CommentForm from "./CommentForm";
@@ -95,11 +96,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     overflow: "hidden",
     marginBottom: 24,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.07,
-    shadowRadius: 8,
-    elevation: 3,
+    ...shadow("#000", { width: 0, height: 2 }, 0.07, 8, 3),
     width: "100%",
     flexWrap: "wrap",
   },
@@ -108,12 +105,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     overflow: "hidden",
     marginVertical: 24,
-    
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.07,
-    shadowRadius: 8,
-    elevation: 3,
+    ...shadow("#000", { width: 0, height: 2 }, 0.07, 8, 3),
     width: "100%",
     flexWrap: "wrap",
   },

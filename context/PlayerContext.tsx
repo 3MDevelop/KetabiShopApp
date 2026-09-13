@@ -1,6 +1,15 @@
-// context/PlayerContext.tsx
-import React, { createContext, useContext, useState, ReactNode, useRef } from 'react';
-import { Audio } from 'expo-av';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
+import {
+  setAudioModeAsync,
+  useAudioPlayer,
+  useAudioPlayerStatus,
+} from "expo-audio";
 
 interface Track {
   id: string;
@@ -29,109 +38,52 @@ interface PlayerContextType {
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
 
 export const PlayerProvider = ({ children }: { children: ReactNode }) => {
+  const player = useAudioPlayer(null, { updateInterval: 500 });
+  const status = useAudioPlayerStatus(player);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
   const [showMiniPlayer, setShowMiniPlayer] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
   const [playbackSpeed, setPlaybackSpeedState] = useState(1);
-  const soundRef = useRef<Audio.Sound | null>(null);
-  const intervalRef = useRef<any>(null);
 
-  const stopInterval = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
+  useEffect(() => {
+    if (status.didJustFinish) {
+      setIsPlaying(false);
     }
-  };
-
-  const updateTime = async () => {
-    if (soundRef.current) {
-      try {
-        const status = await soundRef.current.getStatusAsync();
-        if (status.isLoaded) {
-          setCurrentTime(status.positionMillis / 1000);
-          if (status.durationMillis) {
-            setDuration(status.durationMillis / 1000);
-          }
-        }
-      } catch (error) {
-        console.error('Error updating time:', error);
-      }
-    }
-  };
+  }, [status.didJustFinish]);
 
   const setPlaybackSpeed = async (speed: number) => {
-    if (soundRef.current) {
-      try {
-        await soundRef.current.setRateAsync(speed, true);
-        setPlaybackSpeedState(speed);
-      } catch (error) {
-        console.error('Error setting playback speed:', error);
-      }
-    } else {
+    try {
+      player.shouldCorrectPitch = true;
+      player.setPlaybackRate(speed);
+      setPlaybackSpeedState(speed);
+    } catch (error) {
+      console.error("Error setting playback speed:", error);
       setPlaybackSpeedState(speed);
     }
   };
 
   const playAudio = async (track: Track) => {
     try {
-      if (soundRef.current) {
-        await soundRef.current.unloadAsync();
-        soundRef.current = null;
-        stopInterval();
-      }
-
       setIsLoading(true);
       setCurrentTrack(track);
       setShowMiniPlayer(true);
-      setCurrentTime(0);
-      setDuration(0);
       setPlaybackSpeedState(1);
 
-      await Audio.setAudioModeAsync({
-        allowsRecordingIOS: false,
-        playsInSilentModeIOS: true,
-        shouldDuckAndroid: true,
-        playThroughEarpieceAndroid: false,
+      await setAudioModeAsync({
+        playsInSilentMode: true,
+        allowsRecording: false,
+        shouldPlayInBackground: false,
+        shouldRouteThroughEarpiece: false,
+        interruptionMode: "duckOthers",
       });
 
-      const { sound } = await Audio.Sound.createAsync(
-        { uri: track.audioUrl },
-        { shouldPlay: true }
-      );
-
-      soundRef.current = sound;
+      player.replace({ uri: track.audioUrl });
+      player.shouldCorrectPitch = true;
+      player.play();
       setIsPlaying(true);
-
-      if (playbackSpeed !== 1) {
-        await sound.setRateAsync(playbackSpeed, true);
-      }
-
-      const status = await sound.getStatusAsync();
-      if (status.isLoaded && status.durationMillis) {
-        setDuration(status.durationMillis / 1000);
-      }
-
-      intervalRef.current = setInterval(updateTime, 500);
-
-      sound.setOnPlaybackStatusUpdate((status) => {
-        if (status.isLoaded) {
-          setCurrentTime(status.positionMillis / 1000);
-          if (status.durationMillis) {
-            setDuration(status.durationMillis / 1000);
-          }
-          if (status.didJustFinish) {
-            setIsPlaying(false);
-            stopInterval();
-            setCurrentTime(0);
-          }
-        }
-      });
-
     } catch (error) {
-      console.error('Error playing audio:', error);
+      console.error("Error playing audio:", error);
       setShowMiniPlayer(false);
       setIsPlaying(false);
     } finally {
@@ -140,61 +92,35 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const pauseAudio = async () => {
-    if (soundRef.current) {
-      await soundRef.current.pauseAsync();
-      setIsPlaying(false);
-      stopInterval();
-    }
+    player.pause();
+    setIsPlaying(false);
   };
 
   const resumeAudio = async () => {
-    if (soundRef.current) {
-      await soundRef.current.playAsync();
-      setIsPlaying(true);
-      if (!intervalRef.current) {
-        intervalRef.current = setInterval(updateTime, 500);
-      }
-    }
+    player.play();
+    setIsPlaying(true);
   };
 
   const seekTo = async (position: number) => {
-    if (typeof position !== 'number' || isNaN(position) || !isFinite(position)) {
-      console.warn('Invalid seek position:', position);
-      return;
-    }
-
-    if (!soundRef.current) {
-      console.warn('No sound available for seeking');
+    if (typeof position !== "number" || isNaN(position) || !isFinite(position)) {
+      console.warn("Invalid seek position:", position);
       return;
     }
 
     try {
-      const clampedPosition = Math.max(0, Math.min(position, duration || 0));
-      const milliseconds = clampedPosition * 1000;
-      
-      if (!isFinite(milliseconds) || milliseconds < 0) {
-        console.warn('Invalid milliseconds:', milliseconds);
-        return;
-      }
-
-      await soundRef.current.setPositionAsync(milliseconds);
-      setCurrentTime(clampedPosition);
+      const clampedPosition = Math.max(0, Math.min(position, status.duration || 0));
+      await player.seekTo(clampedPosition);
     } catch (error) {
-      console.error('Error during seek:', error);
+      console.error("Error during seek:", error);
     }
   };
 
-  const closePlayer = async () => {
-    if (soundRef.current) {
-      await soundRef.current.unloadAsync();
-      soundRef.current = null;
-    }
-    stopInterval();
+  const closePlayer = () => {
+    player.pause();
+    void player.seekTo(0);
     setIsPlaying(false);
     setShowMiniPlayer(false);
     setCurrentTrack(null);
-    setCurrentTime(0);
-    setDuration(0);
     setPlaybackSpeedState(1);
   };
 
@@ -204,9 +130,9 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
         isPlaying,
         currentTrack,
         showMiniPlayer,
-        isLoading,
-        currentTime,
-        duration,
+        isLoading: isLoading || status.isBuffering,
+        currentTime: status.currentTime,
+        duration: status.duration,
         playbackSpeed,
         playAudio,
         pauseAudio,
@@ -224,7 +150,7 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
 export const usePlayer = () => {
   const context = useContext(PlayerContext);
   if (!context) {
-    throw new Error('usePlayer must be used within PlayerProvider');
+    throw new Error("usePlayer must be used within PlayerProvider");
   }
   return context;
 };

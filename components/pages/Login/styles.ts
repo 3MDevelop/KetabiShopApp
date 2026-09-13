@@ -1,5 +1,6 @@
 // components/pages/login/styles.ts
 import { StyleSheet } from "react-native";
+import { shadow } from "@/utils/shadow";
 
 export default StyleSheet.create({
   content: {
@@ -105,11 +106,7 @@ export default StyleSheet.create({
     padding: 24,
     justifyContent: "space-around",
     alignContent: "center",
-    shadowColor: "#000000",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 4,
+    ...shadow("#000000", { width: 0, height: 0 }, 0.08, 8, 4),
   },
 
   avatarContainer: {
@@ -236,10 +233,7 @@ export default StyleSheet.create({
     borderRadius: 8,
     padding: 16,
     alignItems: "center",
-    shadowColor: "#000000",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
+    ...shadow("#000000", { width: 0, height: 0 }, 0.3, 4),
   },
 
   titleWithMargin: {

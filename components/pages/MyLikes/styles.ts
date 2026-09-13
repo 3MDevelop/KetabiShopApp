@@ -1,6 +1,7 @@
 // components/pages/MyLikes/styles.ts
 
 import { StyleSheet } from "react-native";
+import { shadow } from "@/utils/shadow";
 
 export default StyleSheet.create({
   container: {
@@ -91,11 +92,7 @@ export default StyleSheet.create({
     padding: 15,
     borderRadius: 12,
     marginBottom: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 5,
-    elevation: 2,
+    ...shadow("#000", { width: 0, height: 1 }, 0.05, 5, 2),
     gap: 12,
   },
   likeIcon: {
@@ -154,11 +151,7 @@ export default StyleSheet.create({
     justifyContent: "center",
     gap: 8,
     marginBottom: 12,
-    shadowColor: "#FF3B30",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 4,
+    ...shadow("#FF3B30", { width: 0, height: 4 }, 0.2, 8, 4),
   },
   goToLibraryButtonText: {
     color: "#fff",

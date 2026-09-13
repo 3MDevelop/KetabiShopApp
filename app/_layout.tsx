@@ -1,5 +1,5 @@
 // app/_layout.tsx
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { ActivityIndicator, Platform, StyleSheet, View } from "react-native";
 import { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Stack, usePathname } from "expo-router";
@@ -19,6 +19,8 @@ import NavBar from "@/components/common/NavBar";
 import MiniPlayer from "@/components/common/MiniPlayer";
 
 import labels from "@/data/labels.json";
+import { injectDisableTextSelection } from "@/utils/disableTextSelection";
+import { withDir } from "@/utils/dir";
 
 function RootLayoutContent() {
  const { isRTL } = useLanguage();
@@ -31,7 +33,7 @@ function RootLayoutContent() {
   const { showMiniPlayer } = usePlayer();
 
   return (
-    <View style={[styles.container, { direction: isRTL ? "rtl" : "ltr" }]}>
+    <View {...withDir(isRTL ? "rtl" : "ltr", styles.container)}>
       <AuthProvider>
         <CatProvider>
           <View style={styles.innerContainer}>
@@ -76,6 +78,9 @@ export default function RootLayout() {
   const { fontsLoaded } = useCustomFonts();
 
   useEffect(() => {
+    if (Platform.OS === "web") {
+      injectDisableTextSelection();
+    }
     initI18n().then(() => setIsReady(true));
   }, []);
 
@@ -99,11 +104,13 @@ export default function RootLayout() {
 }
 
 const styles = StyleSheet.create({
- container: {
+  container: {
     flex: 1,
+    userSelect: "none",
   },
   innerContainer: {
     flex: 1,
+    userSelect: "none",
   },
   mainContainer: {
     flex: 1,
@@ -130,5 +137,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    userSelect: "none",
   },
 });

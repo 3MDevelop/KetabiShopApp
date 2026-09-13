@@ -35,6 +35,7 @@ export default function CustomText({
       numberOfLines={singleLine ? 1 : undefined}
       ellipsizeMode={singleLine ? "tail" : undefined}
       {...props}
+      selectable={false}
     >
       {children}
     </Text>

@@ -1,6 +1,7 @@
 // components/pages/Basket/styles.ts
 
 import { StyleSheet } from "react-native";
+import { shadow } from "@/utils/shadow";
 
 export default StyleSheet.create({
   container: {
@@ -14,7 +15,6 @@ export default StyleSheet.create({
   },
   layout: {
     flexDirection: "row",
-    direction: "ltr",
     alignItems: "flex-start",
     gap: 16,
   },
@@ -29,11 +29,41 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: "#e0e0e0",
     overflow: "hidden",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 3,
+    ...shadow("#000", { width: 0, height: 2 }, 0.05, 8, 3),
+  },
+  listColumn: {
+    flex: 1,
+    minWidth: 0,
+    gap: 12,
+  },
+  unavailableBanner: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    backgroundColor: "rgba(255, 59, 48, 0.2)",
+    borderWidth: 1,
+    borderColor: "rgba(255, 59, 48, 0.5)",
+    borderRadius: 12,
+  },
+  unavailableBannerText: {
+    flex: 1,
+    fontSize: 13,
+    lineHeight: 20,
+    color: "#7A1010",
+  },
+  unavailableBannerButton: {
+    backgroundColor: "#FF3B30",
+    borderRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    flexShrink: 0,
+  },
+  unavailableBannerButtonText: {
+    color: "#fff",
+    fontSize: 13,
+    fontWeight: "bold",
   },
   sidebar: {
     width: 340,
@@ -107,7 +137,8 @@ export default StyleSheet.create({
     marginBottom: 4,
   },
   outOfStock: {
-    fontSize: 12,
+    fontSize: 16,
+    fontWeight: "bold",
     color: "#FF3B30",
     marginTop: 4,
   },
@@ -118,14 +149,73 @@ export default StyleSheet.create({
     paddingHorizontal: 16,
     minWidth: 140,
   },
+  itemSideUnavailable: {
+    justifyContent: "flex-end",
+  },
   itemPrice: {
-    fontSize: 15,
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#007AFF",
+  },
+  itemCurrency: {
+    fontSize: 13,
     fontWeight: "600",
     color: "#007AFF",
+  },
+  itemPriceBlock: {
+    alignItems: "flex-end",
+    gap: 2,
+  },
+  itemDiscountRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    gap: 6,
+  },
+  itemDiscountBadge: {
+    backgroundColor: "#EF4056",
+    borderRadius: 999,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    paddingTop: 3,
+  },
+  itemDiscountBadgeText: {
+    color: "#fff",
+    fontSize: 11,
+    fontWeight: "bold",
+    lineHeight: 14,
+  },
+  itemOriginalPrice: {
+    fontSize: 12,
+    color: "#9E9E9E",
+    textDecorationLine: "line-through",
+  },
+  itemFinalPriceRow: {
+    flexDirection: "row",
+    alignItems: "baseline",
+    justifyContent: "flex-end",
+    gap: 4,
+  },
+  removeUnavailableButton: {
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#FF9800",
+    borderRadius: 7,
+    paddingVertical: 9,
+    paddingHorizontal: 11,
+    alignItems: "center",
+    justifyContent: "center",
+    maxWidth: 144,
+    transform: [{ translateX: 10 }],
+    cursor: "pointer",
+  },
+  removeUnavailableButtonText: {
+    color: "#FF9800",
+    fontSize: 12,
+    fontWeight: "bold",
     textAlign: "center",
   },
   quantityControl: {
-    direction: "ltr",
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
@@ -161,11 +251,7 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: "#e0e0e0",
     padding: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 3,
+    ...shadow("#000", { width: 0, height: 2 }, 0.05, 10, 3),
   },
   checkoutTitle: {
     fontSize: 16,
@@ -187,15 +273,24 @@ export default StyleSheet.create({
     fontSize: 15,
     color: "#666",
   },
+  savingsLabel: {
+    fontSize: 15,
+    color: "#4CAF50",
+  },
+  savingsPrice: {
+    fontSize: 15,
+    color: "#4CAF50",
+    fontWeight: "600",
+  },
   finalLabel: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#333",
+    color: "#999",
   },
   finalPrice: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#007AFF",
+    color: "#666",
   },
   checkoutButton: {
     flexDirection: "row",
@@ -228,6 +323,12 @@ export default StyleSheet.create({
     flex: 1,
     fontSize: 12,
     color: "#999",
+    lineHeight: 20,
+  },
+  unavailableCheckoutNoteText: {
+    flex: 1,
+    fontSize: 12,
+    color: "#FF3B30",
     lineHeight: 20,
   },
   emptyCartContainer: {

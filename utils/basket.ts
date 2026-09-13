@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API } from "@/constants/api";
-import { parseMoney } from "@/utils/money";
+import { parseMoney, normalizePricePair } from "@/utils/money";
+import { isBookOutOfStock } from "@/utils/stock";
 
 export { parseMoney } from "@/utils/money";
 
@@ -21,6 +22,7 @@ export interface BasketProduct extends BasketEntry {
   author?: string;
   full_icon_address?: string;
   price: number;
+  originalPrice: number;
   discount?: number;
   percent?: number;
   maxQuantity: number;
@@ -181,6 +183,21 @@ export const removeFromBasket = async (
   }
 };
 
+export const removeManyFromBasket = async (
+  bookIds: string[],
+): Promise<BasketEntry[]> => {
+  try {
+    const ids = new Set(bookIds.map(String));
+    const basket = await getBasket();
+    const updated = basket.filter((item) => !ids.has(item.id));
+    await persistBasket(updated);
+    return updated;
+  } catch (error) {
+    console.error("Error removing items from basket:", error);
+    throw error;
+  }
+};
+
 export const updateBasketQuantity = async (
   bookId: string,
   quantity: number,
@@ -267,12 +284,21 @@ export const syncBasketFromServer = async (): Promise<BasketEntry[]> => {
   }
 };
 
-const currentPriceFromProduct = (book: Record<string, any>): number => {
-  const discounted = parseMoney(book?.discountFa ?? book?.discount);
-  if (discounted > 0) {
-    return discounted;
-  }
-  return parseMoney(book?.price);
+const currentPriceFromProduct = (book: Record<string, any>): {
+  originalPrice: number;
+  price: number;
+} => {
+  const pair = normalizePricePair(
+    book?.priceFa ?? book?.price ?? book?.main_price ?? book?.price_physical_new,
+    book?.discountFa ?? book?.discount,
+  );
+  const originalPrice = pair.price || pair.discount;
+  const price =
+    pair.discount > 0 && pair.discount !== originalPrice
+      ? pair.discount
+      : originalPrice;
+
+  return { originalPrice, price };
 };
 
 export const productFromApi = (
@@ -283,12 +309,15 @@ export const productFromApi = (
      ? book.type
     : "physical_book";
 
+  const { originalPrice, price } = currentPriceFromProduct(book);
+
   return {
     id: String(book?.id ?? ""),
     book_title: String(book?.title ?? book?.book_title ?? ""),
     author: book?.author != null ? String(book.author) : undefined,
     full_icon_address: book?.pic || book?.full_icon_address || undefined,
-    price: currentPriceFromProduct(book),
+    price,
+    originalPrice,
     discount:
       book?.discount != null || book?.discountFa != null
         ? parseMoney(book.discount ?? book.discountFa)
@@ -301,7 +330,7 @@ export const productFromApi = (
     maxQuantity: type === "physical_book" ? MAX_QUANTITY : 1,
     type,
     duration: book?.duration,
-    exist: String(book?.exist ?? "1") === "1",
+    exist: !isBookOutOfStock(book?.exist, book?.price ?? book?.priceFa),
   };
 };
 
@@ -339,6 +368,7 @@ export const getBasketProducts = async (): Promise<BasketProduct[]> => {
           quantity: entry.quantity,
           book_title: "",
           price: 0,
+          originalPrice: 0,
           maxQuantity: MAX_QUANTITY,
           type: "physical_book" as const,
           exist: false,

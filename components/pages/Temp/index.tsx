@@ -7,6 +7,7 @@ import { useResponsive } from "@/hooks/useResponsive";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View,TextInput } from "react-native";
+import { shadow } from "@/utils/shadow";
 import CustomText from "@/components/common/CustomText";
 
 export default function CombinedParallax() {
@@ -262,11 +263,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 12,
     padding: 20,
-    shadowColor: "#000",
-    shadowOpacity: 0.07,
-    shadowRadius: 5,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 3,
+    ...shadow("#000", { width: 0, height: 2 }, 0.07, 5, 3),
   },
   doubleSize: {
     flex: 2,

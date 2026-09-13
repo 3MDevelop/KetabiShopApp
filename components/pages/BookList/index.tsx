@@ -48,7 +48,7 @@ export default function BookList() {
       try {
         setLoading(true);
         setError(null);
-console.info(`Fetching books for list ID: ${listID}`);
+        console.info(`Fetching books for list ID: ${listID}`);
         const response = await fetch(API.getList, {
           method: "POST",
           headers: {

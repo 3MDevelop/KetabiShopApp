@@ -237,9 +237,6 @@ export default function CombinedParallax() {
         </View>
 
         <View style={styles.cards}>
-          <CustomText style={[styles.sectionTitle, { marginTop: 16 }]}>
-            آدرس‌ها
-          </CustomText>
           <UserAddressList />
         </View>
 

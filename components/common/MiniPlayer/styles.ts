@@ -1,5 +1,6 @@
 // components/common/MiniPlayer/styles.ts
 import { StyleSheet } from "react-native";
+import { shadow } from "@/utils/shadow";
 
 export default StyleSheet.create({
   container: {
@@ -10,11 +11,7 @@ export default StyleSheet.create({
     height: 80,
     borderTopWidth: 1,
     borderTopColor: "#e0e0e0",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 5,
+    ...shadow("#000", { width: 0, height: -2 }, 0.1, 4, 5),
     zIndex: 100,
     alignItems: "center",
     justifyContent: "center",

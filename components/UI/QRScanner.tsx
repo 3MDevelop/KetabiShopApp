@@ -21,7 +21,7 @@ export default function QRScanner({
         }}
       >
         <Ionicons name="qr-code-outline" size={48} color="#fff" />
-        <Text style={styles.scannerText}>QR-Code</Text>
+        <Text selectable={false} style={styles.scannerText}>QR-Code</Text>
       </TouchableOpacity>
     </View>
   );

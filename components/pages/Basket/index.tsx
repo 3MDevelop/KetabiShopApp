@@ -7,7 +7,10 @@ import { router } from "expo-router";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
+  Animated,
+  Easing,
   Image,
+  Pressable,
   ScrollView,
   TouchableOpacity,
   View,
@@ -15,19 +18,79 @@ import {
 import styles from "./styles";
 import CustomText from "@/components/common/CustomText";
 import { showAlert } from "@/utils/alert";
+import { withDir } from "@/utils/dir";
+import { useFontFamily } from "@/hooks/useFonts";
 import {
   BasketProduct,
   ProductType,
   getBasket,
   getBasketProducts,
   removeFromBasket,
+  removeManyFromBasket,
   subscribeBasket,
   updateBasketQuantity,
 } from "@/utils/basket";
 
+function RemoveUnavailableButton({
+  label,
+  onPress,
+}: {
+  label: string;
+  onPress: () => void;
+}) {
+  const hover = useRef(new Animated.Value(0)).current;
+  const { getFontFamily } = useFontFamily();
+
+  const animateTo = (value: number) => {
+    Animated.timing(hover, {
+      toValue: value,
+      duration: 220,
+      easing: Easing.out(Easing.cubic),
+      useNativeDriver: false,
+    }).start();
+  };
+
+  return (
+    <Pressable
+      onPress={onPress}
+      onHoverIn={() => animateTo(1)}
+      onHoverOut={() => animateTo(0)}
+      onPressIn={() => animateTo(1)}
+      onPressOut={() => animateTo(0)}
+    >
+      <Animated.View
+        style={[
+          styles.removeUnavailableButton,
+          {
+            backgroundColor: hover.interpolate({
+              inputRange: [0, 1],
+              outputRange: ["#ffffff", "#FF9800"],
+            }),
+          },
+        ]}
+      >
+        <Animated.Text
+          style={[
+            styles.removeUnavailableButtonText,
+            {
+              fontFamily: getFontFamily("bold"),
+              color: hover.interpolate({
+                inputRange: [0, 1],
+                outputRange: ["#FF9800", "#ffffff"],
+              }),
+            },
+          ]}
+        >
+          {label}
+        </Animated.Text>
+      </Animated.View>
+    </Pressable>
+  );
+}
+
 export default function Basket() {
   const { t } = useTranslate();
-  const { isRTL } = useLanguage();
+  const { isRTL, language } = useLanguage();
   const { isLoggedIn } = useAuth();
   const { isMobile } = useResponsive();
   const [cartItems, setCartItems] = useState<BasketProduct[]>([]);
@@ -115,11 +178,27 @@ export default function Basket() {
   };
 
   const formatPrice = (value: number) =>
-    `${value.toLocaleString()} ${t("common.cart.currency")}`;
+    `${value.toLocaleString(language === "fa" ? "fa-IR" : "en-US")} ${t("common.cart.currency")}`;
 
-  const calculateTotal = () => {
-    return cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  };
+  const formatAmount = (value: number) =>
+    value.toLocaleString(language === "fa" ? "fa-IR" : "en-US");
+
+  const getLineOriginal = (item: BasketProduct) =>
+    (item.originalPrice > 0 ? item.originalPrice : item.price) * item.quantity;
+
+  const getLineFinal = (item: BasketProduct) => item.price * item.quantity;
+
+  const availableItems = cartItems.filter((item) => item.exist);
+  const hasUnavailableItems = cartItems.some((item) => !item.exist);
+  const originalTotal = availableItems.reduce(
+    (sum, item) => sum + getLineOriginal(item),
+    0,
+  );
+  const finalTotal = availableItems.reduce(
+    (sum, item) => sum + getLineFinal(item),
+    0,
+  );
+  const discountTotal = Math.max(0, originalTotal - finalTotal);
 
   const updateQuantity = async (id: string, newQuantity: number) => {
     await updateBasketQuantity(id, newQuantity);
@@ -159,6 +238,31 @@ export default function Basket() {
       return;
     }
     router.push("/shipping");
+  };
+
+  const removeAllUnavailable = () => {
+    const ids = cartItems.filter((item) => !item.exist).map((item) => item.id);
+    if (ids.length === 0) {
+      return;
+    }
+
+    showAlert(
+      t("common.cart.removeAllUnavailableConfirmTitle"),
+      t("common.cart.removeAllUnavailableConfirmMessage"),
+      [
+        {
+          text: t("common.cart.removeCancel"),
+          style: "cancel",
+        },
+        {
+          text: t("common.cart.removeAllUnavailable"),
+          style: "destructive",
+          onPress: () => {
+            void removeManyFromBasket(ids);
+          },
+        },
+      ],
+    );
   };
 
   if (isLoading) {
@@ -209,12 +313,12 @@ export default function Basket() {
     );
   }
 
-  const total = calculateTotal();
+  const availableCount = availableItems.length;
   const contentDirection = isRTL ? "rtl" : "ltr";
 
   const paymentCard = (
     <View style={[styles.sidebar, isMobile && styles.sidebarMobile]}>
-      <View style={[styles.checkoutCard, { direction: contentDirection }]}>
+      <View {...withDir(contentDirection, styles.checkoutCard)}>
         <CustomText
           style={[
             styles.checkoutTitle,
@@ -227,16 +331,29 @@ export default function Basket() {
         <View style={styles.totalRow}>
           <CustomText style={styles.totalLabel}>
             {t("common.cart.itemsTotal")} (
-            {t("common.cart.itemsCount", { count: cartItems.length })})
+            {t("common.cart.itemsCount", { count: availableCount })})
           </CustomText>
-          <CustomText style={styles.totalPrice}>{formatPrice(total)}</CustomText>
+          <CustomText style={styles.totalPrice}>
+            {formatPrice(originalTotal)}
+          </CustomText>
         </View>
+
+        {discountTotal > 0 ? (
+          <View style={styles.totalRow}>
+            <CustomText style={styles.savingsLabel}>
+              {t("common.cart.yourSavings")}
+            </CustomText>
+            <CustomText style={styles.savingsPrice}>
+              {formatPrice(discountTotal)}
+            </CustomText>
+          </View>
+        ) : null}
 
         <View style={styles.totalRow}>
           <CustomText style={styles.finalLabel}>
             {t("common.cart.basketTotal")}
           </CustomText>
-          <CustomText style={styles.finalPrice}>{formatPrice(total)}</CustomText>
+          <CustomText style={styles.finalPrice}>{formatPrice(finalTotal)}</CustomText>
         </View>
 
         <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckout}>
@@ -266,12 +383,52 @@ export default function Basket() {
             {t("common.cart.checkoutNote")}
           </CustomText>
         </View>
+
+        {hasUnavailableItems ? (
+          <View style={styles.checkoutNote}>
+            <Ionicons
+              name="warning-outline"
+              size={16}
+              color="#FF3B30"
+            />
+            <CustomText
+              style={[
+                styles.unavailableCheckoutNoteText,
+                { textAlign: isRTL ? "right" : "left" },
+              ]}
+            >
+              {t("common.cart.unavailableCheckoutNote")}
+            </CustomText>
+          </View>
+        ) : null}
       </View>
     </View>
   );
 
   const itemsCard = (
-    <View style={[styles.listCard, { direction: contentDirection }]}>
+    <View {...withDir(contentDirection, styles.listColumn)}>
+      {hasUnavailableItems ? (
+        <View style={styles.unavailableBanner}>
+          <CustomText
+            style={[
+              styles.unavailableBannerText,
+              { textAlign: isRTL ? "right" : "left" },
+            ]}
+          >
+            {t("common.cart.unavailableBanner")}
+          </CustomText>
+          <TouchableOpacity
+            style={styles.unavailableBannerButton}
+            onPress={removeAllUnavailable}
+          >
+            <CustomText style={styles.unavailableBannerButtonText}>
+              {t("common.cart.removeAllUnavailable")}
+            </CustomText>
+          </TouchableOpacity>
+        </View>
+      ) : null}
+
+      <View style={styles.listCard}>
       <View style={styles.listHeader}>
         <CustomText style={styles.listTitle}>{t("common.cart.title")}</CustomText>
         <CustomText style={styles.itemsCount}>
@@ -284,6 +441,16 @@ export default function Basket() {
         const canIncrease =
           item.type === "physical_book" &&
           item.quantity < (item.maxQuantity || 99);
+        const lineOriginal = getLineOriginal(item);
+        const lineFinal = getLineFinal(item);
+        const lineDiscount = Math.max(0, lineOriginal - lineFinal);
+        const percentValue =
+          item.percent && item.percent > 0
+            ? item.percent
+            : lineOriginal > 0
+              ? Math.round((lineDiscount / lineOriginal) * 100)
+              : 0;
+        const hasDiscount = item.exist && (lineDiscount > 0 || percentValue > 0);
 
         return (
           <View key={item.id} style={styles.cartItem}>
@@ -325,48 +492,82 @@ export default function Basket() {
                 {item.author ? `  |  ${item.author}` : ""}
               </CustomText>
               {!item.exist && (
-                <CustomText style={styles.outOfStock}>
-                  {t("pages.Book.outOfStock")}
+                <CustomText bold style={styles.outOfStock}>
+                  {t("pages.Book.soldOut")}
                 </CustomText>
               )}
             </View>
 
-            <View style={styles.itemSide}>
-              <CustomText style={styles.itemPrice}>
-                {formatPrice(item.price * item.quantity)}
-              </CustomText>
-              <View style={styles.quantityControl}>
-                <TouchableOpacity
-                  style={[
-                    styles.quantityButton,
-                    item.quantity <= 1 && styles.quantityButtonDelete,
-                  ]}
-                  onPress={() => handleDecrease(item)}
-                >
-                  <Ionicons
-                    name={item.quantity <= 1 ? "trash-outline" : "remove"}
-                    size={18}
-                    color="#fff"
-                  />
-                </TouchableOpacity>
-                <CustomText style={styles.quantityText}>
-                  {item.quantity}
-                </CustomText>
-                <TouchableOpacity
-                  style={[
-                    styles.quantityButton,
-                    !canIncrease && styles.quantityButtonDisabled,
-                  ]}
-                  onPress={() => updateQuantity(item.id, item.quantity + 1)}
-                  disabled={!canIncrease}
-                >
-                  <Ionicons name="add" size={18} color="#fff" />
-                </TouchableOpacity>
-              </View>
+            <View
+              style={[
+                styles.itemSide,
+                !item.exist && styles.itemSideUnavailable,
+              ]}
+            >
+              {item.exist ? (
+                <>
+                  <View style={styles.itemPriceBlock}>
+                    {hasDiscount ? (
+                            <View {...withDir("ltr", styles.itemDiscountRow)}>
+                        <View style={styles.itemDiscountBadge}>
+                          <CustomText style={styles.itemDiscountBadgeText}>
+                            {formatAmount(percentValue)}٪
+                          </CustomText>
+                        </View>
+                        <CustomText style={styles.itemOriginalPrice}>
+                          {formatAmount(lineOriginal)}
+                        </CustomText>
+                      </View>
+                    ) : null}
+                    <View {...withDir("ltr", styles.itemFinalPriceRow)}>
+                      <CustomText style={styles.itemCurrency}>
+                        {t("common.cart.currency")}
+                      </CustomText>
+                      <CustomText style={styles.itemPrice}>
+                        {formatAmount(lineFinal)}
+                      </CustomText>
+                    </View>
+                  </View>
+                  <View {...withDir("ltr", styles.quantityControl)}>
+                    <TouchableOpacity
+                      style={[
+                        styles.quantityButton,
+                        item.quantity <= 1 && styles.quantityButtonDelete,
+                      ]}
+                      onPress={() => handleDecrease(item)}
+                    >
+                      <Ionicons
+                        name={item.quantity <= 1 ? "trash-outline" : "remove"}
+                        size={18}
+                        color="#fff"
+                      />
+                    </TouchableOpacity>
+                    <CustomText style={styles.quantityText}>
+                      {item.quantity}
+                    </CustomText>
+                    <TouchableOpacity
+                      style={[
+                        styles.quantityButton,
+                        !canIncrease && styles.quantityButtonDisabled,
+                      ]}
+                      onPress={() => updateQuantity(item.id, item.quantity + 1)}
+                      disabled={!canIncrease}
+                    >
+                      <Ionicons name="add" size={18} color="#fff" />
+                    </TouchableOpacity>
+                  </View>
+                </>
+              ) : (
+                <RemoveUnavailableButton
+                  label={t("common.cart.removeFromBasket")}
+                  onPress={() => removeFromCart(item.id)}
+                />
+              )}
             </View>
           </View>
         );
       })}
+      </View>
     </View>
   );
 
@@ -376,7 +577,7 @@ export default function Basket() {
       contentContainerStyle={{ flexGrow: 1 }}
     >
       <View style={styles.content}>
-        <View style={[styles.layout, isMobile && styles.layoutMobile]}>
+        <View {...withDir("ltr", [styles.layout, isMobile && styles.layoutMobile])}>
           {itemsCard}
           {paymentCard}
         </View>

@@ -1,4 +1,5 @@
 import { StyleSheet, View } from "react-native";
+import { shadow } from "@/utils/shadow";
 import CustomText from "@/components/common/CustomText";
 import { Ionicons } from "@expo/vector-icons";
 import { useTranslate } from "@/hooks/useTranslation";
@@ -85,11 +86,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 16,
     marginBottom: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 3,
+    ...shadow("#000", { width: 0, height: 2 }, 0.05, 8, 3),
   },
 
   infoGrid: {

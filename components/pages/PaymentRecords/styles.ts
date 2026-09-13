@@ -1,6 +1,7 @@
 // components/pages/PaymentRecords/styles.ts
 
 import { StyleSheet } from "react-native";
+import { shadow } from "@/utils/shadow";
 
 export default StyleSheet.create({
   container: {
@@ -91,11 +92,7 @@ export default StyleSheet.create({
     padding: 15,
     borderRadius: 12,
     marginBottom: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 5,
-    elevation: 2,
+    ...shadow("#000", { width: 0, height: 1 }, 0.05, 5, 2),
     gap: 12,
   },
   paymentIcon: {

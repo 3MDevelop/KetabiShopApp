@@ -1,6 +1,7 @@
 // app/styles.ts
 
 import { StyleSheet } from "react-native";
+import { shadow } from "@/utils/shadow";
 
 export default StyleSheet.create({
   container: {
@@ -69,11 +70,7 @@ export default StyleSheet.create({
     borderRadius: 15,
     padding: 15,
     marginTop: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 3,
+    ...shadow("#000", { width: 0, height: 2 }, 0.05, 10, 3),
   },
   readListTitle: {
     fontSize: 18,
@@ -104,11 +101,7 @@ export default StyleSheet.create({
     borderRadius: 25,
     marginTop: 30,
     marginHorizontal: 15,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 15,
-    elevation: 3,
+    ...shadow("#000", { width: 0, height: 2 }, 0.05, 15, 3),
   },
   emptyListText: {
     marginTop: 10,
@@ -159,11 +152,7 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
-    shadowColor: "#007AFF",
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.25,
-    shadowRadius: 12,
-    elevation: 6,
+    ...shadow("#007AFF", { width: 0, height: 6 }, 0.25, 12, 6),
   },
   suggestionButtonText: {
     color: "#fff",

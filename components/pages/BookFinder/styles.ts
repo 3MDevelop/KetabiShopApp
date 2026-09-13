@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { shadow } from "@/utils/shadow";
 
 export default StyleSheet.create({
   container: {
@@ -150,11 +151,7 @@ addCodeContainer: {
   borderRadius: 16,
   padding: 16,
   marginVertical: 12,
-  shadowColor: "#000",
-  shadowOffset: { width: 0, height: 2 },
-  shadowOpacity: 0.05,
-  shadowRadius: 8,
-  elevation: 3,
+  ...shadow("#000", { width: 0, height: 2 }, 0.05, 8, 3),
 },
 addCodeHeader: {
   flexDirection: "row",
