@@ -104,22 +104,6 @@ export default function CombinedParallax() {
     setIsUpdating(false);
   };
 
-  if (!isLoggedIn) {
-    return (
-      <View style={styles.container}>
-        <View style={styles.content}>
-          <View style={styles.emptyStateContainer}>
-            <Ionicons name="person-circle-outline" size={80} color="#ccc" />
-            <CustomText style={styles.emptyStateTitle}>
-              پروفایل کاربری
-            </CustomText>
-            <LoginBtn />
-          </View>
-        </View>
-      </View>
-    );
-  }
-
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={[styles.content, !isDesktop && styles.columnContainer]}>

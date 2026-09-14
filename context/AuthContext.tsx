@@ -139,7 +139,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
 
       dispatch({ type: "LOGIN_SUCCESS", payload: userData });
-      void syncBasketFromServer();
+      await syncBasketFromServer();
     } catch {
       // ("❌ خطا در Login:", error);
       dispatch({
@@ -154,7 +154,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     await AsyncStorage.removeItem("@auth_token");
     await AsyncStorage.removeItem("@refresh_token");
     await AsyncStorage.removeItem("@favorites");
-    await clearBasket();
+    await clearBasket({ syncServer: false });
     dispatch({ type: "LOGOUT" });
   };
 

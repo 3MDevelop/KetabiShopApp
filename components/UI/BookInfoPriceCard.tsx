@@ -13,6 +13,7 @@ import { showAlert } from "@/utils/alert";
 import {
   addToBasket,
   BasketEntry,
+  codeConfigFromBook,
   getBasketItem,
   removeFromBasket,
   subscribeBasket,
@@ -114,7 +115,7 @@ export default function BookInfoPriceCard({ book }: BookInfoPriceCardProps) {
     }
 
     try {
-      await addToBasket(String(book.id));
+      await addToBasket(String(book.id), 1, codeConfigFromBook(book));
       Toast.show({
         type: "success",
         text1: t("common.cart.added"),

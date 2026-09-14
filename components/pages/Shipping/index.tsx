@@ -5,21 +5,20 @@ import { useResponsive } from "@/hooks/useResponsive";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useCallback, useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  Modal,
-  ScrollView,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ActivityIndicator, ScrollView, TouchableOpacity, View } from "react-native";
 import styles from "./styles";
 import CustomText from "@/components/common/CustomText";
+import AddAddressForm from "@/components/UI/AddAddressForm";
 import PageHeader from "@/components/UI/PageHeader";
 import Toast from "react-native-toast-message";
 import { API } from "@/constants/api";
 import { getBasketProducts } from "@/utils/basket";
 import { withDir } from "@/utils/dir";
+import {
+  fetchAddresses,
+  getAddressTitle,
+  getRecipientMobile,
+} from "@/utils/address";
 
 export interface AddressItem {
   id: string;
@@ -30,15 +29,6 @@ export interface AddressItem {
   postalCode: string;
   mobileNumber: string;
 }
-
-const emptyAddress = {
-  addressTitle: "",
-  address: "",
-  state: "",
-  city: "",
-  postalCode: "",
-  mobileNumber: "",
-};
 
 const fetchStaticJson = async (name: string) => {
   const response = await fetch(API.getstatic, {
@@ -54,7 +44,7 @@ const fetchStaticJson = async (name: string) => {
 export default function Shipping() {
   const { t } = useTranslate();
   const { isRTL } = useLanguage();
-  const { isLoggedIn } = useAuth();
+  const { user, isLoggedIn } = useAuth();
   const { isMobile } = useResponsive();
   const [isLoading, setIsLoading] = useState(true);
   const [addresses, setAddresses] = useState<AddressItem[]>([]);
@@ -62,31 +52,37 @@ export default function Shipping() {
   const [shippingPrice, setShippingPrice] = useState(0);
   const [basketTotal, setBasketTotal] = useState(0);
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState(emptyAddress);
 
   const formatPrice = (value: number) =>
     `${value.toLocaleString()} ${t("common.cart.currency")}`;
 
-  const loadData = useCallback(async () => {
+  const loadData = useCallback(async (selectId?: string) => {
     try {
-      const [addressResult, shippingResult, basketItems] = await Promise.all([
-        fetchStaticJson("getAddress"),
+      const [addressRows, shippingResult, basketItems] = await Promise.all([
+        user?.ID ? fetchAddresses(user.ID) : Promise.resolve([]),
         fetchStaticJson("getShippingPrice"),
         getBasketProducts(),
       ]);
 
-      if (addressResult.status === true && Array.isArray(addressResult.data)) {
-        const nextAddresses: AddressItem[] = addressResult.data.map(
-          (item: AddressItem, index: number) => ({
-            ...item,
-            id: String(item.id ?? index + 1),
-          }),
-        );
-        setAddresses(nextAddresses);
-        if (nextAddresses[0]) {
-          setSelectedId(nextAddresses[0].id);
+      const nextAddresses: AddressItem[] = addressRows.map((item) => ({
+        id: item.id,
+        addressTitle: getAddressTitle(item),
+        address: item.address || "",
+        state: item.province || "",
+        city: item.city || "",
+        postalCode: item.postalcode || item.postalCode || "",
+        mobileNumber: getRecipientMobile(item),
+      }));
+      setAddresses(nextAddresses);
+      setSelectedId((prev) => {
+        if (selectId && nextAddresses.some((item) => item.id === selectId)) {
+          return selectId;
         }
-      }
+        if (prev && nextAddresses.some((item) => item.id === prev)) {
+          return prev;
+        }
+        return nextAddresses[0]?.id ?? null;
+      });
 
       if (shippingResult.status === true && shippingResult.data) {
         setShippingPrice(Number(shippingResult.data.shippingPrice) || 0);
@@ -107,7 +103,7 @@ export default function Shipping() {
     } finally {
       setIsLoading(false);
     }
-  }, [t]);
+  }, [t, user?.ID]);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -116,32 +112,6 @@ export default function Shipping() {
     }
     loadData();
   }, [isLoggedIn, loadData]);
-
-  const updateField = (key: keyof typeof emptyAddress, value: string) => {
-    setForm((prev) => ({ ...prev, [key]: value }));
-  };
-
-  const saveAddress = () => {
-    const values = Object.values(form);
-    if (values.some((value) => !value.trim())) {
-      Toast.show({
-        type: "error",
-        text1: t("common.shipping.fillRequired"),
-        position: "top",
-        topOffset: 20,
-      });
-      return;
-    }
-
-    const newAddress: AddressItem = {
-      ...form,
-      id: String(Date.now()),
-    };
-    setAddresses((prev) => [newAddress, ...prev]);
-    setSelectedId(newAddress.id);
-    setForm(emptyAddress);
-    setShowForm(false);
-  };
 
   const handleContinue = () => {
     if (!selectedId) {
@@ -292,80 +262,11 @@ export default function Shipping() {
         </View>
       </ScrollView>
 
-      <Modal visible={showForm} transparent animationType="fade">
-        <View style={styles.modalBackdrop}>
-          <View style={styles.modalCard}>
-            <CustomText style={styles.modalTitle}>
-              {t("common.shipping.newAddress")}
-            </CustomText>
-            <ScrollView>
-              <TextInput
-                style={[styles.input, { textAlign: isRTL ? "right" : "left" }]}
-                placeholder={t("common.shipping.addressTitle")}
-                value={form.addressTitle}
-                onChangeText={(value) => updateField("addressTitle", value)}
-              />
-              <TextInput
-                style={[styles.input, { textAlign: isRTL ? "right" : "left" }]}
-                placeholder={t("common.shipping.state")}
-                value={form.state}
-                onChangeText={(value) => updateField("state", value)}
-              />
-              <TextInput
-                style={[styles.input, { textAlign: isRTL ? "right" : "left" }]}
-                placeholder={t("common.shipping.city")}
-                value={form.city}
-                onChangeText={(value) => updateField("city", value)}
-              />
-              <TextInput
-                style={[
-                  styles.input,
-                  { textAlign: isRTL ? "right" : "left", minHeight: 80 },
-                ]}
-                placeholder={t("common.shipping.address")}
-                value={form.address}
-                onChangeText={(value) => updateField("address", value)}
-                multiline
-              />
-              <TextInput
-                style={[styles.input, { textAlign: isRTL ? "right" : "left" }]}
-                placeholder={t("common.shipping.postalCode")}
-                value={form.postalCode}
-                onChangeText={(value) => updateField("postalCode", value)}
-                keyboardType="number-pad"
-              />
-              <TextInput
-                style={[styles.input, { textAlign: isRTL ? "right" : "left" }]}
-                placeholder={t("common.shipping.mobileNumber")}
-                value={form.mobileNumber}
-                onChangeText={(value) => updateField("mobileNumber", value)}
-                keyboardType="phone-pad"
-              />
-            </ScrollView>
-            <View style={styles.modalActions}>
-              <TouchableOpacity
-                style={[styles.modalButton, styles.cancelButton]}
-                onPress={() => {
-                  setShowForm(false);
-                  setForm(emptyAddress);
-                }}
-              >
-                <CustomText style={styles.cancelButtonText}>
-                  {t("common.common.cancel")}
-                </CustomText>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.modalButton, styles.saveButton]}
-                onPress={saveAddress}
-              >
-                <CustomText style={styles.saveButtonText}>
-                  {t("common.shipping.saveAddress")}
-                </CustomText>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
+      <AddAddressForm
+        visible={showForm}
+        onClose={() => setShowForm(false)}
+        onSaved={(result) => loadData(result?.addressID)}
+      />
     </View>
   );
 }

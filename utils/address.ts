@@ -8,11 +8,16 @@ export type PlaceItem = {
 
 export type UserAddress = {
   id: string;
-  name?: string;
-  family?: string;
+  addressID?: string;
   addressName?: string;
+  name?: string;
+  recipientsName?: string;
+  family?: string;
+  recipientsPhone?: string;
+  recipientsCell?: string;
   address?: string;
   postalcode?: string;
+  postalCode?: string;
   province?: string | null;
   city?: string | null;
   province_id?: string | null;
@@ -62,14 +67,31 @@ export const normalizeMobile = (value?: string) => {
 export const mobileKey = (value?: string) =>
   normalizeMobile(value).replace(/^0/, "");
 
+const textValue = (value: unknown) => {
+  if (value == null) {
+    return "";
+  }
+  const text = String(value).trim();
+  if (!text || text === "null" || text === "undefined") {
+    return "";
+  }
+  return text;
+};
+
 export const getAddressTitle = (item: UserAddress) =>
-  item.name || item.addressName || "";
+  String(item.addressName || item.name || "").trim();
+
+export const getAddressPlace = (item: UserAddress) =>
+  [item.province, item.city].map(textValue).filter(Boolean).join("، ");
 
 export const getRecipientName = (item: UserAddress) =>
-  String(item.family || "").trim();
+  [item.recipientsName, item.family].filter(Boolean).join(" ").trim();
 
 export const getRecipientMobile = (item: UserAddress) =>
-  item.phone || item.mobile || "";
+  String(item.recipientsCell || item.mobile || "").trim();
+
+export const getRecipientPhone = (item: UserAddress) =>
+  String(item.recipientsPhone || item.phone || "").trim();
 
 export const fetchProvinces = async (): Promise<PlaceItem[]> => {
   const result = await postForm(API.getProvince);
@@ -87,64 +109,180 @@ export const fetchCities = async (provinceId: string): Promise<PlaceItem[]> => {
   return [];
 };
 
+const asAddressList = (raw: unknown): unknown[] => {
+  if (Array.isArray(raw)) {
+    return raw;
+  }
+  return [];
+};
+
+const mapAddress = (
+  item: Record<string, unknown>,
+  index: number,
+): UserAddress => {
+  const addressID =
+    item.addressID != null
+      ? String(item.addressID)
+      : item.id != null
+        ? String(item.id)
+        : String(index + 1);
+  const postalcode =
+    item.postalCode != null
+      ? String(item.postalCode)
+      : item.postalcode != null
+        ? String(item.postalcode)
+        : "";
+
+  return {
+    id: addressID,
+    addressID,
+    addressName:
+      item.addressName != null
+        ? String(item.addressName)
+        : item.name != null
+          ? String(item.name)
+          : "",
+    name: item.name != null ? String(item.name) : "",
+    recipientsName:
+      item.recipientsName != null ? String(item.recipientsName) : "",
+    family: item.family != null ? String(item.family) : "",
+    recipientsPhone:
+      item.recipientsPhone != null
+        ? String(item.recipientsPhone)
+        : item.phone != null
+          ? String(item.phone)
+          : "",
+    recipientsCell:
+      item.recipientsCell != null
+        ? String(item.recipientsCell)
+        : item.mobile != null
+          ? String(item.mobile)
+          : "",
+    address: item.address != null ? String(item.address) : "",
+    postalcode,
+    postalCode: postalcode,
+    province: textValue(
+      item.province ?? item.state ?? item.provinceName ?? item.ostan,
+    ),
+    city: textValue(item.city ?? item.cityName ?? item.shahr),
+    province_id: textValue(item.province_id ?? item.provinceId),
+    city_id: textValue(item.city_id ?? item.cityId),
+    mobile:
+      item.recipientsCell != null
+        ? String(item.recipientsCell)
+        : item.mobile != null
+          ? String(item.mobile)
+          : "",
+    phone:
+      item.recipientsPhone != null
+        ? String(item.recipientsPhone)
+        : item.phone != null
+          ? String(item.phone)
+          : "",
+  };
+};
+
 export const fetchAddresses = async (
-  mobile: string,
-  token?: string,
+  userID?: number | string,
 ): Promise<UserAddress[]> => {
-  const normalized = normalizeMobile(mobile);
-  const result = await postForm(API.getAddress, {
-    mobile: normalized,
-    ...(token ? { token } : {}),
-  });
-  if (result?.status !== true || !Array.isArray(result.data)) {
+  if (userID == null || String(userID) === "") {
     return [];
   }
 
-  const ownerKey = mobileKey(normalized);
+  const result = await postForm(API.getAddress, { userID: String(userID) });
+  const rows = asAddressList(result?.addresses ?? result?.data);
+  const mapped = rows.map((item, index) =>
+    mapAddress(item as Record<string, unknown>, index),
+  );
 
-  return result.data
-    .map((item: Record<string, unknown>, index: number) => ({
-      id: String(item.id ?? index + 1),
-      name: item.name != null ? String(item.name) : "",
-      family: item.family != null ? String(item.family) : "",
-      addressName:
-        item.addressName != null
-          ? String(item.addressName)
-          : item.title != null
-            ? String(item.title)
-            : "",
-      address: item.address != null ? String(item.address) : "",
-      postalcode: item.postalcode != null ? String(item.postalcode) : "",
-      province: item.province != null ? String(item.province) : "",
-      city: item.city != null ? String(item.city) : "",
-      province_id: item.province_id != null ? String(item.province_id) : "",
-      city_id: item.city_id != null ? String(item.city_id) : "",
-      mobile: item.mobile != null ? String(item.mobile) : "",
-      phone: item.phone != null ? String(item.phone) : "",
-    }))
-    .filter((item) => mobileKey(item.mobile) === ownerKey);
+  const needsLookup = mapped.some(
+    (item) => (!item.province && item.province_id) || (!item.city && item.city_id),
+  );
+  if (!needsLookup) {
+    return mapped;
+  }
+
+  const provinces = await fetchProvinces();
+  const provinceTitle = Object.fromEntries(
+    provinces.map((item) => [item.id, item.title]),
+  );
+  const citiesByProvince = new Map<string, PlaceItem[]>();
+
+  const withNames = await Promise.all(
+    mapped.map(async (item) => {
+      const provinceId = String(item.province_id || "");
+      const cityId = String(item.city_id || "");
+      const province =
+        textValue(item.province) || provinceTitle[provinceId] || "";
+
+      let city = textValue(item.city);
+      if (!city && cityId && provinceId) {
+        if (!citiesByProvince.has(provinceId)) {
+          citiesByProvince.set(provinceId, await fetchCities(provinceId));
+        }
+        city =
+          citiesByProvince.get(provinceId)?.find((row) => row.id === cityId)
+            ?.title || "";
+      }
+
+      return { ...item, province, city };
+    }),
+  );
+
+  return withNames;
 };
 
 export const createAddress = async (payload: {
-  ownerMobile: string;
-  mobile: string;
+  userID?: number | string;
+  addressID?: number | string;
   addressName: string;
-  recipientName: string;
-  address: string;
-  postalcode: string;
+  recipientsName: string;
+  recipientsPhone?: string;
+  recipientsCell: string;
   province: string;
   city: string;
-  token?: string;
+  postalCode: string;
+  address: string;
+  province_id: string;
+  city_id: string;
 }) => {
   return postForm(API.setAddress, {
-    mobile: normalizeMobile(payload.ownerMobile),
-    phone: normalizeMobile(payload.mobile),
-    name: payload.addressName,
-    family: payload.recipientName,
+    userID:
+      payload.userID != null && String(payload.userID) !== ""
+        ? String(payload.userID)
+        : "",
+    addressID:
+      payload.addressID != null && String(payload.addressID) !== ""
+        ? String(payload.addressID)
+        : "",
+    addressName: payload.addressName,
+    recipientsName: payload.recipientsName,
+    recipientsPhone: toEnglishDigits(payload.recipientsPhone || "").replace(
+      /\D/g,
+      "",
+    ),
+    recipientsCell: normalizeMobile(payload.recipientsCell),
+    province: payload.province_id,
+    city: payload.city_id,
+    postalCode: toEnglishDigits(payload.postalCode),
     address: payload.address,
-    postalcode: toEnglishDigits(payload.postalcode),
-    province: payload.province,
-    city: payload.city,
-    ...(payload.token ? { token: payload.token } : {}),
+    province_id: payload.province_id,
+    city_id: payload.city_id,
+  });
+};
+
+export const deleteAddress = async (payload: {
+  userID?: number | string;
+  addressID?: number | string;
+}) => {
+  return postForm(API.deleteAddress, {
+    userID:
+      payload.userID != null && String(payload.userID) !== ""
+        ? String(payload.userID)
+        : "",
+    addressID:
+      payload.addressID != null && String(payload.addressID) !== ""
+        ? String(payload.addressID)
+        : "",
   });
 };

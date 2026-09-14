@@ -15,6 +15,7 @@ export type ProductType =
 export interface BasketEntry {
   id: string;
   quantity: number;
+  code_config: string;
 }
 
 export interface BasketProduct extends BasketEntry {
@@ -32,7 +33,9 @@ export interface BasketProduct extends BasketEntry {
 }
 
 const BASKET_KEY = "@basket";
+const USER_KEY = "@user";
 const MAX_QUANTITY = 99;
+const SYNC_DEBOUNCE_MS = 400;
 
 type BasketListener = () => void;
 const listeners = new Set<BasketListener>();
@@ -69,18 +72,142 @@ const normalizeEntry = (raw: unknown): BasketEntry | null => {
   return {
     id,
     quantity: Math.max(1, parseMoney(item.quantity) || 1),
+    code_config: codeConfigValue(
+      item.code_config ?? item.codeConfig,
+    ),
   };
 };
+
+export const codeConfigValue = (value: unknown) => {
+  if (value == null) {
+    return "";
+  }
+  const text = String(value).trim();
+  if (!text || text === "null" || text === "undefined") {
+    return "";
+  }
+  return text;
+};
+
+export const codeConfigFromBook = (book?: Record<string, any> | null) =>
+  codeConfigValue(
+    book?.code_config ??
+      book?.codeConfig ??
+      book?.providers?.[0]?.code_config ??
+      book?.providers?.[0]?.codeConfig,
+  );
 
 const toStoredBasket = (basket: BasketEntry[]) =>
   basket.map((item) => ({
     id: String(item.id),
+    code_config: codeConfigValue(item.code_config),
     quantity: Math.max(1, item.quantity || 1),
   }));
 
-const persistBasket = async (basket: BasketEntry[]) => {
+const postForm = async (url: string, body: Record<string, string>) => {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: Object.entries(body)
+      .map(
+        ([key, value]) =>
+          `${encodeURIComponent(key)}=${encodeURIComponent(value)}`,
+      )
+      .join("&"),
+  });
+  return response.json();
+};
+
+const getLoggedInUserID = async (): Promise<string | null> => {
+  try {
+    const raw = await AsyncStorage.getItem(USER_KEY);
+    if (!raw) {
+      return null;
+    }
+    const user = JSON.parse(raw) as { ID?: number | string };
+    if (user?.ID == null || String(user.ID) === "") {
+      return null;
+    }
+    return String(user.ID);
+  } catch {
+    return null;
+  }
+};
+
+const parseBasketData = (raw: unknown): BasketEntry[] => {
+  let list: unknown = raw;
+  if (typeof raw === "string") {
+    const text = raw.trim();
+    if (!text) {
+      return [];
+    }
+    try {
+      list = JSON.parse(text);
+    } catch {
+      return [];
+    }
+  }
+  if (!Array.isArray(list)) {
+    return [];
+  }
+  return list
+    .map(normalizeEntry)
+    .filter((item): item is BasketEntry => item !== null);
+};
+
+let syncTimer: ReturnType<typeof setTimeout> | null = null;
+let pendingBasket: BasketEntry[] | null = null;
+
+const cancelBasketSync = () => {
+  if (syncTimer) {
+    clearTimeout(syncTimer);
+    syncTimer = null;
+  }
+  pendingBasket = null;
+};
+
+const pushBasketToServer = async (basket: BasketEntry[]) => {
+  const userID = await getLoggedInUserID();
+  if (!userID) {
+    return;
+  }
+  try {
+    await postForm(API.setUserBasket, {
+      userID,
+      data: JSON.stringify(toStoredBasket(basket)),
+    });
+  } catch (error) {
+    console.error("Error saving basket to server:", error);
+  }
+};
+
+const scheduleBasketSync = (basket: BasketEntry[]) => {
+  pendingBasket = toStoredBasket(basket);
+  if (syncTimer) {
+    clearTimeout(syncTimer);
+  }
+  syncTimer = setTimeout(() => {
+    const next = pendingBasket;
+    syncTimer = null;
+    pendingBasket = null;
+    if (next) {
+      void pushBasketToServer(next);
+    }
+  }, SYNC_DEBOUNCE_MS);
+};
+
+const persistBasket = async (
+  basket: BasketEntry[],
+  options?: { syncServer?: boolean },
+) => {
   await AsyncStorage.setItem(BASKET_KEY, JSON.stringify(toStoredBasket(basket)));
   notifyBasket();
+  if (options?.syncServer === false) {
+    return;
+  }
+  scheduleBasketSync(basket);
 };
 
 const isSlimBasket = (parsed: unknown[]) =>
@@ -88,7 +215,9 @@ const isSlimBasket = (parsed: unknown[]) =>
     (item) =>
       !!item &&
       typeof item === "object" &&
-      Object.keys(item as object).every((key) => key === "id" || key === "quantity"),
+      Object.keys(item as object).every(
+        (key) => key === "id" || key === "quantity" || key === "code_config",
+      ),
   );
 
 export const getBasket = async (): Promise<BasketEntry[]> => {
@@ -141,6 +270,7 @@ export const isInBasket = async (bookId: string): Promise<boolean> => {
 export const addToBasket = async (
   bookId: string,
   quantity = 1,
+  code_config = "",
 ): Promise<BasketEntry[]> => {
   const id = String(bookId || "");
   if (!id) {
@@ -150,17 +280,25 @@ export const addToBasket = async (
   try {
     const basket = await getBasket();
     const existing = basket.find((entry) => entry.id === id);
+    const nextCode = codeConfigValue(code_config);
 
     if (existing) {
       existing.quantity = Math.min(
         MAX_QUANTITY,
         existing.quantity + Math.max(1, quantity),
       );
+      if (!existing.code_config && nextCode) {
+        existing.code_config = nextCode;
+      }
       await persistBasket(basket);
       return basket;
     }
 
-    basket.push({ id, quantity: Math.max(1, quantity) });
+    basket.push({
+      id,
+      quantity: Math.max(1, quantity),
+      code_config: nextCode,
+    });
     await persistBasket(basket);
     return basket;
   } catch (error) {
@@ -221,63 +359,57 @@ export const updateBasketQuantity = async (
   }
 };
 
-export const toggleBasket = async (bookId: string): Promise<boolean> => {
+export const toggleBasket = async (
+  bookId: string,
+  code_config = "",
+): Promise<boolean> => {
   const alreadyInBasket = await isInBasket(bookId);
   if (alreadyInBasket) {
     await removeFromBasket(bookId);
     return false;
   }
-  await addToBasket(bookId);
+  await addToBasket(bookId, 1, code_config);
   return true;
 };
 
-export const clearBasket = async (): Promise<void> => {
-  await persistBasket([]);
+export const clearBasket = async (
+  options?: { syncServer?: boolean },
+): Promise<void> => {
+  if (options?.syncServer === false) {
+    cancelBasketSync();
+  }
+  await persistBasket([], options);
+};
+
+export const fetchUserBasketFromServer = async (
+  userID?: number | string,
+): Promise<BasketEntry[]> => {
+  const id = userID != null ? String(userID) : await getLoggedInUserID();
+  if (!id) {
+    return [];
+  }
+  const result = await postForm(API.getUserBasket, { userID: id });
+  return parseBasketData(result?.data);
 };
 
 export const syncBasketFromServer = async (): Promise<BasketEntry[]> => {
   const local = await getBasket();
+  const userID = await getLoggedInUserID();
+  if (!userID) {
+    return local;
+  }
 
   try {
-    const response = await fetch(API.getUserBasket, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: "name=getUserBasket",
-    });
-    const result = await response.json();
-
-    if (result?.status !== true || !Array.isArray(result.data)) {
+    const remote = await fetchUserBasketFromServer(userID);
+    if (remote.length > 0) {
+      await persistBasket(remote, { syncServer: false });
+      return remote;
+    }
+    if (local.length > 0) {
+      await persistBasket(local);
       return local;
     }
-
-    const merged = new Map<string, BasketEntry>();
-    for (const item of local) {
-      merged.set(item.id, { id: item.id, quantity: item.quantity });
-    }
-
-    for (const raw of result.data) {
-      const entry = normalizeEntry({
-        id: raw?.id,
-        quantity: raw?.quantity ?? raw?.count ?? 1,
-      });
-      if (!entry) {
-        continue;
-      }
-      const existing = merged.get(entry.id);
-      merged.set(entry.id, {
-        id: entry.id,
-        quantity: Math.min(
-          MAX_QUANTITY,
-          Math.max(existing?.quantity ?? 0, entry.quantity),
-        ),
-      });
-    }
-
-    const next = Array.from(merged.values());
-    await persistBasket(next);
-    return next;
+    return [];
   } catch (error) {
     console.error("Error syncing basket from server:", error);
     return local;
@@ -313,6 +445,7 @@ export const productFromApi = (
 
   return {
     id: String(book?.id ?? ""),
+    code_config: codeConfigFromBook(book),
     book_title: String(book?.title ?? book?.book_title ?? ""),
     author: book?.author != null ? String(book.author) : undefined,
     full_icon_address: book?.pic || book?.full_icon_address || undefined,
@@ -358,13 +491,22 @@ export const fetchProduct = async (
 
 export const getBasketProducts = async (): Promise<BasketProduct[]> => {
   const basket = await getBasket();
+  let changed = false;
 
   const products = await Promise.all(
-    basket.map(async (entry) => {
+    basket.map(async (entry, index) => {
       const book = await fetchProduct(entry.id);
+      const code_config =
+        codeConfigValue(entry.code_config) || codeConfigFromBook(book);
+      if (code_config && code_config !== entry.code_config) {
+        basket[index] = { ...entry, code_config };
+        changed = true;
+      }
+
       if (!book) {
         return {
           id: entry.id,
+          code_config,
           quantity: entry.quantity,
           book_title: "",
           price: 0,
@@ -375,12 +517,19 @@ export const getBasketProducts = async (): Promise<BasketProduct[]> => {
         };
       }
 
-      return productFromApi(
-        { ...book, id: book.id ?? entry.id },
-        entry.quantity,
-      );
+      return {
+        ...productFromApi(
+          { ...book, id: book.id ?? entry.id },
+          entry.quantity,
+        ),
+        code_config,
+      };
     }),
   );
+
+  if (changed) {
+    await persistBasket(basket);
+  }
 
   return products;
 };
