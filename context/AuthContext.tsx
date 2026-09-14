@@ -3,6 +3,7 @@
 import React, { createContext, useReducer, useEffect, ReactNode } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { clearBasket, syncBasketFromServer } from "@/utils/basket";
+import { clearFavorites, syncFavoritesFromServer } from "@/utils/favorites";
 
 type Device = {
   deviceId: string;
@@ -118,6 +119,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           const user = JSON.parse(userJson);
           dispatch({ type: "LOGIN_SUCCESS", payload: user });
           void syncBasketFromServer();
+          void syncFavoritesFromServer();
         }
       } catch {
         // "❌ خطا در بارگذاری کاربر:", error);
@@ -140,6 +142,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       dispatch({ type: "LOGIN_SUCCESS", payload: userData });
       await syncBasketFromServer();
+      await syncFavoritesFromServer();
     } catch {
       // ("❌ خطا در Login:", error);
       dispatch({
@@ -153,7 +156,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     await AsyncStorage.removeItem("@user");
     await AsyncStorage.removeItem("@auth_token");
     await AsyncStorage.removeItem("@refresh_token");
-    await AsyncStorage.removeItem("@favorites");
+    await clearFavorites({ syncServer: false });
     await clearBasket({ syncServer: false });
     dispatch({ type: "LOGOUT" });
   };

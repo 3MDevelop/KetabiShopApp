@@ -164,7 +164,13 @@
     "MyComments": {},
     "MyFavorites": {},
     "MyLibrary": {},
-    "MyLikes": {},
+    "MyLikes": {
+      "title": "My likes",
+      "emptyTitle": "Your likes list is empty",
+      "emptyText": "You have not added any books to your likes yet.",
+      "discover": "Discover books",
+      "loginRequired": "Log in to see your liked books"
+    },
     "Offers": {},
     "PaymentRecords": {},
     "Profile": {

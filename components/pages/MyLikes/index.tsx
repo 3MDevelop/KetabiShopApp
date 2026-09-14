@@ -1,23 +1,62 @@
 import { useAuth } from "@/hooks/useAuth";
+import { useTranslate } from "@/hooks/useTranslation";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import React from "react";
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import { ActivityIndicator, ScrollView, TouchableOpacity, View } from "react-native";
 import styles from "./styles";
 import CustomText from "@/components/common/CustomText";
+import BookThumb from "@/components/UI/BookThumb";
+import PageHeader from "@/components/UI/PageHeader";
+import {
+  FavoriteBook,
+  getFavoriteBooks,
+  subscribeFavorites,
+} from "@/utils/favorites";
+
+const THUMB_HEIGHT = 300;
+const THUMB_RATIO = 0.64;
 
 export default function MyLikes() {
-  const { isLoggedIn, user } = useAuth();
+  const { isLoggedIn } = useAuth();
+  const { t } = useTranslate();
+  const [books, setBooks] = useState<FavoriteBook[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const loadFavorites = useCallback(async (showSpinner = false) => {
+    if (showSpinner) {
+      setIsLoading(true);
+    }
+    try {
+      setBooks(await getFavoriteBooks());
+    } catch {
+      setBooks([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setBooks([]);
+      setIsLoading(false);
+      return;
+    }
+    void loadFavorites(true);
+    return subscribeFavorites(() => {
+      void loadFavorites(false);
+    });
+  }, [isLoggedIn, loadFavorites]);
 
   if (!isLoggedIn) {
     return (
       <View style={styles.notLoggedInContainer}>
         <Ionicons name="heart-outline" size={80} color="#ccc" />
         <CustomText style={styles.notLoggedInTitle}>
-          ⛔ دسترسی غیرمجاز
+          {t("pages.MyLikes.title")}
         </CustomText>
         <CustomText style={styles.notLoggedInText}>
-          برای مشاهده کتاب‌های پسندیده شده، ابتدا وارد حساب کاربری خود شوید
+          {t("pages.MyLikes.loginRequired")}
         </CustomText>
         <TouchableOpacity
           style={styles.loginButton}
@@ -25,95 +64,65 @@ export default function MyLikes() {
         >
           <Ionicons name="log-in-outline" size={20} color="#fff" />
           <CustomText style={styles.loginButtonText}>
-            ورود به حساب کاربری
+            {t("common.common.loginBtn")}
           </CustomText>
         </TouchableOpacity>
       </View>
     );
   }
 
-  const likedList = user?.likedList || [];
-
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.content}>
-        {/* هدر */}
-        <View style={styles.header}>
-          <Ionicons name="heart" size={28} color="#FF3B30" />
-          <CustomText style={styles.title}>کتابهای پسندیده من</CustomText>
-          <View style={styles.badge}>
-            <CustomText style={styles.badgeText}>{likedList.length}</CustomText>
-          </View>
-        </View>
-
-        {/* لیست کتاب‌های پسندیده */}
-        {likedList.length > 0 ? (
-          <View style={styles.likesListContainer}>
-            <CustomText style={styles.sectionTitle}>
-              📚 کتاب‌هایی که پسندیده‌اید
-            </CustomText>
-            {likedList.map((book, index) => (
+    <View style={styles.container}>
+      <PageHeader title={t("pages.MyLikes.title")} />
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <View style={styles.content}>
+          {isLoading ? (
+            <View style={styles.loadingContainer}>
+              <ActivityIndicator size="large" color="#007AFF" />
+            </View>
+          ) : books.length > 0 ? (
+            <View style={styles.booksGrid}>
+              {books.map((book) => (
+                <View
+                  key={book.id}
+                  style={[styles.bookItem, { height: THUMB_HEIGHT }]}
+                >
+                  <BookThumb
+                    bookID={Number(book.id)}
+                    bookName={book.name}
+                    author={book.author}
+                    price={book.price}
+                    imageUrl={book.image}
+                    itemWidth={THUMB_HEIGHT * THUMB_RATIO}
+                    percent={book.percent}
+                    discount={book.discount}
+                    exist={book.exist}
+                  />
+                </View>
+              ))}
+            </View>
+          ) : (
+            <View style={styles.emptyListContainer}>
+              <Ionicons name="heart-outline" size={60} color="#FF3B30" />
+              <CustomText style={styles.emptyListTitle}>
+                {t("pages.MyLikes.emptyTitle")}
+              </CustomText>
+              <CustomText style={styles.emptyListText}>
+                {t("pages.MyLikes.emptyText")}
+              </CustomText>
               <TouchableOpacity
-                key={book.id || index}
-                style={styles.likeCard}
-                onPress={() =>
-                  router.push({
-                    pathname: "/book",
-                    params: { id: book.id.toString() },
-                  })
-                }
+                style={styles.goToLibraryButton}
+                onPress={() => router.push("/")}
               >
-                <View style={styles.likeIcon}>
-                  <Ionicons name="heart" size={22} color="#FF3B30" />
-                </View>
-                <View style={styles.bookInfo}>
-                  <CustomText style={styles.bookTitle}>
-                    {book.title || `کتاب ${index + 1}`}
-                  </CustomText>
-                  <CustomText style={styles.bookDate}>
-                    افزوده شده در:{" "}
-                    {book.addedAt || new Date().toLocaleDateString("fa-IR")}
-                  </CustomText>
-                </View>
-                <Ionicons name="chevron-forward" size={20} color="#ccc" />
+                <CustomText style={styles.goToLibraryButtonText}>
+                  {t("pages.MyLikes.discover")}
+                </CustomText>
+                <Ionicons name="search-outline" size={20} color="#fff" />
               </TouchableOpacity>
-            ))}
-          </View>
-        ) : (
-          <View style={styles.emptyListContainer}>
-            <Ionicons name="heart-outline" size={60} color="#FF3B30" />
-            <CustomText style={styles.emptyListTitle}>
-              💔 لیست پسندیده‌ها خالی است
-            </CustomText>
-            <CustomText style={styles.emptyListText}>
-              شما هنوز هیچ کتابی را پسندیده‌اید.
-              {"\n"}
-              کتاب‌هایی که دوست دارید رو به این لیست اضافه کنید!
-            </CustomText>
-
-            <TouchableOpacity
-              style={styles.goToLibraryButton}
-              onPress={() => router.push("/list")}
-            >
-              <Ionicons name="arrow-back" size={18} color="#fff" />
-              <CustomText style={styles.goToLibraryButtonText}>
-                کشف کتاب‌های جدید
-              </CustomText>
-              <Ionicons name="search-outline" size={20} color="#fff" />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.suggestionButton}
-              onPress={() => router.push("/")}
-            >
-              <CustomText style={styles.suggestionButtonText}>
-                برو به کتابخانه من
-              </CustomText>
-              <Ionicons name="library-outline" size={18} color="#007AFF" />
-            </TouchableOpacity>
-          </View>
-        )}
-      </View>
-    </ScrollView>
+            </View>
+          )}
+        </View>
+      </ScrollView>
+    </View>
   );
 }

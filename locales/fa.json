@@ -163,7 +163,13 @@
     "MyComments": {},
     "MyFavorites": {},
     "MyLibrary": {},
-    "MyLikes": {},
+    "MyLikes": {
+      "title": "پسندیده‌های من",
+      "emptyTitle": "لیست پسندیده‌ها خالی است",
+      "emptyText": "هنوز کتابی را به پسندیده‌ها اضافه نکرده‌اید.",
+      "discover": "کشف کتاب‌های جدید",
+      "loginRequired": "برای مشاهده پسندیده‌ها وارد حساب کاربری شوید"
+    },
     "Offers": {},
     "PaymentRecords": {},
     "Profile": {

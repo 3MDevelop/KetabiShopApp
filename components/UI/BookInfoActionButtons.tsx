@@ -1,6 +1,6 @@
 import { StyleSheet, View, TouchableOpacity, Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { isFavorite, toggleFavorite, FavoriteItem } from "@/utils/favorites";
+import { isFavorite, toggleFavorite, FavoriteItem, subscribeFavorites } from "@/utils/favorites";
 import React, { useState, useEffect } from "react";
 import { useTranslate } from "@/hooks/useTranslation";
 import Toast from "react-native-toast-message";
@@ -15,18 +15,19 @@ export default function BookInfoActionButtons({
 }: BookInfoActionButtonsProps) {
 
 
-  const [isLiked, setIsLiked] = useState(true);
+  const [isLiked, setIsLiked] = useState(false);
   const [commented] = useState(true);
 
   const { t } = useTranslate();
   useEffect(() => {
     const checkFavoriteStatus = async () => {
       if (bookID) {
-        const favStatus = await isFavorite(bookID);
+        const favStatus = await isFavorite(String(bookID));
         setIsLiked(favStatus);
       }
     };
     checkFavoriteStatus();
+    return subscribeFavorites(checkFavoriteStatus);
   }, [bookID]);
 
   const showCommentSection = () => {
@@ -35,7 +36,7 @@ export default function BookInfoActionButtons({
 
   const toggleWishlist = async () => {
     const favoriteItem: FavoriteItem = {
-      id: bookID
+      id: String(bookID),
     };
     const newStatus = await toggleFavorite(favoriteItem);
     console.info("newStatus", newStatus);

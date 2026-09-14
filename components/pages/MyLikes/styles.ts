@@ -74,6 +74,23 @@ export default StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
   },
+  loadingContainer: {
+    paddingVertical: 50,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  booksGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    marginTop: 8,
+    paddingHorizontal: 4,
+    gap: 10,
+    marginBottom: 32,
+  },
+  bookItem: {
+    marginBottom: 16,
+  },
 
   // لیست کتاب‌های پسندیده
   likesListContainer: {
