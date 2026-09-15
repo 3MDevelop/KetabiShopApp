@@ -1,28 +1,59 @@
 // UserAvatarList.tsx
-import { View, StyleSheet } from "react-native";
+import { Pressable, View, StyleSheet } from "react-native";
 import UserAvatarListItem from "./UserAvatarListItem";
 import UserAvatar from "./userAvatar";
 import { AVATAR_LIST } from "@/constants/avatarImages";
 import { useAuth } from "@/hooks/useAuth";
 
+interface UserAvatarListProps {
+  selectedAvatar?: number;
+  onSelect?: (avatar: number) => void;
+}
 
-export default function UserAvatarList() {
-  const avatarCount = AVATAR_LIST.length;
-const {user} = useAuth()
+export default function UserAvatarList({
+  selectedAvatar,
+  onSelect,
+}: UserAvatarListProps) {
+  const { user } = useAuth();
+  const current = selectedAvatar ?? Number(user?.avatar) ?? 0;
+
   return (
     <View style={styles.container}>
       <View style={styles.listContainer}>
-        <View style={styles.childBorder}>
-          <UserAvatar iconWidth={80} squared={true} inText={user?.name} />
-        </View>
-        {Array.from({ length: avatarCount }).map((_, index) => (
-          <View key={index} style={styles.childBorder}>
-            <UserAvatarListItem 
-              avatarInd={index + 1}
-              imageSource={AVATAR_LIST[index]} 
-            />
-          </View>
-        ))}
+        <Pressable
+          onPress={() => onSelect?.(0)}
+          disabled={!onSelect}
+          style={[
+            styles.childBorder,
+            current === 0 && styles.childBorderActive,
+          ]}
+        >
+          <UserAvatar
+            iconWidth={80}
+            squared={true}
+            inText={user?.name}
+            useInitials
+          />
+        </Pressable>
+        {AVATAR_LIST.map((imageSource, index) => {
+          const avatarInd = index + 1;
+          return (
+            <Pressable
+              key={imageSource}
+              onPress={() => onSelect?.(avatarInd)}
+              disabled={!onSelect}
+              style={[
+                styles.childBorder,
+                current === avatarInd && styles.childBorderActive,
+              ]}
+            >
+              <UserAvatarListItem
+                avatarInd={avatarInd}
+                imageSource={imageSource}
+              />
+            </Pressable>
+          );
+        })}
       </View>
     </View>
   );
@@ -30,7 +61,7 @@ const {user} = useAuth()
 
 const styles = StyleSheet.create({
   container: {
-    padding: 18,    
+    padding: 18,
   },
   listContainer: {
     flexDirection: "row-reverse",
@@ -40,9 +71,12 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   childBorder: {
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: "#bdbdbd",
-    borderRadius: 8, 
+    borderRadius: 8,
     overflow: "hidden",
+  },
+  childBorderActive: {
+    borderColor: "#007AFF",
   },
 });

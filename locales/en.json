@@ -190,7 +190,10 @@
     "Search": {},
     "Support": {},
     "Temp": {},
-    "User": {},
+    "User": {
+      "chooseAvatar": "Choose avatar",
+      "avatarUpdated": "Avatar updated"
+    },
     "About": { "about_label": "About Us" },
     "Basket": {},
     "Shipping": {},

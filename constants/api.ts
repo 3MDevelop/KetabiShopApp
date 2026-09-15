@@ -33,5 +33,9 @@ export const API = {
   getComments: "https://ketabishop.com/api/getComments/",
   setComment: "https://ketabishop.com/api/setComment/",
 
+  /* user */
+  getUserInfo: "https://ketabishop.com/api/getstatic/",
 
+  /* from local json */
+  getstatic: "https://ketabishop.com/api/getstatic/",
 } as const;

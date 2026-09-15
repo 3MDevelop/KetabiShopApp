@@ -189,7 +189,10 @@
     "Search": {},
     "Support": {},
     "Temp": {},
-    "User": {},
+    "User": {
+      "chooseAvatar": "انتخاب آواتار",
+      "avatarUpdated": "آواتار با موفقیت تغییر کرد"
+    },
     "About": { "about_label": "درباره ما" },
     "Basket": {},
     "Shipping": {},

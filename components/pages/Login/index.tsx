@@ -19,6 +19,7 @@ import Toast from "react-native-toast-message";
 import styles from "./styles";
 import CustomText from "@/components/common/CustomText";
 import { API } from "@/constants/api";
+import { fetchUserInfo } from "@/utils/userInfo";
 import OTPInput from "@/components/UI/OTPInput";
 
 type ToastType = "success" | "error" | "info" | "warning";
@@ -153,27 +154,10 @@ export default function Login() {
             }
           } catch {}
 
-          let userDataFromApi: any = null;
+          let userDataFromApi: Awaited<ReturnType<typeof fetchUserInfo>> = null;
 
           try {
-            const apiResponse = await fetch(API.getstatic, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-              },
-              body: `name=getUserInfo`,
-            });
-            if (!apiResponse.ok) {
-              throw new Error(`HTTP error! status: ${apiResponse.status}`);
-            }
-
-            const apiResult = await apiResponse.json();
-
-            if (apiResult.status === true && apiResult.data) {
-              userDataFromApi = apiResult.data;
-            } else {
-              console.warn("پاسخ API موفقیت‌آمیز نبود:", apiResult);
-            }
+            userDataFromApi = await fetchUserInfo(userId);
           } catch (error) {
             console.error("خطا در دریافت اطلاعات کاربر:", error);
           }

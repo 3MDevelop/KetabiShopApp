@@ -1,31 +1,39 @@
 import { useAuth } from "@/hooks/useAuth";
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet, View } from "react-native";
-import CustomText from "@/components/common/CustomText";
+import { StyleSheet, TouchableOpacity } from "react-native";
+import { shadow } from "@/utils/shadow";
 
-export default function UserAvatarEditBtn() {
+interface UserAvatarEditBtnProps {
+  onPress?: () => void;
+}
+
+export default function UserAvatarEditBtn({ onPress }: UserAvatarEditBtnProps) {
   const { isLoggedIn } = useAuth();
   if (!isLoggedIn) return null;
   return (
-    <View style={styles.avatarEditBtnContainer}>
-      <CustomText style={styles.avatarEditBtn}>
-        <Ionicons name="create" size={18} />
-      </CustomText>
-    </View>
+    <TouchableOpacity
+      style={styles.avatarEditBtnContainer}
+      onPress={onPress}
+      activeOpacity={0.8}
+      accessibilityLabel="ویرایش آواتار"
+    >
+      <Ionicons name="create" size={18} color="#e7651a" />
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  avatarEditBtn: {
-    color: "#e7651a",
-  },
   avatarEditBtnContainer: {
     backgroundColor: "white",
-    borderRadius: "50%",
-    aspectRatio: "1/1",
-    padding: 5,
+    borderRadius: 16,
+    width: 32,
+    height: 32,
+    alignItems: "center",
+    justifyContent: "center",
     position: "absolute",
-    right: 5,
-    top: 55,
+    bottom: -4,
+    alignSelf: "center",
+    zIndex: 2,
+    ...shadow("#000", { width: 0, height: 1 }, 0.12, 3, 2),
   },
 });

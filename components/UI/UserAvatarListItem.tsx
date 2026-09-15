@@ -15,7 +15,7 @@ export default function UserAvatarListItem({
       styles.container,
     ]}>
       <Image 
-        source={imageSource} 
+        source={typeof imageSource === "string" ? { uri: imageSource } : imageSource} 
         style={styles.image}
         resizeMode="cover"
       />

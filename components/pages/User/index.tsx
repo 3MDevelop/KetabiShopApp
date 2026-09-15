@@ -5,17 +5,20 @@ import UserAddressList from "@/components/UI/UserAddressList";
 import UserAvatar from "@/components/UI/userAvatar";
 import UserAvatarList from "@/components/UI/UserAvatarList";
 import UserPageFormField from "@/components/UI/UserPageFormField";
+import { fetchUserInfo } from "@/utils/userInfo";
 import { useAuth } from "@/hooks/useAuth";
 import { useResponsive } from "@/hooks/useResponsive";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 import styles from "./styles";
 import CustomText from "@/components/common/CustomText";
+import UserAvatarEditBtn from "@/components/UI/UserAvatarEditBtn";
+import UserAvatarPicker from "@/components/UI/UserAvatarPicker";
 
 export default function CombinedParallax() {
   const { isDesktop } = useResponsive();
-  const { user, isLoggedIn } = useAuth();
+  const { user, isLoggedIn, updateUser } = useAuth();
   const [nickname, setNickname] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -29,6 +32,7 @@ export default function CombinedParallax() {
   const [initialLastName, setInitialLastName] = useState("");
   const [initialEmail, setInitialEmail] = useState("");
   const [initialAvatar, setInitialAvatar] = useState("");
+  const [avatarPickerOpen, setAvatarPickerOpen] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -53,6 +57,32 @@ export default function CombinedParallax() {
       setInitialAvatar(userData.avatar);
     }
   }, [user]);
+
+  useEffect(() => {
+    if (!isLoggedIn || user?.ID == null) return;
+    let cancelled = false;
+
+    const loadUserInfo = async () => {
+      try {
+        const info = await fetchUserInfo(user.ID);
+        if (!info || cancelled) return;
+        await updateUser({
+          ...(info.name != null ? { name: info.name } : {}),
+          ...(info.nName != null ? { nName: info.nName } : {}),
+          ...(info.lName != null ? { lName: info.lName } : {}),
+          ...(info.email != null ? { email: info.email } : {}),
+          ...(info.avatar != null ? { avatar: info.avatar } : {}),
+        });
+      } catch (error) {
+        console.error("خطا در دریافت اطلاعات کاربر:", error);
+      }
+    };
+
+    loadUserInfo();
+    return () => {
+      cancelled = true;
+    };
+  }, [isLoggedIn, user?.ID]);
 
   useEffect(() => {
     const hasAnyChange =
@@ -104,8 +134,18 @@ export default function CombinedParallax() {
     setIsUpdating(false);
   };
 
+  const handleSelectAvatar = async (nextAvatar: number) => {
+    await updateUser({ avatar: nextAvatar });
+    setAvatar(String(nextAvatar));
+    setInitialAvatar(String(nextAvatar));
+    setAvatarPickerOpen(false);
+  };
+
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      style={styles.container}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={[styles.content, !isDesktop && styles.columnContainer]}>
         <View style={isDesktop ? styles.rowContainer : styles.columnContainer}>
           <View
@@ -119,13 +159,13 @@ export default function CombinedParallax() {
                 styles.infoCardLogo,
                 isDesktop
                   ? {
-                      left: "-2%",
-                      top: "-8%",
-                    }
+                    left: "-2%",
+                    top: "-8%",
+                  }
                   : {
-                      alignSelf: "center",
-                      top: "29%",
-                    },
+                    alignSelf: "center",
+                    top: "29%",
+                  },
               ]}
             >
               <Ionicons
@@ -137,7 +177,16 @@ export default function CombinedParallax() {
               style={isDesktop ? styles.rowContainer : styles.columnContainer}
             >
               <View style={[styles.avatar]}>
-                <UserAvatar iconWidth={isDesktop ? 150 : 120} />
+                <View>
+                  <TouchableOpacity
+                    onPress={() => setAvatarPickerOpen(true)}
+                    activeOpacity={0.85}
+                    accessibilityLabel="ویرایش آواتار"
+                  >
+                    <UserAvatar iconWidth={isDesktop ? 150 : 120} />
+                  </TouchableOpacity>
+                  <UserAvatarEditBtn onPress={() => setAvatarPickerOpen(true)} />
+                </View>
                 <View
                   style={[
                     styles.userIDContainer,
@@ -214,13 +263,6 @@ export default function CombinedParallax() {
         </View>
 
         <View style={styles.cards}>
-          <CustomText style={[styles.sectionTitle, { marginTop: 16 }]}>
-            آواتارها
-          </CustomText>
-          <UserAvatarList />
-        </View>
-
-        <View style={styles.cards}>
           <UserAddressList />
         </View>
 
@@ -230,9 +272,15 @@ export default function CombinedParallax() {
             onPress={handleUpdateProfile}
             isLoading={isUpdating}
           />
-          <LogoutBtn targetURL="./" />
+          
         </View>
       </View>
+      <UserAvatarPicker
+        visible={avatarPickerOpen}
+        selectedAvatar={Number(user?.avatar) || 0}
+        onSelect={handleSelectAvatar}
+        onClose={() => setAvatarPickerOpen(false)}
+      />
     </ScrollView>
   );
 }

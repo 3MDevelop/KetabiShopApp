@@ -18,3 +18,9 @@ export const AVATAR_LIST = [
   "https://ketabishop.com/static/app/images/icons/profile/1778673790.png",
   "https://ketabishop.com/static/app/images/icons/profile/1778674207.png",
 ];
+
+export function getAvatarUri(avatar?: number | string | null) {
+  const index = Number(avatar);
+  if (!Number.isFinite(index) || index < 1) return undefined;
+  return AVATAR_LIST[index - 1];
+}
