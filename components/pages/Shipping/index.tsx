@@ -14,6 +14,7 @@ import Toast from "react-native-toast-message";
 import { API } from "@/constants/api";
 import { getBasketProducts } from "@/utils/basket";
 import { withDir } from "@/utils/dir";
+import { parseMoney } from "@/utils/money";
 import {
   fetchAddresses,
   getAddressTitle,
@@ -30,15 +31,20 @@ export interface AddressItem {
   mobileNumber: string;
 }
 
-const fetchStaticJson = async (name: string) => {
-  const response = await fetch(API.getstatic, {
+const fetchShippingPrice = async () => {
+  const response = await fetch(API.getShippingPrice, {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: `name=${encodeURIComponent(name)}`,
   });
-  return response.json();
+  const result = await response.json();
+  if (result?.status !== true) {
+    return 0;
+  }
+  const raw =
+    result?.data?.shippingPrice ?? result?.data?.price ?? result?.data;
+  return parseMoney(raw);
 };
 
 export default function Shipping() {
@@ -58,9 +64,9 @@ export default function Shipping() {
 
   const loadData = useCallback(async (selectId?: string) => {
     try {
-      const [addressRows, shippingResult, basketItems] = await Promise.all([
+      const [addressRows, nextShippingPrice, basketItems] = await Promise.all([
         user?.ID ? fetchAddresses(user.ID) : Promise.resolve([]),
-        fetchStaticJson("getShippingPrice"),
+        fetchShippingPrice(),
         getBasketProducts(),
       ]);
 
@@ -84,9 +90,7 @@ export default function Shipping() {
         return nextAddresses[0]?.id ?? null;
       });
 
-      if (shippingResult.status === true && shippingResult.data) {
-        setShippingPrice(Number(shippingResult.data.shippingPrice) || 0);
-      }
+      setShippingPrice(nextShippingPrice);
 
       setBasketTotal(
         basketItems.reduce((sum, item) => sum + item.price * item.quantity, 0),

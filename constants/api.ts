@@ -15,7 +15,7 @@ export const API = {
   deleteAddress: "https://ketabishop.com/api/deleteAddress/",
   getCity: "https://ketabishop.com/api/getCity/",
   getProvince: "https://ketabishop.com/api/getProvince/",
-  getShippingPrice: "https://ketabishop.com/api/getstatic/",
+  getShippingPrice: "https://ketabishop.com/api/getShippingPrice/",
 
   /* Basket */
   getUserBasket: "https://ketabishop.com/api/getUserBasket/",
