@@ -14,7 +14,7 @@ export default StyleSheet.create({
     marginHorizontal: "auto",
   },
   layout: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "flex-start",
     gap: 16,
   },

@@ -532,6 +532,19 @@ export default function Basket() {
                     <TouchableOpacity
                       style={[
                         styles.quantityButton,
+                        !canIncrease && styles.quantityButtonDisabled,
+                      ]}
+                      onPress={() => updateQuantity(item.id, item.quantity + 1)}
+                      disabled={!canIncrease}
+                    >
+                      <Ionicons name="add" size={18} color="#fff" />
+                    </TouchableOpacity>
+                    <CustomText style={styles.quantityText}>
+                      {item.quantity}
+                    </CustomText>
+                    <TouchableOpacity
+                      style={[
+                        styles.quantityButton,
                         item.quantity <= 1 && styles.quantityButtonDelete,
                       ]}
                       onPress={() => handleDecrease(item)}
@@ -541,19 +554,6 @@ export default function Basket() {
                         size={18}
                         color="#fff"
                       />
-                    </TouchableOpacity>
-                    <CustomText style={styles.quantityText}>
-                      {item.quantity}
-                    </CustomText>
-                    <TouchableOpacity
-                      style={[
-                        styles.quantityButton,
-                        !canIncrease && styles.quantityButtonDisabled,
-                      ]}
-                      onPress={() => updateQuantity(item.id, item.quantity + 1)}
-                      disabled={!canIncrease}
-                    >
-                      <Ionicons name="add" size={18} color="#fff" />
                     </TouchableOpacity>
                   </View>
                 </>

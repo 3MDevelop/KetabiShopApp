@@ -17,6 +17,7 @@
       "connectionError": "Connection error",
 
       "userUpdateBtn": "Update Profile",
+      "userCancelBtn": "Discard changes",
       "logoutBtn": "Logout",
       "loginBtn": "Login"
     },
@@ -192,7 +193,8 @@
     "Temp": {},
     "User": {
       "chooseAvatar": "Choose avatar",
-      "avatarUpdated": "Avatar updated"
+      "avatarUpdated": "Avatar updated",
+      "unsavedChanges": "You have unsaved changes"
     },
     "About": { "about_label": "About Us" },
     "Basket": {},

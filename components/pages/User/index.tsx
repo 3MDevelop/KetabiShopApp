@@ -8,9 +8,13 @@ import UserPageFormField from "@/components/UI/UserPageFormField";
 import { fetchUserInfo } from "@/utils/userInfo";
 import { useAuth } from "@/hooks/useAuth";
 import { useResponsive } from "@/hooks/useResponsive";
+import { useTranslate } from "@/hooks/useTranslation";
 import { Ionicons } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import { usePreventRemove } from "@react-navigation/native";
+import { useNavigation, useRouter } from "expo-router";
+import { useEffect, useRef, useState } from "react";
+import { Platform, ScrollView, TouchableOpacity, View } from "react-native";
+import Toast from "react-native-toast-message";
 import styles from "./styles";
 import CustomText from "@/components/common/CustomText";
 import UserAvatarEditBtn from "@/components/UI/UserAvatarEditBtn";
@@ -19,6 +23,10 @@ import UserAvatarPicker from "@/components/UI/UserAvatarPicker";
 export default function CombinedParallax() {
   const { isDesktop } = useResponsive();
   const { user, isLoggedIn, updateUser } = useAuth();
+  const { t } = useTranslate();
+  const router = useRouter();
+  const navigation = useNavigation();
+  const allowLeaveRef = useRef(false);
   const [nickname, setNickname] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -140,6 +148,41 @@ export default function CombinedParallax() {
     setInitialAvatar(String(nextAvatar));
     setAvatarPickerOpen(false);
   };
+
+  const handleCancelChanges = () => {
+    setNickname(initialNickname);
+    setFirstName(initialFirstName);
+    setLastName(initialLastName);
+    setEmail(initialEmail);
+    setAvatar(initialAvatar);
+    allowLeaveRef.current = true;
+    router.replace("/");
+  };
+
+  usePreventRemove(hasChanges, ({ data }) => {
+    if (allowLeaveRef.current) {
+      navigation.dispatch(data.action);
+      return;
+    }
+    Toast.show({
+      type: "error",
+      text1: t("pages.User.unsavedChanges"),
+      position: "top",
+      topOffset: 20,
+      visibilityTime: 2500,
+    });
+  });
+
+  useEffect(() => {
+    if (Platform.OS !== "web") return;
+    const onBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (!hasChanges || allowLeaveRef.current) return;
+      event.preventDefault();
+      event.returnValue = "";
+    };
+    window.addEventListener("beforeunload", onBeforeUnload);
+    return () => window.removeEventListener("beforeunload", onBeforeUnload);
+  }, [hasChanges]);
 
   return (
     <ScrollView
@@ -270,6 +313,7 @@ export default function CombinedParallax() {
           <UpdateUserDataBtn
             hasChanges={hasChanges}
             onPress={handleUpdateProfile}
+            onCancel={handleCancelChanges}
             isLoading={isUpdating}
           />
           

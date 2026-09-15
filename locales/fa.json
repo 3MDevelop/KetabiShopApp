@@ -17,6 +17,7 @@
       "connectionError": "مشکل در ارتباط با سرور",
 
       "userUpdateBtn": "بروزرسانی حساب کاربری",
+      "userCancelBtn": "لغو تغییرات",
       "logoutBtn": "خروج از حساب کاربری",
       "loginBtn": "ورود به حساب کاربری"
     },
@@ -191,7 +192,8 @@
     "Temp": {},
     "User": {
       "chooseAvatar": "انتخاب آواتار",
-      "avatarUpdated": "آواتار با موفقیت تغییر کرد"
+      "avatarUpdated": "آواتار با موفقیت تغییر کرد",
+      "unsavedChanges": "تغییرات ذخیره نشده است"
     },
     "About": { "about_label": "درباره ما" },
     "Basket": {},
