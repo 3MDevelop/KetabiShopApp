@@ -61,7 +61,7 @@ export default StyleSheet.create({
     alignItems: "center",
     gap: 12,
     paddingVertical: 8,
-    paddingEnd:8
+    paddingStart:10
     
   },
   contactText: {
@@ -69,7 +69,7 @@ export default StyleSheet.create({
     fontSize: 15,
     color: "#555",
     textAlign: "right",
-    marginEnd:8
+    marginStart:7
   },
   buttonContainer: {
     gap: 12,

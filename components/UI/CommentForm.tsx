@@ -7,17 +7,46 @@ import { useAuth } from "@/hooks/useAuth";
 import { useResponsive } from "@/hooks/useResponsive";
 import { useRouter } from "expo-router";
 
+import { API } from "@/constants/api";
+
 interface Comment {
   id: string | number;
+  userID?: string | number;
   userName: string;
   comment: string;
   rating?: number;
-  date?: string;
 }
 
 interface CommentFormProps {
-  onCommentSubmitted?: (comment: Comment) => void;
+  onCommentSubmitted?: (comment: Comment) => void | Promise<void>;
   productId?: string;
+}
+
+function isApiSuccess(result: { status?: unknown } | null | undefined) {
+  const status = result?.status;
+  return status === true || status === "true" || status === 1 || status === "1";
+}
+
+async function readApiResult(response: Response) {
+  const text = (await response.text()).replace(/^\uFEFF/, "").trim();
+  if (!text) {
+    return { status: response.ok, msg: "" };
+  }
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    const start = text.indexOf("{");
+    const end = text.lastIndexOf("}");
+    if (start >= 0 && end > start) {
+      try {
+        return JSON.parse(text.slice(start, end + 1));
+      } catch {
+        /* fall through */
+      }
+    }
+    return { status: response.ok, msg: "" };
+  }
 }
 
 const RatingStars = ({
@@ -67,7 +96,7 @@ export default function CommentForm({ onCommentSubmitted, productId }: CommentFo
       return;
     }
 
-    if (!isLoggedIn) {
+    if (!isLoggedIn || user?.ID == null) {
       Toast.show({
         type: "error",
         text1: "نیاز به ورود",
@@ -80,39 +109,73 @@ export default function CommentForm({ onCommentSubmitted, productId }: CommentFo
       return;
     }
 
+    if (!productId) {
+      Toast.show({
+        type: "error",
+        text1: "خطا",
+        text2: "شناسه کتاب نامعتبر است",
+        position: "top",
+        topOffset: 20,
+        visibilityTime: 2000,
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
-      // شبیه‌سازی ارسال به سرور
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const body = [
+        `userID=${encodeURIComponent(String(user.ID))}`,
+        `productID=${encodeURIComponent(productId)}`,
+        `star=${encodeURIComponent(String(commentRating))}`,
+        `comment=${encodeURIComponent(newComment.trim())}`,
+      ].join("&");
 
-      const newCommentObj: Comment = {
-        id: Date.now(),
-        userName: user?.nName || user?.name || "کاربر",
-        comment: newComment,
-        rating: commentRating,
-        date: new Date().toLocaleDateString("fa-IR"),
-      };
+      const response = await fetch(API.setComment, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body,
+      });
 
-      // ارسال نظر به کامپوننت والد
-      if (onCommentSubmitted) {
-        onCommentSubmitted(newCommentObj);
+      const result = await readApiResult(response);
+
+      if (!isApiSuccess(result)) {
+        Toast.show({
+          type: "error",
+          text1: "خطا",
+          text2: result?.msg || "مشکل در ثبت نظر",
+          position: "top",
+          topOffset: 20,
+          visibilityTime: 2000,
+        });
+        return;
       }
 
-      // پاک کردن فرم
+      const commentText = newComment.trim();
+      const postedComment: Comment = {
+        id: `local-${Date.now()}`,
+        userID: user.ID,
+        userName: user.nName || user.name || "کاربر",
+        comment: commentText,
+        rating: commentRating,
+      };
+
       setNewComment("");
       setCommentRating(0);
+      await onCommentSubmitted?.(postedComment);
 
       Toast.show({
         type: "success",
         text1: "موفق",
-        text2: "نظر شما با موفقیت ثبت شد",
+        text2: result?.msg || "نظر شما با موفقیت ثبت شد",
         position: "top",
         topOffset: 20,
         visibilityTime: 2000,
       });
     } catch (error) {
-      console.info(error)
+      console.info(error);
       Toast.show({
         type: "error",
         text1: "خطا",
@@ -130,6 +193,7 @@ export default function CommentForm({ onCommentSubmitted, productId }: CommentFo
     <View
       style={{
         width: isMobile ? "100%" : "40%",
+        height: 350,
         paddingHorizontal: 8,
         marginBottom: isMobile ? 16 : 0,
         justifyContent: "space-between",
@@ -163,8 +227,10 @@ export default function CommentForm({ onCommentSubmitted, productId }: CommentFo
           borderRadius: 8,
           padding: 12,
           minHeight: 100,
-          flexGrow: 1,
+          flex: 1,
           textAlignVertical: "top",
+          textAlign: "right",
+          writingDirection: "rtl",
           backgroundColor: "#fff",
         }}
         placeholder="نظر خود را بنویسید..."
@@ -178,7 +244,8 @@ export default function CommentForm({ onCommentSubmitted, productId }: CommentFo
 
       <TouchableOpacity
         style={{
-          backgroundColor: newComment.trim() && !isSubmitting ? "#007AFF" : "#ccc",
+          backgroundColor:
+            newComment.trim() && !isSubmitting ? "#007AFF" : "#ccc",
           paddingVertical: 12,
           borderRadius: 8,
           marginTop: 12,

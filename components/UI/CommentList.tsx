@@ -1,42 +1,34 @@
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, StyleSheet } from "react-native";
 import CustomText from "@/components/common/CustomText";
 import { useResponsive } from "@/hooks/useResponsive";
 import { Ionicons } from "@expo/vector-icons";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import CommentsListItem from "./CommentsListItem";
+import { useTranslate } from "@/hooks/useTranslation";
 
 interface Comment {
   id: string | number;
   userName: string;
   comment: string;
   rating?: number;
-  date?: string;
 }
 
 interface commentListProps {
-  newComments?: Comment[];
+  comments?: Comment[];
 }
 
-export default function CommentList({ newComments }: commentListProps) {
+export default function CommentList({ comments = [] }: commentListProps) {
   const { isMobile } = useResponsive();
-  const [comments, setComments] = useState<Comment[]>([]);
-
-  
-
-  // اگر newComments تغییر کرد، نظرات را به‌روز کن
-  useEffect(() => {
-    if (newComments && newComments.length > 0) {
-      setComments((prev) => [...newComments, ...prev]);
-    }
-  }, [newComments]);
+  const { t } = useTranslate();
 
   return (
     <ScrollView
       style={{
         paddingHorizontal: 8,
         width: isMobile ? "100%" : "60%",
-        maxHeight: 350,
+        height: 350,
       }}
+      nestedScrollEnabled
     >
       {comments.length > 0 ? (
         comments.map((comment, index) => (
@@ -45,25 +37,37 @@ export default function CommentList({ newComments }: commentListProps) {
             userName={comment.userName}
             userComments={comment.comment}
             rating={comment.rating}
-
           />
         ))
       ) : (
-        <View
-          style={{
-            minHeight: 100,
-            width: "100%",
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Ionicons name="chatbox-ellipses-outline" size={32} color="#007AFF" />
-          <CustomText variant="h4" style={{ marginHorizontal: 8 }}>
-            هنوز نظری ثبت نشده
+        <View style={styles.emptyBox}>
+          <Ionicons name="chatbox-ellipses-outline" size={36} color="#007AFF" />
+          <CustomText variant="body" style={styles.emptyText}>
+            {t("pages.Book.noComments")}
           </CustomText>
         </View>
       )}
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  emptyBox: {
+    minHeight: 350,
+    width: "100%",
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#eee",
+    paddingHorizontal: 20,
+    paddingVertical: 24,
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 12,
+  },
+  emptyText: {
+    textAlign: "center",
+    color: "#555",
+    lineHeight: 26,
+  },
+});

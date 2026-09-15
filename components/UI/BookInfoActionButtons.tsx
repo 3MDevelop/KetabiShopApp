@@ -8,15 +8,18 @@ import * as Clipboard from "expo-clipboard";
 
 interface BookInfoActionButtonsProps {
   bookID?: any;
+  hasCommented?: boolean;
+  onCommentPress?: () => void;
 }
 
 export default function BookInfoActionButtons({
   bookID,
+  hasCommented = false,
+  onCommentPress,
 }: BookInfoActionButtonsProps) {
 
 
   const [isLiked, setIsLiked] = useState(false);
-  const [commented] = useState(true);
 
   const { t } = useTranslate();
   useEffect(() => {
@@ -31,7 +34,7 @@ export default function BookInfoActionButtons({
   }, [bookID]);
 
   const showCommentSection = () => {
-    console.info("goto Comment Section");
+    onCommentPress?.();
   };
 
   const toggleWishlist = async () => {
@@ -104,13 +107,13 @@ export default function BookInfoActionButtons({
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={[styles.actionButton, true && styles.commentlistActive]}
+        style={[styles.actionButton, hasCommented && styles.commentlistActive]}
         onPress={showCommentSection}
       >
         <Ionicons
-          name={commented ? "chatbubbles" : "chatbubbles-outline"}
+          name={hasCommented ? "chatbubbles" : "chatbubbles-outline"}
           size={24}
-          color={commented ? "#189deb" : "#666"}
+          color={hasCommented ? "#189deb" : "#666"}
         />
       </TouchableOpacity>
 

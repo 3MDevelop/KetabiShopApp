@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import CustomText from "@/components/common/CustomText";
 import { Ionicons } from "@expo/vector-icons";
 import { useTranslate } from "@/hooks/useTranslation";
@@ -6,16 +6,25 @@ import { useTranslate } from "@/hooks/useTranslation";
 interface BookInfoAutherCardProps {
   publisher?: string;
   auther?: string;
+  onAuthorPress?: () => void;
+  onPublisherPress?: () => void;
 }
 
 export default function BookInfoAutherCard({
   publisher,
   auther,
+  onAuthorPress,
+  onPublisherPress,
 }: BookInfoAutherCardProps) {
   const { t } = useTranslate();
   return (
     <View style={[{ marginTop: 32, marginBottom: 50, marginEnd: 8 }]}>
-      <View style={[styles.infoItem, { marginBottom: 16 }]}>
+      <TouchableOpacity
+        style={[styles.infoItem, { marginBottom: 16 }]}
+        onPress={onAuthorPress}
+        disabled={!onAuthorPress}
+        activeOpacity={onAuthorPress ? 0.7 : 1}
+      >
         <View style={styles.autherInfoIcon}>
           <Ionicons name="person-outline" size={20} color="#fff" />
         </View>
@@ -35,8 +44,13 @@ export default function BookInfoAutherCard({
             {auther || t("pages.Book.unknownAuthor")}
           </CustomText>
         </View>
-      </View>
-      <View style={[styles.infoItem]}>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.infoItem]}
+        onPress={onPublisherPress}
+        disabled={!onPublisherPress}
+        activeOpacity={onPublisherPress ? 0.7 : 1}
+      >
         <View style={styles.autherInfoIcon}>
           <Ionicons name="book-outline" size={20} color="#fff" />
         </View>
@@ -56,7 +70,7 @@ export default function BookInfoAutherCard({
             {publisher || t("common.common.unknown")}
           </CustomText>
         </View>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }

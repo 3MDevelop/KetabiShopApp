@@ -29,8 +29,9 @@ export const API = {
   OTP: "https://ketabika.com/v1/otp/",
   VERIFY: "https://ketabika.com/v1/verify/",
 
-  /* from local json */
-  getstatic: "https://ketabishop.com/api/getstatic/",
+  /* comments */
+  getComments: "https://ketabishop.com/api/getComments/",
+  setComment: "https://ketabishop.com/api/setComment/",
 
 
 } as const;

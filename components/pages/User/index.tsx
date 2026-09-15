@@ -198,7 +198,7 @@ export default function CombinedParallax() {
             <CustomText style={styles.sectionTitle}>اطلاعات تماس</CustomText>
 
             <UserPageFormField
-              label="ایمبل"
+              label="ایمیل"
               value={email}
               onChangeText={setEmail}
               iconName="mail-outline"

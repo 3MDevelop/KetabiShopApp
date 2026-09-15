@@ -11,6 +11,7 @@ import Toast from "react-native-toast-message";
 import CustomText from "@/components/common/CustomText";
 import AddAddressForm from "@/components/UI/AddAddressForm";
 import { useAuth } from "@/hooks/useAuth";
+import { useLanguage } from "@/context/LanguageContext";
 import { useTranslate } from "@/hooks/useTranslation";
 import {
   UserAddress,
@@ -23,20 +24,18 @@ import {
   getRecipientPhone,
 } from "@/utils/address";
 import { showAlert } from "@/utils/alert";
+import { withDir } from "@/utils/dir";
 
-function flattenAddress(item: UserAddress, postalLabel: string) {
+function addressParts(item: UserAddress, postalLabel: string) {
   const address = String(item.address || "")
     .replace(/\s*\n+\s*/g, " ")
     .replace(/\s+/g, " ")
     .trim();
   const postalcode = String(item.postalcode || "").trim();
-  if (address && postalcode) {
-    return `${address}${"\u00A0".repeat(10)}${postalLabel} ${postalcode}`;
-  }
-  if (postalcode) {
-    return `${postalLabel} ${postalcode}`;
-  }
-  return address;
+  return {
+    address,
+    postal: postalcode ? `${postalLabel} ${postalcode}` : "",
+  };
 }
 
 const CHIP_HEIGHT = 36;
@@ -51,14 +50,20 @@ const chipKinds = {
 function InfoChip({
   label,
   kind,
+  textAlign,
 }: {
   label: string;
   kind: keyof typeof chipKinds;
+  textAlign: "left" | "right";
 }) {
   const chip = chipKinds[kind];
   return (
     <View style={styles[chip.box]}>
-      <CustomText variant="caption" bold style={styles[chip.text]}>
+      <CustomText
+        variant="caption"
+        bold
+        style={[styles[chip.text], { textAlign }]}
+      >
         {label}
       </CustomText>
     </View>
@@ -68,6 +73,8 @@ function InfoChip({
 export default function UserAddressList() {
   const { user } = useAuth();
   const { t } = useTranslate();
+  const { isRTL } = useLanguage();
+  const textAlign = isRTL ? "right" : "left";
 
   const [addresses, setAddresses] = useState<UserAddress[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -160,9 +167,9 @@ export default function UserAddressList() {
   };
 
   return (
-    <View>
+    <View {...withDir(isRTL ? "rtl" : "ltr")}>
       <View style={styles.header}>
-        <CustomText style={styles.sectionTitle}>
+        <CustomText style={[styles.sectionTitle, { textAlign }]}>
           {t("common.shipping.addresses")}
         </CustomText>
         <TouchableOpacity
@@ -197,7 +204,7 @@ export default function UserAddressList() {
             })
             .join("، ");
           const place = getAddressPlace(item);
-          const previewAddress = flattenAddress(
+          const { address, postal } = addressParts(
             item,
             t("common.shipping.postalCode"),
           );
@@ -205,8 +212,12 @@ export default function UserAddressList() {
             <View key={item.id} style={styles.addressCard}>
               <View style={styles.titleRow}>
                 <View style={styles.titleChips}>
-                  {title ? <InfoChip kind="title" label={title} /> : null}
-                  {place ? <InfoChip kind="place" label={place} /> : null}
+                  {title ? (
+                    <InfoChip kind="title" label={title} textAlign={textAlign} />
+                  ) : null}
+                  {place ? (
+                    <InfoChip kind="place" label={place} textAlign={textAlign} />
+                  ) : null}
                 </View>
                 <TouchableOpacity
                   style={styles.deleteButton}
@@ -222,26 +233,55 @@ export default function UserAddressList() {
                   )}
                 </TouchableOpacity>
               </View>
-              {previewAddress ? (
-                <CustomText variant="caption" style={styles.addressText}>
-                  {previewAddress}
-                </CustomText>
+              {address || postal ? (
+                <View style={styles.addressLine}>
+                  {address ? (
+                    <CustomText
+                      variant="caption"
+                      style={[styles.addressText, { textAlign }]}
+                    >
+                      {address}
+                    </CustomText>
+                  ) : null}
+                  {postal ? (
+                    <CustomText
+                      variant="caption"
+                      style={[styles.addressText, styles.postalText, { textAlign }]}
+                    >
+                      {postal}
+                    </CustomText>
+                  ) : null}
+                </View>
               ) : null}
               <View style={styles.chipRow}>
                 {recipient ? (
                   <View style={styles.labeledChip}>
-                    <CustomText variant="caption" style={styles.metaLabel}>
+                    <CustomText
+                      variant="caption"
+                      style={[styles.metaLabel, { textAlign }]}
+                    >
                       {t("common.shipping.recipientLabel")}
                     </CustomText>
-                    <InfoChip kind="recipient" label={recipient} />
+                    <InfoChip
+                      kind="recipient"
+                      label={recipient}
+                      textAlign={textAlign}
+                    />
                   </View>
                 ) : null}
                 {contactNumbers ? (
                   <View style={styles.labeledChip}>
-                    <CustomText variant="caption" style={styles.metaLabel}>
+                    <CustomText
+                      variant="caption"
+                      style={[styles.metaLabel, { textAlign }]}
+                    >
                       {t("common.shipping.contactNumber")}
                     </CustomText>
-                    <InfoChip kind="contact" label={contactNumbers} />
+                    <InfoChip
+                      kind="contact"
+                      label={contactNumbers}
+                      textAlign={textAlign}
+                    />
                   </View>
                 ) : null}
               </View>
@@ -439,8 +479,20 @@ const styles = StyleSheet.create({
         }
       : null),
   },
+  addressLine: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "center",
+    columnGap: 24,
+    rowGap: 4,
+    width: "100%",
+  },
   addressText: {
     color: "#555",
     lineHeight: 20,
+    flexShrink: 1,
+  },
+  postalText: {
+    flexShrink: 0,
   },
 });

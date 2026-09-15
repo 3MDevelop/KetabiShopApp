@@ -222,7 +222,8 @@
       "shareSuccessMassage" : "لینک کتاب کپی شد",
       "samePublisher" : "از همین انتشارات",
       "sameAuther" : "از همین نویسنده",
-      "relatedBooks" : "کتابهای مرتبط"
+      "relatedBooks" : "کتابهای مرتبط",
+      "noComments": "برای این کتاب هنوز نظری ثبت نشده و شما میتوانید اولین نفر باشید"
     }
   }
 }

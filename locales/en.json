@@ -217,7 +217,8 @@
       "stock": "Availability",
       "description": "Description",
       "addedToWishlist": "added to wishlist",
-      "removedFromWishlist": "removed from wishlist"
+      "removedFromWishlist": "removed from wishlist",
+      "noComments": "No reviews for this book yet. You can be the first to write one."
     }
   }
 }

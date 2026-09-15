@@ -36,9 +36,19 @@ interface BookData {
 
 interface BookInfoCardProps {
   book?: BookData;
+  hasCommented?: boolean;
+  onCommentPress?: () => void;
+  onAuthorPress?: () => void;
+  onPublisherPress?: () => void;
 }
 
-export default function BookInfoCard({ book }: BookInfoCardProps) {
+export default function BookInfoCard({
+  book,
+  hasCommented,
+  onCommentPress,
+  onAuthorPress,
+  onPublisherPress,
+}: BookInfoCardProps) {
   const { isMobile } = useResponsive();
 
   return (
@@ -48,8 +58,19 @@ export default function BookInfoCard({ book }: BookInfoCardProps) {
         flexDirection: "column",
       }}
     >
-      {book?.publisher && book?.author && <BookInfoAutherCard publisher={book?.publisher} auther={book?.author} />}
-      <BookInfoActionButtons bookID={book?.id} />
+      {book?.publisher && book?.author && (
+        <BookInfoAutherCard
+          publisher={book?.publisher}
+          auther={book?.author}
+          onAuthorPress={onAuthorPress}
+          onPublisherPress={onPublisherPress}
+        />
+      )}
+      <BookInfoActionButtons
+        bookID={book?.id}
+        hasCommented={hasCommented}
+        onCommentPress={onCommentPress}
+      />
       <BookInfoPriceCard book={book} />
       <BookInfoDetail book={book} />
     </View>
