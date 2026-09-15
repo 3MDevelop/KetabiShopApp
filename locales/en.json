@@ -162,7 +162,13 @@
         "alreadyLoggedIn": "You are already logged in"
       }
     },
-    "MyComments": {},
+    "MyComments": {
+      "title": "My comments",
+      "emptyTitle": "You have not posted any comments yet",
+      "emptyText": "Comment on books you have read to see them here.",
+      "discover": "Discover books",
+      "loginRequired": "Log in to see your comments"
+    },
     "MyFavorites": {},
     "MyLibrary": {},
     "MyLikes": {

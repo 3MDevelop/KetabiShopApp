@@ -32,6 +32,7 @@ export const API = {
   /* comments */
   getComments: "https://ketabishop.com/api/getComments/",
   setComment: "https://ketabishop.com/api/setComment/",
+  getUserComments: "https://ketabishop.com/api/getUserComments/",
 
   /* user */
   getUserInfo: "https://ketabishop.com/api/getstatic/",

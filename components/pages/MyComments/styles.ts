@@ -56,6 +56,24 @@ export default StyleSheet.create({
     fontWeight: "bold",
   },
 
+  loadingContainer: {
+    paddingVertical: 50,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  booksGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    marginTop: 8,
+    paddingHorizontal: 4,
+    gap: 10,
+    marginBottom: 32,
+  },
+  bookItem: {
+    marginBottom: 16,
+  },
+
   // هدر
   header: {
     flexDirection: "row",
