@@ -5,19 +5,30 @@ import { shadow } from "@/utils/shadow";
 
 interface UserAvatarEditBtnProps {
   onPress?: () => void;
+  inline?: boolean;
 }
 
-export default function UserAvatarEditBtn({ onPress }: UserAvatarEditBtnProps) {
+export default function UserAvatarEditBtn({
+  onPress,
+  inline = false,
+}: UserAvatarEditBtnProps) {
   const { isLoggedIn } = useAuth();
   if (!isLoggedIn) return null;
   return (
     <TouchableOpacity
-      style={styles.avatarEditBtnContainer}
+      style={[
+        styles.avatarEditBtnContainer,
+        inline ? styles.inline : styles.overlay,
+      ]}
       onPress={onPress}
       activeOpacity={0.8}
       accessibilityLabel="ویرایش آواتار"
     >
-      <Ionicons name="create" size={18} color="#e7651a" />
+      <Ionicons
+        name="create"
+        size={inline ? 22 : 18}
+        color={inline ? "#ffffff" : "#e7651a"}
+      />
     </TouchableOpacity>
   );
 }
@@ -30,10 +41,22 @@ const styles = StyleSheet.create({
     height: 32,
     alignItems: "center",
     justifyContent: "center",
+    zIndex: 2,
+    ...shadow("#000", { width: 0, height: 1 }, 0.12, 3, 2),
+  },
+  overlay: {
     position: "absolute",
     bottom: -4,
     alignSelf: "center",
-    zIndex: 2,
-    ...shadow("#000", { width: 0, height: 1 }, 0.12, 3, 2),
+  },
+  inline: {
+    position: "relative",
+    backgroundColor: "transparent",
+    width: 22,
+    height: 22,
+    borderRadius: 0,
+    boxShadow: "none",
+    elevation: 0,
+    marginTop: -4,
   },
 });

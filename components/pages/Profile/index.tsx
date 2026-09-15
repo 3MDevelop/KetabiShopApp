@@ -92,8 +92,17 @@ export default function Profile() {
               <View style={styles.avatarContainer}>
                 <Cycles innerWidth={85} style={{ marginTop: -42 }} />
                 <UserAvatar iconWidth={75} />
-                <UserAvatarEditBtn />
-                <UserInfoLable style={{ marginTop: 0 }} />
+                <View style={styles.userNameRow}>
+                  <UserInfoLable style={{ marginTop: 0 }} />
+                  <UserAvatarEditBtn
+                    inline
+                    onPress={() => {
+                      if (isLoggedIn) {
+                        router.push("/user");
+                      }
+                    }}
+                  />
+                </View>
               </View>
             </TouchableOpacity>
           </Animated.View>
