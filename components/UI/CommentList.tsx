@@ -8,6 +8,7 @@ import { useTranslate } from "@/hooks/useTranslation";
 
 interface Comment {
   id: string | number;
+  userID?: string | number;
   userName: string;
   comment: string;
   rating?: number;
@@ -15,9 +16,22 @@ interface Comment {
 
 interface commentListProps {
   comments?: Comment[];
+  currentUserID?: string | number | null;
+  busyCommentID?: string | number | null;
+  onDelete?: (comment: Comment) => void | Promise<void>;
+  onApply?: (
+    comment: Comment,
+    next: { comment: string; rating: number },
+  ) => void | Promise<boolean | void>;
 }
 
-export default function CommentList({ comments = [] }: commentListProps) {
+export default function CommentList({
+  comments = [],
+  currentUserID,
+  busyCommentID,
+  onDelete,
+  onApply,
+}: commentListProps) {
   const { isMobile } = useResponsive();
   const { t } = useTranslate();
 
@@ -37,6 +51,17 @@ export default function CommentList({ comments = [] }: commentListProps) {
             userName={comment.userName}
             userComments={comment.comment}
             rating={comment.rating}
+            isOwn={
+              currentUserID != null &&
+              comment.userID != null &&
+              String(comment.userID) === String(currentUserID)
+            }
+            isBusy={
+              busyCommentID != null &&
+              String(busyCommentID) === String(comment.id)
+            }
+            onDelete={() => onDelete?.(comment)}
+            onApply={(next) => onApply?.(comment, next)}
           />
         ))
       ) : (
