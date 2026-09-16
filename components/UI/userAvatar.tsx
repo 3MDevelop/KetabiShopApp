@@ -10,6 +10,7 @@ interface UserAvatarProps {
   squared?: boolean;
   inText?: string;
   useInitials?: boolean;
+  avatar?: number | string | null;
 }
 
 export default function UserAvatar({
@@ -17,6 +18,7 @@ export default function UserAvatar({
   squared = false,
   inText,
   useInitials = false,
+  avatar,
 }: UserAvatarProps) {
   const { isLoggedIn, user } = useAuth();
 
@@ -24,7 +26,9 @@ export default function UserAvatar({
   const fontPadding = useMemo(() => iconWidth * 0.1, [iconWidth]);
   const iconSize = useMemo(() => iconWidth * 0.7, [iconWidth]);
   const iconPaddingU = useMemo(() => iconWidth * 0.15, [iconWidth]);
-  const avatarUri = useInitials ? undefined : getAvatarUri(user?.avatar);
+  const avatarUri = useInitials
+    ? undefined
+    : getAvatarUri(avatar ?? user?.avatar);
 
   const getFirstChar = () => {
     if (inText) {

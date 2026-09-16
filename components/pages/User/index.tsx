@@ -5,7 +5,7 @@ import UserAddressList from "@/components/UI/UserAddressList";
 import UserAvatar from "@/components/UI/userAvatar";
 import UserAvatarList from "@/components/UI/UserAvatarList";
 import UserPageFormField from "@/components/UI/UserPageFormField";
-import { fetchUserInfo } from "@/utils/userInfo";
+import { fetchUserInfo, setUserInfo } from "@/utils/userInfo";
 import { useAuth } from "@/hooks/useAuth";
 import { useResponsive } from "@/hooks/useResponsive";
 import { useTranslate } from "@/hooks/useTranslation";
@@ -19,6 +19,7 @@ import styles from "./styles";
 import CustomText from "@/components/common/CustomText";
 import UserAvatarEditBtn from "@/components/UI/UserAvatarEditBtn";
 import UserAvatarPicker from "@/components/UI/UserAvatarPicker";
+import PageHeader from "@/components/UI/PageHeader";
 
 export default function CombinedParallax() {
   const { isDesktop } = useResponsive();
@@ -115,37 +116,90 @@ export default function CombinedParallax() {
   ]);
 
   const handleUpdateProfile = async () => {
-    if (!hasChanges) return;
+    if (!hasChanges || user?.ID == null) return;
     setIsUpdating(true);
-    /*try {
-      await updateUser({
-        nName: nickname,
+    try {
+      const sentAvatar = avatar ? parseInt(avatar, 10) : 0;
+      const result = await setUserInfo({
+        userID: user.ID,
         name: firstName,
         lName: lastName,
-        email: email,
-        avatar: avatar ? parseInt(avatar) : 0,
+        nName: nickname,
+        avatar: Number.isFinite(sentAvatar) ? sentAvatar : 0,
+        email,
       });
-      
-      setInitialNickname(nickname);
-      setInitialFirstName(firstName);
-      setInitialLastName(lastName);
-      setInitialEmail(email);
-      setInitialAvatar(avatar);
-      
-      Alert.alert("موفق", "اطلاعات شما با موفقیت بروزرسانی شد");
+
+      if (!result.ok) {
+        Toast.show({
+          type: "error",
+          text1: t("common.common.error"),
+          text2: result.msg || t("pages.User.updateError"),
+          position: "top",
+          topOffset: 20,
+          visibilityTime: 2500,
+        });
+        return;
+      }
+
+      const saved = result.data ?? {
+        name: firstName,
+        lName: lastName,
+        nName: nickname,
+        avatar: Number.isFinite(sentAvatar) ? sentAvatar : 0,
+        email,
+      };
+
+      const nextName = saved.name ?? firstName;
+      const nextLastName = saved.lName ?? lastName;
+      const nextNickname = saved.nName ?? nickname;
+      const nextEmail = saved.email ?? email;
+      const nextAvatar =
+        saved.avatar != null ? String(saved.avatar) : String(sentAvatar);
+
+      setFirstName(nextName);
+      setLastName(nextLastName);
+      setNickname(nextNickname);
+      setEmail(nextEmail);
+      setAvatar(nextAvatar);
+      setInitialFirstName(nextName);
+      setInitialLastName(nextLastName);
+      setInitialNickname(nextNickname);
+      setInitialEmail(nextEmail);
+      setInitialAvatar(nextAvatar);
+
+      await updateUser({
+        name: nextName,
+        nName: nextNickname,
+        lName: nextLastName,
+        email: nextEmail,
+        avatar: Number(nextAvatar) || 0,
+      });
+
+      Toast.show({
+        type: "success",
+        text1: t("common.common.success"),
+        text2: result.msg || t("pages.User.updateSuccess"),
+        position: "top",
+        topOffset: 20,
+        visibilityTime: 2000,
+      });
     } catch (error) {
-      Alert.alert("خطا", "مشکلی در بروزرسانی اطلاعات رخ داد");
+      console.error("خطا در بروزرسانی اطلاعات کاربر:", error);
+      Toast.show({
+        type: "error",
+        text1: t("common.common.error"),
+        text2: t("pages.User.updateError"),
+        position: "top",
+        topOffset: 20,
+        visibilityTime: 2500,
+      });
     } finally {
       setIsUpdating(false);
-    } */
-
-    setIsUpdating(false);
+    }
   };
 
-  const handleSelectAvatar = async (nextAvatar: number) => {
-    await updateUser({ avatar: nextAvatar });
+  const handleSelectAvatar = (nextAvatar: number) => {
     setAvatar(String(nextAvatar));
-    setInitialAvatar(String(nextAvatar));
     setAvatarPickerOpen(false);
   };
 
@@ -185,10 +239,12 @@ export default function CombinedParallax() {
   }, [hasChanges]);
 
   return (
-    <ScrollView
-      style={styles.container}
-      showsVerticalScrollIndicator={false}
-    >
+    <View style={styles.container}>
+      <PageHeader title={t("pages.User.title")} backTo="/profile" />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ flexGrow: 1 }}
+      >
       <View style={[styles.content, !isDesktop && styles.columnContainer]}>
         <View style={isDesktop ? styles.rowContainer : styles.columnContainer}>
           <View
@@ -226,7 +282,10 @@ export default function CombinedParallax() {
                     activeOpacity={0.85}
                     accessibilityLabel="ویرایش آواتار"
                   >
-                    <UserAvatar iconWidth={isDesktop ? 150 : 120} />
+                    <UserAvatar
+                      iconWidth={isDesktop ? 150 : 120}
+                      avatar={Number(avatar) || 0}
+                    />
                   </TouchableOpacity>
                   <UserAvatarEditBtn onPress={() => setAvatarPickerOpen(true)} />
                 </View>
@@ -321,10 +380,11 @@ export default function CombinedParallax() {
       </View>
       <UserAvatarPicker
         visible={avatarPickerOpen}
-        selectedAvatar={Number(user?.avatar) || 0}
+        selectedAvatar={Number(avatar) || 0}
         onSelect={handleSelectAvatar}
         onClose={() => setAvatarPickerOpen(false)}
       />
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }

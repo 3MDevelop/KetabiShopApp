@@ -197,9 +197,12 @@
     "Support": {},
     "Temp": {},
     "User": {
+      "title": "حساب کاربری",
       "chooseAvatar": "انتخاب آواتار",
       "avatarUpdated": "آواتار با موفقیت تغییر کرد",
-      "unsavedChanges": "تغییرات ذخیره نشده است"
+      "unsavedChanges": "تغییرات ذخیره نشده است",
+      "updateSuccess": "اطلاعات شما با موفقیت بروزرسانی شد",
+      "updateError": "مشکلی در بروزرسانی اطلاعات رخ داد"
     },
     "About": { "about_label": "درباره ما" },
     "Basket": {},

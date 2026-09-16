@@ -5,7 +5,6 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    padding: 16,
     backgroundColor: "#f8f9fa",
   },
   content: {
@@ -13,6 +12,7 @@ export default StyleSheet.create({
     maxWidth: 950,
     alignSelf: "center",
     gap: 16,
+    padding: 16,
   },
   rowContainer: {
     flexDirection: "row",

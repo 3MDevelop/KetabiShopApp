@@ -2,13 +2,14 @@ import { StyleSheet, View, TouchableOpacity } from "react-native";
 import CustomText from "@/components/common/CustomText";
 import { Ionicons } from "@expo/vector-icons";
 import { useLanguage } from "@/context/LanguageContext";
-import { useRouter } from "expo-router";
+import { Href, useRouter } from "expo-router";
 
 interface PageHeaderProps {
   title?: string;
+  backTo?: Href;
 }
 
-export default function PageHeader({ title }: PageHeaderProps) {
+export default function PageHeader({ title, backTo }: PageHeaderProps) {
   const { isRTL } = useLanguage();
   const router = useRouter();
 
@@ -18,12 +19,17 @@ export default function PageHeader({ title }: PageHeaderProps) {
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => {
+            if (backTo) {
+              router.replace(backTo);
+              return;
+            }
             if (router.canGoBack()) {
               router.back();
             } else {
               router.replace("/");
             }
           }}
+          accessibilityLabel="بازگشت"
         >
           <Ionicons
             name={isRTL ? "arrow-forward" : "arrow-back"}

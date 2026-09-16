@@ -198,9 +198,12 @@
     "Support": {},
     "Temp": {},
     "User": {
+      "title": "Account",
       "chooseAvatar": "Choose avatar",
       "avatarUpdated": "Avatar updated",
-      "unsavedChanges": "You have unsaved changes"
+      "unsavedChanges": "You have unsaved changes",
+      "updateSuccess": "Your profile was updated",
+      "updateError": "Could not update your profile"
     },
     "About": { "about_label": "About Us" },
     "Basket": {},
